@@ -83,22 +83,24 @@ single most important curated file in the project.
 | 4 | Embedded & Real-Time Systems | TECS / EMSOFT, RTSS, RTAS |
 | 5 | Signal Processing | T-SP, JSTSP / ICASSP |
 | 6 | Image Processing & Vision | T-IP / (CVPR, ICCV — optional toggle, CS overlap) |
-| 7 | Communications | T-COM, TWC, JSAC / — |
+| 7 | Communications & Information Theory | T-COM, TWC, JSAC, T-IT / ISIT |
 | 8 | Networking | IEEE/ACM ToN / INFOCOM |
-| 9 | Information Theory | T-IT / ISIT |
-| 10 | Control Systems | TAC, Automatica / CDC |
-| 11 | Robotics | T-RO / ICRA, RSS |
-| 12 | Power Electronics | TPEL, JESTPE / ECCE, APEC |
-| 13 | Power & Energy Systems | TPWRS, T-Smart Grid / — |
-| 14 | Semiconductor Devices | T-ED, EDL / IEDM, VLSI Tech. |
-| 15 | Photonics & Optics | JLT, Optica / CLEO |
-| 16 | Electromagnetics, Antennas & RF | T-AP, T-MTT / IMS |
-| 17 | Machine Learning (optional, default-off) | — / NeurIPS, ICML, ICLR |
-| 18 | Biomedical Engineering (optional) | T-BME / — |
-| 19 | Nature family — ECE (optional) | Nature Electronics, Nature Photonics, Light: Sci. & Appl. |
+| 9 | Control Systems | TAC, Automatica / CDC |
+| 10 | Robotics | T-RO / ICRA, RSS |
+| 11 | Power Electronics | TPEL, JESTPE / ECCE, APEC |
+| 12 | Power & Energy Systems | TPWRS, T-Smart Grid / — |
+| 13 | Semiconductor Devices | T-ED, EDL / IEDM, VLSI Tech. |
+| 14 | Photonics & Optics | JLT, Optica / CLEO |
+| 15 | Electromagnetics, Antennas & RF | T-AP, T-MTT / IMS |
+| 16 | MEMS & Microsystems (optional) | J-MEMS / IEEE MEMS |
+| 17 | Hardware Security (optional) | T-IFS, T-Info Forensics / CHES, HOST |
+| 18 | Machine Learning (optional, default-off) | — / NeurIPS, ICML, ICLR |
+| 19 | Biomedical Engineering (optional) | T-BME / — |
+| 20 | Multidisciplinary Prestige (optional) | Nature Electronics, Nature Photonics, Light, Science, Science Advances, PNAS |
 
-Deferred: quantum engineering (venue landscape too fluid), security/hardware
-security (CHES/HOST — revisit), audio/speech (fold into SP for now).
+Deferred: quantum engineering (venue landscape too fluid), audio/speech
+(fold into SP for now). MEMS and Hardware Security added as optional areas
+in v1; venues to be verified in the next collection pass.
 
 ## Venue-inclusion policy
 
@@ -112,19 +114,21 @@ A venue joins an area only if it passes both tests:
 Consequences:
 - **Field-scoped Nature children** (Nature Electronics ~200 papers/yr,
   Nature Photonics ~230, Light ~310 — all brutally selective and ~100%
-  in-scope) are first-class venues. Rather than mixing them into Devices/
-  Photonics, they form their own toggleable area ("Nature family — ECE") so
-  subfield areas stay purely IEEE/Optica and comparable to how those
+  in-scope) are first-class venues. They live in the "Multidisciplinary
+  Prestige" toggleable area alongside Science, Science Advances, and PNAS,
+  keeping subfield areas purely IEEE/Optica and comparable to how those
   communities self-evaluate, while flagship-tier output is visible as its own
   axis. Nature Nanotechnology is borderline (~half chemistry/bio) — out of v1.
-- **Multidisciplinary parents are excluded** (Nature, Science, Science
-  Advances, Nature Communications). Probed: parent Nature 2024 is ~88% non-ECE
-  (Medicine 19%, bio 15%, social science 9%...); since v1 credits institutions
-  (not departments), including them would rank schools by biomedical output.
-  Phase 4 option: once the ECE author universe exists, count parent-Nature/
-  Science papers only when authored by someone who also publishes in
-  registered ECE venues — an author-level filter that stays explainable,
-  unlike a topic classifier.
+  Nature Communications is ~15,000 papers/yr and far too broad — out.
+- **Multidisciplinary parents are included but sequestered**: Nature, Science,
+  Science Advances, and PNAS are gated behind an optional toggle and
+  separated into their own area so they don't distort subfield comparisons.
+  Probed: parent Nature 2024 is ~88% non-ECE (Medicine 19%, bio 15%, social
+  science 9%...). Since v1 credits institutions (not departments), a raw
+  count would rank schools by biomedical output. Mitigation: these venues
+  are default-off, and a future Phase 4 enhancement can apply an author-level
+  filter (only count papers by authors who also publish in registered ECE
+  venues) — an explainable, auditable alternative to topic classification.
 - **Within-area volume balance**: venues in one area should have roughly
   comparable volume/selectivity (CSRankings' rule). Where a field has a
   high-volume workhorse journal (e.g., T-ED ~1,200/yr) next to selective
