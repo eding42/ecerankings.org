@@ -1,0 +1,25 @@
+# Secrets — never commit
+.env
+
+# Raw API responses & scratch data — regenerable, safe to delete
+cache/
+
+# Scratch scripts — exploratory, not maintained
+.agy/
+
+# Large regenerable input: OpenAlex institutions dump (~29 MB).
+# Regenerate per the instructions in pipeline/normalize_affiliations_local.py.
+data/institutions.json
+
+# Local backups of the affiliation map
+data/*backup*.csv
+
+# Python
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
+
+# Local agent settings
+.claude/settings.local.json
