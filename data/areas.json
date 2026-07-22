@@ -788,6 +788,20 @@
           "notes": "Verified 2026-07-22. S4210173141 confirmed sole correct source (IEEE T-IP, ISSN 1057-7149/1941-0042, 13,138 total works). 2024 count 480 in expected [400,700] range. Sample titles cover dehazing, super-resolution, quality assessment \u2014 legitimate T-IP content. One ghost duplicate S115304631 (0 works) harmless."
         },
         {
+          "key": "tpami",
+          "display": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+          "kind": "journal",
+          "openalex_ids": [
+            "S199944782"
+          ],
+          "status": "candidate",
+          "expected_per_year": [
+            300,
+            600
+          ],
+          "notes": "Top vision/ML journal, IF ~12.4. Added 2026-07-22 alongside ICCV expansion."
+        },
+        {
           "key": "cvpr",
           "display": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
           "kind": "conference",
@@ -862,6 +876,19 @@
               "container_title": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
             }
           }
+        },
+        {
+          "key": "iccv",
+          "display": "IEEE/CVF International Conference on Computer Vision (ICCV)",
+          "kind": "conference",
+          "openalex_ids": [],
+          "status": "candidate",
+          "expected_per_year": [
+            600,
+            2000
+          ],
+          "notes": "Top vision conference alongside CVPR. Biennial before 2021, now annual. Needs per-year Crossref data.",
+          "years": {}
         }
       ]
     },
@@ -997,6 +1024,18 @@
               "count": 272
             }
           }
+        },
+        {
+          "key": "sigcomm",
+          "display": "ACM SIGCOMM",
+          "kind": "conference",
+          "openalex_ids": [],
+          "status": "candidate",
+          "expected_per_year": [
+            50,
+            150
+          ],
+          "notes": "Top networking conference, ~20% acceptance. More selective than INFOCOM. Needs per-year Crossref data."
         }
       ]
     },

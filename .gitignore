@@ -1,22 +1,21 @@
-# Secrets — never commit
+# Secrets
 .env
 
-# Scratch scripts — exploratory, not maintained
+# Scratch scripts — not part of the project
 .tmp/
 
-# Large regenerable input: OpenAlex institutions dump (~29 MB).
-# Regenerate per the instructions in pipeline/normalize_affiliations_local.py.
+# Large regenerable input (~29 MB)
 data/institutions.json
 
-# Local backups of the affiliation map
+# Local backups
 data/*backup*.csv
 
 # Python
 __pycache__/
 *.pyc
 
-# OS / editor
+# OS
 .DS_Store
 
-# Local agent settings
+# Local overrides
 .claude/settings.local.json
