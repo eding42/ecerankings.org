@@ -1,9 +1,6 @@
 # Secrets — never commit
 .env
 
-# Raw API responses & scratch data — regenerable, safe to delete
-cache/
-
 # Scratch scripts — exploratory, not maintained
 .agy/
 
