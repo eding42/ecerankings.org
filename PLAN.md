@@ -96,11 +96,10 @@ single most important curated file in the project.
 | 17 | Hardware Security (optional) | T-IFS, T-Info Forensics / CHES, HOST |
 | 18 | Machine Learning (optional, default-off) | — / NeurIPS, ICML, ICLR |
 | 19 | Biomedical Engineering (optional) | T-BME / — |
-| 20 | Multidisciplinary Prestige (optional) | Nature Electronics, Nature Photonics, Light, Science, Science Advances, PNAS |
+| 20 | Quantum Engineering (optional) | npj Quantum Information, PRX Quantum, Quantum Science and Technology / — |
+| 21 | Multidisciplinary Prestige (optional) | Nature Electronics, Nature Photonics, Light, Science, Science Advances, PNAS |
 
-Deferred: quantum engineering (venue landscape too fluid), audio/speech
-(fold into SP for now). MEMS and Hardware Security added as optional areas
-in v1; venues to be verified in the next collection pass.
+Deferred: audio/speech (fold into SP for now).
 
 ## Venue-inclusion policy
 
