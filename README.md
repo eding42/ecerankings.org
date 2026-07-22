@@ -1,26 +1,35 @@
+<div align="center">
+
 # ECERankings.org
 
-A metrics-based ranking of university **Electrical & Computer Engineering**
-programs — modeled on [CSRankings](https://csrankings.org), but built for how
-ECE actually publishes: journal-heavy and IEEE/Optica-centric, powered by
-[OpenAlex](https://openalex.org) (with a [Crossref](https://www.crossref.org)
-fallback) instead of DBLP.
+*A metrics-based ranking of Electrical & Computer Engineering programs, built on [OpenAlex](https://openalex.org) instead of DBLP.*
 
-> **Status: pre-launch data collection.** The venue registry, harvesting
-> pipeline, and aggregation are working end-to-end; the public site does not
-> exist yet. See [PLAN.md](PLAN.md) for the full methodology and roadmap.
+![Status](https://img.shields.io/badge/status-pre--launch-lightgrey?style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square)
 
-## How the ranking works
+</div>
 
-The methodology is deliberately simple, auditable, and hard to game:
+---
+
+Modeled on [CSRankings](https://csrankings.org), but built for how ECE
+actually publishes: journal-heavy and IEEE/Optica-centric. [Crossref](https://www.crossref.org)
+fills the gaps where OpenAlex's conference coverage lags.
+
+> **Pre-launch.** The venue registry, harvesting pipeline, and aggregation
+> work end-to-end; the public site does not exist yet. Full methodology and
+> roadmap: [PLAN.md](PLAN.md).
+
+## Methodology
+
+The ranking is deliberately simple, auditable, and hard to game:
 
 - **Adjusted counts** — each paper is worth 1.0, split evenly across its
   authors (1/N each). An institution's credit in an area is the sum of its
   authors' shares. No citations, no impact factors — just publication counts
   at selective venues.
-- **Geometric-mean scoring** — an institution's overall score is the geometric
-  mean of (1 + adjusted count) across the areas you select, rewarding breadth
-  over single-area dominance (same formula as CSRankings).
+- **Geometric-mean scoring** — an institution's overall score is the
+  geometric mean of (1 + adjusted count) across the areas you select,
+  rewarding breadth over single-area dominance (same formula as CSRankings).
 - **Curated venues only** — a venue is included only if it is both highly
   selective and ≳80% in-scope for its area, so every counted paper is
   auditable. The registry lives in [`data/areas.json`](data/areas.json).
@@ -35,10 +44,16 @@ The methodology is deliberately simple, auditable, and hard to game:
 19 areas mirroring how ECE departments organize, from Circuits & VLSI through
 Semiconductor Devices, Power & Energy, Communications, Photonics, Control, and
 Robotics, plus optional CS-overlap areas (Architecture, ML, Vision) and an
-optional "Nature family" tier. The full taxonomy and venue-inclusion policy
-are in [PLAN.md](PLAN.md).
+optional "Nature family" tier. Full taxonomy and venue-inclusion policy: [PLAN.md](PLAN.md).
 
-## Repository layout
+## Pipeline
+
+```mermaid
+flowchart LR
+    A[OpenAlex harvest] --> D[Aggregate]
+    B[Crossref fallback] --> C[Normalize affiliations] --> D
+    D --> E[(site/data/*.csv)]
+```
 
 | Path | What it is |
 |---|---|
