@@ -38,5 +38,5 @@ guessing or blocking.
   Never write the key into committed files, reports, or logs (`.env` is
   gitignored — keep it that way).
 - Python: stdlib only (`urllib`, `json`, `csv`, `gzip`) — no pip installs.
-- Put any scratch/helper scripts you generate into the `.agy/` directory — local scratchpad, gitignored. Repo gets only: registry updates, reports, pipeline code, and the `.claude/skills/` project integrations.
-- Commit registry updates, reports, pipeline code, and `.claude/skills/` with clear messages. Never commit `.env`, `cache/`, `.agy/`, `data/institutions.json`, or local settings (all gitignored). Do not push without the user's explicit go-ahead.
+- Put any scratch/helper scripts you generate into the `.tmp/` directory — local scratchpad, gitignored. Repo gets only: registry updates, reports, pipeline code, and the `.claude/skills/` project integrations.
+- Commit registry updates, reports, pipeline code, and `.claude/skills/` with clear messages. Never commit `.env`, `cache/`, `.tmp/`, `data/institutions.json`, or local settings (all gitignored). Do not push without the user's explicit go-ahead.

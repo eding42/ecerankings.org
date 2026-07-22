@@ -2,7 +2,7 @@
 .env
 
 # Scratch scripts — exploratory, not maintained
-.agy/
+.tmp/
 
 # Large regenerable input: OpenAlex institutions dump (~29 MB).
 # Regenerate per the instructions in pipeline/normalize_affiliations_local.py.

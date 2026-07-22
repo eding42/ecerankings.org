@@ -280,7 +280,7 @@ ecerankings.org/
 │   └── data/                 # generated CSVs/JSON (committed)
 ├── .claude/skills/           # project integrations for Claude Code (committed)
 ├── cache/                    # cache/<venue>/<year>/works.jsonl, raw API responses (gitignored)
-└── .agy/                     # one-off scratch scripts (gitignored, local scratchpad)
+└── .tmp/                     # one-off scratch scripts (gitignored, local scratchpad)
 ```
 
 ## Immediate next steps
