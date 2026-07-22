@@ -286,9 +286,17 @@ ecerankings.org/
 
 ## Immediate next steps
 
-1. Continue working the venue registry: 8 venues verified, 26 candidate,
-   20 todo (see data/areas.json status fields; use the collect-venue-data
-   skill per venue).
+1. Venue registry is largely closed out: 55 verified, 5 candidate, 0 todo
+   (see data/areas.json status fields; see
+   data/reports/venue-verification-batch-2026-07-22.md for the full pass).
+   Remaining candidates need decisions, not more research:
+   - RSS, NeurIPS, ICML, ICLR: genuinely data-blocked (missing/unusable in
+     both OpenAlex and Crossref) — need an alternate-source decision or
+     explicit exclusion.
+   - IMS: 2016-2025 fully resolved; 2026 blocked on IEEE MTT-S splitting the
+     conference into "IMS RFTT" / "IMS RFSA" — needs a scoping call.
+   - TECS/EMSOFT: same ~55 papers (2017/2019) are native under both venues —
+     needs a dedup/exclusion decision before either is harvested.
 2. Finish affiliation adjudication for Crossref-sourced years
    (pipeline/adjudicate_review.py + the adjudicate-affiliations skill).
 3. Phase 3: build the static frontend on top of site/data/*.csv.

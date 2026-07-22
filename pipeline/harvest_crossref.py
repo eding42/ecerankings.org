@@ -228,7 +228,8 @@ def harvest_year(venue_key, venue_display, year, entry, dry_run=False, venue_kin
         discovered = True
         print(f"  [{venue_key}/{year}] discovered container_title={container_title!r}")
 
-    filter_str = f"container-title:{container_title},type:{doc_type},from-pub-date:{date_from},until-pub-date:{date_until}"
+    safe_title = container_title.replace(",", "%2C")
+    filter_str = f"container-title:{safe_title},type:{doc_type},from-pub-date:{date_from},until-pub-date:{date_until}"
     expected = entry.get("count")
     head = api_get({"filter": filter_str, "rows": 0})
     total = head.get("message", {}).get("total-results", 0)

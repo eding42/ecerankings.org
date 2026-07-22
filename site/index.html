@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECERankings.org</title>
+<style>
+:root {
+  --bg: #f8f9fb;
+  --surface: #ffffff;
+  --border: #e2e5ea;
+  --text: #1a1d23;
+  --text-secondary: #5f6672;
+  --text-muted: #969fab;
+  --primary: #2d4ba0;
+  --primary-light: #e8edf7;
+  --accent: #c44d34;
+  --rank-gold: #b8860b;
+  --rank-silver: #6b7280;
+  --radius: 6px;
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,.08);
+  --max-width: 1200px;
+  --sidebar-width: 280px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121418;
+    --surface: #1a1d23;
+    --border: #2a2e36;
+    --text: #e8eaed;
+    --text-secondary: #9aa0ab;
+    --text-muted: #5f6672;
+    --primary: #7ba0f0;
+    --primary-light: #1e2a44;
+    --accent: #e8735a;
+    --rank-gold: #f0c040;
+    --rank-silver: #9aa0ab;
+    --shadow: none;
+    --shadow-lg: 0 2px 12px rgba(0,0,0,.3);
+  }
+}
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+html { font-size: 15px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Header ── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-brand { font-size: 1.3rem; font-weight: 700; color: var(--text); white-space: nowrap; }
+.header-brand span { color: var(--primary); }
+.header-sub { font-size: .85rem; color: var(--text-secondary); }
+.header-nav { margin-left: auto; display: flex; gap: 1.25rem; }
+.header-nav a { font-size: .85rem; color: var(--text-secondary); }
+.header-nav a:hover { color: var(--text); text-decoration: none; }
+.header-mode { margin-left: 1rem; }
+
+/* ── Layout ── */
+.layout { max-width: var(--max-width); margin: 0 auto; display: flex; gap: 0; min-height: calc(100vh - 57px); }
+.sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 1.25rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 57px);
+  position: sticky;
+  top: 57px;
+}
+.main { flex: 1; padding: 1.5rem; min-width: 0; }
+
+/* ── Controls ── */
+.controls-section { margin-bottom: 1.5rem; }
+.controls-section h3 {
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-muted);
+  margin-bottom: .6rem;
+}
+.cluster-group { margin-bottom: 1rem; }
+.cluster-label {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: .25rem;
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  cursor: pointer;
+  user-select: none;
+}
+.cluster-label:hover { color: var(--text); }
+.cluster-toggle { width: 14px; height: 14px; accent-color: var(--primary); cursor: pointer; }
+.area-list { margin-left: 1.2rem; }
+.area-item {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .2rem 0;
+  font-size: .82rem;
+  cursor: pointer;
+  user-select: none;
+  color: var(--text-secondary);
+}
+.area-item:hover { color: var(--text); }
+.area-item input { width: 14px; height: 14px; accent-color: var(--primary); cursor: pointer; flex-shrink: 0; }
+.area-item input:checked + span { color: var(--text); font-weight: 500; }
+.area-default-off { opacity: .7; }
+.area-default-off input:checked + span { color: var(--accent); }
+
+.btn-row { display: flex; gap: .4rem; margin-top: .75rem; }
+.btn {
+  flex: 1;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-secondary);
+  padding: .35rem .5rem;
+  font-size: .75rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: center;
+}
+.btn:hover { border-color: var(--primary); color: var(--primary); }
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  font-weight: 500;
+}
+.btn-primary:hover { opacity: .9; color: #fff; }
+
+/* ── Year slider ── */
+.year-slider { margin-bottom: 1.5rem; }
+.year-labels { display: flex; justify-content: space-between; font-size: .75rem; color: var(--text-muted); margin-top: .25rem; }
+.slider-dual { position: relative; height: 36px; }
+.slider-dual input[type=range] {
+  position: absolute; width: 100%; pointer-events: none; -webkit-appearance: none;
+  background: transparent; height: 0;
+}
+.slider-dual input[type=range]::-webkit-slider-thumb {
+  pointer-events: auto; -webkit-appearance: none; width: 16px; height: 16px;
+  background: var(--primary); border-radius: 50%; cursor: pointer; border: 2px solid var(--surface);
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.slider-track {
+  position: absolute; top: 50%; transform: translateY(-50%); height: 4px;
+  background: var(--border); width: 100%; border-radius: 2px;
+}
+.slider-fill { position: absolute; height: 100%; background: var(--primary); border-radius: 2px; }
+
+/* ── Attribution toggle ── */
+.attribution-toggle {
+  font-size: .78rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: 1.25rem;
+  color: var(--text-secondary);
+}
+.attribution-toggle select {
+  font-size: .78rem;
+  padding: .25rem .5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* ── Table ── */
+.table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .6rem 1rem; border-bottom: 1px solid var(--border);
+  font-size: .82rem; color: var(--text-secondary);
+}
+.toolbar strong { color: var(--text); }
+.sort-info { font-size: .78rem; color: var(--text-muted); }
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: left; padding: .6rem 1rem; font-size: .75rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted);
+  background: var(--bg); border-bottom: 2px solid var(--border);
+  cursor: pointer; user-select: none; white-space: nowrap;
+}
+th:hover { color: var(--text); }
+th.sorted { color: var(--primary); }
+td { padding: .55rem 1rem; font-size: .85rem; border-bottom: 1px solid var(--border); }
+tr.institution-row { cursor: pointer; transition: background .1s; }
+tr.institution-row:hover { background: var(--primary-light); }
+tr.institution-row.expanded { background: var(--primary-light); border-bottom-color: transparent; }
+tr.expanded td { border-bottom-color: transparent; }
+.rank-col { width: 3rem; text-align: center; }
+.rank-1 { color: var(--rank-gold); font-weight: 700; }
+.rank-2, .rank-3 { color: var(--rank-silver); font-weight: 600; }
+.score { font-weight: 600; font-variant-numeric: tabular-nums; }
+.count { font-variant-numeric: tabular-nums; color: var(--text-secondary); }
+.expand-icon { font-size: .7rem; color: var(--text-muted); transition: transform .2s; display: inline-block; }
+.expanded .expand-icon { transform: rotate(90deg); }
+
+/* ── Expand detail ── */
+tr.detail-row { background: var(--bg); }
+.detail-row td { padding: 0 1rem .75rem 1rem; }
+.detail-inner { display: flex; flex-wrap: wrap; gap: .4rem .8rem; }
+.detail-area {
+  font-size: .75rem;
+  color: var(--text-secondary);
+  background: var(--border);
+  padding: .15rem .55rem;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.detail-area strong { color: var(--text); }
+
+/* ── Empty / loading ── */
+.empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+.empty-state h3 { font-size: 1.1rem; margin-bottom: .5rem; color: var(--text-secondary); }
+
+/* ── Footer ── */
+.footer {
+  max-width: var(--max-width); margin: 3rem auto 0; padding: 0 1.5rem 2rem;
+  font-size: .78rem; color: var(--text-muted); line-height: 1.7;
+}
+.footer h2 { font-size: 1rem; font-weight: 600; color: var(--text-secondary); margin: 1.5rem 0 .5rem; }
+.footer p, .footer li { margin-bottom: .4rem; }
+.footer ul { padding-left: 1.2rem; }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .layout { flex-direction: column; }
+  .sidebar {
+    width: 100%; max-height: none; position: static; border-right: none;
+    border-bottom: 1px solid var(--border); padding: .75rem;
+  }
+  .main { padding: .75rem; }
+  .header { padding: .6rem .75rem; }
+  .header-nav { margin-left: 0; }
+  th, td { padding: .4rem .5rem; font-size: .8rem; }
+}
+
+/* ── About hero ── */
+.hero {
+  text-align: center; padding: 2.5rem 1.5rem;
+}
+.hero h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: .5rem; }
+.hero h1 span { color: var(--primary); }
+.hero p { color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: .9rem; }
+
+/* ── Loading spinner ── */
+.spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin .6s linear infinite; margin-right: .5rem; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-brand">ECE<span>Rankings</span>.org</div>
+  <div class="header-sub">Metrics-based ECE program rankings</div>
+  <nav class="header-nav">
+    <a href="#about">About</a>
+    <a href="#methodology">Methodology</a>
+    <a href="#faq">FAQ</a>
+    <a href="https://github.com/anomalyco/ecerankings.org" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main">
+    <section class="hero" id="hero">
+      <h1>ECE <span>Rankings</span></h1>
+      <p>A metrics-based ranking of Electrical &amp; Computer Engineering programs, built on OpenAlex and modeled after CSRankings. Publication counts at selective venues, adjusted per author — transparent, reproducible, and journal-aware.</p>
+    </section>
+    <div class="table-wrap" id="results">
+      <div class="empty-state"><h3>Loading data...</h3></div>
+    </div>
+    <footer class="footer" id="about">
+      <h2>About ECERankings</h2>
+      <p>ECERankings.org is a metrics-based ranking of Electrical &amp; Computer Engineering programs, modeled on <a href="https://csrankings.org" target="_blank" rel="noopener">CSRankings</a> but built for how ECE actually publishes — journal-heavy, IEEE-centric. It uses <a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a> as the primary data source with Crossref fallback for conference years missing from OpenAlex.</p>
+
+      <h2 id="methodology">Methodology</h2>
+      <ul>
+        <li><strong>Adjusted counts:</strong> each paper is worth 1.0, split evenly across its N authors (1/N per author). Institution credit = sum over its authors&rsquo; shares.</li>
+        <li><strong>Geometric mean:</strong> institution score = geometric mean of (1 + adjusted count) across selected areas — rewards breadth across areas, resists single-area dominance.</li>
+        <li><strong>Selective venues only:</strong> only publications in the curated venue list count. A venue joins an area only if it passes both selectivity and scope tests.</li>
+        <li><strong>Education-only:</strong> only authors with education-type affiliations (universities) are credited. Industry labs, government agencies, and nonprofit research institutes are excluded.</li>
+        <li><strong>At Time of Publication:</strong> each paper is credited to the institution(s) listed on that specific paper, not to an author&rsquo;s current institution.</li>
+        <li>No citation counts are used — publication counts at selective venues resist gaming.</li>
+      </ul>
+
+      <h2 id="faq">FAQ</h2>
+      <p><strong>Why not use DBLP like CSRankings?</strong><br>DBLP is CS-centric and has weak coverage of core EE journals (power, devices, EM, photonics). OpenAlex covers all IEEE/Optica venues with author→institution affiliations per paper (~98% coverage).</p>
+      <p><strong>Why is conference data lagging?</strong><br>OpenAlex conference ingestion lags ~2 years behind Crossref. We use Crossref as a fallback for missing years.</p>
+      <p><strong>How can I contribute?</strong><br>The venue registry (<code>data/areas.json</code>) and affiliation mappings are open to community contributions via <a href="https://github.com/anomalyco/ecerankings.org" target="_blank" rel="noopener">GitHub</a>.</p>
+
+      <p style="margin-top: 2rem;">Data sourced from <a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a> and <a href="https://crossref.org" target="_blank" rel="noopener">Crossref</a>, both CC0. Rankings computed client-side from static data. &copy; ECERankings.org</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// ECERankings.org — Frontend Application
+// ═══════════════════════════════════════════
+
+// ── Constants ──
+const YEAR_MIN = 2016;
+const YEAR_MAX = 2025;
+
+// ── Data ──
+let AREAS = {};
+let INST_AREA_YEAR = []; // rows from inst-area-year.csv
+let AUTHOR_INFO = [];     // rows from author-info.csv
+
+// ── State ──
+let selectedAreas = new Set();
+let yearFrom = YEAR_MIN;
+let yearTo = YEAR_MAX;
+let expandedRow = null;
+
+// ═══════════════════════════════════════════
+// 1. LOAD DATA
+// ═══════════════════════════════════════════
+
+async function loadAreas() {
+  try {
+    const resp = await fetch('../data/areas.json');
+    if (!resp.ok) throw new Error('not found');
+    AREAS = (await resp.json()).areas;
+  } catch {
+    // fallback: embedded demo taxonomy
+    AREAS = getDemoAreas();
+  }
+}
+
+function getDemoAreas() {
+  return {
+    "circuits":       { name:"Circuits & VLSI",            cluster:"Circuits & Hardware",   default_on:true },
+    "architecture":   { name:"Computer Architecture",       cluster:"Circuits & Hardware",   default_on:true },
+    "eda":            { name:"Design Automation (EDA)",     cluster:"Circuits & Hardware",   default_on:true },
+    "embedded":       { name:"Embedded & Real-Time Systems",cluster:"Circuits & Hardware",   default_on:true },
+    "sigproc":        { name:"Signal Processing",           cluster:"Signals & Intelligence",default_on:true },
+    "image":          { name:"Image Processing & Vision",   cluster:"Signals & Intelligence",default_on:true },
+    "ml":             { name:"Machine Learning",            cluster:"Signals & Intelligence",default_on:false },
+    "comms":          { name:"Communications",              cluster:"Comms & Networking",    default_on:true },
+    "networking":     { name:"Networking",                  cluster:"Comms & Networking",    default_on:true },
+    "inftheory":      { name:"Information Theory",          cluster:"Comms & Networking",    default_on:true },
+    "control":        { name:"Control Systems",             cluster:"Systems & Control",     default_on:true },
+    "robotics":       { name:"Robotics",                    cluster:"Systems & Control",     default_on:true },
+    "powerelec":      { name:"Power Electronics",           cluster:"Power & Energy",        default_on:true },
+    "power":          { name:"Power & Energy Systems",      cluster:"Power & Energy",        default_on:true },
+    "devices":        { name:"Semiconductor Devices",       cluster:"Devices & Photonics",   default_on:true },
+    "photonics":      { name:"Photonics & Optics",          cluster:"Devices & Photonics",   default_on:true },
+    "em_rf":          { name:"Electromagnetics & RF",       cluster:"Devices & Photonics",   default_on:true },
+    "biomed":         { name:"Biomedical Engineering",      cluster:"Devices & Photonics",   default_on:false },
+    "quantum":        { name:"Quantum Engineering",         cluster:"Devices & Photonics",   default_on:false },
+    "nature_ece":     { name:"Nature family (ECE)",         cluster:"Devices & Photonics",   default_on:false },
+  };
+}
+
+async function loadCSV(url) {
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok || resp.headers.get('content-length') === '0') throw new Error('empty');
+    const text = await resp.text();
+    if (!text.trim()) throw new Error('empty');
+    return text.trim().split('\n').slice(1).map(line => {
+      const cols = [];
+      let cur = '', inQuote = false;
+      for (const ch of line) {
+        if (ch === '"') { inQuote = !inQuote; continue; }
+        if (ch === ',' && !inQuote) { cols.push(cur); cur = ''; continue; }
+        cur += ch;
+      }
+      cols.push(cur);
+      return cols;
+    });
+  } catch {
+    return null;
+  }
+}
+
+async function loadData() {
+  const [instRows, authorRows] = await Promise.all([
+    loadCSV('data/inst-area-year.csv'),
+    loadCSV('data/author-info.csv'),
+  ]);
+
+  if (instRows && instRows.length > 0) {
+    INST_AREA_YEAR = instRows.map(r => ({
+      institution_id: r[0],
+      institution_name: r[1],
+      area: r[2],
+      year: parseInt(r[3]),
+      pub_count: parseInt(r[4]),
+      adjusted_count: parseFloat(r[5]),
+    }));
+  } else {
+    INST_AREA_YEAR = generateDemoData();
+  }
+
+  if (authorRows && authorRows.length > 0) {
+    AUTHOR_INFO = authorRows.map(r => ({
+      author_id: r[0],
+      author_name: r[1],
+      institution_id: r[2],
+      institution_name: r[3],
+      area: r[4],
+      year: parseInt(r[5]),
+      adjusted_count: parseFloat(r[6]),
+    }));
+  } else {
+    AUTHOR_INFO = [];
+  }
+}
+
+// ── Demo data generator ──
+function generateDemoData() {
+  const institutions = [
+    "Massachusetts Institute of Technology",
+    "Stanford University",
+    "University of California, Berkeley",
+    "ETH Zurich",
+    "Tsinghua University",
+    "University of Illinois Urbana-Champaign",
+    "Georgia Institute of Technology",
+    "University of Michigan",
+    "Carnegie Mellon University",
+    "University of California, San Diego",
+    "EPFL",
+    "Purdue University",
+    "University of Texas at Austin",
+    "University of California, Los Angeles",
+    "Imperial College London",
+    "University of Toronto",
+    "KAIST",
+    "National Taiwan University",
+    "Seoul National University",
+    "Zhejiang University",
+    "Delft University of Technology",
+    "Shanghai Jiao Tong University",
+    "Nanyang Technological University",
+    "University of Waterloo",
+    "University of Tokyo",
+  ];
+
+  const areaKeys = Object.keys(getDemoAreas());
+  const years = [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
+  const rows = [];
+
+  // base strengths per institution (index in the array mapped to rough rank tier)
+  const tiers = [
+    [1.8, 1.6], [1.7, 1.5], [1.7, 1.4], [1.5, 1.3], [1.5, 1.2],
+    [1.4, 1.2], [1.3, 1.1], [1.3, 1.0], [1.2, 1.0], [1.2, 0.9],
+    [1.1, 0.9], [1.1, 0.8], [1.0, 0.8], [1.0, 0.7], [0.9, 0.7],
+    [0.9, 0.6], [0.8, 0.6], [0.8, 0.5], [0.7, 0.5], [0.7, 0.4],
+    [0.6, 0.4], [0.6, 0.4], [0.5, 0.3], [0.5, 0.3], [0.4, 0.3],
+  ];
+
+  // Specialty boosts: some schools are famous for specific areas
+  const boosts = {
+    circuits:     [0,1,4,6,7,11],     // MIT, Stan, Tsinghua, GT, UMich, Purdue
+    architecture: [0,2,5,8,12,4],     // MIT, Berkeley, UIUC, CMU, UT Austin, Tsinghua
+    eda:          [0,2,5,8,12,6],     // MIT, Berkeley, UIUC, CMU, UT Austin, GT
+    embedded:     [5,2,11,8,0,18],    // UIUC, Berkeley, Purdue, CMU, MIT, SNU
+    sigproc:      [2,6,1,4,0,9],      // Berkeley, GT, Stanford, Tsinghua, MIT, UCSD
+    image:        [2,1,8,0,6,15],     // Berkeley, Stanford, CMU, MIT, GT, Toronto
+    ml:           [0,1,2,8,15,0],     // MIT, Stanford, Berkeley, CMU, Toronto
+    comms:        [2,1,5,12,9,18],    // Berkeley, Stanford, UIUC, UT Austin, UCSD, SNU
+    networking:   [0,2,5,8,1,9],      // MIT, Berkeley, UIUC, CMU, Stanford, UCSD
+    inftheory:    [2,0,1,16,5,22],    // Berkeley, MIT, Stanford, KAIST, UIUC, NTU
+    control:      [2,3,5,7,11,14],    // Berkeley, ETHZ, UIUC, UMich, Purdue, Imperial
+    robotics:     [8,1,0,2,9,16],     // CMU, Stanford, MIT, Berkeley, UCSD, KAIST
+    powerelec:    [4,6,11,19,21,14],  // Tsinghua, GT, Purdue, Zhejiang, SJTU, Imperial
+    power:        [4,19,11,6,21,7],   // Tsinghua, Zhejiang, Purdue, GT, SJTU, UMich
+    devices:      [4,2,1,6,0,12],     // Tsinghua, Berkeley, Stanford, GT, MIT, UT Austin
+    photonics:    [2,1,4,14,0,22],    // Berkeley, Stanford, Tsinghua, Imperial, MIT, NTU
+    em_rf:        [5,7,4,6,12,21],    // UIUC, UMich, Tsinghua, GT, UT Austin, SJTU
+    biomed:       [0,2,7,1,6,15],     // MIT, Berkeley, UMich, Stanford, GT, Toronto
+    quantum:      [3,0,2,1,16,20],    // ETHZ, MIT, Berkeley, Stanford, KAIST, Delft
+    nature_ece:   [0,2,1,3,14,4],     // MIT, Berkeley, Stanford, ETHZ, Imperial, Tsinghua
+  };
+
+  const rng = mulberry32(42);
+  function mulberry32(a) { return function() { a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+
+  for (let i = 0; i < institutions.length; i++) {
+    const [lo, hi] = tiers[i];
+    for (const area of areaKeys) {
+      const boost = (boosts[area]||[]).includes(i) ? 1.5 : 1.0;
+      for (const year of years) {
+        if (rng() < 0.15) continue; // some sparse entries
+        const base = lo + rng() * (hi - lo);
+        const adj = Math.round(base * boost * (0.8 + rng() * 0.4) * 100) / 100;
+        if (adj < 0.05) continue;
+        const pubs = Math.max(1, Math.round(adj * (0.3 + rng() * 0.7)));
+        rows.push({
+          institution_id: `inst_${i}`,
+          institution_name: institutions[i],
+          area: area,
+          year: year,
+          pub_count: pubs,
+          adjusted_count: adj,
+        });
+      }
+    }
+  }
+  return rows;
+}
+
+// ═══════════════════════════════════════════
+// 2. COMPUTE RANKINGS
+// ═══════════════════════════════════════════
+
+function computeRankings() {
+  // sum adjusted counts per (institution, area) over selected years
+  const instArea = {}; // inst_id -> area -> adj_sum
+  const instNames = {};
+  const areaInstScores = {}; // area -> inst_id -> score
+
+  for (const row of INST_AREA_YEAR) {
+    if (!selectedAreas.has(row.area)) continue;
+    if (row.year < yearFrom || row.year > yearTo) continue;
+
+    instNames[row.institution_id] = row.institution_name;
+    if (!instArea[row.institution_id]) instArea[row.institution_id] = {};
+    instArea[row.institution_id][row.area] = (instArea[row.institution_id][row.area] || 0) + row.adjusted_count;
+  }
+
+  // compute score per institution
+  const scores = [];
+  for (const [instId, areaSums] of Object.entries(instArea)) {
+    const n = selectedAreas.size; // use ALL selected areas for geometric mean
+    let prod = 1.0;
+    const areaDetails = [];
+
+    for (const area of selectedAreas) {
+      const s = areaSums[area] || 0;
+      prod *= (1 + s);
+      areaDetails.push({ area, score: s });
+      if (!areaInstScores[area]) areaInstScores[area] = {};
+      areaInstScores[area][instId] = s;
+    }
+
+    const geomScore = Math.pow(prod, 1 / n) - 1;
+    const totalAdj = Object.values(areaSums).reduce((a,b) => a+b, 0);
+
+    scores.push({
+      institution_id: instId,
+      institution_name: instNames[instId],
+      score: geomScore,
+      total_adjusted: totalAdj,
+      area_details: areaDetails.sort((a,b) => b.score - a.score),
+    });
+  }
+
+  scores.sort((a, b) => b.score - a.score);
+  return scores;
+}
+
+// ═══════════════════════════════════════════
+// 3. RENDER
+// ═══════════════════════════════════════════
+
+function buildSidebar() {
+  const clusters = {};
+  for (const [key, area] of Object.entries(AREAS)) {
+    const c = area.cluster;
+    if (!clusters[c]) clusters[c] = [];
+    clusters[c].push({ key, ...area });
+  }
+
+  let html = '';
+
+  // attribution toggle
+  html += `<div class="attribution-toggle">
+    <label for="attribution">Attribution</label>
+    <select id="attribution" onchange="renderAll()">
+      <option value="pub">At Time of Publication</option>
+      <option value="faculty" disabled>Current Faculty (coming soon)</option>
+    </select>
+  </div>`;
+
+  // year slider
+  html += `<div class="controls-section year-slider">
+    <h3>Year Range</h3>
+    <div class="slider-dual">
+      <div class="slider-track"><div class="slider-fill" id="sliderFill"></div></div>
+      <input type="range" min="${YEAR_MIN}" max="${YEAR_MAX}" value="${yearFrom}" id="yearFrom" oninput="onYearInput()">
+      <input type="range" min="${YEAR_MIN}" max="${YEAR_MAX}" value="${yearTo}" id="yearTo" oninput="onYearInput()">
+    </div>
+    <div class="year-labels"><span id="yearFromLabel">${yearFrom}</span><span id="yearToLabel">${yearTo}</span></div>
+  </div>`;
+
+  // areas
+  html += `<div class="controls-section"><h3>Research Areas</h3>`;
+  for (const [cluster, areas] of Object.entries(clusters)) {
+    const clusterKey = cluster.replace(/[^a-zA-Z]/g, '_');
+    const allSelected = areas.every(a => selectedAreas.has(a.key));
+    const someSelected = areas.some(a => selectedAreas.has(a.key));
+    html += `<div class="cluster-group">
+      <label class="cluster-label">
+        <input type="checkbox" class="cluster-toggle" data-cluster="${clusterKey}"
+               ${allSelected ? 'checked' : ''} ${someSelected && !allSelected ? 'class="partial"' : ''}
+               onchange="toggleCluster('${clusterKey}', this.checked)">
+        ${cluster}
+      </label>
+      <div class="area-list">`;
+    for (const area of areas) {
+      const extraClass = area.default_on ? '' : ' area-default-off';
+      html += `<label class="area-item${extraClass}" data-cluster="${clusterKey}">
+        <input type="checkbox" value="${area.key}" ${selectedAreas.has(area.key) ? 'checked' : ''}
+               onchange="onAreaToggle()">
+        <span>${area.name}</span>
+      </label>`;
+    }
+    html += `</div></div>`;
+  }
+  html += `<div class="btn-row">
+    <button class="btn-primary btn" onclick="selectAll()">All</button>
+    <button class="btn" onclick="selectDefaults()">Defaults</button>
+    <button class="btn" onclick="clearAll()">None</button>
+  </div>`;
+  html += `</div>`;
+
+  document.getElementById('sidebar').innerHTML = html;
+  updateSliderFill();
+}
+
+function updateSliderFill() {
+  const from = document.getElementById('yearFrom');
+  const to = document.getElementById('yearTo');
+  if (!from || !to) return;
+  const fill = document.getElementById('sliderFill');
+  const pct1 = ((from.value - YEAR_MIN) / (YEAR_MAX - YEAR_MIN)) * 100;
+  const pct2 = ((to.value - YEAR_MIN) / (YEAR_MAX - YEAR_MIN)) * 100;
+  fill.style.left = pct1 + '%';
+  fill.style.width = (pct2 - pct1) + '%';
+
+  // keep from <= to
+  if (parseInt(from.value) > parseInt(to.value)) {
+    [from.value, to.value] = [to.value, from.value];
+  }
+}
+
+function buildTable(scores) {
+  const el = document.getElementById('results');
+
+  if (scores.length === 0) {
+    el.innerHTML = `<div class="empty-state"><h3>No results</h3><p>Select at least one research area to see rankings.</p></div>`;
+    return;
+  }
+
+  let html = `<div class="toolbar">
+    <span><strong>${scores.length}</strong> institutions ranked across <strong>${selectedAreas.size}</strong> areas</span>
+    <span class="sort-info">Sorted by geometric mean score &darr;</span>
+  </div>
+  <table>
+  <thead><tr>
+    <th class="rank-col">#</th>
+    <th>Institution</th>
+    <th class="sorted">Score &darr;</th>
+    <th>Adj. Count</th>
+  </tr></thead>
+  <tbody>`;
+
+  for (let i = 0; i < scores.length; i++) {
+    const s = scores[i];
+    const rankClass = i === 0 ? ' rank-1' : i === 1 ? ' rank-2' : i === 2 ? ' rank-3' : '';
+    const isExpanded = expandedRow === s.institution_id;
+    html += `<tr class="institution-row${isExpanded ? ' expanded' : ''}" onclick="toggleExpand('${s.institution_id}')">
+      <td class="rank-col${rankClass}">${i + 1}</td>
+      <td><span class="expand-icon">▶</span> ${s.institution_name}</td>
+      <td class="score">${s.score.toFixed(2)}</td>
+      <td class="count">${s.total_adjusted.toFixed(1)}</td>
+    </tr>`;
+    if (isExpanded) {
+      html += `<tr class="detail-row"><td colspan="4"><div class="detail-inner">`;
+      for (const d of s.area_details) {
+        const areaName = (AREAS[d.area] && AREAS[d.area].name) || d.area;
+        html += `<span class="detail-area">${areaName}: <strong>${d.score.toFixed(1)}</strong></span>`;
+      }
+      html += `</div></td></tr>`;
+    }
+  }
+
+  html += `</tbody></table>`;
+  el.innerHTML = html;
+}
+
+function toggleExpand(instId) {
+  expandedRow = expandedRow === instId ? null : instId;
+  renderTable();
+}
+
+// ═══════════════════════════════════════════
+// 4. EVENT HANDLERS
+// ═══════════════════════════════════════════
+
+function onAreaToggle() {
+  syncSelectedAreas();
+  renderTable();
+}
+
+function toggleCluster(clusterKey, checked) {
+  document.querySelectorAll(`.area-item[data-cluster="${clusterKey}"] input`).forEach(cb => {
+    cb.checked = checked;
+  });
+  syncSelectedAreas();
+  renderTable();
+}
+
+function syncSelectedAreas() {
+  selectedAreas = new Set();
+  document.querySelectorAll('.area-item input:checked').forEach(cb => {
+    selectedAreas.add(cb.value);
+  });
+  // update cluster toggles
+  document.querySelectorAll('.cluster-toggle').forEach(ct => {
+    const ck = ct.dataset.cluster;
+    const checks = document.querySelectorAll(`.area-item[data-cluster="${ck}"] input`);
+    const all = [...checks].every(c => c.checked);
+    const some = [...checks].some(c => c.checked);
+    ct.checked = all;
+    ct.indeterminate = some && !all;
+  });
+}
+
+function selectAll() {
+  document.querySelectorAll('.area-item input').forEach(cb => cb.checked = true);
+  onAreaToggle();
+}
+
+function selectDefaults() {
+  document.querySelectorAll('.area-item input').forEach(cb => {
+    const area = AREAS[cb.value];
+    cb.checked = area ? area.default_on : true;
+  });
+  onAreaToggle();
+}
+
+function clearAll() {
+  document.querySelectorAll('.area-item input').forEach(cb => cb.checked = false);
+  onAreaToggle();
+}
+
+function onYearInput() {
+  const from = document.getElementById('yearFrom');
+  const to = document.getElementById('yearTo');
+  if (parseInt(from.value) > parseInt(to.value)) {
+    [from.value, to.value] = [to.value, from.value];
+  }
+  yearFrom = parseInt(from.value);
+  yearTo = parseInt(to.value);
+  document.getElementById('yearFromLabel').textContent = yearFrom;
+  document.getElementById('yearToLabel').textContent = yearTo;
+  updateSliderFill();
+  renderTable();
+}
+
+function renderTable() {
+  const scores = computeRankings();
+  buildTable(scores);
+}
+
+function renderAll() {
+  buildSidebar();
+  renderTable();
+}
+
+// ═══════════════════════════════════════════
+// 5. INIT
+// ═══════════════════════════════════════════
+
+(async function init() {
+  await loadAreas();
+  await loadData();
+
+  // default: select all default_on areas
+  for (const [key, area] of Object.entries(AREAS)) {
+    if (area.default_on) selectedAreas.add(key);
+  }
+
+  renderAll();
+})();
+</script>
+
+</body>
+</html>
