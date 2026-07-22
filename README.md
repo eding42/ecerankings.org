@@ -2,7 +2,7 @@
 
 # ECERankings.org
 
-*A metrics-based ranking of Electrical & Computer Engineering programs, built on [OpenAlex](https://openalex.org) instead of DBLP.*
+*A metrics-based ranking of Electrical & Computer Engineering programs, built on [OpenAlex](https://openalex.org) and [Crossref](https://www.crossref.org).*
 
 ![Status](https://img.shields.io/badge/status-pre--launch-lightgrey?style=flat-square)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square)
@@ -11,40 +11,37 @@
 
 ---
 
-Modeled on [CSRankings](https://csrankings.org), but built for how ECE
-actually publishes: journal-heavy and IEEE/Optica-centric. [Crossref](https://www.crossref.org)
-fills the gaps where OpenAlex's conference coverage lags.
+Methodology modeled on [CSRankings](https://csrankings.org), adapted for ECE
+publication patterns (journal-heavy, IEEE/Optica-centric). Primary data
+source is [OpenAlex](https://openalex.org); [Crossref](https://www.crossref.org)
+serves as a fallback for conference years not yet indexed by OpenAlex.
 
-> **Pre-launch.** The venue registry, harvesting pipeline, and aggregation
-> work end-to-end; the public site does not exist yet. Full methodology and
-> roadmap: [PLAN.md](PLAN.md).
+> **Pre-launch.** Venue registry, harvesting, and aggregation are functional
+> end to end. The public site has not been built. Methodology and roadmap:
+> [PLAN.md](PLAN.md).
 
 ## Methodology
 
-The ranking is deliberately simple, auditable, and hard to game:
-
-- **Adjusted counts** — each paper is worth 1.0, split evenly across its
-  authors (1/N each). An institution's credit in an area is the sum of its
-  authors' shares. No citations, no impact factors — just publication counts
-  at selective venues.
-- **Geometric-mean scoring** — an institution's overall score is the
-  geometric mean of (1 + adjusted count) across the areas you select,
-  rewarding breadth over single-area dominance (same formula as CSRankings).
-- **Curated venues only** — a venue is included only if it is both highly
-  selective and ≳80% in-scope for its area, so every counted paper is
-  auditable. The registry lives in [`data/areas.json`](data/areas.json).
-- **Affiliation at publication time** (default) — papers are credited to the
-  institution the author listed *on that paper*, not their current employer.
-  A CSRankings-style "current faculty" mode is planned as a toggle.
-- **Universities only** — OpenAlex `type=education` filtering drops corporate
-  research labs.
+- **Adjusted count.** Each paper contributes 1.0, divided evenly among its
+  N authors (1/N per author). An institution's credit in an area is the sum
+  of its authors' shares. No citations, no impact factors — publication
+  count at qualifying venues only.
+- **Overall score.** Geometric mean of (1 + adjusted count) across the
+  selected areas — identical formula to CSRankings.
+- **Venue inclusion.** A venue qualifies only if it is highly selective and
+  ≥80% in-scope for its area. Registry: [`data/areas.json`](data/areas.json).
+- **Attribution.** Default mode credits each paper to the institution listed
+  at time of publication, not current affiliation. A "current faculty" mode
+  is planned, not yet implemented.
+- **Institution filter.** OpenAlex `type=education` restricts results to
+  universities; corporate research labs are excluded.
 
 ## Areas
 
-19 areas mirroring how ECE departments organize, from Circuits & VLSI through
-Semiconductor Devices, Power & Energy, Communications, Photonics, Control, and
-Robotics, plus optional CS-overlap areas (Architecture, ML, Vision) and an
-optional "Nature family" tier. Full taxonomy and venue-inclusion policy: [PLAN.md](PLAN.md).
+19 areas, structured to match ECE departmental organization: Circuits &
+VLSI, Semiconductor Devices, Power & Energy, Communications, Photonics,
+Control, Robotics, plus optional CS-overlap areas (Architecture, ML,
+Vision). Full taxonomy and inclusion criteria: [PLAN.md](PLAN.md).
 
 ## Pipeline
 
@@ -55,21 +52,21 @@ flowchart LR
     D --> E[(site/data/*.csv)]
 ```
 
-| Path | What it is |
+| Path | Description |
 |---|---|
-| `PLAN.md` | Architecture, methodology, and phased roadmap — read this first |
-| `data/areas.json` | **The venue registry** — every ranked venue with its OpenAlex source IDs, per-year availability, and verification status. The project's most important curated file. |
-| `data/affiliation-map.csv` | Curated map from raw Crossref affiliation strings to OpenAlex institutions |
-| `data/reports/` | One markdown report per data-collection run |
-| `pipeline/` | Harvest (OpenAlex + Crossref fallback), affiliation normalization, adjudication, and aggregation scripts — Python stdlib only, no dependencies |
-| `site/data/` | Generated CSVs the future static frontend will consume |
-| `.claude/skills/` | Project integrations for Claude Code (collect-venue-data, adjudicate-affiliations) |
-| `cache/` | Raw API responses (gitignored; safe to delete and re-harvest) |
+| `PLAN.md` | Architecture, methodology, and phased roadmap. |
+| `data/areas.json` | Venue registry — OpenAlex source IDs, per-year availability, and verification status for every ranked venue. |
+| `data/affiliation-map.csv` | Mapping from raw Crossref affiliation strings to OpenAlex institution IDs. |
+| `data/reports/` | One report per data-collection run. |
+| `pipeline/` | Harvest, normalization, adjudication, and aggregation scripts. Python standard library only. |
+| `site/data/` | Generated CSVs consumed by the frontend. |
+| `.claude/skills/` | Claude Code project integrations. |
+| `cache/` | Raw API responses. Gitignored; regenerable. |
 
 ## Running the pipeline
 
-Requirements: Python 3 (standard library only — nothing to install) and an
-OpenAlex API key in a `.env` file at the repo root:
+Requirements: Python 3 (standard library only) and an OpenAlex API key in a
+`.env` file at the repo root:
 
 ```
 OPENALEX_API_KEY=your-key-here
@@ -89,25 +86,25 @@ python3 pipeline/normalize_affiliations_local.py
 python3 pipeline/aggregate.py
 ```
 
-Each script has a detailed docstring with more options. Harvests are cached
-under `cache/<venue>/<year>/` and fully resumable.
+Each script's docstring documents the full option set. Harvests are cached
+under `cache/<venue>/<year>/`; re-runs and backfills are idempotent.
 
-Note: `data/institutions.json` (a ~29 MB OpenAlex institutions dump used for
-local affiliation matching) is gitignored; see
-`pipeline/normalize_affiliations_local.py` for how to regenerate it.
+`data/institutions.json` (~29 MB, an OpenAlex institutions dump used for
+local affiliation matching) is gitignored. Regeneration procedure:
+`pipeline/normalize_affiliations_local.py`.
 
 ## Data sources & acknowledgments
 
 - **[OpenAlex](https://openalex.org)** — primary bibliographic source
   (works, authorships, resolved institutions).
-- **[Crossref](https://www.crossref.org)** — fallback for recent conference
-  years OpenAlex hasn't yet linked to a source.
-- **[CSRankings](https://csrankings.org)** by Emery Berger et al. — the
-  methodological blueprint this project adapts for ECE.
+- **[Crossref](https://www.crossref.org)** — fallback source for conference
+  years not yet linked in OpenAlex.
+- **[CSRankings](https://csrankings.org)**, by Emery Berger et al. — the
+  methodology this project adapts for ECE.
 
 ## Contributing
 
-The highest-leverage contribution right now is venue curation: auditing
-entries in `data/areas.json` (statuses: `todo` → `candidate` → `verified`)
-and flagging wrong source IDs or missing years. Open an issue with the venue
-key and the evidence.
+Current priority: venue-registry curation. Entries in `data/areas.json` are
+marked `todo`, `candidate`, or `verified`. Review `todo`/`candidate` entries
+for correct source IDs and year coverage; open an issue or PR referencing
+the venue key.
