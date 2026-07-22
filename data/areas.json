@@ -485,13 +485,15 @@
           "key": "ton",
           "display": "IEEE/ACM Transactions on Networking",
           "kind": "journal",
-          "openalex_ids": [],
-          "status": "todo",
+          "openalex_ids": [
+            "S62238642"
+          ],
+          "status": "candidate",
           "expected_per_year": [
             150,
             350
           ],
-          "notes": ""
+          "notes": "S62238642 found via /sources search 2026-07-22. Name: IEEE/ACM Transactions on Networking. ISSN: 1063-6692/1558-2566. Type: journal. Host: IEEE. Works: 5,265 total (~244-267/yr recent, in expected [150,350] range). First pub: 1993. Alternate titles: 'TON', 'Transactions on networking'. Sample works confirmed real research articles (FPCA, PMap)."
         },
         {
           "key": "infocom",
