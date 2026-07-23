@@ -5,32 +5,40 @@ description: Use your LLM intelligence to resolve ambiguous Crossref affiliation
 
 # Adjudicate Affiliations
 
-You are executing Tier 4 (LLM adjudication) of the affiliation resolution pipeline for ecerankings.org. 
-Crossref papers contain messy, free-text affiliation strings. The deterministic script (`pipeline/normalize_affiliations.py`) tries to fuzzy-match these to OpenAlex institutions, but flags ambiguous matches (scores between 0.72 and 0.90) with `status=review` in `data/affiliation-map.csv`.
+You are executing Tier 4 (LLM adjudication) of the affiliation resolution pipeline for ecerankings.org.
+Crossref papers contain messy, free-text affiliation strings. The semantic script
+(`pipeline/normalize_semantic.py`) embeds every affiliation with a sentence-transformer
+and matches against the full OpenAlex institution index via cosine similarity on MPS/CUDA.
+Ambiguous matches (cosine similarity between 0.70 and 0.85) are flagged `status=review`
+in `data/affiliation-map.csv`.
 
-Your job is to read these `review` cases, use your intelligence to adjudicate them, and write the corrected rows back to the CSV with `status=manual`.
+Your job is to read these `review` cases, use your intelligence to adjudicate them,
+and write the corrected rows back to the CSV with `status=manual`.
 
 ## Procedure
 
-### 1. Run the deterministic script
+### 1. Run the semantic normalizer
 
-Use the local, API-free variant first — it's instant and doesn't touch the
-OpenAlex budget:
+Uses the venv Python (PyTorch + sentence-transformers, MPS-accelerated on Mac):
 ```bash
-python3 pipeline/normalize_affiliations_local.py --all-cached
+.venv/bin/python pipeline/normalize_semantic.py --all-cached
 ```
-(`pipeline/normalize_affiliations.py`, the original API-backed version, still
-exists as a fallback if the local `data/institutions.json` snapshot looks
-stale or is missing an institution you expect to find.)
+Add `--verbose` to see each resolution as it happens.
+
+`pipeline/normalize_affiliations_local.py` and `pipeline/normalize_affiliations.py`
+are legacy (string-similarity heuristic and OpenAlex API respectively) — **not**
+the default path. They still exist as fallbacks if `data/institutions.json` is
+stale or the semantic model produces obviously wrong results at scale.
 
 ### 2. Read the review queue
 
 Read all rows in `data/affiliation-map.csv` where `status` is `review` (a
 short Python/csv script is fine). For each you'll see:
 - `raw_affiliation`: the messy string from Crossref (e.g., "Peter Grunberg Institut (PGI-14) and RWTH Aachen University")
-- `institution_name` / `institution_id`: the script's top candidate
-- `candidate`: the specific substring the script matched on
-- `score`: the fuzzy match score (0.72–0.90 range, by definition of `review`)
+- `institution_name` / `institution_id`: the script's top semantic match
+- `candidate`: the specific substring the script extracted and matched
+- `score`: the cosine similarity score (0.70–0.85 range, by definition of `review`)
+- `matched_via`: the institution variant name that scored highest (e.g. "KAIST" matched against the "kaist" variant in the index)
 
 ### 3. Adjudicate — fan out Haiku subagents
 
@@ -95,7 +103,7 @@ corrections rather than trying to feed new data into the old one.)
 
 **CRITICAL RULES FOR UPDATING**:
 - Set `status` to `manual` for `confirm`/`correct`/`company` decisions — this
-  tells the deterministic script to NEVER overwrite it on a future run.
+  tells the semantic script to NEVER overwrite it on a future run.
   `unmatched` decisions get `status = "unmatched"` instead.
 - Preserve `raw_affiliation` exactly as it appears in the CSV — it's the
   primary key.
@@ -105,11 +113,142 @@ corrections rather than trying to feed new data into the old one.)
 - If a subagent's JSON is missing/malformed for a row, leave that row
   untouched (still `review`) and note it in your report rather than guessing.
 
-### 5. Report
+### 5. Post-adjudication QA: acronym validation
 
-Re-run the local script with `--report-only` to show updated coverage:
+After merging, validate that every `auto`/`manual` row where `matched_via` is a
+short (≤5 characters, all-alpha) string is a **legitimate acronym** of the
+matched institution. Run:
+
 ```bash
-python3 pipeline/normalize_affiliations_local.py --all-cached --report-only
+python3 -c "
+import csv, json
+
+with open('data/institutions.json') as f:
+    db = json.load(f)
+
+with open('data/affiliation-map.csv') as f:
+    rows = list(csv.DictReader(f))
+
+suspicious = []
+for r in rows:
+    if r['status'] not in ('auto', 'manual'):
+        continue
+    mv = r.get('matched_via', '')
+    if len(mv) <= 5 and mv.isalpha():
+        inst_id = r.get('institution_id', '')
+        inst = db['by_id'].get(inst_id)
+        if inst:
+            official_acronyms = [a.lower() for a in inst.get('acronyms', [])]
+            if mv.lower() not in official_acronyms:
+                # Check display_name_alternatives too
+                alts = [a.lower() for a in inst.get('alternatives', [])]
+                if mv.lower() not in alts:
+                    suspicious.append((mv, inst['display_name'], r['raw_affiliation'][:60]))
+        else:
+            suspicious.append((mv, 'NO DB RECORD', r['raw_affiliation'][:60]))
+
+if suspicious:
+    print(f'{len(suspicious)} row(s) where matched_via is NOT an official acronym:')
+    for mv, name, raw in suspicious[:30]:
+        print(f'  \"{mv}\" -> {name}')
+        print(f'             {raw}')
+else:
+    print('All short matched_via values are legitimate acronyms.')
+"
+```
+
+For each flagged row, decide whether the match is still correct (e.g. "MIT" is
+the universally known shorthand for Massachusetts Institute of Technology even
+if OpenAlex lists "MIT" as an alternative, not an acronym) or if the match is
+a false positive (e.g. "Purdue" matching "Purdue Pharma" — correct the row).
+Write corrections to the CSV as needed.
+
+### 6. Post-adjudication QA: institution type validation
+
+After the acronym check, verify that every `auto`/`manual` row's
+`institution_type` matches the actual entity type. The semantic model's city-name
+collision problem (e.g. "Qualcomm AI Research, San Diego" matched to UC San Diego)
+causes false `education` classifications for companies. Run:
+
+```bash
+python3 -c "
+import csv
+
+EDU_NAMES = {'University', 'College', 'Institute of Technology', 'Hochschule',
+             'Universität', 'École', 'Politecnico', 'Instituto', 'Institut',
+             'Academy', 'School of'}
+
+with open('data/affiliation-map.csv') as f:
+    rows = list(csv.DictReader(f))
+
+# Check 1: institutions named like education but classified as company
+false_company = []
+for r in rows:
+    if r['status'] in ('auto', 'manual') and r.get('institution_type') == 'company':
+        name = r.get('institution_name', '')
+        if any(kw.lower() in name.lower() for kw in EDU_NAMES):
+            false_company.append(r)
+
+# Check 2: education matches where raw_affiliation mentions a company
+# and matched_via is a location (city/country), not the institution name
+CITY_WORDS = {'tokyo', 'beijing', 'shanghai', 'seoul', 'london', 'paris',
+              'berlin', 'munich', 'boston', 'san diego', 'san jose', 'santa clara',
+              'dallas', 'austin', 'seattle', 'palo alto', 'mountain view',
+              'sunnyvale', 'cambridge', 'oxford', 'zurich', 'geneva', 'hong kong',
+              'singapore', 'shenzhen', 'guangzhou', 'nanjing', 'hangzhou',
+              'chengdu', 'wuhan', 'xian', 'tianjin', 'suzhou', 'dresden',
+              'stuttgart', 'hamburg', 'frankfurt', 'aachen', 'eindhoven',
+              'delft', 'helsinki', 'stockholm', 'copenhagen', 'oslo',
+              'melbourne', 'sydney', 'toronto', 'vancouver', 'montreal',
+              'taipei', 'hsinchu', 'kyoto', 'osaka', 'tokyo', 'yokohama',
+              'nagoya', 'bengaluru', 'hyderabad', 'mumbai', 'delhi', 'pune'}
+
+corp_keywords = {'inc', 'inc.', 'ltd', 'ltd.', 'gmbh', 'corp', 'corp.',
+                 'corporation', 'llc', 'co.', 'limited', 'company'}
+
+false_education = []
+for r in rows:
+    if r['status'] in ('auto', 'manual') and r.get('institution_type') == 'education':
+        raw = r.get('raw_affiliation', '').lower()
+        mv = r.get('matched_via', '').lower()
+        score = float(r.get('score', 0))
+        # Flag if raw contains company keywords AND matched_via is a city name
+        has_corp = any(kw in raw for kw in corp_keywords)
+        is_city = mv in CITY_WORDS
+        if has_corp and is_city and score < 0.90:
+            false_education.append(r)
+
+if false_company:
+    print(f'=== Companies named like education ({len(false_company)}) ===')
+    for r in false_company:
+        print(f'  {r[\"institution_name\"][:50]} | via={r[\"matched_via\"][:20]}')
+        print(f'    raw={r[\"raw_affiliation\"][:70]}')
+
+if false_education:
+    print(f'\\n=== Education matches that look like companies ({len(false_education)}) ===')
+    for r in false_education[:30]:
+        print(f'  score={r[\"score\"]} {r[\"institution_name\"][:50]}')
+        print(f'    via={r[\"matched_via\"][:20]} raw={r[\"raw_affiliation\"][:70]}')
+    if len(false_education) > 30:
+        print(f'  ... and {len(false_education)-30} more')
+
+if not false_company and not false_education:
+    print('All institution types look correct.')
+"
+```
+
+For each flagged company, decide if it's really a company (most Chinese "Research
+Institutes" are state-owned enterprises → `company` is correct) or a misclassified
+education institution (e.g. "Medical University of Vienna" → `education`). For
+each flagged education match, the raw affiliation is likely a company that the
+model matched to a nearby university by city name — set `institution_type` to
+`company` and clear the `institution_id` if unknown. Write corrections to the CSV.
+
+### 7. Report
+
+Re-run the semantic script with `--report-only` to show updated coverage:
+```bash
+.venv/bin/python pipeline/normalize_semantic.py --all-cached --report-only
 ```
 Summarize how many rows were adjudicated (confirm/correct/company/unmatched
 breakdown), how many batches ran, and what the trickiest cases were.

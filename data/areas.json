@@ -2560,11 +2560,10 @@
               "container_title": "2021 IEEE MTT-S International Microwave Symposium (IMS)"
             },
             "2022": {
-              "source": "crossref",
-              "doi_prefix": "10.1109/ims37962.2022",
-              "count": 285,
-              "openalex_id": "S4363605108",
-              "container_title": "2022 IEEE/MTT-S International Microwave Symposium - IMS 2022"
+              "source": "openalex",
+              "id": "S4363605108",
+              "count": 284,
+              "affiliation_coverage_pct": 94.5
             },
             "2023": {
               "source": "crossref",

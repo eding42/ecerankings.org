@@ -4,9 +4,6 @@
 # Scratch scripts — not part of the project
 .tmp/
 
-# Large regenerable input (~29 MB)
-data/institutions.json
-
 # Local backups
 data/*backup*.csv
 

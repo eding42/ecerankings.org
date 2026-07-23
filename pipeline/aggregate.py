@@ -94,6 +94,43 @@ def find_cached_venues():
     return found
 
 
+MAP_CSV = os.path.join(REPO_ROOT, "data", "affiliation-map.csv")
+
+
+def load_affiliation_map():
+    """Load affiliation-map.csv into {raw_affiliation: row}."""
+    mapping = {}
+    if not os.path.exists(MAP_CSV):
+        print(f"  Warning: {MAP_CSV} not found — Crossref-only venues contribute nothing.", file=sys.stderr)
+        return mapping
+    with open(MAP_CSV, newline="") as f:
+        for r in csv.DictReader(f):
+            mapping[r["raw_affiliation"]] = r
+    return mapping
+
+
+def resolve_raw_affiliations(raw_affils, affil_map):
+    """Resolve Crossref free-text affiliations via the map. Returns list of (id, name, type) tuples."""
+    seen = set()
+    resolved = []
+    for raw in raw_affils:
+        row = affil_map.get(raw)
+        if not row:
+            continue
+        inst_id = row.get("institution_id", "")
+        if not inst_id or row.get("status") not in ("auto", "manual"):
+            continue
+        if inst_id in seen:
+            continue
+        seen.add(inst_id)
+        resolved.append({
+            "id": inst_id,
+            "display_name": row.get("institution_name", ""),
+            "type": row.get("institution_type", ""),
+        })
+    return resolved
+
+
 def find_cached_years(venue_key):
     venue_dir = os.path.join(CACHE_DIR, venue_key)
     if not os.path.isdir(venue_dir):
@@ -128,8 +165,10 @@ def main():
     total_works = 0
     total_authorship_pairs = 0
     dropped_no_edu_inst = 0
+    crossref_resolved = 0
     multi_inst_author_events = 0
     nested_institutions = {}  # id -> (display_name, lineage) for lineage-depth > 1, seen this run
+    affil_map = load_affiliation_map()
 
     for venue_key in venue_keys:
         if venue_key not in v2a:
@@ -159,7 +198,17 @@ def main():
 
                     for a in authorships:
                         total_authorship_pairs += 1
-                        edu_insts = [i for i in a["institutions"] if i.get("type") in CREDIT_TYPES]
+                        insts = a.get("institutions") or []
+                        edu_insts = [i for i in insts if i.get("type") in CREDIT_TYPES]
+
+                        # Fallback: resolve from affiliation map for Crossref-only venues
+                        if not edu_insts and not insts:
+                            raw = a.get("raw_affiliations") or []
+                            resolved = resolve_raw_affiliations(raw, affil_map)
+                            edu_insts = [i for i in resolved if i.get("type") in CREDIT_TYPES]
+                            if edu_insts:
+                                crossref_resolved += 1
+
                         if not edu_insts:
                             dropped_no_edu_inst += 1
                             continue
@@ -205,6 +254,7 @@ def main():
     print(f"Works processed:              {total_works}")
     print(f"Authorship-institution pairs: {total_authorship_pairs}")
     print(f"Dropped (no education inst):  {dropped_no_edu_inst}")
+    print(f"Crossref-resolved via map:    {crossref_resolved}")
     print(f"Multi-education-inst authors: {multi_inst_author_events}  (share split provisionally)")
     print(f"Distinct credited institutions: {len(inst_names)}")
     print(f"Wrote {inst_out}")
