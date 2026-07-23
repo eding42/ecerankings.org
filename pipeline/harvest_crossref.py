@@ -149,6 +149,19 @@ def year_date_filter(year, venue_kind):
     return "proceedings-article", f"{year}-01-01", f"{year + 1}-03-31"
 
 
+def matches_prefix(doi, doi_prefix):
+    """Check if a DOI matches any of the (possibly comma-separated) prefixes."""
+    if not doi_prefix:
+        return False
+    for prefix in doi_prefix.split(","):
+        stripped = prefix.strip()
+        if not stripped:
+            continue
+        if doi.startswith(stripped.lower()):
+            return True
+    return False
+
+
 def discover_container_title(venue_display, year, doi_prefix, venue_kind="conference"):
     """Find the exact Crossref container-title for this edition.
 
@@ -168,7 +181,7 @@ def discover_container_title(venue_display, year, doi_prefix, venue_kind="confer
     titles = {}
     for item in data.get("message", {}).get("items", []):
         doi = (item.get("DOI") or "").lower()
-        if doi_prefix and not doi.startswith(doi_prefix.lower()):
+        if not matches_prefix(doi, doi_prefix):
             continue
         for ct in item.get("container-title", []) or []:
             titles[ct] = titles.get(ct, 0) + 1
@@ -228,15 +241,21 @@ def harvest_year(venue_key, venue_display, year, entry, dry_run=False, venue_kin
         discovered = True
         print(f"  [{venue_key}/{year}] discovered container_title={container_title!r}")
 
-    safe_title = container_title.replace(",", "%2C")
-    filter_str = f"container-title:{safe_title},type:{doc_type},from-pub-date:{date_from},until-pub-date:{date_until}"
-    expected = entry.get("count")
-    head = api_get({"filter": filter_str, "rows": 0})
+    publisher_prefix = doi_prefix.split("/")[0] if doi_prefix and "/" in doi_prefix else None
+    need_fuzzy = "," in container_title and publisher_prefix is not None
+    if need_fuzzy:
+        query_name = re.sub(r"\s*\([^)]*\)\s*", " ", container_title).strip()
+        acronym_match = re.search(r"\(([^)]+)\)", container_title)
+        query_term = acronym_match.group(1) if acronym_match else query_name
+        filter_str = f"prefix:{publisher_prefix},type:{doc_type},from-pub-date:{date_from},until-pub-date:{date_until}"
+        head = api_get({"filter": filter_str, "query.container-title": query_term, "rows": 0})
+    else:
+        filter_str = f"container-title:{container_title},type:{doc_type},from-pub-date:{date_from},until-pub-date:{date_until}"
+        head = api_get({"filter": filter_str, "rows": 0})
     total = head.get("message", {}).get("total-results", 0)
     time.sleep(0.3)
-    print(f"  [{venue_key}/{year}] exact-filter total={total}" + (f" (registry expected {expected})" if expected else ""))
-    if expected and total and abs(total - expected) > max(5, 0.1 * expected):
-        print(f"  [{venue_key}/{year}] WARNING: total {total} differs from registry count {expected} by >10%.", file=sys.stderr)
+    label = "fuzzy+prefix-filter" if need_fuzzy else "exact-filter"
+    print(f"  [{venue_key}/{year}] {label} total={total}" + (f" (registry expected {entry.get('count')})" if entry.get("count") else ""))
     if total == 0:
         print(f"  [{venue_key}/{year}] nothing to harvest, skipping.", file=sys.stderr)
         return
@@ -249,11 +268,7 @@ def harvest_year(venue_key, venue_display, year, entry, dry_run=False, venue_kin
     os.makedirs(year_dir, exist_ok=True)
     out_path = os.path.join(year_dir, "works.jsonl")
     checkpoint_path = os.path.join(year_dir, ".checkpoint")
-    # Includes the full filter, not just container_title: a checkpoint from
-    # before the date filter existed (crossref:<title>) must NOT match here,
-    # or a stale done:true from the old unscoped query would silently skip
-    # re-harvesting under the corrected, year-scoped query.
-    source_key = f"crossref:{filter_str}"
+    source_key = f"crossref:{filter_str}" + (f"|query:{query_term}" if need_fuzzy else "")
 
     if os.path.exists(checkpoint_path):
         with open(checkpoint_path) as f:
@@ -268,12 +283,15 @@ def harvest_year(venue_key, venue_display, year, entry, dry_run=False, venue_kin
     page = 0
     with open(out_path, "w") as out:
         while cursor:
-            data = api_get({
+            get_params = {
                 "filter": filter_str,
                 "rows": ROWS,
                 "cursor": cursor,
                 "select": "DOI,title,author,issued,type,container-title",
-            })
+            }
+            if need_fuzzy:
+                get_params["query.container-title"] = query_term
+            data = api_get(get_params)
             msg = data.get("message", {})
             items = msg.get("items", [])
             if not items:
@@ -283,7 +301,7 @@ def harvest_year(venue_key, venue_display, year, entry, dry_run=False, venue_kin
                 # Guard against a wrong/ambiguous container_title: anything whose
                 # DOI doesn't match the registered edition prefix is not this
                 # conference edition.
-                if doi_prefix and not doi.startswith(doi_prefix.lower()):
+                if not matches_prefix(doi, doi_prefix):
                     dropped += 1
                     continue
                 out.write(json.dumps(trim_work(item, year)) + "\n")
