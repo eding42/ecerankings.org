@@ -244,7 +244,65 @@ each flagged education match, the raw affiliation is likely a company that the
 model matched to a nearby university by city name — set `institution_type` to
 `company` and clear the `institution_id` if unknown. Write corrections to the CSV.
 
-### 7. Report
+### 7. Post-adjudication QA: UC campus validation
+
+After fixing type errors, validate that every `auto`/`manual` row containing
+`"University of California"` in the raw affiliation is mapped to the **correct
+campus**. The semantic model's city-name collision problem routinely maps bare
+"University of California" or "University of California,<dept>" to UCSF
+(`I180670191`), even when the raw string contains a specific campus name
+(e.g. "Los Angeles", "San Diego", "Berkeley").
+
+Run:
+```bash
+python3 -c "
+import csv
+
+CAMPUS_KEYWORDS = {
+    ('los angeles', 'ucla'): ('https://openalex.org/I161318765', 'University of California, Los Angeles'),
+    ('berkeley',): ('https://openalex.org/I95457486', 'University of California, Berkeley'),
+    ('san diego', 'ucsd', 'la jolla'): ('https://openalex.org/I36258959', 'University of California San Diego'),
+    ('santa barbara', 'ucsb'): ('https://openalex.org/I154570441', 'University of California, Santa Barbara'),
+    ('irvine', 'uci'): ('https://openalex.org/I204250578', 'University of California, Irvine'),
+    ('davis',): ('https://openalex.org/I84218800', 'University of California, Davis'),
+    ('santa cruz', 'ucsc'): ('https://openalex.org/I185103710', 'University of California, Santa Cruz'),
+    ('riverside', 'ucr'): ('https://openalex.org/I103635307', 'University of California, Riverside'),
+    ('merced',): ('https://openalex.org/I156087764', 'University of California, Merced'),
+    ('san francisco', 'ucsf'): ('https://openalex.org/I180670191', 'University of California, San Francisco'),
+}
+
+mismatches = []
+with open('data/affiliation-map.csv') as f:
+    for r in csv.DictReader(f):
+        raw = r['raw_affiliation'].lower()
+        if 'university of california' not in raw:
+            continue
+        for keywords, (expected_id, expected_name) in CAMPUS_KEYWORDS.items():
+            if any(kw in raw for kw in keywords):
+                if r['institution_id'] != expected_id:
+                    mismatches.append((raw[:70], r['institution_name'], expected_name))
+                break
+
+if mismatches:
+    print(f'{len(mismatches)} UC campus mismatches found:')
+    for raw, current, expected in mismatches[:30]:
+        print(f'  {raw}')
+        print(f'    {current} -> should be {expected}')
+else:
+    print('All UC campus assignments are correct.')
+"
+```
+
+For each mismatch, update the row's `institution_id`, `institution_name` to the
+correct campus, set `status` to `manual`, and ensure `country_code` is `US` and
+`institution_type` is `education`.
+
+**Known edge cases**: "Davis" can be a person's surname — the keyword check
+above may produce false positives in strings like "Davis Research Group,
+University of California..." Verify each flagged Davis case by checking if
+"Davis" appears at the end of a comma-separated token or adjacent to "CA"/"USA".
+
+### 8. Report
 
 Re-run the semantic script with `--report-only` to show updated coverage:
 ```bash
