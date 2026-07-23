@@ -244,63 +244,43 @@ each flagged education match, the raw affiliation is likely a company that the
 model matched to a nearby university by city name — set `institution_type` to
 `company` and clear the `institution_id` if unknown. Write corrections to the CSV.
 
-### 7. Post-adjudication QA: UC campus validation
+### 7. Post-adjudication QA: multi-campus cluster validation
 
-After fixing type errors, validate that every `auto`/`manual` row containing
-`"University of California"` in the raw affiliation is mapped to the **correct
-campus**. The semantic model's city-name collision problem routinely maps bare
-"University of California" or "University of California,<dept>" to UCSF
-(`I180670191`), even when the raw string contains a specific campus name
-(e.g. "Los Angeles", "San Diego", "Berkeley").
+After fixing type errors, validate that every `auto`/`manual` row where the
+raw affiliation mentions a multi-campus system name (e.g. "University of
+California", "University of Texas", "Indian Institute of Technology") is
+mapped to the **correct campus**.
 
-Run:
+The semantic model's city-name collision problem routinely maps
+"University of <system>,<dept>,<campus>" to a wrong campus member,
+especially when the department name dominates the embedding while the
+campus keyword at the end is too weak to shift the match.
+
+Run the generalized fixer:
 ```bash
-python3 -c "
-import csv
-
-CAMPUS_KEYWORDS = {
-    ('los angeles', 'ucla'): ('https://openalex.org/I161318765', 'University of California, Los Angeles'),
-    ('berkeley',): ('https://openalex.org/I95457486', 'University of California, Berkeley'),
-    ('san diego', 'ucsd', 'la jolla'): ('https://openalex.org/I36258959', 'University of California San Diego'),
-    ('santa barbara', 'ucsb'): ('https://openalex.org/I154570441', 'University of California, Santa Barbara'),
-    ('irvine', 'uci'): ('https://openalex.org/I204250578', 'University of California, Irvine'),
-    ('davis',): ('https://openalex.org/I84218800', 'University of California, Davis'),
-    ('santa cruz', 'ucsc'): ('https://openalex.org/I185103710', 'University of California, Santa Cruz'),
-    ('riverside', 'ucr'): ('https://openalex.org/I103635307', 'University of California, Riverside'),
-    ('merced',): ('https://openalex.org/I156087764', 'University of California, Merced'),
-    ('san francisco', 'ucsf'): ('https://openalex.org/I180670191', 'University of California, San Francisco'),
-}
-
-mismatches = []
-with open('data/affiliation-map.csv') as f:
-    for r in csv.DictReader(f):
-        raw = r['raw_affiliation'].lower()
-        if 'university of california' not in raw:
-            continue
-        for keywords, (expected_id, expected_name) in CAMPUS_KEYWORDS.items():
-            if any(kw in raw for kw in keywords):
-                if r['institution_id'] != expected_id:
-                    mismatches.append((raw[:70], r['institution_name'], expected_name))
-                break
-
-if mismatches:
-    print(f'{len(mismatches)} UC campus mismatches found:')
-    for raw, current, expected in mismatches[:30]:
-        print(f'  {raw}')
-        print(f'    {current} -> should be {expected}')
-else:
-    print('All UC campus assignments are correct.')
-"
+python3 pipeline/fix_campus_clusters.py
 ```
 
-For each mismatch, update the row's `institution_id`, `institution_name` to the
-correct campus, set `status` to `manual`, and ensure `country_code` is `US` and
-`institution_type` is `education`.
+This script checks every `data/affiliation-map.csv` row against a curated
+list of multi-campus clusters (UC, UT, UIUC, IIT, TU, Politecnico, etc.).
+For each row containing a system prefix, it detects which campus-specific
+keyword appears in the raw string and corrects the institution if it's
+mapped to a different (likely wrong) campus.
 
-**Known edge cases**: "Davis" can be a person's surname — the keyword check
-above may produce false positives in strings like "Davis Research Group,
-University of California..." Verify each flagged Davis case by checking if
-"Davis" appears at the end of a comma-separated token or adjacent to "CA"/"USA".
+**When to add a new cluster**: if you notice a systematic pattern of
+misattribution for a multi-campus system not yet in the list, add it to
+the `CLUSTERS` list in `pipeline/fix_campus_clusters.py`. Each entry needs:
+- `system_prefix`: the common name fragment to detect in raw affiliations
+- A list of `(keywords, expected_id, expected_name)` tuples per campus,
+  ordered from most-specific to least-specific keywords
+
+**Edge cases**:
+- "Davis" can be a person surname — verify Davis matches by checking if
+  "Davis" appears as the last token or adjacent to "CA"/"USA".
+- "San Diego" and "San Francisco" share "San " — order San Francisco
+  before San Diego in keyword lists (or use multi-word checks).
+- Some keyword matches produce no-ops (same name, different OpenAlex ID
+  variant) — harmless but review if suspicious.
 
 ### 8. Report
 

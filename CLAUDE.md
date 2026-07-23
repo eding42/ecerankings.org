@@ -26,6 +26,42 @@ verification checklist, and report format. Scope discipline: only touch the
 area/venue you were asked about; record ambiguities in the report instead of
 guessing or blocking.
 
+## Pipeline architecture
+
+```
+harvest.py / harvest_crossref.py     →  cache/<venue>/<year>/works.jsonl
+    raw Works (authors, raw_affiliations, empty institutions for Crossref)
+
+normalize_semantic.py                →  data/affiliation-map.csv
+    ~59K raw_affiliation strings → OpenAlex institution IDs (auto/manual/unmatched)
+
+aggregate.py                         →  site/data/inst-area-year.csv
+    cache/*/works.jsonl  +  affiliation-map.csv  →  adjusted counts per (inst, area, year)
+```
+
+**Critical detail**: All 60 venues in `data/areas.json` are Crossref-sourced
+(`openalex_ids: []`), so `works.jsonl` always has `institutions: []`.
+`aggregate.py` must fall back to `affiliation-map.csv` via `raw_affiliations`
+to credit institutions. Without this, **zero venues contribute** — this exact
+bug existed before 2026-07-23.
+
+## Data quality
+
+- `data/affiliation-map.csv` is the bridge between Crossref free-text and
+  OpenAlex institutions. It's the most valuable curated file after `areas.json`.
+- Known systematic errors in the map (fixed but can regress on re-normalization):
+  - UC campuses: bare "University of California" → UCSF; "UC,<dept>,<campus>" → UCSF
+  - City-name collisions: "Qualcomm, San Diego" → UC San Diego
+  - Acronym mismatches: short all-alpha `matched_via` that isn't an official acronym
+  - Institution type: companies with education-like names, vice versa
+  - Multi-campus confusion: "University of Maryland, College Park" → UM Baltimore, etc.
+- Post-adjudication QA checklist (see `.claude/skills/adjudicate-affiliations/`):
+  1. Acronym validation (step 5)
+  2. Institution type validation (step 6)
+  3. Multi-campus cluster validation via `pipeline/fix_campus_clusters.py` (step 7)
+- `pipeline/verify.py` checks: venue coverage vs expected, zero-count audits,
+  author cross-validation, top-institution sanity per area.
+
 ## Conventions
 
 - OpenAlex API: read `OPENALEX_API_KEY` from `.env` at the repo root and append
@@ -37,6 +73,14 @@ guessing or blocking.
   header if present, otherwise back off exponentially (2^attempt seconds).
   Never write the key into committed files, reports, or logs (`.env` is
   gitignored — keep it that way).
-- Python: stdlib only (`urllib`, `json`, `csv`, `gzip`) — no pip installs.
-- Put any scratch/helper scripts you generate into the `.tmp/` directory — local scratchpad, gitignored. Repo gets only: registry updates, reports, pipeline code, and the `.claude/skills/` project integrations.
-- Never commit or push without the user's explicit confirmation. Stage changes with `git add` and present a summary of what would be committed, then wait for approval. Never commit `.env`, `cache/`, `.tmp/`, `data/institutions.json`, or local settings (all gitignored). Never push without separate user confirmation.
+- Python: stdlib only (`urllib`, `json`, `csv`, `gzip`) — no pip installs,
+  except `.venv/` (sentence-transformers, PyTorch with MPS) for
+  `normalize_semantic.py` only.
+- `.tmp/` directory: local scratchpad, **gitignored** — do NOT put permanent
+  scripts, fixes, or documents here. They won't be committed and won't survive
+  to future sessions. Permanent code goes in `pipeline/`,
+  `.claude/skills/`, or `data/`.
+- Never commit or push without the user's explicit confirmation. Stage changes
+  with `git add` and present a summary of what would be committed, then wait
+  for approval. Never commit `.env`, `cache/`, `.tmp/`, `data/institutions.json`,
+  or local settings (all gitignored). Never push without separate user confirmation.
