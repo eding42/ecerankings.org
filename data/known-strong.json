@@ -1,0 +1,36 @@
+{
+  "architecture": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I130701444",
+    "https://openalex.org/I95457486",
+    "https://openalex.org/I157725225",
+    "https://openalex.org/I161318765",
+    "https://openalex.org/I27837315"
+  ],
+  "circuits": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I95457486",
+    "https://openalex.org/I161318765",
+    "https://openalex.org/I76130692"
+  ],
+  "devices": [
+    "https://openalex.org/I130701444",
+    "https://openalex.org/I95457486"
+  ],
+  "photonics": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I95457486",
+    "https://openalex.org/I161318765"
+  ],
+  "sigproc": [
+    "https://openalex.org/I161318765",
+    "https://openalex.org/I1174212",
+    "https://openalex.org/I130701444"
+  ],
+  "control": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I130701444",
+    "https://openalex.org/I154570441",
+    "https://openalex.org/I27837315"
+  ]
+}
