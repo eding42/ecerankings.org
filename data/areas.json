@@ -2810,6 +2810,90 @@
             3500
           ],
           "notes": "Candidate 2026-07-23. OpenAlex source S2737427234 confirmed. ~500-3,200 papers/yr (2016-2025, rapidly growing). OpenAlex-native with resolved institutions. Not verified yet — needs full checklist. Multidisciplinary; many papers not ECE-relevant. Off by default."
+        },
+        {
+          "key": "nature",
+          "display": "Nature",
+          "kind": "journal",
+          "openalex_ids": [
+            "S137773608"
+          ],
+          "status": "candidate",
+          "expected_per_year": [
+            3500,
+            5000
+          ],
+          "notes": "Candidate 2026-07-23. OpenAlex source S137773608 confirmed. ~4,000-4,600 articles/yr (2016-2025). OpenAlex-native with resolved institutions. General science; biology/medicine-dominant. Off by default."
+        },
+        {
+          "key": "science",
+          "display": "Science",
+          "kind": "journal",
+          "openalex_ids": [
+            "S3880285"
+          ],
+          "status": "candidate",
+          "expected_per_year": [
+            1500,
+            5000
+          ],
+          "notes": "Candidate 2026-07-23. OpenAlex source S3880285 confirmed. ~2,000-5,000 articles/yr (dropped ~50% post-2021, unusual — needs investigation). OpenAlex-native with resolved institutions. General science. Off by default."
+        },
+        {
+          "key": "pnas",
+          "display": "PNAS",
+          "kind": "journal",
+          "openalex_ids": [
+            "S125754415"
+          ],
+          "status": "candidate",
+          "expected_per_year": [
+            3500,
+            4500
+          ],
+          "notes": "Candidate 2026-07-23. OpenAlex source S125754415 confirmed. ~3,800-4,400 articles/yr (2016-2025). OpenAlex-native with resolved institutions. General science; biology-dominant. Off by default."
+        },
+        {
+          "key": "nat-comms",
+          "display": "Nature Communications",
+          "kind": "journal",
+          "openalex_ids": [
+            "S64187185"
+          ],
+          "status": "candidate",
+          "expected_per_year": [
+            3500,
+            13000
+          ],
+          "notes": "Candidate 2026-07-23. OpenAlex source S64187185 confirmed. ~3,700-12,600 articles/yr (2016-2025, rapidly growing — 3.4× increase). OpenAlex-native with resolved institutions. General science, broad scope. Off by default."
+        },
+        {
+          "key": "prx",
+          "display": "Physical Review X",
+          "kind": "journal",
+          "openalex_ids": [
+            "S137042341"
+          ],
+          "status": "candidate",
+          "expected_per_year": [
+            200,
+            400
+          ],
+          "notes": "Candidate 2026-07-23. OpenAlex source S137042341 confirmed. ~200-350 articles/yr (2016-2025). OpenAlex-native with resolved institutions. Very selective open-access physics journal. Off by default."
+        },
+        {
+          "key": "nat-phys",
+          "display": "Nature Physics",
+          "kind": "journal",
+          "openalex_ids": [
+            "S156274416"
+          ],
+          "status": "candidate",
+          "expected_per_year": [
+            300,
+            500
+          ],
+          "notes": "Candidate 2026-07-23. OpenAlex source S156274416 confirmed. ~350-400 articles/yr (2016-2025). OpenAlex-native with resolved institutions. Physics-focused Nature sub-journal. Off by default."
         }
       ]
     }
