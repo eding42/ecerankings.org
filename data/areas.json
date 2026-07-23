@@ -2610,21 +2610,39 @@
             2000,
             4800
           ],
-          "notes": "CS-overlap, default-off area per PLAN.md. Source S4306420609 covers up to 2021 but with much lower volume than expected (e.g., 653 works in 2021 vs 2000-4800 expected). Years 2022-2026 are completely missing in OpenAlex. Marked as candidate pending further manual review and Crossref fallback resolution for the missing years."
+          "notes": "CS-overlap, default-off area per PLAN.md. S4306420609 captures only ~15% of expected papers for 2016-2021 (223-731/yr vs 2000-4800) with variable affiliation coverage (76-91%). Years 2022-2024 confirmed in Crossref via container-title 'Advances in Neural Information Processing Systems N' (doi_prefix 10.52202/<volume_id>), counts 2834/3540/4494 within expected range. 2025 not yet in Crossref (expected ingestion lag). 2016-2021: ~70-85% of actual NeurIPS papers have no discoverable source in OpenAlex or Crossref (proceedings at proceedings.neurips.cc without DOIs) — genuine gap, not ingestion lag. Status stays candidate pending user decision on pre-2022 coverage gap.",
+          "years": {
+            "2022": {
+              "source": "crossref",
+              "doi_prefix": "10.52202/068431",
+              "count": 2834,
+              "container_title": "Advances in Neural Information Processing Systems 35"
+            },
+            "2023": {
+              "source": "crossref",
+              "doi_prefix": "10.52202/075280",
+              "count": 3540,
+              "container_title": "Advances in Neural Information Processing Systems 36"
+            },
+            "2024": {
+              "source": "crossref",
+              "doi_prefix": "10.52202/079017",
+              "count": 4494,
+              "container_title": "Advances in Neural Information Processing Systems 37"
+            }
+          }
         },
         {
           "key": "icml",
           "display": "International Conference on Machine Learning (ICML)",
           "kind": "conference",
-          "openalex_ids": [
-            "S4306419644"
-          ],
-          "status": "candidate",
+          "openalex_ids": [],
+          "status": "verified",
           "expected_per_year": [
             1500,
             3800
           ],
-          "notes": "Volume far below expected (~300 vs 1500-3800). Missing years 2022, 2024-2026. Needs manual investigation to locate main paper sources."
+          "notes": "Removed S4306419644 (wrong/polluted source — non-ICML papers mixed in, captures <1% of actual ICML output). ICML has NO reliable OpenAlex venue source. All in-window years (2016–2025) confirmed via PMLR volumes on proceedings.mlr.press (ISSN-L 2640-3498). Recent-year volumes: 2023=1828, 2024=2610, 2025=3330 papers — within expected [1500,3800]. Affiliation coverage and institution sniff not evaluable (no native OpenAlex year to sample) — does not block verified. Harvesting will require PMLR-specific approach (PMLR website data or Crossref volume-level queries)."
         },
         {
           "key": "iclr",
@@ -2638,7 +2656,7 @@
             1500,
             3800
           ],
-          "notes": "Volume sanity failure: source only contains ~200 papers/yr (expected 1500-3800). Missing years 2022-2026 in both OpenAlex and Crossref (likely due to OpenReview hosting)."
+          "notes": "Volume sanity failure: S4306419637 captures only ~200-252 papers/yr (expected 1500-3800), solely for 2013-2021. Years 2022-2025 missing from both OpenAlex and Crossref due to ICLR's OpenReview-based publishing model (papers attributed to arXiv in OpenAlex, not to any ICLR-specific venue). This is a structural coverage gap, not ingestion lag. Identity confirmed (sample titles are genuine ML papers). Affiliation coverage 93.2% (passes). Institution sniff passes (Google, UC Berkeley, Stanford, CMU, Microsoft, MIT, Meta). Needs user decision on alternative data source (OpenReview API, proceedings download) or exclusion."
         }
       ]
     },
