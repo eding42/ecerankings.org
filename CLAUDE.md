@@ -23,14 +23,17 @@ methodology, area taxonomy, and venue-inclusion policy.
 
 ## Ranking methodology
 
-- Default-on: 20 areas. Geometric mean scoring: `(∏(1+s_i))^(1/n)-1` across
+- Default-on: 19 areas. Geometric mean scoring: `(∏(1+s_i))^(1/n)-1` across
   areas. All cached years included (1981–2026 as of now); no year window
   filter yet. See `PLAN.md` for the full methodology.
-- General journals (Nature, Science, PNAS) are **not** in any specialist area.
-  A "flagship" area (PRL, Science Advances) is prototyped with `default_on: false`
-  — off by default, intended to expand to other fields (bio, chem) later. All
-  venues in this area are OpenAlex-native (resolved institutions, no
-  affiliation-map needed).
+- When ranking, analyzing, or comparing institutions, **only include areas
+  with `default_on: true`** (currently 16 of 21 areas). Always confirm with
+  the user before including `default_on: false` areas (flagship, ML, biomed,
+  nature_ece, quantum).
+- General journals (Nature, Science, PNAS) are in the `flagship` area with
+  `default_on: false` — off by default, intended to expand to other fields
+  (bio, chem) later. All venues in this area are OpenAlex-native (resolved
+  institutions, no affiliation-map needed).
 - `site/data/inst-area-year.csv` is the consumed output: `institution_id,
   area, year, pub_count, adjusted_count`. Rebuilt on every `aggregate.py` run.
 

@@ -624,7 +624,7 @@
             100,
             250
           ],
-          "notes": "Verified 2026-07-22. Single stable OpenAlex source S136160450. ISSN 1539-9087/1558-3465, ACM host. 10-year (2016-2025) coverage all years present in OpenAlex. Volume avg ~127/yr within expected [100,250] though 2018(66),2020(61),2024(89) dip below floor — likely real variance, not wrong source. Affiliation coverage 97.2% on 25 sampled 2024 works (PASS). Top institutions: CNRS, INRIA, UC Irvine, NTU, UW-Madison, IIT Kharagpur, TUM, Academia Sinica, Intel — matches embedded computing leaders. DECISION 2026-07-22 (user): TECS/EMSOFT double-count resolved -- these 55 DOIs (TECS 16(5s)/18(5s), the EMSOFT 2017/2019 special issues, see emsoft venue's years{}.2017/2019.dois) are attributed to EMSOFT, not TECS. pipeline/harvest.py's publication_year:2017 and publication_year:2019 harvest for this venue must exclude works whose DOI is in exclude_dois -- not yet implemented in harvest.py as of this decision, since no venue has been harvested yet; whoever adds harvest support for tecs must wire this filter in before running the 2017/2019 pulls.",
+          "notes": "Verified 2026-07-22. Single stable OpenAlex source S136160450. ISSN 1539-9087/1558-3465, ACM host. 10-year (2016-2025) coverage all years present in OpenAlex. Volume avg ~127/yr within expected [100,250] though 2018(66),2020(61),2024(89) dip below floor \u2014 likely real variance, not wrong source. Affiliation coverage 97.2% on 25 sampled 2024 works (PASS). Top institutions: CNRS, INRIA, UC Irvine, NTU, UW-Madison, IIT Kharagpur, TUM, Academia Sinica, Intel \u2014 matches embedded computing leaders. DECISION 2026-07-22 (user): TECS/EMSOFT double-count resolved -- these 55 DOIs (TECS 16(5s)/18(5s), the EMSOFT 2017/2019 special issues, see emsoft venue's years{}.2017/2019.dois) are attributed to EMSOFT, not TECS. pipeline/harvest.py's publication_year:2017 and publication_year:2019 harvest for this venue must exclude works whose DOI is in exclude_dois -- not yet implemented in harvest.py as of this decision, since no venue has been harvested yet; whoever adds harvest support for tecs must wire this filter in before running the 2017/2019 pulls.",
           "exclude_dois": [
             "10.1145/3126495",
             "10.1145/3126496",
@@ -1103,7 +1103,7 @@
             400,
             700
           ],
-          "notes": "Verified 2026-07-22. S4210173141 confirmed sole correct source (IEEE T-IP, ISSN 1057-7149/1941-0042, 13,138 total works). 2024 count 480 in expected [400,700] range. Sample titles cover dehazing, super-resolution, quality assessment — legitimate T-IP content. One ghost duplicate S115304631 (0 works) harmless."
+          "notes": "Verified 2026-07-22. S4210173141 confirmed sole correct source (IEEE T-IP, ISSN 1057-7149/1941-0042, 13,138 total works). 2024 count 480 in expected [400,700] range. Sample titles cover dehazing, super-resolution, quality assessment \u2014 legitimate T-IP content. One ghost duplicate S115304631 (0 works) harmless."
         },
         {
           "key": "tpami",
@@ -1490,7 +1490,7 @@
             400,
             650
           ],
-          "notes": "Verified 2026-07-22. S4502562 confirmed sole correct source (IEEE T-IT, ISSN 0018-9448/1557-9654, 20,391 total works). 2024 count 461 in expected [400,650] range. Sample titles cover quantum info theory, MIMO, coding — legitimate T-IT content. No lookalikes found."
+          "notes": "Verified 2026-07-22. S4502562 confirmed sole correct source (IEEE T-IT, ISSN 0018-9448/1557-9654, 20,391 total works). 2024 count 461 in expected [400,650] range. Sample titles cover quantum info theory, MIMO, coding \u2014 legitimate T-IT content. No lookalikes found."
         },
         {
           "key": "isit",
@@ -1852,7 +1852,7 @@
             1200,
             1900
           ],
-          "notes": "Verified 2026-07-22. S29875816 confirmed sole correct source (IEEE T-PEL). 2024 count 1689 in expected [1200,1900] range. High volume journal — note in tiering discussion."
+          "notes": "Verified 2026-07-22. S29875816 confirmed sole correct source (IEEE T-PEL). 2024 count 1689 in expected [1200,1900] range. High volume journal \u2014 note in tiering discussion."
         },
         {
           "key": "jestpe",
@@ -1962,7 +1962,7 @@
             400,
             700
           ],
-          "notes": "Full checklist passed 2026-07-19. Identity confirmed (IEEE TPS, ISSN 0885-8950/1558-0679). 2016-2025 all present in OpenAlex, no coverage gaps. Volume 2020-2025: 584/592/624/556/425/389 — 2024 and 2025 dip below 500 (2025 partial-year ingestion lag, 2024 mild genuine dip) but within rough sanity vs expected [400,700]. Affiliation coverage 95.5% on 25 sampled 2024 works. Top insts 2021-2025: Tsinghua, US DOE, Zhejiang, Xi'an Jiaotong, NCEPU, Imperial, State Grid, NTU, Chongqing.",
+          "notes": "Full checklist passed 2026-07-19. Identity confirmed (IEEE TPS, ISSN 0885-8950/1558-0679). 2016-2025 all present in OpenAlex, no coverage gaps. Volume 2020-2025: 584/592/624/556/425/389 \u2014 2024 and 2025 dip below 500 (2025 partial-year ingestion lag, 2024 mild genuine dip) but within rough sanity vs expected [400,700]. Affiliation coverage 95.5% on 25 sampled 2024 works. Top insts 2021-2025: Tsinghua, US DOE, Zhejiang, Xi'an Jiaotong, NCEPU, Imperial, State Grid, NTU, Chongqing.",
           "years": {
             "2016": {
               "source": "openalex",
@@ -2101,7 +2101,7 @@
             900,
             1400
           ],
-          "notes": "Verified 2026-07-22. S162355128 confirmed sole correct source (IEEE T-ED). 2024 count 1202 in expected [900,1400] range. High volume — candidate for tier-2 per PLAN.md volume-balance policy."
+          "notes": "Verified 2026-07-22. S162355128 confirmed sole correct source (IEEE T-ED). 2024 count 1202 in expected [900,1400] range. High volume \u2014 candidate for tier-2 per PLAN.md volume-balance policy."
         },
         {
           "key": "edl",
@@ -2265,7 +2265,7 @@
             816,
             1356
           ],
-          "notes": "IEEE+Optica joint. ISSN 1558-2213. Crossref verified 2016-2025: range 816-1356, avg 999. Q1 Optics IF 4.8. High volume — tiering candidate. OpenAlex-verified 2026-07-19: S2307745 confirmed sole/correct source (identity, ISSN, host org IEEE all match; no duplicate/lookalike source found via /sources search on name+acronym). Full year coverage 1983-2026 (2026 partial, in progress), no gaps 2000-2025. Recent volume in-band: 2024=1114, 2025=1073 (both within registry's [816,1356] expected range), though OpenAlex counts run ~3-21% below the existing Crossref-sourced years{} counts for the same years (widens toward present, e.g. 2025: 1073 OpenAlex vs 1356 Crossref) — ruled out duplicate-source and type-filter causes; likely OpenAlex ingestion lag for the newest year, not a wrong-ID signal. Affiliation coverage 93.8% (198/211, n=25 sampled 2024 works), passes 85% threshold. Top-5y institution mix (CAS, BUPT, HUST, Fudan, SJTU, Zhejiang, Tsinghua, NTT Japan, ...) matches known photonics/optical-comms leaders, no anomalies. Open question for a future session: whether to switch this journal's harvest source from the existing per-year Crossref fallback to direct OpenAlex harvesting via S2307745 + publication_year filter, since OpenAlex now independently confirms full coverage for all in-window years.",
+          "notes": "IEEE+Optica joint. ISSN 1558-2213. Crossref verified 2016-2025: range 816-1356, avg 999. Q1 Optics IF 4.8. High volume \u2014 tiering candidate. OpenAlex-verified 2026-07-19: S2307745 confirmed sole/correct source (identity, ISSN, host org IEEE all match; no duplicate/lookalike source found via /sources search on name+acronym). Full year coverage 1983-2026 (2026 partial, in progress), no gaps 2000-2025. Recent volume in-band: 2024=1114, 2025=1073 (both within registry's [816,1356] expected range), though OpenAlex counts run ~3-21% below the existing Crossref-sourced years{} counts for the same years (widens toward present, e.g. 2025: 1073 OpenAlex vs 1356 Crossref) \u2014 ruled out duplicate-source and type-filter causes; likely OpenAlex ingestion lag for the newest year, not a wrong-ID signal. Affiliation coverage 93.8% (198/211, n=25 sampled 2024 works), passes 85% threshold. Top-5y institution mix (CAS, BUPT, HUST, Fudan, SJTU, Zhejiang, Tsinghua, NTT Japan, ...) matches known photonics/optical-comms leaders, no anomalies. Open question for a future session: whether to switch this journal's harvest source from the existing per-year Crossref fallback to direct OpenAlex harvesting via S2307745 + publication_year filter, since OpenAlex now independently confirms full coverage for all in-window years.",
           "years": {
             "2016": {
               "source": "crossref",
@@ -2341,7 +2341,7 @@
             193,
             275
           ],
-          "notes": "Verified 2026-07-22. S4210197940 confirmed correct source (Optica Publishing Group, ISSN 2334-2536, 2,818 total works). 2024 count 214 in expected [193,275] range. Affiliation coverage ~51% on OpenAlex data — Crossref may be preferred harvest source for better affiliation coverage.",
+          "notes": "Verified 2026-07-22. S4210197940 confirmed correct source (Optica Publishing Group, ISSN 2334-2536, 2,818 total works). 2024 count 214 in expected [193,275] range. Affiliation coverage ~51% on OpenAlex data \u2014 Crossref may be preferred harvest source for better affiliation coverage.",
           "years": {
             "2016": {
               "source": "crossref",
@@ -2417,7 +2417,7 @@
             1500,
             2000
           ],
-          "notes": "Verified 2026-07-22. Single stable series source S4306418073 covers 2016-2022 in OpenAlex (no per-year fragmentation). 2023-2025 confirmed in Crossref via 10.1364/cleo_ prefix. CLEO-PR and CLEO/Europe confirmed separate venues (different DOI namespace). Volume varies across years (1553-2710) — flag for tier-placement decision.",
+          "notes": "Verified 2026-07-22. Single stable series source S4306418073 covers 2016-2022 in OpenAlex (no per-year fragmentation). 2023-2025 confirmed in Crossref via 10.1364/cleo_ prefix. CLEO-PR and CLEO/Europe confirmed separate venues (different DOI namespace). Volume varies across years (1553-2710) \u2014 flag for tier-placement decision.",
           "years": {
             "2016": {
               "source": "openalex",
@@ -2595,7 +2595,7 @@
     "ml": {
       "name": "Machine Learning",
       "cluster": "Signals & Intelligence",
-      "default_on": false,
+      "default_on": true,
       "venues": [
         {
           "key": "neurips",
@@ -2609,7 +2609,7 @@
             2000,
             4800
           ],
-          "notes": "CS-overlap, default-off area per PLAN.md. S4306420609 captures only ~15% of expected papers for 2016-2021 (223-731/yr vs 2000-4800) with variable affiliation coverage (76-91%). Years 2022-2024 confirmed in Crossref via container-title 'Advances in Neural Information Processing Systems N' (doi_prefix 10.52202/<volume_id>), counts 2834/3540/4494 within expected range. 2025 not yet in Crossref (expected ingestion lag). 2016-2021: ~70-85% of actual NeurIPS papers have no discoverable source in OpenAlex or Crossref (proceedings at proceedings.neurips.cc without DOIs) — genuine gap, not ingestion lag. Status stays candidate pending user decision on pre-2022 coverage gap.",
+          "notes": "CS-overlap, default-off area per PLAN.md. S4306420609 captures only ~15% of expected papers for 2016-2021 (223-731/yr vs 2000-4800) with variable affiliation coverage (76-91%). Years 2022-2024 confirmed in Crossref via container-title 'Advances in Neural Information Processing Systems N' (doi_prefix 10.52202/<volume_id>), counts 2834/3540/4494 within expected range. 2025 not yet in Crossref (expected ingestion lag). 2016-2021: ~70-85% of actual NeurIPS papers have no discoverable source in OpenAlex or Crossref (proceedings at proceedings.neurips.cc without DOIs) \u2014 genuine gap, not ingestion lag. Status stays candidate pending user decision on pre-2022 coverage gap.",
           "years": {
             "2022": {
               "source": "crossref",
@@ -2641,7 +2641,7 @@
             1500,
             3800
           ],
-          "notes": "Removed S4306419644 (wrong/polluted source — non-ICML papers mixed in, captures <1% of actual ICML output). ICML has NO reliable OpenAlex venue source. All in-window years (2016–2025) confirmed via PMLR volumes on proceedings.mlr.press (ISSN-L 2640-3498). Recent-year volumes: 2023=1828, 2024=2610, 2025=3330 papers — within expected [1500,3800]. Affiliation coverage and institution sniff not evaluable (no native OpenAlex year to sample) — does not block verified. Harvesting will require PMLR-specific approach (PMLR website data or Crossref volume-level queries)."
+          "notes": "Removed S4306419644 (wrong/polluted source \u2014 non-ICML papers mixed in, captures <1% of actual ICML output). ICML has NO reliable OpenAlex venue source. All in-window years (2016\u20132025) confirmed via PMLR volumes on proceedings.mlr.press (ISSN-L 2640-3498). Recent-year volumes: 2023=1828, 2024=2610, 2025=3330 papers \u2014 within expected [1500,3800]. Affiliation coverage and institution sniff not evaluable (no native OpenAlex year to sample) \u2014 does not block verified. Harvesting will require PMLR-specific approach (PMLR website data or Crossref volume-level queries)."
         },
         {
           "key": "iclr",
@@ -2662,7 +2662,7 @@
     "biomed": {
       "name": "Biomedical Engineering",
       "cluster": "Devices & Photonics",
-      "default_on": false,
+      "default_on": true,
       "venues": [
         {
           "key": "tbme",
@@ -2683,7 +2683,7 @@
     "quantum": {
       "name": "Quantum Engineering",
       "cluster": "Devices & Photonics",
-      "default_on": false,
+      "default_on": true,
       "venues": [
         {
           "key": "npjqi",
@@ -2729,55 +2729,6 @@
         }
       ]
     },
-    "nature_ece": {
-      "name": "Nature family (ECE)",
-      "cluster": "Devices & Photonics",
-      "default_on": false,
-      "venues": [
-        {
-          "key": "nat-electronics",
-          "display": "Nature Electronics",
-          "kind": "journal",
-          "openalex_ids": [
-            "S4210239724"
-          ],
-          "status": "verified",
-          "expected_per_year": [
-            150,
-            260
-          ],
-          "notes": "Verified 2026-07-22. S4210239724 confirmed correct source (Springer Nature). 2024 count 207 in expected [150,260] range. Filter type:article."
-        },
-        {
-          "key": "nat-photonics",
-          "display": "Nature Photonics",
-          "kind": "journal",
-          "openalex_ids": [
-            "S120392215"
-          ],
-          "status": "verified",
-          "expected_per_year": [
-            180,
-            300
-          ],
-          "notes": "Verified 2026-07-22. S120392215 confirmed correct source (Nature Portfolio, ISSN 1749-4885/1749-4893). 2024 count 237 in expected [180,300] range. Filter type:article."
-        },
-        {
-          "key": "light-sa",
-          "display": "Light: Science & Applications",
-          "kind": "journal",
-          "openalex_ids": [
-            "S2498964232"
-          ],
-          "status": "verified",
-          "expected_per_year": [
-            250,
-            420
-          ],
-          "notes": "Verified 2026-07-22. S2498964232 confirmed correct source. 2024 count 319 in expected [250,420] range."
-        }
-      ]
-    },
     "flagship": {
       "name": "Flagship Journals",
       "cluster": "Interdisciplinary",
@@ -2795,7 +2746,7 @@
             2000,
             3500
           ],
-          "notes": "Candidate 2026-07-23. OpenAlex source S24807848 confirmed. ~2,500-3,300 papers/yr (2016-2025). OpenAlex-native with resolved institutions. Not verified yet — needs full checklist. General physics journal; most papers are NOT ECE-relevant but ~50% quantum-adjacent. Off by default (prestige category, not an ECE specialist area)."
+          "notes": "Candidate 2026-07-23. OpenAlex source S24807848 confirmed. ~2,500-3,300 papers/yr (2016-2025). OpenAlex-native with resolved institutions. Not verified yet \u2014 needs full checklist. General physics journal; most papers are NOT ECE-relevant but ~50% quantum-adjacent. Off by default (prestige category, not an ECE specialist area)."
         },
         {
           "key": "sci-adv",
@@ -2809,7 +2760,7 @@
             1500,
             3500
           ],
-          "notes": "Candidate 2026-07-23. OpenAlex source S2737427234 confirmed. ~500-3,200 papers/yr (2016-2025, rapidly growing). OpenAlex-native with resolved institutions. Not verified yet — needs full checklist. Multidisciplinary; many papers not ECE-relevant. Off by default."
+          "notes": "Candidate 2026-07-23. OpenAlex source S2737427234 confirmed. ~500-3,200 papers/yr (2016-2025, rapidly growing). OpenAlex-native with resolved institutions. Not verified yet \u2014 needs full checklist. Multidisciplinary; many papers not ECE-relevant. Off by default."
         },
         {
           "key": "nature",
@@ -2837,7 +2788,7 @@
             1500,
             5000
           ],
-          "notes": "Candidate 2026-07-23. OpenAlex source S3880285 confirmed. ~2,000-5,000 articles/yr (dropped ~50% post-2021, unusual — needs investigation). OpenAlex-native with resolved institutions. General science. Off by default."
+          "notes": "Candidate 2026-07-23. OpenAlex source S3880285 confirmed. ~2,000-5,000 articles/yr (dropped ~50% post-2021, unusual \u2014 needs investigation). OpenAlex-native with resolved institutions. General science. Off by default."
         },
         {
           "key": "pnas",
@@ -2865,7 +2816,7 @@
             3500,
             13000
           ],
-          "notes": "Candidate 2026-07-23. OpenAlex source S64187185 confirmed. ~3,700-12,600 articles/yr (2016-2025, rapidly growing — 3.4× increase). OpenAlex-native with resolved institutions. General science, broad scope. Off by default."
+          "notes": "Candidate 2026-07-23. OpenAlex source S64187185 confirmed. ~3,700-12,600 articles/yr (2016-2025, rapidly growing \u2014 3.4\u00d7 increase). OpenAlex-native with resolved institutions. General science, broad scope. Off by default."
         },
         {
           "key": "prx",
@@ -2894,6 +2845,48 @@
             500
           ],
           "notes": "Candidate 2026-07-23. OpenAlex source S156274416 confirmed. ~350-400 articles/yr (2016-2025). OpenAlex-native with resolved institutions. Physics-focused Nature sub-journal. Off by default."
+        },
+        {
+          "key": "nat-electronics",
+          "display": "Nature Electronics",
+          "kind": "journal",
+          "openalex_ids": [
+            "S4210239724"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            150,
+            260
+          ],
+          "notes": "Verified 2026-07-22. S4210239724 confirmed correct source (Springer Nature). 2024 count 207 in expected [150,260] range. Filter type:article. Moved from nature_ece to flagship 2026-07-23."
+        },
+        {
+          "key": "nat-photonics",
+          "display": "Nature Photonics",
+          "kind": "journal",
+          "openalex_ids": [
+            "S120392215"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            180,
+            300
+          ],
+          "notes": "Verified 2026-07-22. S120392215 confirmed correct source (Nature Portfolio, ISSN 1749-4885/1749-4893). 2024 count 237 in expected [180,300] range. Filter type:article. Moved from nature_ece to flagship 2026-07-23."
+        },
+        {
+          "key": "light-sa",
+          "display": "Light: Science & Applications",
+          "kind": "journal",
+          "openalex_ids": [
+            "S2498964232"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            250,
+            420
+          ],
+          "notes": "Verified 2026-07-22. S2498964232 confirmed correct source. 2024 count 319 in expected [250,420] range. Moved from nature_ece to flagship 2026-07-23."
         }
       ]
     }
