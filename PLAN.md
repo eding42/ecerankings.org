@@ -136,6 +136,11 @@ Open questions to settle with the community: split vs. merge power areas;
 whether CS-overlap areas (architecture, ML, vision) default on or off;
 second-tier venue tiers (CSRankings' "below the line" venues).
 
+**Off-by-default areas**: `areas.json` supports a `default_on` field per area
+(`true` for all 19 specialist ECE areas). The `flagship` area (Prestige
+Journals: PRL, Science Advances) is prototyped as `default_on: false` with the
+intent to eventually expand across disciplines.
+
 ## Data model
 
 ```

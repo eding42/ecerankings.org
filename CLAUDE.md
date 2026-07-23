@@ -14,9 +14,31 @@ methodology, area taxonomy, and venue-inclusion policy.
   file. Every ranked venue lives here with its OpenAlex source IDs and a
   `status` field (`todo` → `candidate` → `verified`). It doubles as the work
   queue for data-collection sessions.
+- `data/known-strong.json` — tripwire for verification: per-area lists of
+  institution IDs that MUST have non-zero scores. If any go to zero, it's a
+  data bug, not a ranking insight.
 - `data/reports/` — one markdown report per collection run (see skill).
 - `cache/` — raw OpenAlex responses. Never commit; safe to delete.
 - `pipeline/` — harvest/aggregate scripts (Phase 1–2; may not exist yet).
+
+## Ranking methodology
+
+- Default-on: 20 areas. Geometric mean scoring: `(∏(1+s_i))^(1/n)-1` across
+  areas. All cached years included (1981–2026 as of now); no year window
+  filter yet. See `PLAN.md` for the full methodology.
+- General journals (Nature, Science, PNAS) are **not** in any specialist area.
+  A "flagship" area (PRL, Science Advances) is prototyped with `default_on: false`
+  — off by default, intended to expand to other fields (bio, chem) later. All
+  venues in this area are OpenAlex-native (resolved institutions, no
+  affiliation-map needed).
+- `site/data/inst-area-year.csv` is the consumed output: `institution_id,
+  area, year, pub_count, adjusted_count`. Rebuilt on every `aggregate.py` run.
+
+## Available skills
+
+- `collect-venue-data` — resolve/verify/harvest venues for an area
+- `adjudicate-affiliations` — LLM adjudication of ambiguous affiliation strings
+- `verify-data` — post-pipeline quality checks (harvest, normalize, aggregate)
 
 ## Data-collection sessions
 

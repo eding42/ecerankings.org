@@ -2777,6 +2777,41 @@
           "notes": "Verified 2026-07-22. S2498964232 confirmed correct source. 2024 count 319 in expected [250,420] range."
         }
       ]
+    },
+    "flagship": {
+      "name": "Flagship Journals",
+      "cluster": "Interdisciplinary",
+      "default_on": false,
+      "venues": [
+        {
+          "key": "prl",
+          "display": "Physical Review Letters",
+          "kind": "journal",
+          "openalex_ids": [
+            "S24807848"
+          ],
+          "status": "candidate",
+          "expected_per_year": [
+            2000,
+            3500
+          ],
+          "notes": "Candidate 2026-07-23. OpenAlex source S24807848 confirmed. ~2,500-3,300 papers/yr (2016-2025). OpenAlex-native with resolved institutions. Not verified yet — needs full checklist. General physics journal; most papers are NOT ECE-relevant but ~50% quantum-adjacent. Off by default (prestige category, not an ECE specialist area)."
+        },
+        {
+          "key": "sci-adv",
+          "display": "Science Advances",
+          "kind": "journal",
+          "openalex_ids": [
+            "S2737427234"
+          ],
+          "status": "candidate",
+          "expected_per_year": [
+            1500,
+            3500
+          ],
+          "notes": "Candidate 2026-07-23. OpenAlex source S2737427234 confirmed. ~500-3,200 papers/yr (2016-2025, rapidly growing). OpenAlex-native with resolved institutions. Not verified yet — needs full checklist. Multidisciplinary; many papers not ECE-relevant. Off by default."
+        }
+      ]
     }
   }
 }
