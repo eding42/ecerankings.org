@@ -369,7 +369,7 @@ function countryToFlag(cc) {
 
 async function loadAreas() {
   try {
-    const resp = await fetch('../data/areas.json');
+    const resp = await fetch('data/areas.json');
     if (!resp.ok) throw new Error('not found');
     AREAS = (await resp.json()).areas;
   } catch {
@@ -599,12 +599,14 @@ function buildStats(scores) {
 
 function buildTable(scores) {
   const el = document.getElementById('results');
-  document.getElementById('loadingState').style.display = 'none';
-  document.getElementById('about').style.display = 'block';
+  const loadingEl = document.getElementById('loadingState');
+  if (loadingEl) loadingEl.style.display = 'none';
+  const aboutEl = document.getElementById('about');
+  if (aboutEl) aboutEl.style.display = 'block';
 
   if (scores.length === 0) {
     el.innerHTML = `<div class="empty-state"><h3>No results</h3><p>Try selecting different areas or clearing the country filter.</p></div>`;
-    document.getElementById('about').style.display = 'none';
+    if (aboutEl) aboutEl.style.display = 'none';
     return;
   }
 

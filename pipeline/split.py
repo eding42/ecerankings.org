@@ -53,6 +53,10 @@ def main():
     total_rows = sum(len(v) for v in areas.values())
     total_size = 0
 
+    # Also copy areas.json so the site can find it
+    import shutil
+    shutil.copy2(args.areas, os.path.join(args.out, "areas.json"))
+
     if all_area_keys:
         for area_key in all_area_keys:
             if area_key not in areas:
