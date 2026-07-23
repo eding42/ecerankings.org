@@ -14,5 +14,11 @@ __pycache__/
 # OS
 .DS_Store
 
+# Cache — raw API responses, never commit
+cache/
+
+# Generated data files — too large for git
+site/data/author-info.csv
+
 # Local overrides
 .claude/settings.local.json

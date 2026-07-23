@@ -11,26 +11,122 @@
     "https://openalex.org/I63966007",
     "https://openalex.org/I95457486",
     "https://openalex.org/I161318765",
-    "https://openalex.org/I76130692"
+    "https://openalex.org/I76130692",
+    "https://openalex.org/I1286801614",
+    "https://openalex.org/I165779244"
   ],
-  "devices": [
-    "https://openalex.org/I130701444",
-    "https://openalex.org/I95457486"
-  ],
-  "photonics": [
+  "eda": [
     "https://openalex.org/I63966007",
     "https://openalex.org/I95457486",
-    "https://openalex.org/I161318765"
+    "https://openalex.org/I161318765",
+    "https://openalex.org/I76130692"
+  ],
+  "embedded": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I161318765",
+    "https://openalex.org/I155093810",
+    "https://openalex.org/I114027177"
   ],
   "sigproc": [
     "https://openalex.org/I161318765",
     "https://openalex.org/I1174212",
-    "https://openalex.org/I130701444"
+    "https://openalex.org/I130701444",
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I95457486"
+  ],
+  "image": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I97018004",
+    "https://openalex.org/I130701444",
+    "https://openalex.org/I95457486",
+    "https://openalex.org/I161318765"
+  ],
+  "comms": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I95457486",
+    "https://openalex.org/I161318765",
+    "https://openalex.org/I130701444",
+    "https://openalex.org/I76130692"
+  ],
+  "networking": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I130701444",
+    "https://openalex.org/I161318765",
+    "https://openalex.org/I95457486"
+  ],
+  "inftheory": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I130701444",
+    "https://openalex.org/I76130692",
+    "https://openalex.org/I161318765"
   ],
   "control": [
     "https://openalex.org/I63966007",
     "https://openalex.org/I130701444",
     "https://openalex.org/I154570441",
-    "https://openalex.org/I27837315"
+    "https://openalex.org/I27837315",
+    "https://openalex.org/I97018004"
+  ],
+  "robotics": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I97018004",
+    "https://openalex.org/I130701444",
+    "https://openalex.org/I161318765",
+    "https://openalex.org/I95457486"
+  ],
+  "powerelec": [
+    "https://openalex.org/I1313843922",
+    "https://openalex.org/I76130692",
+    "https://openalex.org/I205783295",
+    "https://openalex.org/I891191580",
+    "https://openalex.org/I47303974"
+  ],
+  "power": [
+    "https://openalex.org/I76130692",
+    "https://openalex.org/I1313843922",
+    "https://openalex.org/I205783295",
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I95457486"
+  ],
+  "devices": [
+    "https://openalex.org/I130701444",
+    "https://openalex.org/I95457486",
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I161318765",
+    "https://openalex.org/I165779244"
+  ],
+  "photonics": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I95457486",
+    "https://openalex.org/I161318765",
+    "https://openalex.org/I97018004",
+    "https://openalex.org/I1174212"
+  ],
+  "em_rf": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I95457486",
+    "https://openalex.org/I130701444",
+    "https://openalex.org/I161318765"
+  ],
+  "ml": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I97018004",
+    "https://openalex.org/I130701444",
+    "https://openalex.org/I161318765",
+    "https://openalex.org/I95457486"
+  ],
+  "biomed": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I130701444",
+    "https://openalex.org/I97018004",
+    "https://openalex.org/I95457486",
+    "https://openalex.org/I1174212"
+  ],
+  "quantum": [
+    "https://openalex.org/I63966007",
+    "https://openalex.org/I97018004",
+    "https://openalex.org/I95457486",
+    "https://openalex.org/I130701444",
+    "https://openalex.org/I161318765"
   ]
 }

@@ -134,14 +134,15 @@ def phase1_harvest(areas, args):
                     )
 
     # 1f. Summary stats
-    total_venue_years = sum(len(list(v["years"].keys())) for v in v2a.values())
-    cached_count = sum(1 for vdirs in
-                       [os.listdir(os.path.join(CACHE_DIR, vk))
-                        for vk in v2a
-                        if os.path.isdir(os.path.join(CACHE_DIR, vk))]
-                       for yd in vdirs
-                       if yd.isdigit() and
-                       os.path.exists(os.path.join(CACHE_DIR, vk, yd, "works.jsonl")))
+    total_venue_years = sum(len(list(vdef.get("years", {}).keys())) for ak, vdef in v2a.values())
+    cached_count = 0
+    for vk in v2a:
+        vdir = os.path.join(CACHE_DIR, vk)
+        if not os.path.isdir(vdir):
+            continue
+        for yd in os.listdir(vdir):
+            if yd.isdigit() and os.path.exists(os.path.join(vdir, yd, "works.jsonl")):
+                cached_count += 1
     print(f"  Venue-years cached:   {cached_count}")
     print(f"  Venue-years expected: {total_venue_years}")
 
@@ -193,7 +194,175 @@ def phase2_normalization(areas, args):
     if edu / total < 0.50:
         flags["high"].append(f"Education rate below 50%: {edu/total*100:.1f}%")
 
-    # 2a. Acronym check
+    # 2a. Country code consistency check
+    inst_countries = defaultdict(set)
+    for r in rows:
+        iid = r.get("institution_id", "")
+        cc = r.get("country_code", "")
+        if iid and cc:
+            inst_countries[iid].add(cc)
+
+    country_conflicts = 0
+    for iid, ccs in inst_countries.items():
+        if len(ccs) > 1:
+            country_conflicts += 1
+            if country_conflicts <= 10:
+                sample = next((r for r in rows if r.get("institution_id") == iid), None)
+                name = (sample.get("institution_name", "") if sample else "")[:40]
+                flags["high"].append(
+                    f"[{iid.split('/')[-1]}] {name} has conflicting country codes: {ccs}"
+                )
+    if country_conflicts > 10:
+        flags["high"].append(f"... and {country_conflicts - 10} more institutions with conflicting country codes")
+
+    # 2b. Geo-heuristic validation
+    known_geo = {
+        "US": ["University of California", "Georgia Tech", "MIT", "Stanford",
+               "University of Texas", "University of Michigan", "Virginia Tech",
+               "Purdue", "Carnegie Mellon", "Caltech", "University of Illinois",
+               "University of Washington", "University of Wisconsin",
+               "University of Maryland", "University of Minnesota",
+               "University of Colorado", "University of Florida",
+               "Ohio State", "Pennsylvania State", "Texas A&M",
+               "University of Pennsylvania", "Columbia University",
+               "Cornell University", "Princeton University",
+               "University of Chicago", "Yale University", "Harvard University",
+               "Duke University", "Northwestern University",
+               "University of California San Diego", "UCSD",
+               "University of California, Berkeley", "UCLA",
+               "University of California, Los Angeles",
+               "University of California, Irvine", "UC Irvine",
+               "University of California, Santa Barbara",
+               "University of California, Davis", "UC Davis",
+               "University of California, Riverside",
+               "Michigan State", "Arizona State", "University of Arizona",
+               "University of Utah", "University of Colorado",
+               "North Carolina State", "University of Pittsburgh",
+               "University of Rochester", "Rutgers", "Boston University",
+               "Northeastern University", "University of Florida",
+               "University of Central Florida", "Florida State",
+               "Johns Hopkins", "Rice University", "Vanderbilt",
+               "Dartmouth", "Brown University"],
+        "CN": ["Tsinghua", "Peking University", "Zhejiang University",
+               "Shanghai Jiao Tong", "Fudan", "Nanjing University",
+               "Huazhong", "Harbin Institute", "Beihang",
+               "Xi'an Jiaotong", "Sun Yat-sen", "Southeast University",
+               "Tianjin University", "Beijing Institute of Technology",
+               "University of Electronic Science and Technology",
+               "South China University", "University of Science and Technology Beijing",
+               "Jilin University", "Nankai University", "Xiamen University",
+               "Wuhan University", "Tongji University",
+               "University of Chinese Academy of Sciences",
+               "China Agricultural University"],
+        "KR": ["Seoul National", "KAIST", "Korea University", "Yonsei",
+               "POSTECH", "Sungkyunkwan", "Hanyang", "Gwangju Institute",
+               "Ewha Womans", "Kyungpook", "Pusan National"],
+        "SG": ["National University of Singapore", "Nanyang Technological",
+               "Singapore University of Technology"],
+        "JP": ["University of Tokyo", "Kyoto University", "Tokyo Institute",
+               "Osaka University", "Nagoya University", "Tohoku University",
+               "Kyushu University", "Hokkaido University", "Waseda",
+               "Keio University", "Institute of Science Tokyo"],
+        "CH": ["ETH Zurich", "EPFL", "University of Zurich"],
+        "GB": ["University of Cambridge", "University of Oxford", "Imperial College",
+               "University College London", "University of Edinburgh",
+               "University of Manchester", "University of Southampton",
+               "University of Birmingham", "University of Bristol",
+               "University of Glasgow", "University of Sheffield",
+               "University of Nottingham", "University of Leeds",
+               "King's College London", "Queen Mary"],
+        "DE": ["Technical University of Munich", "TU Munich",
+               "RWTH Aachen", "Karlsruhe Institute", "KIT,",
+               "TU Berlin", "TU Darmstadt", "TU Dresden",
+               "University of Stuttgart", "University of Freiburg",
+               "University of Bonn", "LMU Munich"],
+        "FR": ["Sorbonne", "Université Paris", "CNRS",
+               "École Polytechnique", "Grenoble INP",
+               "Université Grenoble", "Institut polytechnique",
+               "CentraleSupélec", "Télécom Paris"],
+        "CA": ["University of Toronto", "University of British Columbia",
+               "McGill University", "University of Waterloo",
+               "University of Alberta", "University of Montreal",
+               "McMaster University", "University of Calgary",
+               "University of Ottawa", "Queen's University",
+               "Simon Fraser University", "University of Victoria",
+               "University of Western Ontario"],
+        "TW": ["National Taiwan University", "National Tsing Hua",
+               "National Yang Ming Chiao Tung", "National Cheng Kung",
+               "National Chiao Tung"],
+        "NL": ["Delft University", "TU Delft", "Eindhoven University",
+               "University of Amsterdam", "University of Groningen",
+               "Utrecht University", "Leiden University",
+               "Wageningen University", "Vrije Universiteit Amsterdam"],
+        "IL": ["Technion", "Weizmann", "Tel Aviv University",
+               "Hebrew University of Jerusalem"],
+        "AU": ["University of Melbourne", "University of Sydney",
+               "UNSW Sydney", "Australian National University",
+               "Monash University", "University of Queensland",
+               "University of Adelaide", "University of Western Australia"],
+        "SE": ["KTH Royal Institute", "Chalmers", "Lund University",
+               "Uppsala University", "Stockholm University"],
+        "DK": ["Technical University of Denmark", "DTU",
+               "University of Copenhagen", "Aalborg University"],
+        "FI": ["Aalto University", "University of Helsinki"],
+        "IE": ["Trinity College Dublin", "University College Dublin"],
+        "IT": ["Politecnico di Milano", "Politecnico di Torino",
+               "Sapienza", "University of Bologna",
+               "University of Padua", "University of Milan"],
+        "ES": ["Polytechnic University of Catalonia", "UPC",
+               "University of Barcelona", "Universidad Politécnica de Madrid"],
+        "AT": ["TU Wien", "Johannes Kepler", "University of Vienna"],
+        "BE": ["KU Leuven", "Ghent University", "Université Catholique de Louvain"],
+        "IN": ["Indian Institute of Technology", "IIT "],
+        "HK": ["University of Hong Kong", "Hong Kong University",
+               "Hong Kong Polytechnic", "City University of Hong Kong",
+               "Hong Kong University of Science"],
+    }
+
+    geo_conflicts = 0
+    for r in rows:
+        if r["status"] not in ("auto", "manual"):
+            continue
+        name = r.get("institution_name", "")
+        actual_cc = r.get("country_code", "")
+        if not name or not actual_cc:
+            continue
+        for expected_cc, keywords in known_geo.items():
+            for kw in keywords:
+                if kw.lower() in name.lower():
+                    if actual_cc != expected_cc and actual_cc != "":
+                        geo_conflicts += 1
+                        if geo_conflicts <= 10:
+                            flags["high"].append(
+                                f"'{name[:45]}' has country={actual_cc}, expected {expected_cc} (contains '{kw}')"
+                            )
+                    break
+            else:
+                continue
+            break
+    if geo_conflicts > 10:
+        flags["high"].append(f"... and {geo_conflicts - 10} more geo-heuristic violations")
+
+    # 2c. Compound affiliation detection
+    compound_flags = 0
+    for r in rows:
+        if r["status"] != "manual":
+            continue
+        raw = r.get("raw_affiliation", "")
+        if any(sep in raw for sep in [" and ", " & ", " / "]):
+            iid = r.get("institution_id", "")
+            if iid:
+                ccs = inst_countries.get(iid, set())
+                if len(ccs) > 1:
+                    compound_flags += 1
+                    if compound_flags <= 5:
+                        flags["medium"].append(
+                            f"Compound affiliation likely: '{raw[:60]}' -> {r['institution_name'][:30]} (cc conflicts: {ccs})"
+                        )
+    if compound_flags > 0:
+        print(f"  Compound affiliations flagged: {compound_flags}")
+
+    # 2d. Acronym check (was 2a)
     inst_db = None
     if os.path.exists(INST_JSON):
         with open(INST_JSON) as f:
@@ -216,7 +385,7 @@ def phase2_normalization(areas, args):
         if short_acronym_mismatches > 0:
             flags["medium"].append(f"{short_acronym_mismatches} rows where short matched_via is not an official acronym")
 
-    # 2b. Campus cluster check (re-run the fixer and count changes)
+    # 2e. Campus cluster check (re-run the fixer and count changes)
     import subprocess
     cluster_script = os.path.join(REPO_ROOT, "pipeline", "fix_campus_clusters.py")
     if os.path.exists(cluster_script):
@@ -371,7 +540,53 @@ def phase3_aggregate(areas, args):
                     f"[{ak}] outlier year {y}: {c} rows vs mean {mean:.0f}±{std:.0f}"
                 )
 
-    # 3f. Institution year-over-year cliff drops
+    # 3f. Ranking regression check
+    ranking_snapshot_path = os.path.join(SITE_DATA, ".ranking-snapshot.json")
+    current_ranking = []
+    inst_total = defaultdict(float)
+    with open(inst_csv) as f:
+        for r in csv.DictReader(f):
+            inst_total[r["institution_id"]] += float(r.get("adjusted_count", 0))
+    for iid, total in sorted(inst_total.items(), key=lambda x: -x[1]):
+        current_ranking.append((iid, total, inst_names.get(iid, iid.split("/")[-1])))
+    current_top50 = {iid: (rank, name) for rank, (iid, _, name) in enumerate(current_ranking[:50], 1)}
+
+    if os.path.exists(ranking_snapshot_path):
+        with open(ranking_snapshot_path) as f:
+            prev_top50 = json.load(f)
+        big_movers = []
+        new_entries = []
+        disappeared = []
+        for iid, (cur_rank, name) in current_top50.items():
+            prev_info = prev_top50.get(iid)
+            if prev_info:
+                prev_rank = prev_info["rank"]
+                delta = prev_rank - cur_rank
+                if abs(delta) >= 10:
+                    big_movers.append((name, prev_rank, cur_rank, delta))
+            else:
+                new_entries.append((name, cur_rank))
+        for iid, prev_info in prev_top50.items():
+            if iid not in current_top50:
+                disappeared.append((prev_info["name"], prev_info["rank"]))
+        if big_movers:
+            flags["medium"].append(f"Ranking regression: {len(big_movers)} institution(s) moved ≥10 positions:")
+            for name, prev, cur, delta in big_movers[:10]:
+                direction = "↑" if delta > 0 else "↓"
+                flags["medium"].append(f"  {direction} {name}: #{prev} → #{cur}")
+        if new_entries:
+            flags["low"].append(f"New in top 50: {', '.join(n for n, _ in new_entries[:5])}")
+        if disappeared:
+            flags["low"].append(f"Dropped from top 50: {', '.join(n for n, _ in disappeared[:5])}")
+
+    # Save current snapshot
+    snapshot_data = {}
+    for iid, (rank, name) in current_top50.items():
+        snapshot_data[iid] = {"rank": rank, "name": name}
+    with open(ranking_snapshot_path, "w") as f:
+        json.dump(snapshot_data, f, indent=2)
+
+    # 3g. Institution year-over-year cliff drops
     # Flag institutions with established presence (≥3 years, ≥10.0 total adj)
     # where a single year drops >80% from prior year AND prior year ≥3.0.
     # Excludes the most recent year (typically incomplete due to publication lag).

@@ -5,6 +5,10 @@ Usage:
     python3 pipeline/aggregate.py --venue iedm
     python3 pipeline/aggregate.py --venue iedm --year 2022
     python3 pipeline/aggregate.py --all-cached
+    python3 pipeline/aggregate.py --all-cached --sequential
+
+Processes venues in parallel by default (one worker per CPU core).
+Use --sequential to disable and run single-threaded.
 
 Reads cache/<venue_key>/<year>/works.jsonl (produced by harvest.py or
 harvest_crossref.py), maps each venue to its area via data/areas.json, and
@@ -61,6 +65,8 @@ import json
 import os
 import sys
 from collections import defaultdict
+from concurrent.futures import ProcessPoolExecutor
+from multiprocessing import cpu_count
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AREAS_JSON = os.path.join(REPO_ROOT, "data", "areas.json")
@@ -142,22 +148,13 @@ def find_cached_years(venue_key):
     return years
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Aggregate cached works into adjusted counts.")
-    parser.add_argument("--venue", action="append", default=[], help="Venue key to include (repeatable)")
-    parser.add_argument("--all-cached", action="store_true", help="Include every venue with cached works.jsonl")
-    parser.add_argument("--year", type=int, default=None, help="Only read this year's cache per venue (default: all cached years)")
-    args = parser.parse_args()
+def process_venues(venue_keys, v2a, year_filter, affil_map):
+    """Process a list of venue keys and return accumulated results.
 
-    registry = load_registry()
-    v2a = venue_to_area(registry)
-
-    venue_keys = args.venue if args.venue else (find_cached_venues() if args.all_cached else [])
-    if not venue_keys:
-        print("Specify --venue <key> (repeatable) or --all-cached", file=sys.stderr)
-        sys.exit(1)
-
-    inst_area_year = defaultdict(lambda: {"pub_count": 0, "adjusted_count": 0.0})
+    Returns: (inst_area_year, author_area_year_inst, inst_names, author_names,
+              metrics, nested_institutions)
+    """
+    inst_area_year = {}
     author_area_year_inst = defaultdict(float)
     inst_names = {}
     author_names = {}
@@ -167,8 +164,7 @@ def main():
     dropped_no_edu_inst = 0
     crossref_resolved = 0
     multi_inst_author_events = 0
-    nested_institutions = {}  # id -> (display_name, lineage) for lineage-depth > 1, seen this run
-    affil_map = load_affiliation_map()
+    nested_institutions = {}
 
     for venue_key in venue_keys:
         if venue_key not in v2a:
@@ -176,8 +172,8 @@ def main():
             continue
         area_key, _area_name = v2a[venue_key]
         cached_years = find_cached_years(venue_key)
-        if args.year is not None:
-            cached_years = [y for y in cached_years if y == args.year]
+        if year_filter is not None:
+            cached_years = [y for y in cached_years if y == year_filter]
         if not cached_years:
             print(f"  [{venue_key}] no cached years match, skipping.", file=sys.stderr)
             continue
@@ -201,7 +197,6 @@ def main():
                         insts = a.get("institutions") or []
                         edu_insts = [i for i in insts if i.get("type") in CREDIT_TYPES]
 
-                        # Fallback: resolve from affiliation map for Crossref-only venues
                         if not edu_insts and not insts:
                             raw = a.get("raw_affiliations") or []
                             resolved = resolve_raw_affiliations(raw, affil_map)
@@ -224,6 +219,8 @@ def main():
                                 nested_institutions[inst_id] = (inst["display_name"], lineage)
 
                             key = (inst_id, area_key, year)
+                            if key not in inst_area_year:
+                                inst_area_year[key] = {"pub_count": 0, "adjusted_count": 0.0}
                             inst_area_year[key]["adjusted_count"] += share
                             papers_credited_insts_this_work.add(key)
 
@@ -233,6 +230,93 @@ def main():
 
                     for key in papers_credited_insts_this_work:
                         inst_area_year[key]["pub_count"] += 1
+
+    metrics = (total_works, total_authorship_pairs, dropped_no_edu_inst,
+               crossref_resolved, multi_inst_author_events)
+    return inst_area_year, dict(author_area_year_inst), inst_names, author_names, metrics, nested_institutions
+
+
+def merge_results(results):
+    """Merge results from parallel workers into single accumulators."""
+    inst_area_year = {}
+    author_area_year_inst = defaultdict(float)
+    inst_names = {}
+    author_names = {}
+    total_works = 0
+    total_authorship_pairs = 0
+    dropped_no_edu_inst = 0
+    crossref_resolved = 0
+    multi_inst_author_events = 0
+    nested_institutions = {}
+
+    for (r_inst_area_year, r_author_ay, r_inst_names, r_author_names,
+         metrics, r_nested) in results:
+        for key, vals in r_inst_area_year.items():
+            if key not in inst_area_year:
+                inst_area_year[key] = {"pub_count": 0, "adjusted_count": 0.0}
+            inst_area_year[key]["pub_count"] += vals["pub_count"]
+            inst_area_year[key]["adjusted_count"] += vals["adjusted_count"]
+
+        for key, val in r_author_ay.items():
+            author_area_year_inst[key] += val
+
+        inst_names.update(r_inst_names)
+        author_names.update(r_author_names)
+
+        tw, tap, dne, cr, mie = metrics
+        total_works += tw
+        total_authorship_pairs += tap
+        dropped_no_edu_inst += dne
+        crossref_resolved += cr
+        multi_inst_author_events += mie
+
+        for inst_id, val in r_nested.items():
+            if inst_id not in nested_institutions:
+                nested_institutions[inst_id] = val
+
+    return (inst_area_year, author_area_year_inst, inst_names, author_names,
+            total_works, total_authorship_pairs, dropped_no_edu_inst,
+            crossref_resolved, multi_inst_author_events, nested_institutions)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Aggregate cached works into adjusted counts.")
+    parser.add_argument("--venue", action="append", default=[], help="Venue key to include (repeatable)")
+    parser.add_argument("--all-cached", action="store_true", help="Include every venue with cached works.jsonl")
+    parser.add_argument("--year", type=int, default=None, help="Only read this year's cache per venue (default: all cached years)")
+    parser.add_argument("--sequential", action="store_true", help="Disable parallel processing (single-threaded)")
+    parser.add_argument("--workers", type=int, default=None, help="Number of parallel workers (default: CPU count)")
+    args = parser.parse_args()
+
+    registry = load_registry()
+    v2a = venue_to_area(registry)
+
+    venue_keys = args.venue if args.venue else (find_cached_venues() if args.all_cached else [])
+    if not venue_keys:
+        print("Specify --venue <key> (repeatable) or --all-cached", file=sys.stderr)
+        sys.exit(1)
+
+    affil_map = load_affiliation_map()
+    n_venues = len(venue_keys)
+
+    if args.sequential or n_venues < 2:
+        results = [process_venues(venue_keys, v2a, args.year, affil_map)]
+    else:
+        n_workers = args.workers or cpu_count()
+        n_workers = min(n_workers, n_venues)
+        chunks = [[] for _ in range(n_workers)]
+        for i, vk in enumerate(venue_keys):
+            chunks[i % n_workers].append(vk)
+
+        print(f"Aggregating {n_venues} venues across {n_workers} workers...")
+        with ProcessPoolExecutor(max_workers=n_workers) as pool:
+            futures = [pool.submit(process_venues, chunk, v2a, args.year, affil_map)
+                       for chunk in chunks]
+            results = [f.result() for f in futures]
+
+    (inst_area_year, author_area_year_inst, inst_names, author_names,
+     total_works, total_authorship_pairs, dropped_no_edu_inst,
+     crossref_resolved, multi_inst_author_events, nested_institutions) = merge_results(results)
 
     os.makedirs(SITE_DATA_DIR, exist_ok=True)
 
