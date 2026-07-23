@@ -36,6 +36,11 @@ The verifier runs in three phases, ordered from cheapest (works-level stats) to 
 - **Year-over-year consistency**: Per venue, year-on-year paper count variance. Flag any year that's an outlier (>3σ from the venue's mean).
 - **Institution cliff-drop detection**: Flags institutions with established presence where a single year drops >80% from the prior year.
 
+After verifying and fixing, re-run `split.py` to regenerate per-area JSONs:
+```bash
+python3 pipeline/split.py
+```
+
 ## Usage
 
 ```bash

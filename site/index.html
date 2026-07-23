@@ -328,8 +328,8 @@ const YEAR_MAX = 2025;
 
 // ── Data ──
 let AREAS = {};
-let INST_AREA_YEAR = []; // rows from inst-area-year.csv
-let AUTHOR_INFO = [];     // rows from author-info.csv
+let loadedAreaData = {};  // { "circuits": [...], "architecture": [...] }
+let INST_AREA_YEAR = [];  // flat array built from loadedAreaData
 
 // ── State ──
 let selectedAreas = new Set();
@@ -377,59 +377,32 @@ function getDemoAreas() {
   };
 }
 
-async function loadCSV(url) {
+async function loadAreaJSON(areaKey) {
   try {
-    const resp = await fetch(url);
-    if (!resp.ok || resp.headers.get('content-length') === '0') throw new Error('empty');
-    const text = await resp.text();
-    if (!text.trim()) throw new Error('empty');
-    return text.trim().split('\n').slice(1).map(line => {
-      const cols = [];
-      let cur = '', inQuote = false;
-      for (const ch of line) {
-        if (ch === '"') { inQuote = !inQuote; continue; }
-        if (ch === ',' && !inQuote) { cols.push(cur); cur = ''; continue; }
-        cur += ch;
-      }
-      cols.push(cur);
-      return cols;
-    });
+    const resp = await fetch(`data/${areaKey}.json`);
+    if (!resp.ok) return [];
+    const rows = await resp.json();
+    return rows.map(r => ({ ...r, area: areaKey }));
   } catch {
-    return null;
+    return [];
   }
 }
 
-async function loadData() {
-  const [instRows, authorRows] = await Promise.all([
-    loadCSV('data/inst-area-year.csv'),
-    loadCSV('data/author-info.csv'),
-  ]);
-
-  if (instRows && instRows.length > 0) {
-    INST_AREA_YEAR = instRows.map(r => ({
-      institution_id: r[0],
-      institution_name: r[1],
-      area: r[2],
-      year: parseInt(r[3]),
-      pub_count: parseInt(r[4]),
-      adjusted_count: parseFloat(r[5]),
-    }));
-  } else {
-    INST_AREA_YEAR = generateDemoData();
+async function loadDefaultAreas() {
+  const defaultAreas = Object.entries(AREAS)
+    .filter(([, a]) => a.default_on)
+    .map(([k]) => k);
+  const results = await Promise.all(defaultAreas.map(k => loadAreaJSON(k)));
+  for (let i = 0; i < defaultAreas.length; i++) {
+    loadedAreaData[defaultAreas[i]] = results[i];
   }
+  rebuildInstAreaYear();
+}
 
-  if (authorRows && authorRows.length > 0) {
-    AUTHOR_INFO = authorRows.map(r => ({
-      author_id: r[0],
-      author_name: r[1],
-      institution_id: r[2],
-      institution_name: r[3],
-      area: r[4],
-      year: parseInt(r[5]),
-      adjusted_count: parseFloat(r[6]),
-    }));
-  } else {
-    AUTHOR_INFO = [];
+function rebuildInstAreaYear() {
+  INST_AREA_YEAR = [];
+  for (const rows of Object.values(loadedAreaData)) {
+    for (const r of rows) INST_AREA_YEAR.push(r);
   }
 }
 
@@ -514,12 +487,12 @@ function generateDemoData() {
         if (adj < 0.05) continue;
         const pubs = Math.max(1, Math.round(adj * (0.3 + rng() * 0.7)));
         rows.push({
-          institution_id: `inst_${i}`,
-          institution_name: institutions[i],
+          i: `inst_${i}`,
+          n: institutions[i],
           area: area,
-          year: year,
-          pub_count: pubs,
-          adjusted_count: adj,
+          y: year,
+          p: pubs,
+          a: adj,
         });
       }
     }
@@ -539,11 +512,11 @@ function computeRankings() {
 
   for (const row of INST_AREA_YEAR) {
     if (!selectedAreas.has(row.area)) continue;
-    if (row.year < yearFrom || row.year > yearTo) continue;
+    if (row.y < yearFrom || row.y > yearTo) continue;
 
-    instNames[row.institution_id] = row.institution_name;
-    if (!instArea[row.institution_id]) instArea[row.institution_id] = {};
-    instArea[row.institution_id][row.area] = (instArea[row.institution_id][row.area] || 0) + row.adjusted_count;
+    instNames[row.i] = row.n;
+    if (!instArea[row.i]) instArea[row.i] = {};
+    instArea[row.i][row.area] = (instArea[row.i][row.area] || 0) + row.a;
   }
 
   // compute score per institution
@@ -716,17 +689,22 @@ function toggleExpand(instId) {
 // 4. EVENT HANDLERS
 // ═══════════════════════════════════════════
 
-function onAreaToggle() {
+async function onAreaToggle() {
   syncSelectedAreas();
+  for (const area of selectedAreas) {
+    if (!loadedAreaData[area]) {
+      loadedAreaData[area] = await loadAreaJSON(area);
+      rebuildInstAreaYear();
+    }
+  }
   renderTable();
 }
 
-function toggleCluster(clusterKey, checked) {
+async function toggleCluster(clusterKey, checked) {
   document.querySelectorAll(`.area-item[data-cluster="${clusterKey}"] input`).forEach(cb => {
     cb.checked = checked;
   });
-  syncSelectedAreas();
-  renderTable();
+  await onAreaToggle();
 }
 
 function syncSelectedAreas() {
@@ -793,11 +771,17 @@ function renderAll() {
 
 (async function init() {
   await loadAreas();
-  await loadData();
 
   // default: select all default_on areas
   for (const [key, area] of Object.entries(AREAS)) {
     if (area.default_on) selectedAreas.add(key);
+  }
+
+  await loadDefaultAreas();
+
+  // fallback to demo data if no real data loaded
+  if (INST_AREA_YEAR.length === 0) {
+    INST_AREA_YEAR = generateDemoData();
   }
 
   renderAll();

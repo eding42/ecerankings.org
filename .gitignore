@@ -14,11 +14,8 @@ __pycache__/
 # OS
 .DS_Store
 
-# Cache — raw API responses, never commit
-cache/
-
-# Generated data files — too large for git
-site/data/author-info.csv
+# Large files tracked via Git LFS (see .gitattributes)
+# cache/ and site/data/author-info.csv are managed by LFS
 
 # Local overrides
 .claude/settings.local.json

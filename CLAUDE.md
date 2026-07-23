@@ -18,7 +18,7 @@ methodology, area taxonomy, and venue-inclusion policy.
   institution IDs that MUST have non-zero scores. If any go to zero, it's a
   data bug, not a ranking insight.
 - `data/reports/` — one markdown report per collection run (see skill).
-- `cache/` — raw OpenAlex responses. Never commit; safe to delete.
+- `cache/` — raw OpenAlex responses. Tracked via Git LFS; syncs across computers.
 - `pipeline/` — harvest/aggregate scripts (Phase 1–2; may not exist yet).
 
 ## Ranking methodology
@@ -34,8 +34,11 @@ methodology, area taxonomy, and venue-inclusion policy.
   `default_on: false` — off by default, intended to expand to other fields
   (bio, chem) later. All venues in this area are OpenAlex-native (resolved
   institutions, no affiliation-map needed).
-- `site/data/inst-area-year.csv` is the consumed output: `institution_id,
+- `site/data/inst-area-year.csv` is the canonical aggregate: `institution_id,
   area, year, pub_count, adjusted_count`. Rebuilt on every `aggregate.py` run.
+- `site/data/<area>.json` — per-area JSON files, split from the CSV by
+  `pipeline/split.py`. The site loads these lazily (one per selected area)
+  instead of the full CSV. Run `split.py` after every `aggregate.py` run.
 
 ## Available skills
 
@@ -62,6 +65,9 @@ normalize_semantic.py                →  data/affiliation-map.csv
 
 aggregate.py                         →  site/data/inst-area-year.csv
     cache/*/works.jsonl  +  affiliation-map.csv  →  adjusted counts per (inst, area, year)
+
+split.py                             →  site/data/<area>.json
+    inst-area-year.csv  →  one minified JSON file per area (lazy-loadable by the site)
 ```
 
 **Critical detail**: All 60 venues in `data/areas.json` are Crossref-sourced
@@ -107,5 +113,5 @@ bug existed before 2026-07-23.
   `.claude/skills/`, or `data/`.
 - Never commit or push without the user's explicit confirmation. Stage changes
   with `git add` and present a summary of what would be committed, then wait
-  for approval. Never commit `.env`, `cache/`, `.tmp/`, `data/institutions.json`,
+  for approval. Never commit `.env`, `.tmp/`, `data/institutions.json`,
   or local settings (all gitignored). Never push without separate user confirmation.
