@@ -208,10 +208,19 @@ def collect_raw_affiliations(venue_key, year=None):
 # ── semantic resolver ──
 
 def build_inst_index(db, model, device):
-    """Build embedding index: one embedding per institution variant name."""
+    """Build embedding index: one embedding per institution variant name.
+
+    Also marks each variant text as *ambiguous* when the identical text
+    belongs to 2+ institutions (acronym collisions like "MIT"/"KTH"/"CNRS",
+    or shared alternative names). An exact hit on such a variant carries no
+    information about WHICH owner is meant, so resolve_batch never
+    auto-accepts a match won through one (bug class found 2026-07-24: MIT ->
+    Manukau Institute of Technology, KTH -> Khyber Teaching Hospital, ...).
+    """
     texts = []
     variant_to_inst = {}  # index_in_texts -> inst_id
     name_used = {}         # inst_id -> resolved display_name
+    owners_by_text = {}    # variant text -> set of inst_ids
 
     for inst_id, inst in db["by_id"].items():
         display = inst["display_name"]
@@ -231,10 +240,14 @@ def build_inst_index(db, model, device):
                 continue
             texts.append(v)
             variant_to_inst[len(texts) - 1] = inst_id
+            owners_by_text.setdefault(v, set()).add(inst_id)
             if inst_id not in name_used:
                 name_used[inst_id] = display
 
-    print(f"Encoding {len(texts)} institution name variants on {device}...")
+    ambiguous = [len(owners_by_text[texts[i]]) > 1 for i in range(len(texts))]
+    n_amb = sum(1 for t, o in owners_by_text.items() if len(o) > 1)
+    print(f"Encoding {len(texts)} institution name variants on {device} "
+          f"({n_amb} ambiguous variant texts shared by 2+ institutions)...")
     t0 = time.time()
     inst_batch = 512 if device in ("mps", "cuda") else 64
     embeddings = model.encode(texts, normalize_embeddings=True,
@@ -243,12 +256,22 @@ def build_inst_index(db, model, device):
     print(f"  done in {time.time() - t0:.1f}s — matrix shape {embeddings.shape}")
     return (torch.tensor(embeddings, dtype=torch.float32, device=device),
             [variant_to_inst[i] for i in range(len(texts))],
-            name_used)
+            name_used,
+            ambiguous)
 
 
 def resolve_batch(raw_strings, inst_embeddings, inst_ids, name_used, model,
-                  auto_threshold, min_threshold):
-    """Resolve a batch of raw affiliation strings. Returns list of map rows."""
+                  auto_threshold, min_threshold, variant_ambiguous=None):
+    """Resolve a batch of raw affiliation strings. Returns list of map rows.
+
+    A match is only eligible for status=auto when it is *safe*: the winning
+    institution variant is owned by a single institution AND the candidate
+    substring is not a generic department/school phrase (DEPT_RE). Unsafe
+    wins (ambiguous acronyms, department-name cosine matches) are capped at
+    status=review so a human/LLM adjudicates instead of silently
+    misattributing (see fix_acronym_collisions.py / fix_name_mismatches.py
+    for the historical cleanup of exactly these two bug classes).
+    """
     # Step 1: extract candidates for every string
     all_candidates = []      # flat list of candidate texts
     string_boundaries = []    # (start, end) in all_candidates for each raw string
@@ -281,28 +304,38 @@ def resolve_batch(raw_strings, inst_embeddings, inst_ids, name_used, model,
 
         for j in range(batch.shape[0]):
             score = best_vals[j].item()
-            inst_id = inst_ids[best_idxs[j].item()]
+            v_idx = best_idxs[j].item()
+            inst_id = inst_ids[v_idx]
             candidate = all_candidates[ci + j]
-            results.append((score, inst_id, candidate))
+            unsafe = bool(variant_ambiguous and variant_ambiguous[v_idx]) or \
+                bool(DEPT_RE.search(candidate))
+            results.append((score, inst_id, candidate, unsafe))
 
-    # Step 4: for each raw string, pick the best candidate match
+    # Step 4: for each raw string, pick the best candidate match.
+    # Prefer the best SAFE match for auto-acceptance; an unsafe overall best
+    # (ambiguous variant / department phrase) can never exceed status=review.
     rows = []
     for i, raw in enumerate(raw_strings):
         start, end = string_boundaries[i]
-        best = (0.0, None, None)
+        best = (0.0, None, None, True)
+        best_safe = (0.0, None, None, False)
         for j in range(start, end):
-            score, inst_id, candidate = results[j]
+            score, inst_id, candidate, unsafe = results[j]
             if score > best[0]:
-                best = (score, inst_id, candidate)
+                best = (score, inst_id, candidate, unsafe)
+            if not unsafe and score > best_safe[0]:
+                best_safe = (score, inst_id, candidate, unsafe)
 
-        score, inst_id, candidate = best
-        if inst_id and score >= auto_threshold:
+        if best_safe[1] and best_safe[0] >= auto_threshold:
+            score, inst_id, candidate, _ = best_safe
             status = "auto"
-        elif inst_id and score >= min_threshold:
-            status = "review"
         else:
-            status = "unmatched"
-            inst_id = None
+            score, inst_id, candidate, unsafe = best
+            if inst_id and score >= min_threshold:
+                status = "review"
+            else:
+                status = "unmatched"
+                inst_id = None
 
         row = {
             "raw_affiliation": raw,
@@ -376,7 +409,7 @@ def main():
     # ── institution DB ──
     print(f"Loading institution DB from {INST_DB} ...")
     db = load_inst_db()
-    inst_embeddings, inst_ids, name_used = build_inst_index(db, model, device)
+    inst_embeddings, inst_ids, name_used, variant_ambiguous = build_inst_index(db, model, device)
 
     # ── collect raw affiliation strings ──
     print("Collecting distinct affiliation strings from cache ...")
@@ -413,7 +446,8 @@ def main():
         batch_strings = [k for k, c in todo_keys[bi:be]]
 
         rows = resolve_batch(batch_strings, inst_embeddings, inst_ids, name_used,
-                             model, AUTO_THRESHOLD, MIN_THRESHOLD)
+                             model, AUTO_THRESHOLD, MIN_THRESHOLD,
+                             variant_ambiguous=variant_ambiguous)
         rows = enrich_rows(rows, db)
 
         for row in rows:

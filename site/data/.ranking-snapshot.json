@@ -39,13 +39,13 @@
     "rank": 10,
     "name": "University of Chinese Academy of Sciences"
   },
-  "https://openalex.org/I47720641": {
-    "rank": 11,
-    "name": "Huazhong University of Science and Technology"
-  },
   "https://openalex.org/I95457486": {
-    "rank": 12,
+    "rank": 11,
     "name": "University of California, Berkeley"
+  },
+  "https://openalex.org/I47720641": {
+    "rank": 12,
+    "name": "Huazhong University of Science and Technology"
   },
   "https://openalex.org/I35440088": {
     "rank": 13,
@@ -159,13 +159,13 @@
     "rank": 40,
     "name": "Chinese University of Hong Kong"
   },
-  "https://openalex.org/I122411786": {
-    "rank": 41,
-    "name": "California Institute of Technology"
-  },
   "https://openalex.org/I139264467": {
-    "rank": 42,
+    "rank": 41,
     "name": "Seoul National University"
+  },
+  "https://openalex.org/I122411786": {
+    "rank": 42,
+    "name": "California Institute of Technology"
   },
   "https://openalex.org/I200769079": {
     "rank": 43,
@@ -191,12 +191,12 @@
     "rank": 48,
     "name": "Beihang University"
   },
-  "https://openalex.org/I90610280": {
-    "rank": 49,
-    "name": "South China University of Technology"
-  },
   "https://openalex.org/I62916508": {
-    "rank": 50,
+    "rank": 49,
     "name": "Technical University of Munich"
+  },
+  "https://openalex.org/I90610280": {
+    "rank": 50,
+    "name": "South China University of Technology"
   }
 }

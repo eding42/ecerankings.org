@@ -631,6 +631,36 @@ def phase2_normalization(areas, args, vy_stats, global_stats, nested_institution
                 f"fix_campus_clusters.py found {fix_match} new misattributions — run and re-aggregate"
             )
 
+    # 2e2. Acronym-collision and full-name-mismatch checks (dry-run the fixers).
+    # These catch the two systematic semantic-matcher bug classes found
+    # 2026-07-24: (1) ambiguous acronyms ("MIT", "KTH", "CNRS") resolved to an
+    # arbitrary owner even when the raw string spells out the right full name;
+    # (2) rows assigned to an institution with zero evidence in the raw string
+    # while a different institution's full name matches a whole segment.
+    for script_name, label in (
+        ("fix_acronym_collisions.py", "acronym-collision"),
+        ("fix_name_mismatches.py", "full-name-mismatch"),
+    ):
+        script = os.path.join(REPO_ROOT, "pipeline", script_name)
+        if not os.path.exists(script):
+            continue
+        result = subprocess.run(
+            ["python3", script],
+            capture_output=True, text=True, timeout=600
+        )
+        n_fix = None
+        for line in result.stdout.splitlines():
+            line = line.strip()
+            if line.startswith("to fix:"):
+                try:
+                    n_fix = int(line.split(":")[1].strip())
+                except ValueError:
+                    pass
+        if n_fix and n_fix > 0:
+            flags["high"].append(
+                f"{script_name} found {n_fix} {label} misattributions — run with --apply and re-aggregate"
+            )
+
     # 2f. Ambiguous / nested institution lineage.
     # aggregate.py's docstring assumed ~5% of institutions have lineage
     # length > 1 (no reliable root) based on a small 133-institution pilot
