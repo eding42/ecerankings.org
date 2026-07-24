@@ -15,7 +15,10 @@ __pycache__/
 .DS_Store
 
 # Large files tracked via Git LFS (see .gitattributes)
-# cache/ and site/data/author-info.csv are managed by LFS
+# cache/ is managed by LFS
+
+# Generated pipeline outputs (not used by the site, may exceed GitHub limits)
+site/data/author-info.csv
 
 # Local overrides
 .claude/settings.local.json
