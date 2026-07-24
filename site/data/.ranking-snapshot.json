@@ -87,29 +87,29 @@
     "rank": 22,
     "name": "Fudan University"
   },
-  "https://openalex.org/I74801974": {
-    "rank": 23,
-    "name": "The University of Tokyo"
-  },
   "https://openalex.org/I161318765": {
-    "rank": 24,
+    "rank": 23,
     "name": "University of California, Los Angeles"
+  },
+  "https://openalex.org/I74801974": {
+    "rank": 24,
+    "name": "The University of Tokyo"
   },
   "https://openalex.org/I20089843": {
     "rank": 25,
     "name": "Princeton University"
   },
-  "https://openalex.org/I87445476": {
-    "rank": 26,
-    "name": "Xi'an Jiaotong University"
-  },
   "https://openalex.org/I157773358": {
-    "rank": 27,
+    "rank": 26,
     "name": "Sun Yat-sen University"
   },
   "https://openalex.org/I157485424": {
-    "rank": 28,
+    "rank": 27,
     "name": "Korea Advanced Institute of Science and Technology"
+  },
+  "https://openalex.org/I87445476": {
+    "rank": 28,
+    "name": "Xi'an Jiaotong University"
   },
   "https://openalex.org/I157725225": {
     "rank": 29,
@@ -119,13 +119,13 @@
     "rank": 30,
     "name": "Imperial College London"
   },
-  "https://openalex.org/I204983213": {
-    "rank": 31,
-    "name": "Harbin Institute of Technology"
-  },
   "https://openalex.org/I5124864": {
-    "rank": 32,
+    "rank": 31,
     "name": "\u00c9cole Polytechnique F\u00e9d\u00e9rale de Lausanne"
+  },
+  "https://openalex.org/I204983213": {
+    "rank": 32,
+    "name": "Harbin Institute of Technology"
   },
   "https://openalex.org/I205783295": {
     "rank": 33,
@@ -135,29 +135,29 @@
     "rank": 34,
     "name": "Yale University"
   },
-  "https://openalex.org/I78577930": {
+  "https://openalex.org/I185261750": {
     "rank": 35,
+    "name": "University of Toronto"
+  },
+  "https://openalex.org/I78577930": {
+    "rank": 36,
     "name": "Columbia University"
   },
   "https://openalex.org/I130701444": {
-    "rank": 36,
-    "name": "Georgia Institute of Technology"
-  },
-  "https://openalex.org/I185261750": {
     "rank": 37,
-    "name": "University of Toronto"
+    "name": "Georgia Institute of Technology"
   },
   "https://openalex.org/I79576946": {
     "rank": 38,
     "name": "University of Pennsylvania"
   },
-  "https://openalex.org/I177725633": {
-    "rank": 39,
-    "name": "Chinese University of Hong Kong"
-  },
   "https://openalex.org/I881766915": {
-    "rank": 40,
+    "rank": 39,
     "name": "Nanjing University"
+  },
+  "https://openalex.org/I177725633": {
+    "rank": 40,
+    "name": "Chinese University of Hong Kong"
   },
   "https://openalex.org/I122411786": {
     "rank": 41,
@@ -179,13 +179,13 @@
     "rank": 45,
     "name": "Johns Hopkins University"
   },
-  "https://openalex.org/I125839683": {
-    "rank": 46,
-    "name": "Beijing Institute of Technology"
-  },
   "https://openalex.org/I201448701": {
-    "rank": 47,
+    "rank": 46,
     "name": "University of Washington"
+  },
+  "https://openalex.org/I125839683": {
+    "rank": 47,
+    "name": "Beijing Institute of Technology"
   },
   "https://openalex.org/I82880672": {
     "rank": 48,

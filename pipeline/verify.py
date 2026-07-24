@@ -25,14 +25,204 @@ MAP_CSV = os.path.join(REPO_ROOT, "data", "affiliation-map.csv")
 KNOWN_JSON = os.path.join(REPO_ROOT, "data", "known-strong.json")
 INST_JSON = os.path.join(REPO_ROOT, "data", "institutions.json")
 REPORTS_DIR = os.path.join(REPO_ROOT, "data", "reports")
+COVERAGE_SNAPSHOT = os.path.join(SITE_DATA, ".coverage-snapshot.json")
+
+# Severity thresholds for the coverage/purity/lineage scorecard. Every
+# venue-year is flagged on absolute thresholds EVERY run (no suppression
+# for known-permanent external gaps, e.g. pre-2021 IEEE Crossref metadata
+# gaps) -- by explicit project decision, so nothing is silently
+# deprioritized. Regressions (any drop vs. the last recorded snapshot) are
+# flagged separately and more urgently, since those indicate something
+# that used to work has broken (e.g. the CLEO 2023 OpenAlex->Crossref
+# source switch that silently zeroed out affiliation coverage).
+COVERAGE_HIGH = 50      # < this %: high severity
+COVERAGE_MEDIUM = 80    # < this %: medium severity
+PURITY_HIGH = 30
+PURITY_MEDIUM = 60
+RESOLUTION_HIGH = 50
+RESOLUTION_MEDIUM = 80
+NESTED_LINEAGE_HIGH = 20    # global % of distinct institutions
+NESTED_LINEAGE_MEDIUM = 10
+REGRESSION_EPSILON = 0.5    # pp; below this is float/rounding noise, not a real drop
+REGRESSION_CRITICAL_DROP = 50
+REGRESSION_HIGH_DROP = 10
+
+
+# ════════════════════════════════════════════════════════════════════
+# Shared: affiliation map + one-pass authorship quality scan
+# ════════════════════════════════════════════════════════════════════
+
+def load_affiliation_map_dict():
+    """Load affiliation-map.csv as {raw_affiliation: row} for resolution lookups."""
+    mapping = {}
+    if not os.path.exists(MAP_CSV):
+        return mapping
+    with open(MAP_CSV, newline="") as f:
+        for r in csv.DictReader(f):
+            mapping[r["raw_affiliation"]] = r
+    return mapping
+
+
+def raw_affiliations_resolve_to_education(raw_affils, affil_map):
+    """True if ANY raw affiliation string resolves to a mapped education institution."""
+    for raw in raw_affils:
+        row = affil_map.get(raw)
+        if row and row.get("status") in ("auto", "manual") and row.get("institution_type") == "education":
+            return True
+    return False
+
+
+def compute_quality_scan(areas, args, affil_map):
+    """One pass over every cached work, classifying each authorship into:
+      - native_clean:  institutions[] resolved AND unambiguous lineage (len 1)
+                        AND has country_code AND has type  ("perfect")
+      - native_flawed: institutions[] resolved but lineage is ambiguous
+                        (len > 1) or missing country_code/type
+      - raw_resolved:  no native institutions, but raw_affiliations resolves
+                        to a mapped education institution
+      - raw_unresolved: raw_affiliations present but none resolve
+      - empty:         neither institutions[] nor raw_affiliations present
+
+    Returns per-(venue,year) stats, a global rollup, and a registry of
+    nested-lineage institutions (id -> {count, name}) for Phase 2's
+    ambiguous-lineage check.
+    """
+    v2a = {}
+    for ak, area in areas["areas"].items():
+        if args.area and args.area != "all" and ak != args.area:
+            continue
+        for v in area["venues"]:
+            v2a[v["key"]] = ak
+
+    vy_stats = {}  # (vkey, year) -> counts dict
+    nested_institutions = {}  # inst_id -> {"count": n, "name": str}
+
+    def blank():
+        return {"total": 0, "native_clean": 0, "native_flawed": 0,
+                "raw_resolved": 0, "raw_unresolved": 0, "empty": 0}
+
+    for vkey in sorted(v2a):
+        vdir = os.path.join(CACHE_DIR, vkey)
+        if not os.path.isdir(vdir):
+            continue
+        for yd in sorted(os.listdir(vdir)):
+            if not yd.isdigit():
+                continue
+            wf = os.path.join(vdir, yd, "works.jsonl")
+            if not os.path.exists(wf):
+                continue
+            year = int(yd)
+            key = (vkey, year)
+            vy_stats[key] = blank()
+            s = vy_stats[key]
+
+            with open(wf) as f:
+                for line in f:
+                    w = json.loads(line)
+                    for a in w.get("authorships", []):
+                        s["total"] += 1
+                        insts = a.get("institutions") or []
+                        raw = a.get("raw_affiliations") or []
+
+                        if insts:
+                            clean = True
+                            for inst in insts:
+                                iid = inst.get("id")
+                                lineage = inst.get("lineage") or [iid]
+                                if len(lineage) > 1:
+                                    clean = False
+                                    entry = nested_institutions.setdefault(
+                                        iid, {"count": 0, "name": inst.get("display_name", "")}
+                                    )
+                                    entry["count"] += 1
+                                if not inst.get("country_code") or not inst.get("type"):
+                                    clean = False
+                            if clean:
+                                s["native_clean"] += 1
+                            else:
+                                s["native_flawed"] += 1
+                        elif raw:
+                            if raw_affiliations_resolve_to_education(raw, affil_map):
+                                s["raw_resolved"] += 1
+                            else:
+                                s["raw_unresolved"] += 1
+                        else:
+                            s["empty"] += 1
+
+    # Global rollup
+    global_stats = blank()
+    for s in vy_stats.values():
+        for k in global_stats:
+            global_stats[k] += s[k]
+
+    return vy_stats, global_stats, nested_institutions
+
+
+def pct(numer, denom):
+    return 100.0 * numer / denom if denom else 0.0
+
+
+def coverage_pct(s):
+    """Any affiliation signal at all (native or raw), regardless of quality."""
+    return pct(s["native_clean"] + s["native_flawed"] + s["raw_resolved"] + s["raw_unresolved"], s["total"])
+
+
+def purity_pct(s):
+    """Strict 'perfect record' rate: native-resolved, unambiguous, complete."""
+    return pct(s["native_clean"], s["total"])
+
+
+def resolution_pct(s):
+    """Of raw-affiliation-only authorships, how many resolved to a real institution.
+    None if this venue-year has no raw-only authorships to score (e.g. purely
+    OpenAlex-native, or purely empty)."""
+    raw_total = s["raw_resolved"] + s["raw_unresolved"]
+    if raw_total == 0:
+        return None
+    return pct(s["raw_resolved"], raw_total)
+
+
+def is_native_capable(s):
+    """Whether this venue-year has ever produced OpenAlex-native institutions
+    (vs. being structurally Crossref/S2-only, which can never hit 'purity')."""
+    return (s["native_clean"] + s["native_flawed"]) > 0
+
+
+def load_snapshot():
+    if os.path.exists(COVERAGE_SNAPSHOT):
+        with open(COVERAGE_SNAPSHOT) as f:
+            return json.load(f)
+    return None
+
+
+def save_snapshot(vy_stats, global_stats, nested_institutions, affil_map):
+    data = {
+        "generated": date.today().isoformat(),
+        "global": {
+            "coverage_pct": round(coverage_pct(global_stats), 2),
+            "purity_pct": round(purity_pct(global_stats), 2),
+            "resolution_pct": round(resolution_pct(global_stats), 2) if resolution_pct(global_stats) is not None else None,
+        },
+        "venue_years": {
+            f"{vk}/{yr}": {
+                "coverage_pct": round(coverage_pct(s), 2),
+                "purity_pct": round(purity_pct(s), 2) if is_native_capable(s) else None,
+                "resolution_pct": round(resolution_pct(s), 2) if resolution_pct(s) is not None else None,
+            }
+            for (vk, yr), s in vy_stats.items()
+        },
+    }
+    with open(COVERAGE_SNAPSHOT, "w") as f:
+        json.dump(data, f, indent=2)
 
 
 # ════════════════════════════════════════════════════════════════════
 # Phase 1: Harvest integrity
 # ════════════════════════════════════════════════════════════════════
 
-def phase1_harvest(areas, args):
-    """Check venue-year coverage, author completeness, affiliation presence."""
+def phase1_harvest(areas, args, vy_stats, global_stats, prev_snapshot):
+    """Check venue-year coverage, author completeness, affiliation coverage,
+    and coverage regressions vs. the last recorded run."""
     print("\n═══ Phase 1: Harvest Integrity ═══")
     flags = {"critical": [], "high": [], "medium": [], "low": []}
     venue_years_covered = defaultdict(set)
@@ -73,8 +263,6 @@ def phase1_harvest(areas, args):
             wf = os.path.join(vdir, str(yr), "works.jsonl")
             count = 0
             no_author = 0
-            no_affil = 0
-            total_authorships = 0
             seen_ids = set()
             seen_titles = defaultdict(list)
 
@@ -93,23 +281,19 @@ def phase1_harvest(areas, args):
                     authorships = w.get("authorships", [])
                     if not authorships:
                         no_author += 1
-                    for a in authorships:
-                        total_authorships += 1
-                        if not a.get("raw_affiliations"):
-                            no_affil += 1
 
             yr_str = str(yr)
             if yr_str in expected_years:
                 expected_count = expected_years[yr_str].get("count")
                 if expected_count and expected_floor:
-                    pct = count / expected_floor * 100 if expected_floor else 100
-                    if pct < 70:
+                    pctf = count / expected_floor * 100 if expected_floor else 100
+                    if pctf < 70:
                         flags["high"].append(
-                            f"[{vkey}/{yr}] {count} papers ({pct:.0f}% of floor {expected_floor})"
+                            f"[{vkey}/{yr}] {count} papers ({pctf:.0f}% of floor {expected_floor})"
                         )
-                    elif pct < 90:
+                    elif pctf < 90:
                         flags["medium"].append(
-                            f"[{vkey}/{yr}] {count} papers ({pct:.0f}% of floor {expected_floor})"
+                            f"[{vkey}/{yr}] {count} papers ({pctf:.0f}% of floor {expected_floor})"
                         )
 
             # 1c. Author completeness
@@ -117,14 +301,6 @@ def phase1_harvest(areas, args):
                 flags["high"].append(
                     f"[{vkey}/{yr}] {no_author}/{count} works have zero authors"
                 )
-
-            # 1d. Affiliation presence
-            if total_authorships > 0:
-                affil_pct = (total_authorships - no_affil) / total_authorships * 100
-                if affil_pct < 80:
-                    flags["medium"].append(
-                        f"[{vkey}/{yr}] only {affil_pct:.0f}% authorships have raw_affiliations"
-                    )
 
             # 1e. Title duplicates
             for title, pids in seen_titles.items():
@@ -146,6 +322,55 @@ def phase1_harvest(areas, args):
     print(f"  Venue-years cached:   {cached_count}")
     print(f"  Venue-years expected: {total_venue_years}")
 
+    # 1g. Coverage scorecard (any affiliation signal at all: native or raw).
+    # ALWAYS flagged at absolute thresholds -- by explicit decision, known-
+    # permanent external gaps (pre-2021 IEEE Crossref metadata, etc.) are not
+    # suppressed. Every venue-year shows up every run.
+    print(f"\n  Coverage (any affiliation signal): {coverage_pct(global_stats):.1f}% overall")
+    n_flagged = 0
+    for (vk, yr), s in sorted(vy_stats.items()):
+        if args.area and args.area != "all" and v2a.get(vk, (None,))[0] != args.area:
+            continue
+        cov = coverage_pct(s)
+        if s["total"] == 0:
+            continue
+        if cov < COVERAGE_HIGH:
+            flags["high"].append(f"[{vk}/{yr}] coverage {cov:.0f}% ({s['total']} authorships)")
+            n_flagged += 1
+        elif cov < COVERAGE_MEDIUM:
+            flags["medium"].append(f"[{vk}/{yr}] coverage {cov:.0f}% ({s['total']} authorships)")
+            n_flagged += 1
+    print(f"  Venue-years below {COVERAGE_MEDIUM}% coverage: {n_flagged}")
+
+    # 1h. Coverage regression vs. last snapshot (ANY drop is flagged, per
+    # explicit decision -- this is the check that would have caught CLEO's
+    # 97%->0% collapse from the OpenAlex->Crossref source switch).
+    if prev_snapshot:
+        prev_vy = prev_snapshot.get("venue_years", {})
+        regressions = []
+        for (vk, yr), s in sorted(vy_stats.items()):
+            key = f"{vk}/{yr}"
+            prev = prev_vy.get(key)
+            if not prev or prev.get("coverage_pct") is None:
+                continue
+            cur_cov = coverage_pct(s)
+            drop = prev["coverage_pct"] - cur_cov
+            if drop > REGRESSION_EPSILON:
+                regressions.append((drop, vk, yr, prev["coverage_pct"], cur_cov))
+        regressions.sort(reverse=True)
+        for drop, vk, yr, prev_cov, cur_cov in regressions:
+            msg = f"[{vk}/{yr}] coverage regression: {prev_cov:.1f}% -> {cur_cov:.1f}% ({drop:.1f}pp drop)"
+            if drop >= REGRESSION_CRITICAL_DROP:
+                flags["critical"].append(msg)
+            elif drop >= REGRESSION_HIGH_DROP:
+                flags["high"].append(msg)
+            else:
+                flags["medium"].append(msg)
+        if regressions:
+            print(f"  Coverage regressions vs. last snapshot: {len(regressions)}")
+    else:
+        print("  No prior snapshot -- this run establishes the coverage baseline.")
+
     return flags
 
 
@@ -153,8 +378,9 @@ def phase1_harvest(areas, args):
 # Phase 2: Normalization integrity
 # ════════════════════════════════════════════════════════════════════
 
-def phase2_normalization(areas, args):
-    """Check resolution rate, type distribution, cluster misattributions, acronyms."""
+def phase2_normalization(areas, args, vy_stats, global_stats, nested_institutions, prev_snapshot):
+    """Check resolution rate, type distribution, cluster misattributions,
+    acronyms, ambiguous institution lineage, and purity/resolution regressions."""
     print("\n═══ Phase 2: Normalization Integrity ═══")
     flags = {"critical": [], "high": [], "medium": [], "low": []}
 
@@ -362,7 +588,7 @@ def phase2_normalization(areas, args):
     if compound_flags > 0:
         print(f"  Compound affiliations flagged: {compound_flags}")
 
-    # 2d. Acronym check (was 2a)
+    # 2d. Acronym check
     inst_db = None
     if os.path.exists(INST_JSON):
         with open(INST_JSON) as f:
@@ -393,7 +619,6 @@ def phase2_normalization(areas, args):
             ["python3", cluster_script],
             capture_output=True, text=True, timeout=120
         )
-        # Extract fix count from script output
         fix_match = None
         for line in result.stdout.splitlines():
             if line.startswith("Fixed:"):
@@ -405,6 +630,106 @@ def phase2_normalization(areas, args):
             flags["high"].append(
                 f"fix_campus_clusters.py found {fix_match} new misattributions — run and re-aggregate"
             )
+
+    # 2f. Ambiguous / nested institution lineage.
+    # aggregate.py's docstring assumed ~5% of institutions have lineage
+    # length > 1 (no reliable root) based on a small 133-institution pilot
+    # (IEDM 2022). At full-corpus scale this is much higher -- verified
+    # 2026-07-23: ~25% of distinct institutions, ~24% of occurrences. This
+    # is a real, ongoing accuracy gap: those institutions are credited
+    # unrolled (to their own id) rather than to their true parent, which
+    # silently fragments a parent institution's score across itself and
+    # its sub-entities. ALWAYS flagged (no suppression), per project
+    # decision -- this is not yet fixable without a real lineage-root
+    # resolution algorithm, but it must stay visible.
+    n_nested = len(nested_institutions)
+    print(f"\n  Ambiguous-lineage institutions (>1 element, no reliable parent): {n_nested}")
+    if n_nested > 0:
+        top_nested = sorted(nested_institutions.items(), key=lambda kv: -kv[1]["count"])[:15]
+        print("  Top offenders by occurrence count:")
+        for iid, info in top_nested:
+            print(f"    {info['count']:6d}  {info['name'][:45]:45s} {iid}")
+        nested_occurrences = sum(v["count"] for v in nested_institutions.values())
+        global_native = global_stats["native_clean"] + global_stats["native_flawed"]
+        nested_rate = pct(nested_occurrences, global_native) if global_native else 0
+        msg = (f"{n_nested} distinct institutions have ambiguous lineage "
+               f"({nested_occurrences} authorship occurrences, {nested_rate:.1f}% of native-resolved authorships)")
+        if nested_rate >= NESTED_LINEAGE_HIGH:
+            flags["high"].append(msg)
+        elif nested_rate >= NESTED_LINEAGE_MEDIUM:
+            flags["medium"].append(msg)
+        else:
+            flags["low"].append(msg)
+        for iid, info in top_nested[:10]:
+            flags["low"].append(f"  ambiguous lineage: {info['name'][:50]} ({iid}) — {info['count']} occurrences")
+
+    # 2g. Purity & resolution scorecard (per venue-year), ALWAYS flagged at
+    # absolute thresholds, plus regression vs. last snapshot (any drop).
+    print(f"\n  Purity (native-clean 'perfect' rate): {purity_pct(global_stats):.1f}% overall")
+    v2a = {}
+    for ak, area in areas["areas"].items():
+        if args.area and args.area != "all" and ak != args.area:
+            continue
+        for v in area["venues"]:
+            v2a[v["key"]] = ak
+
+    n_purity_flagged = 0
+    n_resolution_flagged = 0
+    for (vk, yr), s in sorted(vy_stats.items()):
+        if args.area and args.area != "all" and v2a.get(vk) != args.area:
+            continue
+        if s["total"] == 0:
+            continue
+        if is_native_capable(s):
+            pur = purity_pct(s)
+            if pur < PURITY_HIGH:
+                flags["high"].append(f"[{vk}/{yr}] purity {pur:.0f}% (native-resolved but flawed lineage/metadata)")
+                n_purity_flagged += 1
+            elif pur < PURITY_MEDIUM:
+                flags["medium"].append(f"[{vk}/{yr}] purity {pur:.0f}%")
+                n_purity_flagged += 1
+        else:
+            res = resolution_pct(s)
+            if res is not None:
+                if res < RESOLUTION_HIGH:
+                    flags["high"].append(f"[{vk}/{yr}] resolution {res:.0f}% of raw affiliations mapped to education institutions")
+                    n_resolution_flagged += 1
+                elif res < RESOLUTION_MEDIUM:
+                    flags["medium"].append(f"[{vk}/{yr}] resolution {res:.0f}%")
+                    n_resolution_flagged += 1
+    print(f"  Venue-years below {PURITY_MEDIUM}% purity: {n_purity_flagged}")
+    print(f"  Venue-years below {RESOLUTION_MEDIUM}% resolution: {n_resolution_flagged}")
+
+    if prev_snapshot:
+        prev_vy = prev_snapshot.get("venue_years", {})
+        regressions = []
+        for (vk, yr), s in sorted(vy_stats.items()):
+            key = f"{vk}/{yr}"
+            prev = prev_vy.get(key)
+            if not prev:
+                continue
+            if is_native_capable(s) and prev.get("purity_pct") is not None:
+                cur = purity_pct(s)
+                drop = prev["purity_pct"] - cur
+                if drop > REGRESSION_EPSILON:
+                    regressions.append((drop, "purity", vk, yr, prev["purity_pct"], cur))
+            elif not is_native_capable(s) and prev.get("resolution_pct") is not None:
+                cur = resolution_pct(s)
+                if cur is not None:
+                    drop = prev["resolution_pct"] - cur
+                    if drop > REGRESSION_EPSILON:
+                        regressions.append((drop, "resolution", vk, yr, prev["resolution_pct"], cur))
+        regressions.sort(reverse=True)
+        for drop, metric, vk, yr, prev_v, cur_v in regressions:
+            msg = f"[{vk}/{yr}] {metric} regression: {prev_v:.1f}% -> {cur_v:.1f}% ({drop:.1f}pp drop)"
+            if drop >= REGRESSION_CRITICAL_DROP:
+                flags["critical"].append(msg)
+            elif drop >= REGRESSION_HIGH_DROP:
+                flags["high"].append(msg)
+            else:
+                flags["medium"].append(msg)
+        if regressions:
+            print(f"  Purity/resolution regressions vs. last snapshot: {len(regressions)}")
 
     return flags
 
@@ -587,9 +912,6 @@ def phase3_aggregate(areas, args):
         json.dump(snapshot_data, f, indent=2)
 
     # 3g. Institution year-over-year cliff drops
-    # Flag institutions with established presence (≥3 years, ≥10.0 total adj)
-    # where a single year drops >80% from prior year AND prior year ≥3.0.
-    # Excludes the most recent year (typically incomplete due to publication lag).
     inst_year_scores = defaultdict(lambda: defaultdict(float))
     all_years_set = set()
     with open(inst_csv) as f:
@@ -615,7 +937,7 @@ def phase3_aggregate(areas, args):
             prev = yr_scores[years[i - 1]]
             curr = yr_scores[years[i]]
             if years[i] == max_year:
-                continue  # skip current partial year
+                continue
             if prev < 3.0:
                 continue
             drop_pct = (prev - curr) / prev * 100 if prev > 0 else 0
@@ -633,13 +955,22 @@ def phase3_aggregate(areas, args):
 # Report & main
 # ════════════════════════════════════════════════════════════════════
 
-def write_report(all_flags, args):
+def write_report(all_flags, args, global_stats=None):
     os.makedirs(REPORTS_DIR, exist_ok=True)
     today = date.today().isoformat()
     path = os.path.join(REPORTS_DIR, f"verify-{today}.md")
     with open(path, "w") as f:
         f.write(f"# Verification Report — {today}\n\n")
         f.write(f"Area: {args.area or 'all'}  |  Phases: {args.phase or 'all'}\n\n")
+
+        if global_stats:
+            f.write("## Data Quality Scorecard\n\n")
+            f.write(f"- Coverage (any affiliation signal): **{coverage_pct(global_stats):.1f}%**\n")
+            f.write(f"- Purity (native-resolved, unambiguous, complete — \"perfect\"): **{purity_pct(global_stats):.1f}%**\n")
+            res = resolution_pct(global_stats)
+            if res is not None:
+                f.write(f"- Resolution (raw-affiliation strings mapped to education institutions): **{res:.1f}%**\n")
+            f.write("\n")
 
         total_flags = 0
         for phase_name, flags in all_flags.items():
@@ -676,7 +1007,6 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    # Validate area filter
     areas = json.load(open(AREAS_JSON))
     if args.area and args.area != "all" and args.area not in areas["areas"]:
         print(f"Unknown area: {args.area}. Known areas: {list(areas['areas'].keys())}", file=sys.stderr)
@@ -684,12 +1014,32 @@ def main():
 
     all_flags = {}
 
+    # Phases 1 and 2 both need the same per-authorship quality scan
+    # (coverage, purity, resolution, nested lineage). Compute it once and
+    # share it, rather than re-scanning cache/ per phase.
+    need_scan = args.all or args.phase in (1, 2)
+    vy_stats = global_stats = nested_institutions = prev_snapshot = None
+    if need_scan:
+        print("Scanning cache/ for authorship quality (coverage/purity/lineage)...")
+        affil_map = load_affiliation_map_dict()
+        vy_stats, global_stats, nested_institutions = compute_quality_scan(areas, args, affil_map)
+        prev_snapshot = load_snapshot()
+
     if args.all or args.phase == 1:
-        all_flags["Phase 1: Harvest Integrity"] = phase1_harvest(areas, args)
+        all_flags["Phase 1: Harvest Integrity"] = phase1_harvest(areas, args, vy_stats, global_stats, prev_snapshot)
     if args.all or args.phase == 2:
-        all_flags["Phase 2: Normalization Integrity"] = phase2_normalization(areas, args)
+        all_flags["Phase 2: Normalization Integrity"] = phase2_normalization(
+            areas, args, vy_stats, global_stats, nested_institutions, prev_snapshot
+        )
     if args.all or args.phase == 3:
         all_flags["Phase 3: Aggregate Integrity"] = phase3_aggregate(areas, args)
+
+    # Persist the new snapshot AFTER both phases have diffed against the
+    # previous one, so this run's regression checks compare against the
+    # prior run, not against themselves.
+    if need_scan:
+        affil_map = load_affiliation_map_dict()
+        save_snapshot(vy_stats, global_stats, nested_institutions, affil_map)
 
     # Summary
     print("\n" + "=" * 60)
@@ -708,7 +1058,6 @@ def main():
     print(f"\nTOTAL: {total['critical']} critical, {total['high']} high, "
           f"{total['medium']} medium, {total['low']} low")
 
-    # Print flux-critical/high items
     if total["critical"]:
         print("\n🔴 CRITICAL:")
         for phase_name, flags in all_flags.items():
@@ -722,7 +1071,7 @@ def main():
                 print(f"  {item}")
 
     if args.report:
-        write_report(all_flags, args)
+        write_report(all_flags, args, global_stats)
 
 
 if __name__ == "__main__":
