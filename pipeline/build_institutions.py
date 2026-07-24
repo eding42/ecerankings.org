@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Build institution metadata: name, country code, for all institutions in inst-area-year.csv.
 
-Uses affiliation-map.csv first, then falls back to name-based geo-heuristics.
+Uses data/institutions.json (OpenAlex snapshot) as the authoritative source for country codes.
+Falls back to affiliation-map.csv, then name-based geo-heuristics.
 """
 
 import argparse, csv, json, os, sys
@@ -43,7 +44,7 @@ HEURISTICS = [
             "hokkaido", "keio", "waseda", "kyushu", "tsukuba",
             "tokyo institute", "university of tokyo"]),
     ("KR", ["korea", "seoul", "snu", "kaist", "postech", "yonsei",
-            "sungkyunkwan", "hanyang", "gist", "dgist", "unist"]),
+             "sungkyunkwan", "hanyang", "gist", "dgist", "unist"]),
     ("CA", ["canada", "toronto", "vancouver", "montreal", "mcgill",
             "university of waterloo", "ubc", "alberta", "calgary",
             "mcmaster", "queen's", "ottawa", "western ontario", "dalhousie"]),
@@ -91,7 +92,20 @@ def main():
     parser.add_argument("--affiliations", default="data/affiliation-map.csv")
     parser.add_argument("--input", default="site/data/inst-area-year.csv")
     parser.add_argument("--out", default="site/data/institutions.json")
+    parser.add_argument("--oa-db", default="data/institutions.json")
     args = parser.parse_args()
+
+    # Step 0: load OpenAlex institution DB as authoritative country source
+    oa_country = {}
+    try:
+        with open(args.oa_db) as f:
+            oa = json.load(f)
+        for iid, info in oa["by_id"].items():
+            cc = info.get("country_code", "")
+            if cc:
+                oa_country[iid] = cc.upper()
+    except (FileNotFoundError, json.JSONDecodeError, KeyError):
+        print(f"Warning: could not load {args.oa_db}; falling back to affiliation-map")
 
     # Step 1: collect all unique institution IDs from inst-area-year
     inst_ids = set()
@@ -99,27 +113,40 @@ def main():
         for row in csv.DictReader(f):
             inst_ids.add(row["institution_id"])
 
-    # Step 2: look up country from affiliation-map (first match per id)
-    inst_data = {}
+    # Step 2: collect names from affiliation-map (first match per id)
+    inst_names = {}
     with open(args.affiliations, newline="") as f:
         for row in csv.DictReader(f):
             iid = row["institution_id"]
-            if not iid or iid not in inst_ids or iid in inst_data:
+            if not iid or iid not in inst_ids or iid in inst_names:
                 continue
-            inst_data[iid] = {
-                "name": row.get("institution_name", ""),
-                "country": (row.get("country_code", "") or "").upper(),
-            }
+            inst_names[iid] = row.get("institution_name", "")
 
-    # Step 3: fill in missing via name heuristic
+    # Step 3: build final data with OA country as primary source
+    inst_data = {}
+    for iid in inst_ids:
+        name = inst_names.get(iid, "")
+        cc = oa_country.get(iid, "")
+        if not name:
+            # Fall back to inst-area-year name if not in aff-map
+            cc = cc or guess_country(iid)
+        inst_data[iid] = {"name": name, "country": cc}
+
+    # Step 4: fill in missing names and countries from inst-area-year
     with open(args.input, newline="") as f:
         for row in csv.DictReader(f):
             iid = row["institution_id"]
-            if iid in inst_data:
-                continue
-            name = row["institution_name"]
-            cc = guess_country(name)
-            inst_data[iid] = {"name": name, "country": cc}
+            if iid not in inst_data:
+                name = row["institution_name"]
+                cc = oa_country.get(iid, "") or guess_country(name)
+                inst_data[iid] = {"name": name, "country": cc}
+            else:
+                if not inst_data[iid]["name"]:
+                    inst_data[iid]["name"] = row["institution_name"]
+                if not inst_data[iid]["country"]:
+                    inst_data[iid]["country"] = (
+                        oa_country.get(iid, "") or guess_country(inst_data[iid]["name"] or row["institution_name"])
+                    )
 
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     with open(args.out, "w") as f:

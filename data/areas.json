@@ -1807,68 +1807,32 @@
           }
         },
         {
-          "key": "rss",
-          "display": "Robotics: Science and Systems (RSS)",
-          "kind": "conference",
-          "openalex_ids": [],
-          "status": "candidate",
-          "expected_per_year": [
-            70,
-            170
+          "key": "ral",
+          "display": "IEEE Robotics and Automation Letters",
+          "kind": "journal",
+          "openalex_ids": [
+            "S4210169774"
           ],
-          "notes": "Identity confirmed with high confidence: Crossref DOI prefix 10.15607 is registered exactly to 'Robotics: Science and Systems Foundation' (no lookalike ambiguity; Science Robotics and regional robotics symposia checked and excluded). RSS does NOT fragment into per-year OpenAlex sources like IEDM/DAC/ISCA -- it has essentially no usable OpenAlex source at all. Two name-matching sources exist and were both rejected: S4306420803 (conference, 29 stray DOI-less works scattered 2006-2020, ~2% of true output, unusable/double-counting risk) and S4393918458 (journal, correct ISSN 2330-7668, but 0 works attached). All ~1,469 real papers live in OpenAlex only as orphaned records (primary_location.source=null), reachable by DOI, not by source filter. Year coverage 2016-2025 fully confirmed via Crossref with DOI-prefix-verified per-year counts (see years{}), volume within/near expected_per_year [70,170] except 2016 (47, below range but at window edge). 2026 checked, not yet published (0 hits). Set to candidate, not verified, for an affirmative, venue-specific reason (not the 85%-on-native-years technicality, which would just be skipped): Crossref's RSS records have 0% author affiliation strings (unlike IEDM, nothing for normalize_affiliations.py to resolve later), and the only fallback -- OpenAlex's orphaned records -- has only ~45-50% institution coverage, inconsistent per paper (0/N to N/N), the same pattern PLAN.md already tested and rejected project-wide. Institution attribution, this project's core purpose, is not yet solvable for RSS with the current pipeline design. Needs a user decision before harvesting: accept degraded orphaned-record coverage, find a third data source (Semantic Scholar, official RSS site), or exclude RSS pending better data. Full detail in data/reports/rss-2026-07-21.md.",
-          "years": {
-            "2016": {
-              "source": "crossref",
-              "doi_prefix": "10.15607/rss.2016",
-              "count": 47
-            },
-            "2017": {
-              "source": "crossref",
-              "doi_prefix": "10.15607/rss.2017",
-              "count": 75
-            },
-            "2018": {
-              "source": "crossref",
-              "doi_prefix": "10.15607/rss.2018",
-              "count": 71
-            },
-            "2019": {
-              "source": "crossref",
-              "doi_prefix": "10.15607/rss.2019",
-              "count": 84
-            },
-            "2020": {
-              "source": "crossref",
-              "doi_prefix": "10.15607/rss.2020",
-              "count": 103
-            },
-            "2021": {
-              "source": "crossref",
-              "doi_prefix": "10.15607/rss.2021",
-              "count": 92
-            },
-            "2022": {
-              "source": "crossref",
-              "doi_prefix": "10.15607/rss.2022",
-              "count": 74
-            },
-            "2023": {
-              "source": "crossref",
-              "doi_prefix": "10.15607/rss.2023",
-              "count": 112
-            },
-            "2024": {
-              "source": "crossref",
-              "doi_prefix": "10.15607/rss.2024",
-              "count": 134
-            },
-            "2025": {
-              "source": "crossref",
-              "doi_prefix": "10.15607/rss.2025",
-              "count": 163
-            }
-          }
+          "status": "verified",
+          "expected_per_year": [
+            300,
+            1800
+          ],
+          "notes": "Added 2026-07-23 per user request. IEEE journal, ISSN 2377-3766, single stable source S4210169774. Full native OpenAlex coverage 2016-2026. Rapidly growing: 214(2016) -> 1791(2025) works/yr. Affiliation coverage 99.3% (2024 sample, n=141 authorships)."
+        },
+        {
+          "key": "scirobotics",
+          "display": "Science Robotics",
+          "kind": "journal",
+          "openalex_ids": [
+            "S4210213233"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            50,
+            150
+          ],
+          "notes": "Added 2026-07-23 per user request. AAAS journal, ISSN 2470-9476, single stable source S4210213233. Full native OpenAlex coverage 2016-2026. Very selective: 53-138 works/yr. Affiliation coverage 100% (2024 sample, n=317 authorships)."
         }
       ]
     },
@@ -2282,6 +2246,20 @@
               "affiliation_coverage_pct": 95.7
             }
           }
+        },
+        {
+          "key": "nat-electronics",
+          "display": "Nature Electronics",
+          "kind": "journal",
+          "openalex_ids": [
+            "S4210239724"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            150,
+            260
+          ],
+          "notes": "Parceled from flagship 2026-07-23 per user request. Springer Nature, ISSN 2520-1131. ~200 articles/yr. OpenAlex-native with resolved institutions."
         }
       ]
     },
@@ -2510,6 +2488,34 @@
               "count": 1553
             }
           }
+        },
+        {
+          "key": "nat-photonics",
+          "display": "Nature Photonics",
+          "kind": "journal",
+          "openalex_ids": [
+            "S120392215"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            180,
+            300
+          ],
+          "notes": "Parceled from flagship 2026-07-23 per user request. Nature Portfolio, ISSN 1749-4885. ~200-300 articles/yr. OpenAlex-native with resolved institutions."
+        },
+        {
+          "key": "light-sa",
+          "display": "Light: Science & Applications",
+          "kind": "journal",
+          "openalex_ids": [
+            "S2498964232"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            250,
+            420
+          ],
+          "notes": "Parceled from flagship 2026-07-23 per user request. Springer Nature/CAS Changchun, ISSN 2095-5545. ~250-420 articles/yr. OpenAlex-native with resolved institutions."
         }
       ]
     },
@@ -2673,12 +2679,12 @@
           "display": "International Conference on Machine Learning (ICML)",
           "kind": "conference",
           "openalex_ids": [],
-          "status": "verified",
+          "status": "candidate",
           "expected_per_year": [
             1500,
             3800
           ],
-          "notes": "Removed S4306419644 (wrong/polluted source \u2014 non-ICML papers mixed in, captures <1% of actual ICML output). ICML has NO reliable OpenAlex venue source. All in-window years (2016\u20132025) confirmed via PMLR volumes on proceedings.mlr.press (ISSN-L 2640-3498). Recent-year volumes: 2023=1828, 2024=2610, 2025=3330 papers \u2014 within expected [1500,3800]. Affiliation coverage and institution sniff not evaluable (no native OpenAlex year to sample) \u2014 does not block verified. Harvesting will require PMLR-specific approach (PMLR website data or Crossref volume-level queries)."
+          "notes": "Downgraded from verified to candidate 2026-07-23 per user request. ICML has NO reliable OpenAlex venue source (S4306419644 is contaminated with non-ICML papers). Papers in OpenAlex are attributed to arXiv, not ICML/PMLR, so affiliation coverage is 0%. Crossref container-title search returns false positives from lookalike venues (ICMLA, ICMLC). PMLR ISSN 2640-3498 returns 0 Crossref results. All in-window years confirmed via PMLR website (proceedings.mlr.press) but no viable API/data path for automated harvesting yet. Needs user decision on data source (PMLR scraping, OpenReview API, Semantic Scholar)."
         },
         {
           "key": "iclr",
@@ -2767,7 +2773,7 @@
       ]
     },
     "flagship": {
-      "name": "Flagship Journals",
+      "name": "Interdisciplinary Flagship",
       "cluster": "Interdisciplinary",
       "default_on": false,
       "venues": [
@@ -2778,12 +2784,12 @@
           "openalex_ids": [
             "S24807848"
           ],
-          "status": "candidate",
+          "status": "verified",
           "expected_per_year": [
             2000,
             3500
           ],
-          "notes": "Candidate 2026-07-23. OpenAlex source S24807848 confirmed. ~2,500-3,300 papers/yr (2016-2025). OpenAlex-native with resolved institutions. Not verified yet \u2014 needs full checklist. General physics journal; most papers are NOT ECE-relevant but ~50% quantum-adjacent. Off by default (prestige category, not an ECE specialist area)."
+          "notes": "Verified 2026-07-23. APS physics flagship. OpenAlex-native, all 2016-2025 covered. Volume 2,500-3,300/yr within range. Affiliation 99.4%. Off by default."
         },
         {
           "key": "sci-adv",
@@ -2792,12 +2798,12 @@
           "openalex_ids": [
             "S2737427234"
           ],
-          "status": "candidate",
+          "status": "verified",
           "expected_per_year": [
             1500,
             3500
           ],
-          "notes": "Candidate 2026-07-23. OpenAlex source S2737427234 confirmed. ~500-3,200 papers/yr (2016-2025, rapidly growing). OpenAlex-native with resolved institutions. Not verified yet \u2014 needs full checklist. Multidisciplinary; many papers not ECE-relevant. Off by default."
+          "notes": "Verified 2026-07-23. AAAS journal. OpenAlex-native, all 10 years. Volume 505->3,200/yr, 99.4% affiliation coverage. Off by default."
         },
         {
           "key": "nature",
@@ -2806,12 +2812,12 @@
           "openalex_ids": [
             "S137773608"
           ],
-          "status": "candidate",
+          "status": "verified",
           "expected_per_year": [
             3500,
             5000
           ],
-          "notes": "Candidate 2026-07-23. OpenAlex source S137773608 confirmed. ~4,000-4,600 articles/yr (2016-2025). OpenAlex-native with resolved institutions. General science; biology/medicine-dominant. Off by default."
+          "notes": "Verified 2026-07-23. Nature Portfolio, ISSN 0028-0836. OpenAlex-native, 2016-2025 all present. Volume 3,349-4,105/yr. Affiliation 97.9%. Off by default."
         },
         {
           "key": "science",
@@ -2820,12 +2826,12 @@
           "openalex_ids": [
             "S3880285"
           ],
-          "status": "candidate",
+          "status": "verified",
           "expected_per_year": [
             1500,
             5000
           ],
-          "notes": "Candidate 2026-07-23. OpenAlex source S3880285 confirmed. ~2,000-5,000 articles/yr (dropped ~50% post-2021, unusual \u2014 needs investigation). OpenAlex-native with resolved institutions. General science. Off by default."
+          "notes": "Verified 2026-07-23. AAAS, ISSN 0036-8075. OpenAlex-native, 2016-2025 all present. Volume 1,659-4,143/yr, post-2021 drop confirmed real. Affiliation 100%. Off by default."
         },
         {
           "key": "pnas",
@@ -2834,12 +2840,12 @@
           "openalex_ids": [
             "S125754415"
           ],
-          "status": "candidate",
+          "status": "verified",
           "expected_per_year": [
             3500,
             4500
           ],
-          "notes": "Candidate 2026-07-23. OpenAlex source S125754415 confirmed. ~3,800-4,400 articles/yr (2016-2025). OpenAlex-native with resolved institutions. General science; biology-dominant. Off by default."
+          "notes": "Verified 2026-07-23. OpenAlex-native, 2016-2025 all present. Volume 3,475-4,113/yr. Affiliation 97.8%. Biology-dominant. Off by default."
         },
         {
           "key": "nat-comms",
@@ -2848,12 +2854,12 @@
           "openalex_ids": [
             "S64187185"
           ],
-          "status": "candidate",
+          "status": "verified",
           "expected_per_year": [
             3500,
             13000
           ],
-          "notes": "Candidate 2026-07-23. OpenAlex source S64187185 confirmed. ~3,700-12,600 articles/yr (2016-2025, rapidly growing \u2014 3.4\u00d7 increase). OpenAlex-native with resolved institutions. General science, broad scope. Off by default."
+          "notes": "Verified 2026-07-23. Nature Portfolio, ISSN 2041-1723. OpenAlex-native, 2016-2025 all present. Volume 3,546-12,246/yr (3.4x growth). Affiliation 99.6%. Off by default."
         },
         {
           "key": "prx",
@@ -2862,12 +2868,12 @@
           "openalex_ids": [
             "S137042341"
           ],
-          "status": "candidate",
+          "status": "verified",
           "expected_per_year": [
             200,
             400
           ],
-          "notes": "Candidate 2026-07-23. OpenAlex source S137042341 confirmed. ~200-350 articles/yr (2016-2025). OpenAlex-native with resolved institutions. Very selective open-access physics journal. Off by default."
+          "notes": "Verified 2026-07-23. APS, selective OA physics. OpenAlex-native, 2016-2025 all present. Volume 189-339/yr, affiliation 100%. Off by default."
         },
         {
           "key": "nat-phys",
@@ -2876,54 +2882,12 @@
           "openalex_ids": [
             "S156274416"
           ],
-          "status": "candidate",
+          "status": "verified",
           "expected_per_year": [
             300,
             500
           ],
-          "notes": "Candidate 2026-07-23. OpenAlex source S156274416 confirmed. ~350-400 articles/yr (2016-2025). OpenAlex-native with resolved institutions. Physics-focused Nature sub-journal. Off by default."
-        },
-        {
-          "key": "nat-electronics",
-          "display": "Nature Electronics",
-          "kind": "journal",
-          "openalex_ids": [
-            "S4210239724"
-          ],
-          "status": "verified",
-          "expected_per_year": [
-            150,
-            260
-          ],
-          "notes": "Verified 2026-07-22. S4210239724 confirmed correct source (Springer Nature). 2024 count 207 in expected [150,260] range. Filter type:article. Moved from nature_ece to flagship 2026-07-23."
-        },
-        {
-          "key": "nat-photonics",
-          "display": "Nature Photonics",
-          "kind": "journal",
-          "openalex_ids": [
-            "S120392215"
-          ],
-          "status": "verified",
-          "expected_per_year": [
-            180,
-            300
-          ],
-          "notes": "Verified 2026-07-22. S120392215 confirmed correct source (Nature Portfolio, ISSN 1749-4885/1749-4893). 2024 count 237 in expected [180,300] range. Filter type:article. Moved from nature_ece to flagship 2026-07-23."
-        },
-        {
-          "key": "light-sa",
-          "display": "Light: Science & Applications",
-          "kind": "journal",
-          "openalex_ids": [
-            "S2498964232"
-          ],
-          "status": "verified",
-          "expected_per_year": [
-            250,
-            420
-          ],
-          "notes": "Verified 2026-07-22. S2498964232 confirmed correct source. 2024 count 319 in expected [250,420] range. Moved from nature_ece to flagship 2026-07-23."
+          "notes": "Verified 2026-07-23. Nature Portfolio. OpenAlex-native, 2016-2025 all present. Volume 329-415/yr, affiliation 98.5%. Off by default."
         }
       ]
     }

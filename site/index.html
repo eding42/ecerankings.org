@@ -149,6 +149,27 @@ input:focus, select:focus { outline: none; border-color: var(--primary); box-sha
 .area-default-off { opacity: .65; }
 .area-default-off input:checked + span { color: var(--accent); }
 
+.venue-select {
+  margin-left: 1.6rem;
+  margin-bottom: .35rem;
+  font-size: .74rem;
+  padding: .2rem .45rem;
+  width: calc(100% - 1.6rem);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg);
+  color: var(--text-secondary);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%238e95a3' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right .35rem center;
+  padding-right: 1.2rem;
+  cursor: pointer;
+}
+.venue-select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(37,99,235,.12); }
+.venue-select option { font-size: .74rem; }
+
 .btn-row { display: flex; gap: .35rem; margin-top: .65rem; }
 .btn {
   flex: 1;
@@ -348,11 +369,13 @@ const YEAR_MIN = 2016;
 const YEAR_MAX = 2025;
 
 let AREAS = {};
-let loadedAreaData = {};
+let loadedAreaData = {};      // {areaKey: rows} — current display data (may be venue-filtered)
+let cachedAreaData = {};      // {areaKey: rows} — always the full area (all venues)
 let INST_AREA_YEAR = [];
 let INSTITUTIONS_META = {};  // institution_id → {name, country}
 
 let selectedAreas = new Set();
+let selectedVenues = {};      // {areaKey: venueKey | null} — null = all venues
 let selectedCountry = '';  // '' = all countries
 let yearFrom = YEAR_MIN;
 let yearTo = YEAR_MAX;
@@ -418,12 +441,22 @@ async function loadAreaJSON(areaKey) {
   } catch { return []; }
 }
 
+async function loadVenueJSON(areaKey, venueKey) {
+  try {
+    const resp = await fetch(`data/${areaKey}/${venueKey}.json`);
+    if (!resp.ok) return [];
+    const rows = await resp.json();
+    return rows.map(r => ({ ...r, area: areaKey }));
+  } catch { return []; }
+}
+
 async function loadDefaultAreas() {
   const defaultAreas = Object.entries(AREAS)
     .filter(([, a]) => a.default_on)
     .map(([k]) => k);
   const results = await Promise.all(defaultAreas.map(k => loadAreaJSON(k)));
   for (let i = 0; i < defaultAreas.length; i++) {
+    cachedAreaData[defaultAreas[i]] = results[i];
     loadedAreaData[defaultAreas[i]] = results[i];
   }
   rebuildInstAreaYear();
@@ -557,6 +590,17 @@ function buildSidebar() {
       html += `<input type="checkbox" value="${area.key}" ${selectedAreas.has(area.key) ? 'checked' : ''}`;
       html += ` onchange="onAreaToggle()">`;
       html += `<span>${area.name}</span></label>`;
+      // Venue dropdown
+      const venues = area.venues || [];
+      if (venues.length > 0) {
+        const curVenue = selectedVenues[area.key] || '';
+        html += `<select class="venue-select" id="venue-${area.key}" onchange="onVenueChange('${area.key}')">`;
+        html += `<option value="">All venues</option>`;
+        for (const v of venues) {
+          html += `<option value="${v.key}"${curVenue === v.key ? ' selected' : ''}>${v.display}</option>`;
+        }
+        html += `</select>`;
+      }
     }
     html += `</div></div>`;
   }
@@ -663,11 +707,43 @@ function onCountryChange() {
 async function onAreaToggle() {
   syncSelectedAreas();
   for (const area of selectedAreas) {
-    if (!loadedAreaData[area]) {
-      loadedAreaData[area] = await loadAreaJSON(area);
-      rebuildInstAreaYear();
+    if (loadedAreaData[area]) continue;
+    // Determine what to load based on venue selection
+    const vk = selectedVenues[area] || null;
+    if (vk) {
+      loadedAreaData[area] = await loadVenueJSON(area, vk);
+    } else {
+      // Try cached full data first, else fetch
+      if (cachedAreaData[area]) {
+        loadedAreaData[area] = cachedAreaData[area];
+      } else {
+        cachedAreaData[area] = await loadAreaJSON(area);
+        loadedAreaData[area] = cachedAreaData[area];
+      }
     }
+    rebuildInstAreaYear();
   }
+  renderTable();
+}
+
+async function onVenueChange(areaKey) {
+  const sel = document.getElementById(`venue-${areaKey}`);
+  if (!sel) return;
+  const venueKey = sel.value || null;
+  selectedVenues[areaKey] = venueKey;
+
+  if (!selectedAreas.has(areaKey)) return; // area not selected, nothing to reload
+
+  if (venueKey) {
+    loadedAreaData[areaKey] = await loadVenueJSON(areaKey, venueKey);
+  } else {
+    // Restore full area data
+    if (!cachedAreaData[areaKey]) {
+      cachedAreaData[areaKey] = await loadAreaJSON(areaKey);
+    }
+    loadedAreaData[areaKey] = cachedAreaData[areaKey];
+  }
+  rebuildInstAreaYear();
   renderTable();
 }
 
@@ -691,6 +767,12 @@ function syncSelectedAreas() {
     ct.checked = all;
     ct.indeterminate = some && !all;
   });
+  // Remove loaded data for unchecked areas, but keep cached full data
+  for (const area of Object.keys(loadedAreaData)) {
+    if (!selectedAreas.has(area)) {
+      delete loadedAreaData[area];
+    }
+  }
 }
 
 function selectAll() {
@@ -703,11 +785,24 @@ function selectDefaults() {
     const area = AREAS[cb.value];
     cb.checked = area ? area.default_on : true;
   });
+  // Reset venue selections to "All venues"
+  selectedVenues = {};
+  for (const key of Object.keys(AREAS)) {
+    selectedVenues[key] = null;
+    const sel = document.getElementById(`venue-${key}`);
+    if (sel) sel.value = '';
+  }
   onAreaToggle();
 }
 
 function clearAll() {
   document.querySelectorAll('.area-item input').forEach(cb => cb.checked = false);
+  selectedVenues = {};
+  for (const key of Object.keys(AREAS)) {
+    selectedVenues[key] = null;
+    const sel = document.getElementById(`venue-${key}`);
+    if (sel) sel.value = '';
+  }
   onAreaToggle();
 }
 
@@ -744,6 +839,7 @@ function renderAll() {
 
   for (const [key, area] of Object.entries(AREAS)) {
     if (area.default_on) selectedAreas.add(key);
+    selectedVenues[key] = null; // default: all venues
   }
 
   await loadDefaultAreas();

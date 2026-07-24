@@ -151,10 +151,11 @@ def find_cached_years(venue_key):
 def process_venues(venue_keys, v2a, year_filter, affil_map):
     """Process a list of venue keys and return accumulated results.
 
-    Returns: (inst_area_year, author_area_year_inst, inst_names, author_names,
-              metrics, nested_institutions)
+    Returns: (inst_area_year, inst_venue_year, author_area_year_inst,
+              inst_names, author_names, metrics, nested_institutions)
     """
     inst_area_year = {}
+    inst_venue_year = {}
     author_area_year_inst = defaultdict(float)
     inst_names = {}
     author_names = {}
@@ -218,11 +219,16 @@ def process_venues(venue_keys, v2a, year_filter, affil_map):
                             if len(lineage) > 1 and inst_id not in nested_institutions:
                                 nested_institutions[inst_id] = (inst["display_name"], lineage)
 
-                            key = (inst_id, area_key, year)
-                            if key not in inst_area_year:
-                                inst_area_year[key] = {"pub_count": 0, "adjusted_count": 0.0}
-                            inst_area_year[key]["adjusted_count"] += share
-                            papers_credited_insts_this_work.add(key)
+                            area_key_tup = (inst_id, area_key, year)
+                            if area_key_tup not in inst_area_year:
+                                inst_area_year[area_key_tup] = {"pub_count": 0, "adjusted_count": 0.0}
+                            inst_area_year[area_key_tup]["adjusted_count"] += share
+                            papers_credited_insts_this_work.add(area_key_tup)
+
+                            venue_key_tup = (inst_id, area_key, venue_key, year)
+                            if venue_key_tup not in inst_venue_year:
+                                inst_venue_year[venue_key_tup] = {"pub_count": 0, "adjusted_count": 0.0}
+                            inst_venue_year[venue_key_tup]["adjusted_count"] += share
 
                             author_id = a["author_id"]
                             author_names[author_id] = a["author_name"]
@@ -233,12 +239,13 @@ def process_venues(venue_keys, v2a, year_filter, affil_map):
 
     metrics = (total_works, total_authorship_pairs, dropped_no_edu_inst,
                crossref_resolved, multi_inst_author_events)
-    return inst_area_year, dict(author_area_year_inst), inst_names, author_names, metrics, nested_institutions
+    return inst_area_year, inst_venue_year, dict(author_area_year_inst), inst_names, author_names, metrics, nested_institutions
 
 
 def merge_results(results):
     """Merge results from parallel workers into single accumulators."""
     inst_area_year = {}
+    inst_venue_year = {}
     author_area_year_inst = defaultdict(float)
     inst_names = {}
     author_names = {}
@@ -249,13 +256,19 @@ def merge_results(results):
     multi_inst_author_events = 0
     nested_institutions = {}
 
-    for (r_inst_area_year, r_author_ay, r_inst_names, r_author_names,
-         metrics, r_nested) in results:
+    for (r_inst_area_year, r_inst_venue_year, r_author_ay, r_inst_names,
+         r_author_names, metrics, r_nested) in results:
         for key, vals in r_inst_area_year.items():
             if key not in inst_area_year:
                 inst_area_year[key] = {"pub_count": 0, "adjusted_count": 0.0}
             inst_area_year[key]["pub_count"] += vals["pub_count"]
             inst_area_year[key]["adjusted_count"] += vals["adjusted_count"]
+
+        for key, vals in r_inst_venue_year.items():
+            if key not in inst_venue_year:
+                inst_venue_year[key] = {"pub_count": 0, "adjusted_count": 0.0}
+            inst_venue_year[key]["pub_count"] += vals["pub_count"]
+            inst_venue_year[key]["adjusted_count"] += vals["adjusted_count"]
 
         for key, val in r_author_ay.items():
             author_area_year_inst[key] += val
@@ -274,8 +287,8 @@ def merge_results(results):
             if inst_id not in nested_institutions:
                 nested_institutions[inst_id] = val
 
-    return (inst_area_year, author_area_year_inst, inst_names, author_names,
-            total_works, total_authorship_pairs, dropped_no_edu_inst,
+    return (inst_area_year, inst_venue_year, author_area_year_inst, inst_names,
+            author_names, total_works, total_authorship_pairs, dropped_no_edu_inst,
             crossref_resolved, multi_inst_author_events, nested_institutions)
 
 
@@ -314,8 +327,8 @@ def main():
                        for chunk in chunks]
             results = [f.result() for f in futures]
 
-    (inst_area_year, author_area_year_inst, inst_names, author_names,
-     total_works, total_authorship_pairs, dropped_no_edu_inst,
+    (inst_area_year, inst_venue_year, author_area_year_inst, inst_names,
+     author_names, total_works, total_authorship_pairs, dropped_no_edu_inst,
      crossref_resolved, multi_inst_author_events, nested_institutions) = merge_results(results)
 
     os.makedirs(SITE_DATA_DIR, exist_ok=True)
@@ -326,6 +339,13 @@ def main():
         w.writerow(["institution_id", "institution_name", "area", "year", "pub_count", "adjusted_count"])
         for (inst_id, area, year), vals in sorted(inst_area_year.items(), key=lambda x: -x[1]["adjusted_count"]):
             w.writerow([inst_id, inst_names[inst_id], area, year, vals["pub_count"], round(vals["adjusted_count"], 5)])
+
+    venue_out = os.path.join(SITE_DATA_DIR, "inst-venue-year.csv")
+    with open(venue_out, "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["institution_id", "institution_name", "area", "venue", "year", "pub_count", "adjusted_count"])
+        for (inst_id, area, venue, year), vals in sorted(inst_venue_year.items(), key=lambda x: -x[1]["adjusted_count"]):
+            w.writerow([inst_id, inst_names[inst_id], area, venue, year, vals["pub_count"], round(vals["adjusted_count"], 5)])
 
     author_out = os.path.join(SITE_DATA_DIR, "author-info.csv")
     with open(author_out, "w", newline="") as f:
@@ -342,6 +362,7 @@ def main():
     print(f"Multi-education-inst authors: {multi_inst_author_events}  (share split provisionally)")
     print(f"Distinct credited institutions: {len(inst_names)}")
     print(f"Wrote {inst_out}")
+    print(f"Wrote {venue_out}")
     print(f"Wrote {author_out}")
 
     if nested_institutions:
