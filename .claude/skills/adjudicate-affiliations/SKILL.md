@@ -25,10 +25,17 @@ Uses the venv Python (PyTorch + sentence-transformers, MPS-accelerated on Mac):
 ```
 Add `--verbose` to see each resolution as it happens.
 
-`pipeline/normalize_affiliations_local.py` and `pipeline/normalize_affiliations.py`
-are legacy (string-similarity heuristic and OpenAlex API respectively) — **not**
-the default path. They still exist as fallbacks if `data/institutions.json` is
-stale or the semantic model produces obviously wrong results at scale.
+`pipeline/normalize_affiliations_local.py` is legacy (string-similarity
+heuristic against the gitignored `data/institutions.json`) — **not** the default
+path. It survives as a stdlib-only fallback for when `.venv` isn't available or
+the semantic model produces obviously wrong results at scale. The OpenAlex-API
+variant, `normalize_affiliations.py`, was removed on 2026-07-25: it burned API
+budget for worse matches than either surviving normalizer.
+
+Before normalizing, check whether `pipeline/backfill_openalex.py` has been run.
+Where a work has a DOI, OpenAlex's own resolved institutions beat any string
+matching, and the backfill writes them straight into the cache — reducing what
+the normalizer has to guess at.
 
 ### 2. Read the review queue
 

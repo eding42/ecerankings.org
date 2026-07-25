@@ -5,7 +5,11 @@ description: Run data-quality checks after harvesting, normalization, or aggrega
 
 # Verify Data
 
-Run multi-layer quality checks against the pipeline output. Use after (a) harvesting a new venue or re-harvesting a year, (b) re-running the normalizer, or (c) running aggregate — any change that could have introduced or propagated errors.
+Run multi-layer quality checks against the pipeline output. Use after (a) harvesting a new venue or re-harvesting a year, (b) running `backfill_openalex.py --apply`, (c) re-running the normalizer, or (d) running aggregate — any change that could have introduced or propagated errors.
+
+**Known blind spots — this script will not catch these, so check them by hand:**
+- **Under-collected areas.** The `known-strong` tripwire only asserts non-zero. In July 2026 the `ml` area passed cleanly while NeurIPS and ICLR had *zero* works harvested and ICML was 92% missing affiliations, because Stanford/MIT/CMU/Berkeley/UCLA were all non-zero. Assert zero-work venues and per-area missing-affiliation rates yourself.
+- **Silently dropped credit.** A run that writes correct data which `aggregate.py` then discards looks identical to a healthy run. Always compare the *magnitude* of adjusted counts against the previous run, not just orderings — and use low-gap areas (`comms`, `inftheory`) as a control group, since they should barely move when a backfill or normalization lands.
 
 ## Architecture & layers
 

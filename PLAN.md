@@ -213,10 +213,12 @@ simpler and just as effective.
    `cache/<venue>/<year>/works.jsonl` layout as the OpenAlex path.
 3. Crossref gives free-text affiliation strings per author, not resolved
    institution IDs (e.g. `"KAIST,School ofElectrical Engineering,Daejeon,Korea"`).
-   `pipeline/normalize_affiliations.py` strips department/city/country noise
-   and fuzzy-matches the remainder against `institutions.csv`; unmatched
-   strings get logged to `overrides/unmatched-affiliations.csv` for manual
-   mapping (grows the override layer, same as CSRankings' human-curated data).
+   `pipeline/normalize_semantic.py` strips department/city/country noise and
+   matches the remainder against the OpenAlex institution list; unmatched
+   strings stay in `data/affiliation-map.csv` with `status=unmatched` for
+   manual mapping (grows the override layer, same as CSRankings' human-curated
+   data). `pipeline/backfill_openalex.py` runs first where a DOI is available,
+   since OpenAlex's own resolved institutions beat any string matching.
 4. Each cached work is tagged with its source (`openalex` or `crossref`) so
    QA and future backfills can find Crossref-sourced years; if OpenAlex ever
    links a source for a year already covered via Crossref, re-harvesting
@@ -276,16 +278,24 @@ ecerankings.org/
 ├── pipeline/
 │   ├── harvest.py            # OpenAlex works downloader, one venue-year per run (cached, resumable)
 │   ├── harvest_crossref.py   # Crossref fallback, same --venue/--year interface, for years with no OpenAlex source
-│   ├── normalize_affiliations.py       # Crossref affiliation strings -> institutions
-│   ├── normalize_affiliations_local.py # local version using institutions.json
+│   ├── harvest_s2.py         # Semantic Scholar bulk extract; ICML only, needs the gitignored s2-datasets/ tree
+│   ├── backfill_openalex.py  # DOI-join: pulls OpenAlex affiliations into Crossref/S2 works
+│   ├── normalize_semantic.py           # sentence-transformers matcher (needs .venv); the current normalizer
+│   ├── normalize_affiliations_local.py # stdlib fallback using data/institutions.json
 │   ├── adjudicate_review.py            # apply corrections to affiliation map
-│   └── aggregate.py          # adjusted counts -> site data
+│   ├── fix_acronym_collisions.py       # post-adjudication QA fixers, see the
+│   ├── fix_campus_clusters.py          #   adjudicate-affiliations skill
+│   ├── fix_name_mismatches.py          #
+│   ├── aggregate.py          # adjusted counts -> site data
+│   ├── split.py              # inst-area-year.csv -> per-area JSON for lazy loading
+│   ├── build_institutions.py # site/data/institutions.json (id -> name, country)
+│   └── verify.py             # multi-phase data quality checks
 ├── site/
 │   ├── index.html
 │   ├── src/*.ts
 │   └── data/                 # generated CSVs/JSON (committed)
 ├── .claude/skills/           # project integrations for Claude Code (committed)
-├── cache/                    # cache/<venue>/<year>/works.jsonl, raw API responses (gitignored)
+├── cache/                    # cache/<venue>/<year>/works.jsonl, raw API responses (Git LFS)
 └── .tmp/                     # one-off scratch scripts (gitignored, local scratchpad)
 ```
 

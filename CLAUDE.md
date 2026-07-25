@@ -19,17 +19,27 @@ methodology, area taxonomy, and venue-inclusion policy.
   data bug, not a ranking insight.
 - `data/reports/` — one markdown report per collection run (see skill).
 - `cache/` — raw OpenAlex responses. Tracked via Git LFS; syncs across computers.
-- `pipeline/` — harvest/aggregate scripts (Phase 1–2; may not exist yet).
+- `pipeline/` — harvest/backfill/aggregate scripts. See "Pipeline architecture".
 
 ## Ranking methodology
 
-- Default-on: 19 areas. Geometric mean scoring: `(∏(1+s_i))^(1/n)-1` across
-  areas. All cached years included (1981–2026 as of now); no year window
-  filter yet. See `PLAN.md` for the full methodology.
+- Geometric mean scoring: `(∏(1+s_i))^(1/n)-1` across areas, where `n` is the
+  count of *selected* areas including any scoring zero (`index.html:494`). All
+  cached years included (1981–2026 as of now); no year window filter yet. See
+  `PLAN.md` for the full methodology.
 - When ranking, analyzing, or comparing institutions, **only include areas
-  with `default_on: true`** (currently 16 of 21 areas). Always confirm with
-  the user before including `default_on: false` areas (flagship, ML, biomed,
-  nature_ece, quantum).
+  with `default_on: true`** — currently **18 of 20 areas**; `flagship` and `ml`
+  are off. Verify against `data/areas.json` rather than trusting this line.
+  `ml` was turned off 2026-07-25: NeurIPS and ICLR have zero works harvested
+  and ICML is 88% missing affiliations, because PMLR/OpenReview papers are
+  attributed to arXiv in OpenAlex rather than to the conference. Turning it
+  back on requires an OpenReview-based harvester, not a config change.
+  `index.html:403 getDemoAreas()` carries a *third*, drifted copy of these
+  flags used only when the `areas.json` fetch fails.
+- Area size skews the score, but less than raw volume suggests: a 15.4x spread
+  in paper count across default-on areas compresses to a ~2.6x spread in
+  contribution to the top-20 geometric means, because `log(1+s)` flattens it.
+  Image/photonics/sigproc run above equal weight; embedded/ml/biomed below.
 - General journals (Nature, Science, PNAS) are in the `flagship` area with
   `default_on: false` — off by default, intended to expand to other fields
   (bio, chem) later. All venues in this area are OpenAlex-native (resolved
@@ -57,29 +67,62 @@ guessing or blocking.
 ## Pipeline architecture
 
 ```
-harvest.py / harvest_crossref.py     →  cache/<venue>/<year>/works.jsonl
-    raw Works (authors, raw_affiliations, empty institutions for Crossref)
+harvest.py            (OpenAlex)   ─┐
+harvest_crossref.py   (Crossref)   ─┼→  cache/<venue>/<year>/works.jsonl
+harvest_s2.py         (S2, ICML)   ─┘      raw Works: authors, raw_affiliations,
+                                           institutions (OpenAlex path only)
+
+backfill_openalex.py                 →  rewrites cache/*/works.jsonl in place
+    Crossref/S2 works have no venue-independent affiliation data. Looks each up
+    by DOI (50 per request) and writes OpenAlex's resolved institutions back in.
+    Run after every Crossref/S2 harvest — see "Why the backfill exists" below.
 
 normalize_semantic.py                →  data/affiliation-map.csv
-    ~59K raw_affiliation strings → OpenAlex institution IDs (auto/manual/unmatched)
+    raw_affiliation strings → OpenAlex institution IDs (auto/manual/unmatched).
+    Requires .venv. normalize_affiliations_local.py is the stdlib fallback.
 
-aggregate.py                         →  site/data/inst-area-year.csv
+aggregate.py --all-cached            →  site/data/inst-area-year.csv
+                                        site/data/inst-venue-year.csv
+                                        site/data/author-info.csv
     cache/*/works.jsonl  +  affiliation-map.csv  →  adjusted counts per (inst, area, year)
 
 split.py                             →  site/data/<area>.json
     inst-area-year.csv  →  one minified JSON file per area (lazy-loadable by the site)
+
+build_institutions.py                →  site/data/institutions.json
+    id → {name, country} for every institution in the aggregate. The site
+    fetches this at index.html:430; it is what makes country filtering work.
+
+verify.py --all                      →  console + data/reports/ (with --report)
 ```
 
-**Critical detail**: All 60 venues in `data/areas.json` are Crossref-sourced
-(`openalex_ids: []`), so `works.jsonl` always has `institutions: []`.
-`aggregate.py` must fall back to `affiliation-map.csv` via `raw_affiliations`
-to credit institutions. Without this, **zero venues contribute** — this exact
-bug existed before 2026-07-23.
+**Why the backfill exists**: OpenAlex holds most IEEE conference papers but
+leaves `primary_location.source` **null** — they are ingested and enriched with
+affiliations but linked to no venue. `harvest.py` is source-driven, so those
+works are unreachable by any source ID. Crossref is the only source that knows
+"this DOI belongs to ICASSP 2020" (57.1% affiliation yield); OpenAlex is the
+only source with the affiliations (95.0% yield). **Crossref supplies venue
+membership, OpenAlex supplies affiliations, the DOI is the join key.**
+
+**Critical detail**: `aggregate.py:201` consults `affiliation-map.csv` **only
+when `institutions` is empty**. OpenAlex-native and backfilled works therefore
+bypass the curated map entirely, importing OpenAlex's resolution errors
+uncorrected — e.g. "University of Pennsylvania" → *California University of
+Pennsylvania* (107 occurrences, 71.3 adjusted count as of 2026-07-25). More
+OpenAlex coverage means more uncurated OpenAlex mistakes.
 
 ## Data quality
 
 - `data/affiliation-map.csv` is the bridge between Crossref free-text and
   OpenAlex institutions. It's the most valuable curated file after `areas.json`.
+  Note it only applies where `institutions` is empty (see "Critical detail"),
+  so it covers a shrinking share of the corpus as backfill coverage grows.
+- OpenAlex's own resolutions are **not** ground truth. Cross-checking the map
+  against them found 20% disagreement, with errors on both sides: OpenAlex maps
+  "Northeastern University"→*Universidad del Noreste* and "Rutgers University"→
+  *Rutgers Sexual and Reproductive Health and Rights*, while the map had
+  "MERL"→*University of Cambridge*. Treat disagreements as an adjudication
+  queue, never as automatic corrections.
 - Known systematic errors in the map (fixed but can regress on re-normalization):
   - UC campuses: bare "University of California" → UCSF; "UC,<dept>,<campus>" → UCSF
   - City-name collisions: "Qualcomm, San Diego" → UC San Diego

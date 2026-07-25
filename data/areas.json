@@ -2638,7 +2638,7 @@
     "ml": {
       "name": "Machine Learning",
       "cluster": "Signals & Intelligence",
-      "default_on": true,
+      "default_on": false,
       "venues": [
         {
           "key": "neurips",

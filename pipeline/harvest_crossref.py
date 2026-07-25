@@ -46,9 +46,11 @@ deliberate differences:
   * `authorships[].institutions` is ALWAYS an empty list. Crossref gives
     free-text affiliation strings, not resolved institution IDs, so the
     raw strings are preserved in `authorships[].raw_affiliations` and
-    resolved later by pipeline/normalize_affiliations.py. aggregate.py
-    joins them at read time, which means re-running normalization after
-    improving the mapping never requires re-harvesting.
+    resolved later by pipeline/backfill_openalex.py (DOI lookup, which
+    also fills in `institutions` outright) and then
+    pipeline/normalize_semantic.py for whatever is left. aggregate.py
+    joins the map at read time, which means re-running normalization
+    after improving the mapping never requires re-harvesting.
   * `authorships[].author_id` is a SYNTHETIC name-based id
     ("crossref:name:<slug>"). Crossref exposes no stable author identifier
     for these records -- a 238-author sample of IEDM 2023 had zero ORCIDs.

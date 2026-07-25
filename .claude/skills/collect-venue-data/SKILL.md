@@ -172,8 +172,8 @@ is *normal*, not a defect — under the old, stricter reading almost no
 conference would ever reach `verified`. A Crossref-covered year with a
 DOI-prefix-validated count is legitimate "coverage" for this checklist; it
 just means affiliation resolution for that year is deferred to Phase 1b
-(`harvest_crossref.py` / `normalize_affiliations.py`), not that source
-identification failed.
+(`harvest_crossref.py` → `backfill_openalex.py` → `normalize_semantic.py`), not
+that source identification failed.
 
 For every source ID you intend to register, ALL of:
 
@@ -317,9 +317,12 @@ either fetch, both scripts already exist and match each other's cache layout
   python3 pipeline/harvest_crossref.py --venue <venue_key> --all-years
   ```
   Crossref-harvested authorships carry free-text `raw_affiliations`, not
-  resolved `institutions` — do not attempt to normalize them yourself; that's
-  `pipeline/normalize_affiliations.py` / the `adjudicate-affiliations` skill,
-  a separate step outside this skill's scope.
+  resolved `institutions` — do not attempt to normalize them yourself. Two
+  later steps handle it, both outside this skill's scope:
+  `pipeline/backfill_openalex.py` (recovers OpenAlex's resolved institutions
+  by DOI — run this first, it does most of the work) and then
+  `pipeline/normalize_semantic.py` / the `adjudicate-affiliations` skill for
+  whatever strings remain.
 
 Report back to the user what was actually harvested (venue, years, work
 counts, which script handled which years) — don't just say "done."

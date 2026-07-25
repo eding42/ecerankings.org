@@ -38,7 +38,7 @@ serves as a fallback for conference years not yet indexed by OpenAlex.
 
 ## Areas
 
-19 areas, structured to match ECE departmental organization: Circuits &
+20 areas (18 on by default), structured to match ECE departmental organization: Circuits &
 VLSI, Semiconductor Devices, Power & Energy, Communications, Photonics,
 Control, Robotics, plus optional CS-overlap areas (Architecture, ML,
 Vision). Full taxonomy and inclusion criteria: [PLAN.md](PLAN.md).
@@ -48,9 +48,16 @@ Vision). Full taxonomy and inclusion criteria: [PLAN.md](PLAN.md).
 ```mermaid
 flowchart LR
     A[OpenAlex harvest] --> D[Aggregate]
-    B[Crossref fallback] --> C[Normalize affiliations] --> D
-    D --> E[(site/data/*.csv)]
+    B[Crossref / S2 harvest] --> F[Backfill via DOI] --> D
+    B --> C[Normalize affiliations] --> D
+    D --> E[(site/data/*.csv)] --> G[Split to per-area JSON]
+    D --> H[Build institution metadata]
 ```
+
+Crossref and Semantic Scholar know which venue a paper belongs to but carry
+sparse affiliations; OpenAlex has the affiliations but leaves most IEEE
+conference papers linked to no venue at all. The backfill step joins the two
+on DOI.
 
 | Path | Description |
 |---|---|
@@ -58,10 +65,10 @@ flowchart LR
 | `data/areas.json` | Venue registry — OpenAlex source IDs, per-year availability, and verification status for every ranked venue. |
 | `data/affiliation-map.csv` | Mapping from raw Crossref affiliation strings to OpenAlex institution IDs. |
 | `data/reports/` | One report per data-collection run. |
-| `pipeline/` | Harvest, normalization, adjudication, and aggregation scripts. Python standard library only. |
-| `site/data/` | Generated CSVs consumed by the frontend. |
+| `pipeline/` | Harvest, backfill, normalization, adjudication, and aggregation scripts. Python standard library only, except `normalize_semantic.py`. |
+| `site/data/` | Generated CSVs and JSON consumed by the frontend. |
 | `.claude/skills/` | Claude Code project integrations. |
-| `cache/` | Raw API responses. Gitignored; regenerable. |
+| `cache/` | Raw API responses. Tracked via Git LFS so it syncs across machines. |
 
 ## Running the pipeline
 
@@ -79,19 +86,38 @@ python3 pipeline/harvest.py --venue jssc --year 2023
 # 2. For conference years OpenAlex lacks, fall back to Crossref
 python3 pipeline/harvest_crossref.py --venue iedm --year 2024
 
-# 3. Resolve Crossref free-text affiliations to institutions
-python3 pipeline/normalize_affiliations_local.py
+# 3. Recover affiliations for Crossref/S2 works by DOI lookup.
+#    Always measure before writing: --pilot probes a random sample read-only.
+python3 pipeline/backfill_openalex.py --pilot 500
+python3 pipeline/backfill_openalex.py --apply
 
-# 4. Aggregate into per-(institution, area, year) adjusted counts
-python3 pipeline/aggregate.py
+# 4. Resolve any remaining free-text affiliations to institutions.
+#    These are ALTERNATIVES writing the same file — run one, not both.
+.venv/bin/python pipeline/normalize_semantic.py --all-cached  # preferred
+# or, with no .venv available:
+python3 pipeline/normalize_affiliations_local.py --all-cached
+
+# 5. Aggregate into per-(institution, area, year) adjusted counts
+python3 pipeline/aggregate.py --all-cached
+
+# 6. Split for the frontend, and build institution metadata
+python3 pipeline/split.py
+python3 pipeline/build_institutions.py
+
+# 7. Check for regressions
+python3 pipeline/verify.py --all
 ```
 
 Each script's docstring documents the full option set. Harvests are cached
-under `cache/<venue>/<year>/`; re-runs and backfills are idempotent.
+under `cache/<venue>/<year>/`; re-runs and backfills are idempotent. The
+backfill checkpoints per batch to `cache/.backfill-checkpoint.jsonl`, so an
+interrupted run resumes instead of re-spending the API budget, and records
+fruitless DOIs in `cache/.backfill-negative.txt` so they are never re-queried.
 
-`data/institutions.json` (~29 MB, an OpenAlex institutions dump used for
-local affiliation matching) is gitignored. Regeneration procedure:
-`pipeline/normalize_affiliations_local.py`.
+`data/institutions.json` (~27 MB, an OpenAlex institutions dump used by
+`normalize_affiliations_local.py`) is gitignored. Not to be confused with
+`site/data/institutions.json`, which is the small name+country file the
+frontend loads and `build_institutions.py` generates.
 
 ## Data sources & acknowledgments
 
