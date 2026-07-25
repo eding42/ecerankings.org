@@ -1,9 +1,9 @@
 {
-  "generated": "2026-07-24",
+  "generated": "2026-07-25",
   "global": {
-    "coverage_pct": 87.17,
-    "purity_pct": 54.91,
-    "resolution_pct": 71.32
+    "coverage_pct": 93.71,
+    "purity_pct": 59.97,
+    "resolution_pct": 69.16
   },
   "venue_years": {
     "asplos/2016": {
@@ -117,49 +117,49 @@
       "resolution_pct": null
     },
     "cdc/2016": {
-      "coverage_pct": 0.78,
-      "purity_pct": null,
-      "resolution_pct": 85.71
+      "coverage_pct": 99.41,
+      "purity_pct": 81.73,
+      "resolution_pct": 23.44
     },
     "cdc/2017": {
-      "coverage_pct": 2.06,
-      "purity_pct": null,
-      "resolution_pct": 87.69
+      "coverage_pct": 99.62,
+      "purity_pct": 79.61,
+      "resolution_pct": 38.26
     },
     "cdc/2018": {
-      "coverage_pct": 1.04,
-      "purity_pct": null,
-      "resolution_pct": 96.97
+      "coverage_pct": 98.96,
+      "purity_pct": 80.56,
+      "resolution_pct": 28.37
     },
     "cdc/2019": {
-      "coverage_pct": 3.04,
-      "purity_pct": null,
-      "resolution_pct": 77.27
+      "coverage_pct": 98.42,
+      "purity_pct": 77.11,
+      "resolution_pct": 50.82
     },
     "cdc/2020": {
-      "coverage_pct": 9.78,
-      "purity_pct": null,
-      "resolution_pct": 89.22
+      "coverage_pct": 97.18,
+      "purity_pct": 71.42,
+      "resolution_pct": 77.74
     },
     "cdc/2021": {
-      "coverage_pct": 55.09,
-      "purity_pct": null,
-      "resolution_pct": 88.81
+      "coverage_pct": 97.65,
+      "purity_pct": 34.93,
+      "resolution_pct": 88.24
     },
     "cdc/2022": {
-      "coverage_pct": 98.0,
-      "purity_pct": null,
-      "resolution_pct": 89.1
+      "coverage_pct": 98.45,
+      "purity_pct": 0.06,
+      "resolution_pct": 89.02
     },
     "cdc/2023": {
-      "coverage_pct": 98.14,
-      "purity_pct": null,
-      "resolution_pct": 90.37
+      "coverage_pct": 98.36,
+      "purity_pct": 0.22,
+      "resolution_pct": 90.38
     },
     "cdc/2024": {
       "coverage_pct": 98.24,
-      "purity_pct": null,
-      "resolution_pct": 87.31
+      "purity_pct": 0.22,
+      "resolution_pct": 87.28
     },
     "cleo/2016": {
       "coverage_pct": 96.75,
@@ -197,49 +197,49 @@
       "resolution_pct": null
     },
     "cleo/2023": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 100.0,
+      "purity_pct": 71.48,
+      "resolution_pct": 0.85
     },
     "cleo/2024": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 99.79,
+      "purity_pct": 74.71,
+      "resolution_pct": 0.0
     },
     "cleo/2025": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 9.89,
+      "purity_pct": 7.15,
+      "resolution_pct": 0.0
     },
     "cvpr/2016": {
-      "coverage_pct": 1.69,
-      "purity_pct": null,
-      "resolution_pct": 71.43
+      "coverage_pct": 98.63,
+      "purity_pct": 71.64,
+      "resolution_pct": 28.3
     },
     "cvpr/2017": {
-      "coverage_pct": 1.26,
-      "purity_pct": null,
-      "resolution_pct": 70.0
+      "coverage_pct": 98.62,
+      "purity_pct": 68.69,
+      "resolution_pct": 27.23
     },
     "cvpr/2018": {
-      "coverage_pct": 1.09,
-      "purity_pct": null,
-      "resolution_pct": 69.57
+      "coverage_pct": 98.41,
+      "purity_pct": 69.56,
+      "resolution_pct": 18.77
     },
     "cvpr/2019": {
-      "coverage_pct": 95.68,
-      "purity_pct": null,
-      "resolution_pct": 68.29
+      "coverage_pct": 100.0,
+      "purity_pct": 2.68,
+      "resolution_pct": 68.11
     },
     "cvpr/2020": {
-      "coverage_pct": 2.64,
-      "purity_pct": null,
-      "resolution_pct": 67.93
+      "coverage_pct": 99.15,
+      "purity_pct": 65.51,
+      "resolution_pct": 28.72
     },
     "cvpr/2021": {
-      "coverage_pct": 14.84,
-      "purity_pct": null,
-      "resolution_pct": 66.58
+      "coverage_pct": 99.26,
+      "purity_pct": 56.32,
+      "resolution_pct": 49.91
     },
     "cvpr/2022": {
       "coverage_pct": 89.24,
@@ -247,19 +247,19 @@
       "resolution_pct": null
     },
     "cvpr/2023": {
-      "coverage_pct": 99.84,
-      "purity_pct": null,
-      "resolution_pct": 64.65
+      "coverage_pct": 99.88,
+      "purity_pct": 0.12,
+      "resolution_pct": 64.6
     },
     "cvpr/2024": {
       "coverage_pct": 99.92,
-      "purity_pct": null,
-      "resolution_pct": 67.55
+      "purity_pct": 0.08,
+      "resolution_pct": 67.72
     },
     "cvpr/2025": {
-      "coverage_pct": 99.79,
-      "purity_pct": null,
-      "resolution_pct": 69.42
+      "coverage_pct": 99.8,
+      "purity_pct": 0.35,
+      "resolution_pct": 69.36
     },
     "dac/2001": {
       "coverage_pct": 83.48,
@@ -282,9 +282,9 @@
       "resolution_pct": null
     },
     "dac/2017": {
-      "coverage_pct": 99.87,
-      "purity_pct": null,
-      "resolution_pct": 75.38
+      "coverage_pct": 100.0,
+      "purity_pct": 0.38,
+      "resolution_pct": 75.58
     },
     "dac/2018": {
       "coverage_pct": 95.28,
@@ -292,19 +292,19 @@
       "resolution_pct": null
     },
     "dac/2019": {
-      "coverage_pct": 99.56,
+      "coverage_pct": 100.0,
       "purity_pct": null,
-      "resolution_pct": 83.32
+      "resolution_pct": 82.95
     },
     "dac/2020": {
-      "coverage_pct": 2.19,
-      "purity_pct": null,
-      "resolution_pct": 85.71
+      "coverage_pct": 98.82,
+      "purity_pct": 82.68,
+      "resolution_pct": 50.0
     },
     "dac/2021": {
-      "coverage_pct": 5.34,
-      "purity_pct": null,
-      "resolution_pct": 88.89
+      "coverage_pct": 99.32,
+      "purity_pct": 78.47,
+      "resolution_pct": 62.75
     },
     "dac/2022": {
       "coverage_pct": 93.1,
@@ -327,34 +327,34 @@
       "resolution_pct": 82.07
     },
     "ecce/2016": {
-      "coverage_pct": 1.89,
-      "purity_pct": null,
-      "resolution_pct": 68.57
+      "coverage_pct": 99.65,
+      "purity_pct": 86.37,
+      "resolution_pct": 18.68
     },
     "ecce/2017": {
-      "coverage_pct": 3.59,
-      "purity_pct": null,
-      "resolution_pct": 88.62
+      "coverage_pct": 99.85,
+      "purity_pct": 83.64,
+      "resolution_pct": 34.15
     },
     "ecce/2018": {
-      "coverage_pct": 0.84,
-      "purity_pct": null,
-      "resolution_pct": 64.86
+      "coverage_pct": 99.77,
+      "purity_pct": 87.1,
+      "resolution_pct": 8.3
     },
     "ecce/2019": {
-      "coverage_pct": 1.53,
-      "purity_pct": null,
-      "resolution_pct": 89.55
+      "coverage_pct": 99.54,
+      "purity_pct": 86.97,
+      "resolution_pct": 25.96
     },
     "ecce/2020": {
-      "coverage_pct": 2.2,
-      "purity_pct": null,
-      "resolution_pct": 91.95
+      "coverage_pct": 99.09,
+      "purity_pct": 84.7,
+      "resolution_pct": 34.19
     },
     "ecce/2021": {
-      "coverage_pct": 3.19,
-      "purity_pct": null,
-      "resolution_pct": 76.92
+      "coverage_pct": 99.26,
+      "purity_pct": 84.09,
+      "resolution_pct": 35.02
     },
     "ecce/2022": {
       "coverage_pct": 96.01,
@@ -363,13 +363,13 @@
     },
     "ecce/2023": {
       "coverage_pct": 99.66,
-      "purity_pct": null,
-      "resolution_pct": 81.07
+      "purity_pct": 0.09,
+      "resolution_pct": 81.09
     },
     "ecce/2024": {
       "coverage_pct": 99.78,
-      "purity_pct": null,
-      "resolution_pct": 81.32
+      "purity_pct": 0.1,
+      "resolution_pct": 81.3
     },
     "ecce/2025": {
       "coverage_pct": 99.72,
@@ -432,9 +432,9 @@
       "resolution_pct": null
     },
     "emsoft/2016": {
-      "coverage_pct": 97.7,
+      "coverage_pct": 100.0,
       "purity_pct": null,
-      "resolution_pct": 80.0
+      "resolution_pct": 78.16
     },
     "emsoft/2017": {
       "coverage_pct": 100.0,
@@ -442,9 +442,9 @@
       "resolution_pct": 82.2
     },
     "emsoft/2018": {
-      "coverage_pct": 5.63,
-      "purity_pct": null,
-      "resolution_pct": 75.0
+      "coverage_pct": 100.0,
+      "purity_pct": 77.46,
+      "resolution_pct": 60.0
     },
     "emsoft/2019": {
       "coverage_pct": 100.0,
@@ -452,9 +452,9 @@
       "resolution_pct": 88.46
     },
     "emsoft/2020": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 100.0,
+      "purity_pct": 72.41,
+      "resolution_pct": 0.0
     },
     "emsoft/2021": {
       "coverage_pct": 100.0,
@@ -482,39 +482,39 @@
       "resolution_pct": 89.66
     },
     "hpca/2016": {
-      "coverage_pct": 1.07,
-      "purity_pct": null,
-      "resolution_pct": 100.0
+      "coverage_pct": 100.0,
+      "purity_pct": 70.0,
+      "resolution_pct": 14.29
     },
     "hpca/2017": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 98.91,
+      "purity_pct": 74.55,
+      "resolution_pct": 0.0
     },
     "hpca/2018": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 93.75,
+      "purity_pct": 71.38,
+      "resolution_pct": 5.0
     },
     "hpca/2019": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 98.59,
+      "purity_pct": 63.73,
+      "resolution_pct": 0.0
     },
     "hpca/2020": {
-      "coverage_pct": 16.93,
-      "purity_pct": null,
-      "resolution_pct": 18.87
+      "coverage_pct": 100.0,
+      "purity_pct": 59.42,
+      "resolution_pct": 18.46
     },
     "hpca/2021": {
-      "coverage_pct": 18.55,
-      "purity_pct": null,
-      "resolution_pct": 68.92
+      "coverage_pct": 100.0,
+      "purity_pct": 55.39,
+      "resolution_pct": 55.91
     },
     "hpca/2022": {
       "coverage_pct": 99.79,
-      "purity_pct": null,
-      "resolution_pct": 73.12
+      "purity_pct": 0.21,
+      "resolution_pct": 74.02
     },
     "hpca/2023": {
       "coverage_pct": 100.0,
@@ -523,48 +523,48 @@
     },
     "hpca/2024": {
       "coverage_pct": 99.12,
-      "purity_pct": null,
-      "resolution_pct": 81.9
+      "purity_pct": 0.66,
+      "resolution_pct": 81.7
     },
     "hpca/2025": {
       "coverage_pct": 99.64,
-      "purity_pct": null,
-      "resolution_pct": 69.86
+      "purity_pct": 0.0,
+      "resolution_pct": 70.19
     },
     "hpca/2026": {
       "coverage_pct": 99.88,
-      "purity_pct": null,
-      "resolution_pct": 77.53
+      "purity_pct": 0.83,
+      "resolution_pct": 77.34
     },
     "icassp/2016": {
-      "coverage_pct": 2.78,
-      "purity_pct": null,
-      "resolution_pct": 58.27
+      "coverage_pct": 99.91,
+      "purity_pct": 73.86,
+      "resolution_pct": 25.8
     },
     "icassp/2017": {
-      "coverage_pct": 2.5,
-      "purity_pct": null,
-      "resolution_pct": 65.79
+      "coverage_pct": 99.74,
+      "purity_pct": 73.23,
+      "resolution_pct": 27.3
     },
     "icassp/2018": {
-      "coverage_pct": 3.17,
-      "purity_pct": null,
-      "resolution_pct": 74.38
+      "coverage_pct": 99.62,
+      "purity_pct": 74.55,
+      "resolution_pct": 33.07
     },
     "icassp/2019": {
-      "coverage_pct": 28.07,
-      "purity_pct": null,
-      "resolution_pct": 76.6
+      "coverage_pct": 99.63,
+      "purity_pct": 55.16,
+      "resolution_pct": 68.72
     },
     "icassp/2020": {
-      "coverage_pct": 8.92,
-      "purity_pct": null,
-      "resolution_pct": 67.7
+      "coverage_pct": 99.0,
+      "purity_pct": 66.1,
+      "resolution_pct": 46.05
     },
     "icassp/2021": {
-      "coverage_pct": 33.25,
-      "purity_pct": null,
-      "resolution_pct": 69.19
+      "coverage_pct": 99.46,
+      "purity_pct": 47.4,
+      "resolution_pct": 63.7
     },
     "icassp/2022": {
       "coverage_pct": 92.96,
@@ -573,23 +573,23 @@
     },
     "icassp/2023": {
       "coverage_pct": 99.72,
-      "purity_pct": null,
-      "resolution_pct": 67.23
+      "purity_pct": 0.11,
+      "resolution_pct": 67.2
     },
     "icassp/2024": {
-      "coverage_pct": 99.8,
-      "purity_pct": null,
-      "resolution_pct": 71.74
+      "coverage_pct": 99.84,
+      "purity_pct": 0.2,
+      "resolution_pct": 71.72
     },
     "icassp/2025": {
       "coverage_pct": 99.89,
-      "purity_pct": null,
-      "resolution_pct": 75.98
+      "purity_pct": 0.08,
+      "resolution_pct": 76.02
     },
     "icassp/2026": {
       "coverage_pct": 99.8,
-      "purity_pct": null,
-      "resolution_pct": 76.94
+      "purity_pct": 0.27,
+      "resolution_pct": 76.9
     },
     "iccad/2017": {
       "coverage_pct": 93.55,
@@ -602,9 +602,9 @@
       "resolution_pct": 87.67
     },
     "iccad/2019": {
-      "coverage_pct": 27.12,
-      "purity_pct": null,
-      "resolution_pct": 69.88
+      "coverage_pct": 100.0,
+      "purity_pct": 61.6,
+      "resolution_pct": 70.22
     },
     "iccad/2020": {
       "coverage_pct": 100.0,
@@ -612,9 +612,9 @@
       "resolution_pct": 86.1
     },
     "iccad/2021": {
-      "coverage_pct": 25.8,
-      "purity_pct": null,
-      "resolution_pct": 92.08
+      "coverage_pct": 98.6,
+      "purity_pct": 59.64,
+      "resolution_pct": 81.47
     },
     "iccad/2022": {
       "coverage_pct": 89.09,
@@ -623,8 +623,8 @@
     },
     "iccad/2023": {
       "coverage_pct": 99.9,
-      "purity_pct": null,
-      "resolution_pct": 78.0
+      "purity_pct": 0.2,
+      "resolution_pct": 77.96
     },
     "iccad/2024": {
       "coverage_pct": 100.0,
@@ -637,14 +637,14 @@
       "resolution_pct": 82.65
     },
     "iccv/2017": {
-      "coverage_pct": 0.31,
-      "purity_pct": null,
-      "resolution_pct": 100.0
+      "coverage_pct": 98.0,
+      "purity_pct": 71.22,
+      "resolution_pct": 17.5
     },
     "iccv/2019": {
-      "coverage_pct": 3.14,
-      "purity_pct": null,
-      "resolution_pct": 63.82
+      "coverage_pct": 98.95,
+      "purity_pct": 66.8,
+      "resolution_pct": 29.74
     },
     "iccv/2021": {
       "coverage_pct": 93.31,
@@ -653,13 +653,13 @@
     },
     "iccv/2023": {
       "coverage_pct": 99.58,
-      "purity_pct": null,
-      "resolution_pct": 66.93
+      "purity_pct": 0.1,
+      "resolution_pct": 66.91
     },
     "iccv/2025": {
       "coverage_pct": 99.81,
-      "purity_pct": null,
-      "resolution_pct": 71.12
+      "purity_pct": 0.36,
+      "resolution_pct": 71.16
     },
     "icml/1988": {
       "coverage_pct": 0.0,
@@ -667,13 +667,13 @@
       "resolution_pct": null
     },
     "icml/1989": {
-      "coverage_pct": 3.85,
-      "purity_pct": null,
-      "resolution_pct": 100.0
+      "coverage_pct": 82.61,
+      "purity_pct": 47.83,
+      "resolution_pct": 25.0
     },
     "icml/1990": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
+      "coverage_pct": 100.0,
+      "purity_pct": 100.0,
       "resolution_pct": null
     },
     "icml/1991": {
@@ -682,23 +682,23 @@
       "resolution_pct": null
     },
     "icml/1992": {
-      "coverage_pct": 20.0,
-      "purity_pct": null,
+      "coverage_pct": 60.0,
+      "purity_pct": 20.0,
       "resolution_pct": 0.0
     },
     "icml/1993": {
-      "coverage_pct": 2.47,
-      "purity_pct": null,
-      "resolution_pct": 50.0
+      "coverage_pct": 91.03,
+      "purity_pct": 80.77,
+      "resolution_pct": 0.0
     },
     "icml/1994": {
-      "coverage_pct": 8.24,
-      "purity_pct": null,
-      "resolution_pct": 57.14
+      "coverage_pct": 88.24,
+      "purity_pct": 72.94,
+      "resolution_pct": 12.5
     },
     "icml/1995": {
-      "coverage_pct": 3.42,
-      "purity_pct": null,
+      "coverage_pct": 96.58,
+      "purity_pct": 75.21,
       "resolution_pct": 0.0
     },
     "icml/1996": {
@@ -707,14 +707,14 @@
       "resolution_pct": 100.0
     },
     "icml/1997": {
-      "coverage_pct": 2.83,
-      "purity_pct": null,
-      "resolution_pct": 33.33
+      "coverage_pct": 9.43,
+      "purity_pct": 2.83,
+      "resolution_pct": 25.0
     },
     "icml/1998": {
-      "coverage_pct": 4.58,
-      "purity_pct": null,
-      "resolution_pct": 33.33
+      "coverage_pct": 7.69,
+      "purity_pct": 3.85,
+      "resolution_pct": 40.0
     },
     "icml/1999": {
       "coverage_pct": 5.52,
@@ -722,13 +722,13 @@
       "resolution_pct": 62.5
     },
     "icml/2000": {
-      "coverage_pct": 6.7,
-      "purity_pct": null,
+      "coverage_pct": 9.67,
+      "purity_pct": 2.76,
       "resolution_pct": 70.83
     },
     "icml/2001": {
-      "coverage_pct": 5.23,
-      "purity_pct": null,
+      "coverage_pct": 5.81,
+      "purity_pct": 0.58,
       "resolution_pct": 66.67
     },
     "icml/2002": {
@@ -737,194 +737,194 @@
       "resolution_pct": 58.33
     },
     "icml/2003": {
-      "coverage_pct": 8.9,
-      "purity_pct": null,
+      "coverage_pct": 9.59,
+      "purity_pct": 0.68,
       "resolution_pct": 57.69
     },
     "icml/2004": {
-      "coverage_pct": 8.86,
-      "purity_pct": null,
-      "resolution_pct": 75.0
+      "coverage_pct": 95.87,
+      "purity_pct": 83.81,
+      "resolution_pct": 0.0
     },
     "icml/2005": {
-      "coverage_pct": 6.38,
-      "purity_pct": null,
-      "resolution_pct": 68.0
+      "coverage_pct": 90.31,
+      "purity_pct": 70.41,
+      "resolution_pct": 35.29
     },
     "icml/2006": {
-      "coverage_pct": 5.74,
-      "purity_pct": null,
-      "resolution_pct": 47.83
+      "coverage_pct": 93.32,
+      "purity_pct": 75.0,
+      "resolution_pct": 12.5
     },
     "icml/2007": {
-      "coverage_pct": 6.8,
-      "purity_pct": null,
-      "resolution_pct": 60.0
+      "coverage_pct": 95.14,
+      "purity_pct": 77.08,
+      "resolution_pct": 19.05
     },
     "icml/2008": {
-      "coverage_pct": 8.75,
-      "purity_pct": null,
-      "resolution_pct": 53.33
+      "coverage_pct": 89.47,
+      "purity_pct": 69.4,
+      "resolution_pct": 0.0
     },
     "icml/2009": {
-      "coverage_pct": 8.22,
-      "purity_pct": null,
-      "resolution_pct": 79.55
+      "coverage_pct": 91.96,
+      "purity_pct": 72.15,
+      "resolution_pct": 18.18
     },
     "icml/2010": {
-      "coverage_pct": 6.89,
-      "purity_pct": null,
+      "coverage_pct": 8.35,
+      "purity_pct": 1.43,
       "resolution_pct": 65.52
     },
     "icml/2011": {
-      "coverage_pct": 8.83,
-      "purity_pct": null,
+      "coverage_pct": 12.09,
+      "purity_pct": 2.3,
       "resolution_pct": 60.87
     },
     "icml/2012": {
-      "coverage_pct": 7.79,
-      "purity_pct": null,
-      "resolution_pct": 74.6
+      "coverage_pct": 10.07,
+      "purity_pct": 2.49,
+      "resolution_pct": 75.41
     },
     "icml/2013": {
-      "coverage_pct": 8.31,
-      "purity_pct": null,
-      "resolution_pct": 67.82
+      "coverage_pct": 12.58,
+      "purity_pct": 3.65,
+      "resolution_pct": 65.52
     },
     "icml/2014": {
-      "coverage_pct": 9.66,
-      "purity_pct": null,
-      "resolution_pct": 66.28
+      "coverage_pct": 11.04,
+      "purity_pct": 1.24,
+      "resolution_pct": 64.29
     },
     "icml/2015": {
-      "coverage_pct": 9.95,
-      "purity_pct": null,
-      "resolution_pct": 66.96
+      "coverage_pct": 13.16,
+      "purity_pct": 2.01,
+      "resolution_pct": 64.1
     },
     "icml/2016": {
-      "coverage_pct": 9.09,
-      "purity_pct": null,
-      "resolution_pct": 58.82
+      "coverage_pct": 13.13,
+      "purity_pct": 3.44,
+      "resolution_pct": 56.78
     },
     "icml/2017": {
-      "coverage_pct": 10.61,
-      "purity_pct": null,
-      "resolution_pct": 64.13
+      "coverage_pct": 11.7,
+      "purity_pct": 1.04,
+      "resolution_pct": 62.92
     },
     "icml/2018": {
-      "coverage_pct": 11.41,
-      "purity_pct": null,
-      "resolution_pct": 66.04
+      "coverage_pct": 14.65,
+      "purity_pct": 2.67,
+      "resolution_pct": 65.41
     },
     "icml/2019": {
-      "coverage_pct": 11.73,
-      "purity_pct": null,
-      "resolution_pct": 70.18
+      "coverage_pct": 12.91,
+      "purity_pct": 0.74,
+      "resolution_pct": 70.13
     },
     "icml/2020": {
-      "coverage_pct": 11.27,
-      "purity_pct": null,
-      "resolution_pct": 60.96
+      "coverage_pct": 12.41,
+      "purity_pct": 0.54,
+      "resolution_pct": 60.78
     },
     "icml/2021": {
-      "coverage_pct": 10.46,
-      "purity_pct": null,
-      "resolution_pct": 66.47
+      "coverage_pct": 11.24,
+      "purity_pct": 0.61,
+      "resolution_pct": 65.93
     },
     "icml/2022": {
-      "coverage_pct": 11.44,
-      "purity_pct": null,
-      "resolution_pct": 66.92
+      "coverage_pct": 13.05,
+      "purity_pct": 0.94,
+      "resolution_pct": 67.27
     },
     "icml/2023": {
-      "coverage_pct": 10.49,
-      "purity_pct": null,
-      "resolution_pct": 68.54
+      "coverage_pct": 13.03,
+      "purity_pct": 1.34,
+      "resolution_pct": 66.92
     },
     "icml/2024": {
-      "coverage_pct": 5.86,
-      "purity_pct": null,
-      "resolution_pct": 72.38
+      "coverage_pct": 7.29,
+      "purity_pct": 0.67,
+      "resolution_pct": 70.83
     },
     "icml/2025": {
-      "coverage_pct": 4.0,
-      "purity_pct": null,
-      "resolution_pct": 72.76
+      "coverage_pct": 5.28,
+      "purity_pct": 0.35,
+      "resolution_pct": 66.56
     },
     "icml/2026": {
-      "coverage_pct": 1.23,
-      "purity_pct": null,
+      "coverage_pct": 8.64,
+      "purity_pct": 7.41,
       "resolution_pct": 0.0
     },
     "icra/2016": {
-      "coverage_pct": 1.43,
-      "purity_pct": null,
-      "resolution_pct": 42.11
+      "coverage_pct": 99.25,
+      "purity_pct": 75.81,
+      "resolution_pct": 8.6
     },
     "icra/2017": {
-      "coverage_pct": 0.73,
-      "purity_pct": null,
-      "resolution_pct": 56.52
+      "coverage_pct": 99.94,
+      "purity_pct": 75.0,
+      "resolution_pct": 9.87
     },
     "icra/2018": {
-      "coverage_pct": 2.56,
-      "purity_pct": null,
-      "resolution_pct": 68.54
+      "coverage_pct": 98.91,
+      "purity_pct": 75.75,
+      "resolution_pct": 27.27
     },
     "icra/2019": {
-      "coverage_pct": 2.69,
-      "purity_pct": null,
-      "resolution_pct": 70.18
+      "coverage_pct": 98.19,
+      "purity_pct": 75.35,
+      "resolution_pct": 29.69
     },
     "icra/2020": {
-      "coverage_pct": 5.84,
-      "purity_pct": null,
-      "resolution_pct": 71.59
+      "coverage_pct": 97.65,
+      "purity_pct": 70.22,
+      "resolution_pct": 43.67
     },
     "icra/2021": {
-      "coverage_pct": 35.57,
-      "purity_pct": null,
-      "resolution_pct": 78.25
+      "coverage_pct": 97.03,
+      "purity_pct": 46.97,
+      "resolution_pct": 72.14
     },
     "icra/2023": {
-      "coverage_pct": 99.35,
-      "purity_pct": null,
-      "resolution_pct": 79.71
+      "coverage_pct": 99.41,
+      "purity_pct": 0.28,
+      "resolution_pct": 79.64
     },
     "icra/2024": {
       "coverage_pct": 98.99,
-      "purity_pct": null,
-      "resolution_pct": 77.76
+      "purity_pct": 0.06,
+      "resolution_pct": 77.74
     },
     "icra/2025": {
-      "coverage_pct": 99.13,
-      "purity_pct": null,
-      "resolution_pct": 80.23
+      "coverage_pct": 99.19,
+      "purity_pct": 0.16,
+      "resolution_pct": 80.26
     },
     "iedm/2016": {
-      "coverage_pct": 4.92,
-      "purity_pct": null,
-      "resolution_pct": 18.58
+      "coverage_pct": 99.52,
+      "purity_pct": 61.09,
+      "resolution_pct": 7.37
     },
     "iedm/2017": {
-      "coverage_pct": 3.51,
-      "purity_pct": null,
-      "resolution_pct": 36.78
+      "coverage_pct": 99.46,
+      "purity_pct": 62.8,
+      "resolution_pct": 9.3
     },
     "iedm/2018": {
-      "coverage_pct": 5.42,
-      "purity_pct": null,
-      "resolution_pct": 5.47
+      "coverage_pct": 99.96,
+      "purity_pct": 60.64,
+      "resolution_pct": 2.48
     },
     "iedm/2019": {
-      "coverage_pct": 90.05,
-      "purity_pct": null,
-      "resolution_pct": 29.61
+      "coverage_pct": 100.0,
+      "purity_pct": 6.05,
+      "resolution_pct": 29.45
     },
     "iedm/2020": {
-      "coverage_pct": 27.4,
-      "purity_pct": null,
-      "resolution_pct": 28.07
+      "coverage_pct": 99.54,
+      "purity_pct": 50.63,
+      "resolution_pct": 24.22
     },
     "iedm/2021": {
       "coverage_pct": 92.12,
@@ -952,34 +952,34 @@
       "resolution_pct": 47.84
     },
     "ims/2016": {
-      "coverage_pct": 7.47,
-      "purity_pct": null,
-      "resolution_pct": 55.26
+      "coverage_pct": 99.46,
+      "purity_pct": 71.7,
+      "resolution_pct": 34.15
     },
     "ims/2017": {
-      "coverage_pct": 3.49,
-      "purity_pct": null,
-      "resolution_pct": 42.5
+      "coverage_pct": 99.61,
+      "purity_pct": 73.87,
+      "resolution_pct": 13.13
     },
     "ims/2018": {
-      "coverage_pct": 7.66,
-      "purity_pct": null,
-      "resolution_pct": 66.9
+      "coverage_pct": 100.0,
+      "purity_pct": 71.51,
+      "resolution_pct": 36.96
     },
     "ims/2019": {
-      "coverage_pct": 7.57,
-      "purity_pct": null,
-      "resolution_pct": 26.47
+      "coverage_pct": 99.94,
+      "purity_pct": 75.57,
+      "resolution_pct": 12.9
     },
     "ims/2020": {
-      "coverage_pct": 1.6,
-      "purity_pct": null,
-      "resolution_pct": 68.0
+      "coverage_pct": 100.0,
+      "purity_pct": 72.33,
+      "resolution_pct": 15.52
     },
     "ims/2021": {
-      "coverage_pct": 18.9,
-      "purity_pct": null,
-      "resolution_pct": 70.5
+      "coverage_pct": 100.0,
+      "purity_pct": 61.44,
+      "resolution_pct": 54.02
     },
     "ims/2022": {
       "coverage_pct": 94.84,
@@ -1002,34 +1002,34 @@
       "resolution_pct": 68.34
     },
     "infocom/2016": {
-      "coverage_pct": 1.1,
-      "purity_pct": null,
-      "resolution_pct": 38.46
+      "coverage_pct": 100.0,
+      "purity_pct": 85.22,
+      "resolution_pct": 29.03
     },
     "infocom/2017": {
-      "coverage_pct": 1.76,
-      "purity_pct": null,
-      "resolution_pct": 85.71
+      "coverage_pct": 99.58,
+      "purity_pct": 81.14,
+      "resolution_pct": 33.82
     },
     "infocom/2018": {
-      "coverage_pct": 2.13,
-      "purity_pct": null,
-      "resolution_pct": 100.0
+      "coverage_pct": 99.77,
+      "purity_pct": 78.98,
+      "resolution_pct": 38.0
     },
     "infocom/2019": {
-      "coverage_pct": 1.42,
-      "purity_pct": null,
-      "resolution_pct": 58.82
+      "coverage_pct": 100.0,
+      "purity_pct": 78.43,
+      "resolution_pct": 22.06
     },
     "infocom/2020": {
-      "coverage_pct": 4.72,
-      "purity_pct": null,
-      "resolution_pct": 96.43
+      "coverage_pct": 99.24,
+      "purity_pct": 80.71,
+      "resolution_pct": 69.05
     },
     "infocom/2021": {
-      "coverage_pct": 29.76,
-      "purity_pct": null,
-      "resolution_pct": 87.58
+      "coverage_pct": 100.0,
+      "purity_pct": 57.62,
+      "resolution_pct": 83.14
     },
     "infocom/2022": {
       "coverage_pct": 100.0,
@@ -1043,8 +1043,8 @@
     },
     "infocom/2024": {
       "coverage_pct": 99.61,
-      "purity_pct": null,
-      "resolution_pct": 86.59
+      "purity_pct": 0.23,
+      "resolution_pct": 86.55
     },
     "infocom/2025": {
       "coverage_pct": 99.86,
@@ -1053,8 +1053,8 @@
     },
     "infocom/2026": {
       "coverage_pct": 99.53,
-      "purity_pct": null,
-      "resolution_pct": 80.57
+      "purity_pct": 0.07,
+      "resolution_pct": 80.59
     },
     "isca/2017": {
       "coverage_pct": 100.0,
@@ -1062,9 +1062,9 @@
       "resolution_pct": 63.84
     },
     "isca/2018": {
-      "coverage_pct": 3.0,
-      "purity_pct": null,
-      "resolution_pct": 90.0
+      "coverage_pct": 99.4,
+      "purity_pct": 74.17,
+      "resolution_pct": 36.84
     },
     "isca/2019": {
       "coverage_pct": 100.0,
@@ -1072,14 +1072,14 @@
       "resolution_pct": 84.76
     },
     "isca/2020": {
-      "coverage_pct": 95.93,
-      "purity_pct": null,
-      "resolution_pct": 64.29
+      "coverage_pct": 100.0,
+      "purity_pct": 1.11,
+      "resolution_pct": 64.16
     },
     "isca/2021": {
-      "coverage_pct": 48.43,
-      "purity_pct": null,
-      "resolution_pct": 56.68
+      "coverage_pct": 97.73,
+      "purity_pct": 35.66,
+      "resolution_pct": 56.45
     },
     "isca/2022": {
       "coverage_pct": 100.0,
@@ -1117,18 +1117,18 @@
       "resolution_pct": null
     },
     "isit/2019": {
-      "coverage_pct": 99.26,
-      "purity_pct": null,
-      "resolution_pct": 91.39
+      "coverage_pct": 99.66,
+      "purity_pct": 0.68,
+      "resolution_pct": 91.37
     },
     "isit/2020": {
-      "coverage_pct": 99.11,
-      "purity_pct": null,
+      "coverage_pct": 99.52,
+      "purity_pct": 0.41,
       "resolution_pct": 92.26
     },
     "isit/2021": {
-      "coverage_pct": 99.57,
-      "purity_pct": null,
+      "coverage_pct": 99.82,
+      "purity_pct": 0.24,
       "resolution_pct": 90.42
     },
     "isit/2022": {
@@ -1138,48 +1138,48 @@
     },
     "isit/2023": {
       "coverage_pct": 99.3,
-      "purity_pct": null,
-      "resolution_pct": 88.1
+      "purity_pct": 0.14,
+      "resolution_pct": 88.08
     },
     "isit/2024": {
       "coverage_pct": 98.75,
-      "purity_pct": null,
-      "resolution_pct": 91.39
+      "purity_pct": 0.21,
+      "resolution_pct": 91.38
     },
     "isit/2025": {
       "coverage_pct": 98.87,
-      "purity_pct": null,
-      "resolution_pct": 90.66
+      "purity_pct": 0.47,
+      "resolution_pct": 90.61
     },
     "isscc/2016": {
-      "coverage_pct": 12.62,
-      "purity_pct": null,
-      "resolution_pct": 32.11
+      "coverage_pct": 99.94,
+      "purity_pct": 69.85,
+      "resolution_pct": 19.44
     },
     "isscc/2017": {
-      "coverage_pct": 10.27,
-      "purity_pct": null,
-      "resolution_pct": 34.18
+      "coverage_pct": 99.27,
+      "purity_pct": 66.63,
+      "resolution_pct": 17.22
     },
     "isscc/2018": {
-      "coverage_pct": 0.55,
-      "purity_pct": null,
-      "resolution_pct": 50.0
+      "coverage_pct": 100.0,
+      "purity_pct": 84.47,
+      "resolution_pct": 5.79
     },
     "isscc/2019": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 100.0,
+      "purity_pct": 80.88,
+      "resolution_pct": 0.0
     },
     "isscc/2020": {
-      "coverage_pct": 0.42,
-      "purity_pct": null,
-      "resolution_pct": 71.43
+      "coverage_pct": 100.0,
+      "purity_pct": 81.12,
+      "resolution_pct": 2.42
     },
     "isscc/2021": {
-      "coverage_pct": 2.73,
-      "purity_pct": null,
-      "resolution_pct": 12.5
+      "coverage_pct": 100.0,
+      "purity_pct": 72.12,
+      "resolution_pct": 2.06
     },
     "isscc/2022": {
       "coverage_pct": 91.83,
@@ -1257,43 +1257,43 @@
       "resolution_pct": null
     },
     "jlt/2016": {
-      "coverage_pct": 8.89,
-      "purity_pct": null,
-      "resolution_pct": 50.14
+      "coverage_pct": 99.28,
+      "purity_pct": 69.06,
+      "resolution_pct": 33.66
     },
     "jlt/2017": {
-      "coverage_pct": 7.35,
-      "purity_pct": null,
-      "resolution_pct": 40.66
+      "coverage_pct": 99.54,
+      "purity_pct": 73.93,
+      "resolution_pct": 28.68
     },
     "jlt/2018": {
-      "coverage_pct": 2.69,
-      "purity_pct": null,
-      "resolution_pct": 52.25
+      "coverage_pct": 99.93,
+      "purity_pct": 76.88,
+      "resolution_pct": 25.64
     },
     "jlt/2019": {
-      "coverage_pct": 2.93,
-      "purity_pct": null,
-      "resolution_pct": 68.5
+      "coverage_pct": 99.86,
+      "purity_pct": 76.95,
+      "resolution_pct": 34.07
     },
     "jlt/2020": {
-      "coverage_pct": 2.46,
-      "purity_pct": null,
-      "resolution_pct": 59.17
+      "coverage_pct": 99.53,
+      "purity_pct": 76.99,
+      "resolution_pct": 26.39
     },
     "jlt/2021": {
-      "coverage_pct": 4.5,
-      "purity_pct": null,
-      "resolution_pct": 67.87
+      "coverage_pct": 99.53,
+      "purity_pct": 79.6,
+      "resolution_pct": 44.83
     },
     "jlt/2022": {
-      "coverage_pct": 85.47,
-      "purity_pct": null,
-      "resolution_pct": 72.11
+      "coverage_pct": 99.72,
+      "purity_pct": 11.61,
+      "resolution_pct": 71.88
     },
     "jlt/2023": {
-      "coverage_pct": 99.71,
-      "purity_pct": null,
+      "coverage_pct": 99.78,
+      "purity_pct": 0.07,
       "resolution_pct": 69.66
     },
     "jlt/2024": {
@@ -1302,9 +1302,9 @@
       "resolution_pct": 72.41
     },
     "jlt/2025": {
-      "coverage_pct": 99.82,
-      "purity_pct": null,
-      "resolution_pct": 71.65
+      "coverage_pct": 99.83,
+      "purity_pct": 0.03,
+      "resolution_pct": 71.64
     },
     "jsac/2016": {
       "coverage_pct": 75.1,
@@ -1527,9 +1527,9 @@
       "resolution_pct": null
     },
     "micro/2016": {
-      "coverage_pct": 0.34,
-      "purity_pct": null,
-      "resolution_pct": 100.0
+      "coverage_pct": 100.0,
+      "purity_pct": 78.08,
+      "resolution_pct": 27.27
     },
     "micro/2017": {
       "coverage_pct": 100.0,
@@ -1537,19 +1537,19 @@
       "resolution_pct": 78.18
     },
     "micro/2018": {
-      "coverage_pct": 6.88,
-      "purity_pct": null,
-      "resolution_pct": 88.46
+      "coverage_pct": 98.94,
+      "purity_pct": 71.69,
+      "resolution_pct": 48.98
     },
     "micro/2019": {
-      "coverage_pct": 99.54,
-      "purity_pct": null,
-      "resolution_pct": 81.11
+      "coverage_pct": 100.0,
+      "purity_pct": 0.69,
+      "resolution_pct": 80.56
     },
     "micro/2020": {
-      "coverage_pct": 1.56,
-      "purity_pct": null,
-      "resolution_pct": 57.14
+      "coverage_pct": 96.44,
+      "purity_pct": 73.94,
+      "resolution_pct": 40.74
     },
     "micro/2021": {
       "coverage_pct": 100.0,
@@ -1568,8 +1568,8 @@
     },
     "micro/2024": {
       "coverage_pct": 99.71,
-      "purity_pct": null,
-      "resolution_pct": 73.54
+      "purity_pct": 0.58,
+      "resolution_pct": 73.38
     },
     "micro/2025": {
       "coverage_pct": 100.0,
@@ -1892,54 +1892,54 @@
       "resolution_pct": null
     },
     "optica/2016": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 68.68,
+      "purity_pct": 48.62,
+      "resolution_pct": 0.0
     },
     "optica/2017": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 77.82,
+      "purity_pct": 49.5,
+      "resolution_pct": 0.0
     },
     "optica/2018": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 72.92,
+      "purity_pct": 45.2,
+      "resolution_pct": 0.0
     },
     "optica/2019": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 64.71,
+      "purity_pct": 40.68,
+      "resolution_pct": 16.67
     },
     "optica/2020": {
-      "coverage_pct": 0.15,
-      "purity_pct": null,
-      "resolution_pct": 100.0
+      "coverage_pct": 61.44,
+      "purity_pct": 38.92,
+      "resolution_pct": 10.0
     },
     "optica/2021": {
-      "coverage_pct": 81.52,
-      "purity_pct": null,
-      "resolution_pct": 85.29
+      "coverage_pct": 91.41,
+      "purity_pct": 8.59,
+      "resolution_pct": 84.85
     },
     "optica/2022": {
-      "coverage_pct": 82.67,
-      "purity_pct": null,
-      "resolution_pct": 78.14
+      "coverage_pct": 88.88,
+      "purity_pct": 12.14,
+      "resolution_pct": 78.41
     },
     "optica/2023": {
-      "coverage_pct": 57.52,
-      "purity_pct": null,
-      "resolution_pct": 65.41
+      "coverage_pct": 67.58,
+      "purity_pct": 24.33,
+      "resolution_pct": 60.08
     },
     "optica/2024": {
-      "coverage_pct": 50.73,
-      "purity_pct": null,
-      "resolution_pct": 69.86
+      "coverage_pct": 55.44,
+      "purity_pct": 14.56,
+      "resolution_pct": 73.43
     },
     "optica/2025": {
-      "coverage_pct": 57.6,
-      "purity_pct": null,
-      "resolution_pct": 63.32
+      "coverage_pct": 55.52,
+      "purity_pct": 19.0,
+      "resolution_pct": 60.55
     },
     "pnas/2016": {
       "coverage_pct": 95.03,
@@ -2202,34 +2202,34 @@
       "resolution_pct": null
     },
     "rtas/2016": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 100.0,
+      "purity_pct": 65.68,
+      "resolution_pct": 37.5
     },
     "rtas/2017": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 98.8,
+      "purity_pct": 77.25,
+      "resolution_pct": 42.86
     },
     "rtas/2018": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 99.21,
+      "purity_pct": 87.3,
+      "resolution_pct": 90.0
     },
     "rtas/2019": {
-      "coverage_pct": 4.88,
-      "purity_pct": null,
-      "resolution_pct": 100.0
+      "coverage_pct": 100.0,
+      "purity_pct": 79.67,
+      "resolution_pct": 70.0
     },
     "rtas/2020": {
-      "coverage_pct": 2.7,
-      "purity_pct": null,
+      "coverage_pct": 100.0,
+      "purity_pct": 79.28,
       "resolution_pct": 0.0
     },
     "rtas/2021": {
-      "coverage_pct": 3.03,
-      "purity_pct": null,
-      "resolution_pct": 100.0
+      "coverage_pct": 100.0,
+      "purity_pct": 75.76,
+      "resolution_pct": 40.62
     },
     "rtas/2022": {
       "coverage_pct": 100.0,
@@ -2257,29 +2257,29 @@
       "resolution_pct": 85.71
     },
     "rtss/2016": {
-      "coverage_pct": 9.74,
-      "purity_pct": null,
-      "resolution_pct": 86.67
+      "coverage_pct": 100.0,
+      "purity_pct": 66.88,
+      "resolution_pct": 46.67
     },
     "rtss/2017": {
-      "coverage_pct": 4.94,
-      "purity_pct": null,
-      "resolution_pct": 100.0
+      "coverage_pct": 100.0,
+      "purity_pct": 74.69,
+      "resolution_pct": 57.14
     },
     "rtss/2018": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 99.43,
+      "purity_pct": 78.41,
+      "resolution_pct": 36.36
     },
     "rtss/2019": {
-      "coverage_pct": 73.54,
-      "purity_pct": null,
-      "resolution_pct": 92.07
+      "coverage_pct": 100.0,
+      "purity_pct": 20.18,
+      "resolution_pct": 89.35
     },
     "rtss/2020": {
-      "coverage_pct": 0.0,
-      "purity_pct": null,
-      "resolution_pct": null
+      "coverage_pct": 100.0,
+      "purity_pct": 92.21,
+      "resolution_pct": 0.0
     },
     "rtss/2021": {
       "coverage_pct": 100.0,
@@ -3448,8 +3448,8 @@
     },
     "vlsi-circuits/2023": {
       "coverage_pct": 99.96,
-      "purity_pct": null,
-      "resolution_pct": 39.42
+      "purity_pct": 1.25,
+      "resolution_pct": 39.92
     },
     "vlsi-circuits/2024": {
       "coverage_pct": 100.0,
@@ -3462,29 +3462,29 @@
       "resolution_pct": 40.79
     },
     "vlsi-tech/2016": {
-      "coverage_pct": 11.36,
-      "purity_pct": null,
-      "resolution_pct": 10.56
+      "coverage_pct": 99.84,
+      "purity_pct": 63.2,
+      "resolution_pct": 6.47
     },
     "vlsi-tech/2017": {
-      "coverage_pct": 12.32,
-      "purity_pct": null,
-      "resolution_pct": 13.33
+      "coverage_pct": 100.0,
+      "purity_pct": 60.13,
+      "resolution_pct": 7.89
     },
     "vlsi-tech/2018": {
-      "coverage_pct": 10.63,
-      "purity_pct": null,
-      "resolution_pct": 9.26
+      "coverage_pct": 100.0,
+      "purity_pct": 74.11,
+      "resolution_pct": 7.52
     },
     "vlsi-tech/2019": {
-      "coverage_pct": 0.89,
-      "purity_pct": null,
-      "resolution_pct": 22.22
+      "coverage_pct": 99.21,
+      "purity_pct": 79.03,
+      "resolution_pct": 2.78
     },
     "vlsi-tech/2020": {
-      "coverage_pct": 2.5,
-      "purity_pct": null,
-      "resolution_pct": 0.0
+      "coverage_pct": 87.21,
+      "purity_pct": 60.22,
+      "resolution_pct": 0.93
     },
     "vlsi-tech/2021": {
       "coverage_pct": 57.98,
