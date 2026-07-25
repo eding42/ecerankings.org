@@ -13,9 +13,13 @@ import argparse
 import csv
 import json
 import os
+import re
 import sys
 from collections import defaultdict
 from datetime import date
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from workkey import work_key  # noqa: E402  (shared work-identity helper)
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AREAS_JSON = os.path.join(REPO_ROOT, "data", "areas.json")
@@ -46,6 +50,40 @@ NESTED_LINEAGE_MEDIUM = 10
 REGRESSION_EPSILON = 0.5    # pp; below this is float/rounding noise, not a real drop
 REGRESSION_CRITICAL_DROP = 50
 REGRESSION_HIGH_DROP = 10
+
+# ── Under-collection thresholds (added 2026-07-25) ────────────────────
+# These close a blind spot that let the `ml` area ship in the live default
+# selection while NeurIPS and ICLR had ZERO works harvested and ICML was 88%
+# missing affiliations. Every pre-existing check passed: the known-strong
+# tripwire only asserts non-zero, and Stanford/MIT/CMU/Berkeley/UCLA all had
+# non-zero counts off the ~8% of ICML that did resolve. Nothing asked whether
+# the area had enough data to rank at all.
+AREA_GAP_CRITICAL = 50   # % of an area's author slots with NO affiliation signal
+AREA_GAP_HIGH = 25
+AREA_GAP_MEDIUM = 15
+# Relative floor: an area holding a small fraction of the median area's
+# institution count is under-collected, not merely niche. Relative rather than
+# absolute so it self-calibrates as the corpus grows.
+AREA_INST_CRITICAL_FRAC = 0.15
+AREA_INST_HIGH_FRAC = 0.30
+
+# ── Non-research contamination (added 2026-07-25) ─────────────────────
+# Adjusted count is 1/N per author, so a single-author non-research item earns
+# its institution a full 1.0 -- 4x what an author gets on a 4-author paper.
+# 66 single-author science-fiction columns in Science Robotics were enough to
+# put one institution at #1 in that venue at double the runner-up. Single
+# authorship is a PRIOR, not a verdict: tit (8.2%) and automatica (6.2%) are
+# theory venues where solo-authored research is entirely normal. So this only
+# flags venues for review; pipeline/detect_editorials.py does the semantic
+# scoring and a human curates data/excluded-works.csv.
+SOLO_SHARE_HIGH = 15     # % of a venue's credited works that are single-author
+SOLO_SHARE_MEDIUM = 8
+SOLO_MIN_WORKS = 200     # below this, the share is too noisy to act on
+# Titles that are non-research on their face. Cheap stdlib backstop for items
+# the semantic pass hasn't been run on yet.
+NONRESEARCH_TITLE_RE = re.compile(
+    r"\b(editorial|erratum|corrigendum|obituary|in memoriam|book review|"
+    r"news and views|in this issue|retraction of|letter to the editor)\b", re.I)
 
 
 # ════════════════════════════════════════════════════════════════════
@@ -250,6 +288,17 @@ def phase1_harvest(areas, args, vy_stats, global_stats, prev_snapshot):
                 if os.path.exists(wf):
                     cached_years.add(int(yd))
 
+        # 1a-0. Registered but never harvested at all.
+        # 1a below only fires for venues carrying an explicit `years` map, so a
+        # venue registered with nothing but openalex_ids — NeurIPS and ICLR were
+        # exactly this — produced no finding of any kind while contributing zero
+        # papers to a default-on area.
+        if not cached_years:
+            flags["critical"].append(
+                f"[{vkey}] registered in area '{ak}' (status={vdef.get('status', '?')}) "
+                f"but has ZERO cached works — never harvested"
+            )
+
         # 1a. Missing years: registered but no cache
         for yr_str, yr_info in expected_years.items():
             yr = int(yr_str)
@@ -308,6 +357,77 @@ def phase1_harvest(areas, args, vy_stats, global_stats, prev_snapshot):
                     flags["medium"].append(
                         f"[{vkey}/{yr}] {len(pids)} papers with duplicate title: {title[:60]}..."
                     )
+
+    # 1e-2. Non-research contamination sweep.
+    # Rankings credit a single-author item at a full 1.0, so commentary counted
+    # as a research paper is worth 4x a 4-author paper to its institution. This
+    # does NOT decide anything -- it flags venues worth running
+    # detect_editorials.py against, and names titles that are non-research on
+    # their face and not yet excluded.
+    excluded_keys = set()
+    excl_csv = os.path.join(REPO_ROOT, "data", "excluded-works.csv")
+    if os.path.exists(excl_csv):
+        with open(excl_csv) as f:
+            excluded_keys = {r["work_key"] for r in csv.DictReader(f) if r.get("work_key")}
+
+    solo = defaultdict(int)
+    credited_works = defaultdict(int)
+    blatant = []
+    for vkey in sorted(v2a):
+        vdir = os.path.join(CACHE_DIR, vkey)
+        if not os.path.isdir(vdir):
+            continue
+        for yd in sorted(os.listdir(vdir)):
+            if not yd.isdigit():
+                continue
+            wf = os.path.join(vdir, yd, "works.jsonl")
+            if not os.path.exists(wf):
+                continue
+            with open(wf) as f:
+                for line in f:
+                    try:
+                        w = json.loads(line)
+                    except json.JSONDecodeError:
+                        continue
+                    aus = w.get("authorships") or []
+                    if not any(i.get("type") == "education"
+                               for a in aus for i in (a.get("institutions") or [])):
+                        continue
+                    # Measure the share that SURVIVES exclusion -- otherwise the
+                    # flag never clears no matter how much curation happens, and
+                    # a stuck warning is one people learn to ignore.
+                    k = work_key(w, vkey, yd)
+                    if k in excluded_keys:
+                        continue
+                    credited_works[vkey] += 1
+                    if len(aus) == 1:
+                        solo[vkey] += 1
+                    title = re.sub(r"<[^>]+>", "", w.get("title") or "")
+                    if NONRESEARCH_TITLE_RE.search(title):
+                        blatant.append((vkey, yd, title[:70]))
+
+    if excluded_keys:
+        print(f"  Exclusion list active: {len(excluded_keys)} works "
+              f"(data/excluded-works.csv)")
+    for vkey in sorted(credited_works, key=lambda k: -solo[k] / max(credited_works[k], 1)):
+        n = credited_works[vkey]
+        if n < SOLO_MIN_WORKS:
+            continue
+        share = solo[vkey] / n * 100
+        if share < SOLO_SHARE_MEDIUM:
+            continue
+        msg = (f"[{vkey}] {share:.1f}% of credited works are single-author "
+               f"({solo[vkey]}/{n}) — each earns a full 1.0; run "
+               f"detect_editorials.py --venue {vkey} to check for commentary")
+        flags["high" if share >= SOLO_SHARE_HIGH else "medium"].append(msg)
+
+    for vkey, yd, title in blatant[:40]:
+        flags["medium"].append(
+            f"[{vkey}/{yd}] non-research title still credited: {title}")
+    if len(blatant) > 40:
+        flags["medium"].append(
+            f"...and {len(blatant) - 40} more non-research titles "
+            f"(truncated; run detect_editorials.py for the full list)")
 
     # 1f. Summary stats
     total_venue_years = sum(len(list(vdef.get("years", {}).keys())) for ak, vdef in v2a.values())
@@ -761,6 +881,51 @@ def phase2_normalization(areas, args, vy_stats, global_stats, nested_institution
         if regressions:
             print(f"  Purity/resolution regressions vs. last snapshot: {len(regressions)}")
 
+    # 2z. Per-AREA affiliation gap.
+    # The venue-year coverage scorecard above can look acceptable venue by venue
+    # while an entire area is mostly blind, because a bad venue's slots are
+    # diluted across many good venue-years. Rankings are computed per area and
+    # combined by geometric mean, so a systematically blind area silently
+    # distorts every institution's overall score. Roll the same scan up by area.
+    v2a = {}
+    for ak, area in areas["areas"].items():
+        if args.area and args.area != "all" and ak != args.area:
+            continue
+        for v in area["venues"]:
+            v2a[v["key"]] = ak
+
+    area_empty = defaultdict(int)
+    area_total = defaultdict(int)
+    for (vkey, _yr), s in vy_stats.items():
+        ak = v2a.get(vkey)
+        if ak is None:
+            continue
+        area_empty[ak] += s["empty"]
+        area_total[ak] += s["total"]
+
+    if area_total:
+        print("\n  Per-area affiliation gap (author slots with no institution and no raw string):")
+        for ak in sorted(area_total, key=lambda k: -area_empty[k] / max(area_total[k], 1)):
+            total = area_total[ak]
+            if total == 0:
+                continue
+            gap = area_empty[ak] / total * 100
+            default_on = areas["areas"][ak].get("default_on", False)
+            tag = "" if default_on else "  (default_off)"
+            print(f"    {ak:14s} {gap:5.1f}%  ({area_empty[ak]:,}/{total:,}){tag}")
+
+            msg = (f"[{ak}] area is {gap:.1f}% missing affiliations "
+                   f"({area_empty[ak]:,}/{total:,} author slots)")
+            # A default-off area is a known-incomplete area the user has already
+            # excluded from ranking, so the same gap is one severity lower —
+            # flagged for visibility, not treated as a live ranking defect.
+            if gap >= AREA_GAP_CRITICAL:
+                flags["critical" if default_on else "high"].append(msg)
+            elif gap >= AREA_GAP_HIGH:
+                flags["high" if default_on else "medium"].append(msg)
+            elif gap >= AREA_GAP_MEDIUM:
+                flags["medium"].append(msg)
+
     return flags
 
 
@@ -815,6 +980,28 @@ def phase3_aggregate(areas, args):
         if n_insts == 0:
             flags["critical"].append(f"[{ak}] {area_name} — zero institutions credited")
         print(f"  [{ak}] {area_name:35s}  {n_insts:>5d} institutions")
+
+    # 3a-2. Under-collected areas.
+    # Zero institutions is caught above, but the dangerous case is NON-zero and
+    # far too small: `ml` shipped with 322 institutions against a ~1,700 median
+    # and every existing check passed. Compare each area to the median rather
+    # than a fixed floor so the test survives corpus growth.
+    counts = {ak: len(v) for ak, v in area_insts.items() if v}
+    if len(counts) >= 5:
+        ordered = sorted(counts.values())
+        median = ordered[len(ordered) // 2]
+        for ak in sorted(counts, key=lambda k: counts[k]):
+            n_insts = counts[ak]
+            frac = n_insts / median if median else 1.0
+            if frac >= AREA_INST_HIGH_FRAC:
+                continue
+            default_on = areas["areas"].get(ak, {}).get("default_on", False)
+            msg = (f"[{ak}] only {n_insts} institutions credited vs median {median} "
+                   f"({frac * 100:.0f}% of median) — area looks under-collected")
+            if frac < AREA_INST_CRITICAL_FRAC:
+                flags["critical" if default_on else "high"].append(msg)
+            else:
+                flags["high" if default_on else "medium"].append(msg)
 
     # 3b. Zero-count audit (known-strong institutions)
     if os.path.exists(KNOWN_JSON):

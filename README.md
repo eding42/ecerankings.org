@@ -64,6 +64,7 @@ on DOI.
 | `PLAN.md` | Architecture, methodology, and phased roadmap. |
 | `data/areas.json` | Venue registry — OpenAlex source IDs, per-year availability, and verification status for every ranked venue. |
 | `data/affiliation-map.csv` | Mapping from raw Crossref affiliation strings to OpenAlex institution IDs. |
+| `data/excluded-works.csv` | Curated list of non-research works (editorials, columns) that `aggregate.py` skips. |
 | `data/reports/` | One report per data-collection run. |
 | `pipeline/` | Harvest, backfill, normalization, adjudication, and aggregation scripts. Python standard library only, except `normalize_semantic.py`. |
 | `site/data/` | Generated CSVs and JSON consumed by the frontend. |
@@ -97,14 +98,19 @@ python3 pipeline/backfill_openalex.py --apply
 # or, with no .venv available:
 python3 pipeline/normalize_affiliations_local.py --all-cached
 
-# 5. Aggregate into per-(institution, area, year) adjusted counts
+# 5. Propose non-research works (editorials, columns) for exclusion.
+#    Writes proposals only — promote accepted rows into data/excluded-works.csv,
+#    which is the file aggregate.py reads. Nothing is excluded automatically.
+.venv/bin/python pipeline/detect_editorials.py --venue scirobotics
+
+# 6. Aggregate into per-(institution, area, year) adjusted counts
 python3 pipeline/aggregate.py --all-cached
 
-# 6. Split for the frontend, and build institution metadata
+# 7. Split for the frontend, and build institution metadata
 python3 pipeline/split.py
 python3 pipeline/build_institutions.py
 
-# 7. Check for regressions
+# 8. Check for regressions
 python3 pipeline/verify.py --all
 ```
 

@@ -39,17 +39,17 @@
     "rank": 10,
     "name": "University of Chinese Academy of Sciences"
   },
-  "https://openalex.org/I95457486": {
+  "https://openalex.org/I35440088": {
     "rank": 11,
+    "name": "ETH Zurich"
+  },
+  "https://openalex.org/I95457486": {
+    "rank": 12,
     "name": "University of California, Berkeley"
   },
   "https://openalex.org/I47720641": {
-    "rank": 12,
-    "name": "Huazhong University of Science and Technology"
-  },
-  "https://openalex.org/I35440088": {
     "rank": 13,
-    "name": "ETH Zurich"
+    "name": "Huazhong University of Science and Technology"
   },
   "https://openalex.org/I172675005": {
     "rank": 14,
@@ -63,140 +63,140 @@
     "rank": 16,
     "name": "University of Michigan"
   },
-  "https://openalex.org/I241749": {
-    "rank": 17,
-    "name": "University of Cambridge"
-  },
   "https://openalex.org/I76569877": {
-    "rank": 18,
+    "rank": 17,
     "name": "Southeast University"
   },
   "https://openalex.org/I165932596": {
-    "rank": 19,
+    "rank": 18,
     "name": "National University of Singapore"
   },
-  "https://openalex.org/I40120149": {
-    "rank": 20,
-    "name": "University of Oxford"
+  "https://openalex.org/I241749": {
+    "rank": 19,
+    "name": "University of Cambridge"
   },
   "https://openalex.org/I157725225": {
-    "rank": 21,
+    "rank": 20,
     "name": "University of Illinois Urbana-Champaign"
   },
-  "https://openalex.org/I149594827": {
-    "rank": 22,
-    "name": "Xidian University"
-  },
-  "https://openalex.org/I161318765": {
-    "rank": 23,
-    "name": "University of California, Los Angeles"
-  },
   "https://openalex.org/I130701444": {
-    "rank": 24,
+    "rank": 21,
     "name": "Georgia Institute of Technology"
   },
-  "https://openalex.org/I74801974": {
-    "rank": 25,
-    "name": "The University of Tokyo"
-  },
   "https://openalex.org/I157485424": {
-    "rank": 26,
+    "rank": 22,
     "name": "Korea Advanced Institute of Science and Technology"
   },
-  "https://openalex.org/I24943067": {
-    "rank": 27,
-    "name": "Fudan University"
+  "https://openalex.org/I40120149": {
+    "rank": 23,
+    "name": "University of Oxford"
+  },
+  "https://openalex.org/I74801974": {
+    "rank": 24,
+    "name": "The University of Tokyo"
   },
   "https://openalex.org/I47508984": {
-    "rank": 28,
+    "rank": 25,
     "name": "Imperial College London"
   },
+  "https://openalex.org/I161318765": {
+    "rank": 26,
+    "name": "University of California, Los Angeles"
+  },
+  "https://openalex.org/I149594827": {
+    "rank": 27,
+    "name": "Xidian University"
+  },
   "https://openalex.org/I5124864": {
-    "rank": 29,
+    "rank": 28,
     "name": "\u00c9cole Polytechnique F\u00e9d\u00e9rale de Lausanne"
   },
-  "https://openalex.org/I20089843": {
+  "https://openalex.org/I24943067": {
+    "rank": 29,
+    "name": "Fudan University"
+  },
+  "https://openalex.org/I204983213": {
     "rank": 30,
-    "name": "Princeton University"
+    "name": "Harbin Institute of Technology"
   },
   "https://openalex.org/I157773358": {
     "rank": 31,
     "name": "Sun Yat-sen University"
   },
-  "https://openalex.org/I87445476": {
+  "https://openalex.org/I20089843": {
     "rank": 32,
+    "name": "Princeton University"
+  },
+  "https://openalex.org/I87445476": {
+    "rank": 33,
     "name": "Xi'an Jiaotong University"
   },
   "https://openalex.org/I185261750": {
-    "rank": 33,
+    "rank": 34,
     "name": "University of Toronto"
   },
   "https://openalex.org/I205783295": {
-    "rank": 34,
-    "name": "Cornell University"
-  },
-  "https://openalex.org/I204983213": {
     "rank": 35,
-    "name": "Harbin Institute of Technology"
+    "name": "Cornell University"
   },
   "https://openalex.org/I177725633": {
     "rank": 36,
     "name": "Chinese University of Hong Kong"
   },
-  "https://openalex.org/I78577930": {
+  "https://openalex.org/I139264467": {
     "rank": 37,
-    "name": "Columbia University"
+    "name": "Seoul National University"
   },
-  "https://openalex.org/I32971472": {
+  "https://openalex.org/I78577930": {
     "rank": 38,
-    "name": "Yale University"
+    "name": "Columbia University"
   },
   "https://openalex.org/I79576946": {
     "rank": 39,
     "name": "University of Pennsylvania"
   },
-  "https://openalex.org/I139264467": {
-    "rank": 40,
-    "name": "Seoul National University"
-  },
-  "https://openalex.org/I122411786": {
-    "rank": 41,
-    "name": "California Institute of Technology"
-  },
   "https://openalex.org/I74973139": {
-    "rank": 42,
+    "rank": 40,
     "name": "Carnegie Mellon University"
+  },
+  "https://openalex.org/I32971472": {
+    "rank": 41,
+    "name": "Yale University"
+  },
+  "https://openalex.org/I62916508": {
+    "rank": 42,
+    "name": "Technical University of Munich"
   },
   "https://openalex.org/I200769079": {
     "rank": 43,
     "name": "Hong Kong University of Science and Technology"
   },
-  "https://openalex.org/I881766915": {
+  "https://openalex.org/I122411786": {
     "rank": 44,
+    "name": "California Institute of Technology"
+  },
+  "https://openalex.org/I889458895": {
+    "rank": 45,
+    "name": "University of Hong Kong"
+  },
+  "https://openalex.org/I881766915": {
+    "rank": 46,
     "name": "Nanjing University"
   },
-  "https://openalex.org/I62916508": {
-    "rank": 45,
-    "name": "Technical University of Munich"
-  },
   "https://openalex.org/I86519309": {
-    "rank": 46,
-    "name": "The University of Texas at Austin"
-  },
-  "https://openalex.org/I201448701": {
     "rank": 47,
-    "name": "University of Washington"
+    "name": "The University of Texas at Austin"
   },
   "https://openalex.org/I145311948": {
     "rank": 48,
     "name": "Johns Hopkins University"
   },
-  "https://openalex.org/I889458895": {
+  "https://openalex.org/I201448701": {
     "rank": 49,
-    "name": "University of Hong Kong"
+    "name": "University of Washington"
   },
-  "https://openalex.org/I82880672": {
+  "https://openalex.org/I125839683": {
     "rank": 50,
-    "name": "Beihang University"
+    "name": "Beijing Institute of Technology"
   }
 }

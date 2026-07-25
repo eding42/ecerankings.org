@@ -1,8 +1,8 @@
 {
   "generated": "2026-07-25",
   "global": {
-    "coverage_pct": 93.71,
-    "purity_pct": 59.97,
+    "coverage_pct": 93.77,
+    "purity_pct": 60.28,
     "resolution_pct": 69.16
   },
   "venue_years": {
@@ -2201,6 +2201,61 @@
       "purity_pct": 62.03,
       "resolution_pct": null
     },
+    "ral/2016": {
+      "coverage_pct": 98.61,
+      "purity_pct": 79.97,
+      "resolution_pct": null
+    },
+    "ral/2017": {
+      "coverage_pct": 97.69,
+      "purity_pct": 82.62,
+      "resolution_pct": null
+    },
+    "ral/2018": {
+      "coverage_pct": 96.83,
+      "purity_pct": 74.36,
+      "resolution_pct": null
+    },
+    "ral/2019": {
+      "coverage_pct": 97.71,
+      "purity_pct": 78.97,
+      "resolution_pct": null
+    },
+    "ral/2020": {
+      "coverage_pct": 97.84,
+      "purity_pct": 78.86,
+      "resolution_pct": null
+    },
+    "ral/2021": {
+      "coverage_pct": 97.34,
+      "purity_pct": 78.37,
+      "resolution_pct": null
+    },
+    "ral/2022": {
+      "coverage_pct": 96.33,
+      "purity_pct": 77.93,
+      "resolution_pct": null
+    },
+    "ral/2023": {
+      "coverage_pct": 97.02,
+      "purity_pct": 78.11,
+      "resolution_pct": null
+    },
+    "ral/2024": {
+      "coverage_pct": 96.53,
+      "purity_pct": 81.34,
+      "resolution_pct": null
+    },
+    "ral/2025": {
+      "coverage_pct": 97.79,
+      "purity_pct": 82.6,
+      "resolution_pct": null
+    },
+    "ral/2026": {
+      "coverage_pct": 96.96,
+      "purity_pct": 81.3,
+      "resolution_pct": null
+    },
     "rtas/2016": {
       "coverage_pct": 100.0,
       "purity_pct": 65.68,
@@ -2404,6 +2459,61 @@
     "science/2025": {
       "coverage_pct": 89.17,
       "purity_pct": 61.11,
+      "resolution_pct": null
+    },
+    "scirobotics/2016": {
+      "coverage_pct": 100.0,
+      "purity_pct": 78.95,
+      "resolution_pct": null
+    },
+    "scirobotics/2017": {
+      "coverage_pct": 99.66,
+      "purity_pct": 77.59,
+      "resolution_pct": null
+    },
+    "scirobotics/2018": {
+      "coverage_pct": 99.47,
+      "purity_pct": 81.84,
+      "resolution_pct": null
+    },
+    "scirobotics/2019": {
+      "coverage_pct": 99.12,
+      "purity_pct": 79.12,
+      "resolution_pct": null
+    },
+    "scirobotics/2020": {
+      "coverage_pct": 100.0,
+      "purity_pct": 82.25,
+      "resolution_pct": null
+    },
+    "scirobotics/2021": {
+      "coverage_pct": 98.78,
+      "purity_pct": 79.13,
+      "resolution_pct": null
+    },
+    "scirobotics/2022": {
+      "coverage_pct": 99.65,
+      "purity_pct": 72.87,
+      "resolution_pct": null
+    },
+    "scirobotics/2023": {
+      "coverage_pct": 99.44,
+      "purity_pct": 76.13,
+      "resolution_pct": null
+    },
+    "scirobotics/2024": {
+      "coverage_pct": 99.4,
+      "purity_pct": 74.91,
+      "resolution_pct": null
+    },
+    "scirobotics/2025": {
+      "coverage_pct": 99.31,
+      "purity_pct": 71.31,
+      "resolution_pct": null
+    },
+    "scirobotics/2026": {
+      "coverage_pct": 98.57,
+      "purity_pct": 62.47,
       "resolution_pct": null
     },
     "sigcomm/2017": {

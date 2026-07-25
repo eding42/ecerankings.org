@@ -1,0 +1,113 @@
+work_key,venue,year,title,n_authors,type,editorial_sim,research_sim,margin
+doi:10.1126/scirobotics.abk2787,scirobotics,2021,From individual robots to robot societies,2,article,0.7001,0.2251,0.4751
+doi:10.1126/scirobotics.abe2987,scirobotics,2020,Understanding robots,1,article,0.7222,0.2696,0.4527
+doi:10.1126/scirobotics.adx2410,scirobotics,2025,Robotics in Africa is trending upward and has a bright future,1,article,0.7012,0.251,0.4503
+doi:10.1126/scirobotics.abn2720,scirobotics,2021,Five years of Science Robotics,7,editorial,0.7374,0.3062,0.4312
+doi:10.1126/scirobotics.adh1824,scirobotics,2023,The beehive of the future is a robot socially interacting with honeybees,1,article,0.5691,0.1441,0.4251
+doi:10.1126/scirobotics.aea7390,scirobotics,2025,"Good old-fashioned engineering can close the 100,000-year “data gap” in robotics",1,editorial,0.5951,0.1779,0.4172
+doi:10.1126/scirobotics.aal2099,scirobotics,2016,Science for robotics and robotics for science,10,editorial,0.6228,0.2193,0.4035
+doi:10.1126/scirobotics.abf1364,scirobotics,2020,Robots are not immune to bias and injustice,2,editorial,0.5334,0.1486,0.3848
+doi:10.1126/scirobotics.adq6387,scirobotics,2024,Ironies of social robotics,1,article,0.5842,0.2204,0.3638
+doi:10.1126/scirobotics.adh1236,scirobotics,2023,M3GAN : The real horror is the lack of ethics in robotics,2,article,0.5472,0.1881,0.3591
+doi:10.1126/scirobotics.abd5186,scirobotics,2021,Persuasive robots should avoid authority: The effects of formal and real authority on persuasion in human-robot interaction,2,article,0.4793,0.1206,0.3587
+doi:10.1126/scirobotics.adu0391,scirobotics,2024,Overcoming the challenges that women in robotics face,1,article,0.5314,0.1784,0.353
+doi:10.1126/scirobotics.aat7451,scirobotics,2018,"Robots for the people, by the people: Personalizing human-machine interaction",2,article,0.4817,0.1294,0.3524
+doi:10.1126/scirobotics.adt0684,scirobotics,2025,The robot will see you now: Foundation models are the path forward for autonomous robotic surgery,1,article,0.5638,0.2199,0.3439
+doi:10.1126/scirobotics.abh3168,scirobotics,2021,Tiny robots make big advances,2,editorial,0.598,0.2581,0.3399
+doi:10.1126/scirobotics.adu2915,scirobotics,2024,Black in Robotics: Improving community and equity in the field of robotics,2,article,0.5606,0.2219,0.3386
+doi:10.1126/scirobotics.abf1502,scirobotics,2020,Robots learn to identify objects by feeling,1,article,0.546,0.2229,0.3231
+doi:10.1126/scirobotics.adu2844,scirobotics,2024,The cold truth about robotics research in the United Kingdom as a Caribbean woman,1,article,0.531,0.2142,0.3168
+doi:10.1126/scirobotics.aam5410,scirobotics,2017,Socially assistive robotics: Human augmentation versus automation,1,article,0.4641,0.1499,0.3142
+doi:10.1126/scirobotics.aei1219,scirobotics,2026,Acceptance of humanoid robots: A psychological perspective,1,article,0.3968,0.084,0.3128
+doi:10.1126/scirobotics.aat5999,scirobotics,2018,Reading socially: Transforming the in-home reading experience with a learning-companion robot,2,article,0.4255,0.1219,0.3036
+doi:10.1126/scirobotics.aei2397,scirobotics,2026,Beyond imitation: Robots that learn to work in the real world,1,article,0.6266,0.3282,0.2985
+doi:10.1126/scirobotics.adu6123,scirobotics,2025,How can educational robots enhance family life? Through careful integration,2,article,0.4597,0.1615,0.2982
+doi:10.1126/scirobotics.abb5589,scirobotics,2020,Combating COVID-19—The role of robotics in managing public health and infectious diseases,13,editorial,0.4795,0.1866,0.2929
+doi:10.1126/scirobotics.aat5217,scirobotics,2018,Robots for the PyeongChang 2018 Winter Olympic Games,2,article,0.5383,0.2466,0.2917
+doi:10.1126/scirobotics.abf4317,scirobotics,2021,Collaborating robots sample the primary production in the ocean,1,article,0.5107,0.2438,0.2669
+doi:10.1126/scirobotics.abe6818,scirobotics,2020,Analog-digital computing let robots go through the motions,1,article,0.5204,0.2579,0.2626
+doi:10.1126/scirobotics.aba6149,scirobotics,2020,Metal or muscle? The future of biologically inspired robots,1,article,0.5585,0.2997,0.2588
+doi:10.1126/scirobotics.aan3674,scirobotics,2017,Robots on construction sites: The potential and challenges of on-site digital fabrication,2,article,0.4922,0.234,0.2582
+doi:10.1126/scirobotics.adl0014,scirobotics,2023,Assistive robotics should seamlessly integrate humans and robots,2,editorial,0.4574,0.201,0.2564
+doi:10.1126/scirobotics.aam8638,scirobotics,2017,"Medical robotics—Regulatory, ethical, and legal considerations for increasing levels of autonomy",12,editorial,0.4682,0.2128,0.2554
+doi:10.1126/scirobotics.ado5755,scirobotics,2024,Teaching robots the art of human social synchrony,1,article,0.525,0.2707,0.2543
+doi:10.1126/scirobotics.abn6522,scirobotics,2022,Autonomous robotic surgery makes light work of anastomosis,2,article,0.4342,0.1807,0.2535
+doi:10.1126/scirobotics.aan5074,scirobotics,2017,Review on space robotics: Toward top-level science through space exploration,2,article,0.507,0.2577,0.2493
+doi:10.1126/scirobotics.adt5685,scirobotics,2025,Roboticists are grappling with space debris,1,article,0.4756,0.2422,0.2334
+doi:10.1126/scirobotics.abc7620,scirobotics,2020,Immune evasion by designer microrobots,1,article,0.4541,0.2231,0.231
+doi:10.1126/scirobotics.abh0286,scirobotics,2021,Neutrobots smuggle drugs across biological barriers,2,article,0.4247,0.1984,0.2263
+doi:10.1126/scirobotics.abc9014,scirobotics,2020,The potential of socially assistive robots during infectious disease outbreaks,2,article,0.4397,0.2187,0.2211
+doi:10.1126/scirobotics.abe2547,scirobotics,2020,Preparing to adapt is key for Olympic curling robots,1,article,0.4706,0.2515,0.2191
+doi:10.1126/scirobotics.aat0938,scirobotics,2018,Spotlight on origami robots,2,article,0.4544,0.2397,0.2147
+doi:10.1126/scirobotics.adu0906,scirobotics,2024,Promoting diverse and inclusive spaces with intentionality,1,article,0.2698,0.0591,0.2106
+doi:10.1126/scirobotics.adx2731,scirobotics,2025,The multifaceted approach to embodied intelligence in robotics,1,article,0.4564,0.246,0.2104
+doi:10.1126/scirobotics.abh4443,scirobotics,2021,Smarter materials for smarter robots,2,article,0.5004,0.2976,0.2028
+doi:10.1126/scirobotics.abd0496,scirobotics,2020,A bug’s-eye view,2,article,0.2551,0.0608,0.1944
+doi:10.1126/scirobotics.abo7210,scirobotics,2022,Answering the great automation question,1,article,0.3094,0.1151,0.1944
+doi:10.1126/scirobotics.abk3123,scirobotics,2021,Engineering and surgical advancements enable more cognitively integrated bionic arms,1,article,0.3528,0.1602,0.1925
+doi:10.1126/scirobotics.abh3167,scirobotics,2021,NASA’s Perseverance: Robot laboratory on Mars,1,article,0.5024,0.3109,0.1915
+doi:10.1126/scirobotics.abe7458,scirobotics,2020,Counting penguins with drones,1,article,0.3376,0.1532,0.1844
+doi:10.1126/scirobotics.abq2215,scirobotics,2022,Swarms of flying robots in unknown environments,1,article,0.4724,0.2943,0.178
+doi:10.1126/scirobotics.aaw1875,scirobotics,2019,Future farms without farmers,2,article,0.2733,0.0973,0.176
+doi:10.1126/scirobotics.adw8581,scirobotics,2025,Swimming in the “Matrix”: VR fish pass the Turing test using a simple control law for collective behavior,2,article,0.3834,0.2088,0.1746
+doi:10.1126/scirobotics.adv4049,scirobotics,2025,Extending robot minds through collective learning,1,article,0.4605,0.2938,0.1667
+doi:10.1126/scirobotics.aao1891,scirobotics,2017,Pollen tube navigation can inspire microrobot design,1,article,0.3669,0.2036,0.1632
+doi:10.1126/scirobotics.adz8279,scirobotics,2025,The grand challenges of learning medical robot autonomy,2,article,0.4938,0.3306,0.1632
+doi:10.1126/scirobotics.abc6582,scirobotics,2020,Transforming platelets into microrobots,1,article,0.3693,0.2123,0.1569
+doi:10.1126/scirobotics.adk6743,scirobotics,2023,The role of collaborative robotics in assistive and rehabilitation applications,1,article,0.3998,0.2433,0.1565
+doi:10.1126/scirobotics.abk3479,scirobotics,2021,Danger! This robot may be trying to manipulate you,1,article,0.4507,0.2943,0.1564
+doi:10.1126/scirobotics.aba6893,scirobotics,2020,A vision for future bioinspired and biohybrid robots,2,article,0.4754,0.329,0.1465
+doi:10.1126/scirobotics.aar4043,scirobotics,2017,"Humanoid robotics—History, current state of the art, and challenges",3,editorial,0.4266,0.2858,0.1408
+doi:10.1126/scirobotics.adr5247,scirobotics,2024,Augmented dexterity: How robots can enhance human surgical skills,2,article,0.4464,0.3068,0.1396
+doi:10.1126/scirobotics.abl7022,scirobotics,2021,Effective and natural human-robot interaction requires multidisciplinary research,2,editorial,0.4879,0.3508,0.1371
+doi:10.1126/scirobotics.adg6014,scirobotics,2023,Understanding brain functional architecture through robotics,2,article,0.3753,0.2407,0.1346
+doi:10.1126/scirobotics.abj3947,scirobotics,2021,Seeing through the forest and the trees with drones,1,article,0.3467,0.2184,0.1283
+doi:10.1126/scirobotics.aav9843,scirobotics,2019,Self-driving cars: A city perspective,1,article,0.2682,0.1404,0.1277
+doi:10.1126/scirobotics.abf4301,scirobotics,2021,Squid-inspired robots perform swimmingly,1,article,0.4671,0.3404,0.1267
+doi:10.1126/scirobotics.aat3912,scirobotics,2018,Exoskeletal cyborg-type robot,2,article,0.422,0.2955,0.1264
+doi:10.1126/scirobotics.aat7174,scirobotics,2018,Cybathlon: How to promote the development of assistive technologies,2,article,0.3005,0.1749,0.1256
+doi:10.1126/scirobotics.aef8847,scirobotics,2026,The forgotten spectrum: Reviving ultrasound for robust autonomy,2,article,0.3146,0.1943,0.1203
+doi:10.1126/scirobotics.adp5682,scirobotics,2024,Avian eye–inspired artificial vision takes a step forward,2,article,0.3154,0.2024,0.113
+doi:10.1126/scirobotics.abo1966,scirobotics,2022,Using robots to advance clinical translation in neurorehabilitation,2,article,0.3682,0.2558,0.1123
+doi:10.1126/scirobotics.abc7642,scirobotics,2020,Drones against vector-borne diseases,1,article,0.2433,0.1315,0.1118
+doi:10.1126/scirobotics.aec6663,scirobotics,2026,Stop chasing identical outcomes in HRI replication: Learn from the differences,1,article,0.223,0.1142,0.1088
+doi:10.1126/scirobotics.abf4315,scirobotics,2021,A 3D underwater robotic collective called Blueswarm,2,article,0.4263,0.3201,0.1063
+doi:10.1126/scirobotics.aan5593,scirobotics,2017,To integrate and to empower: Robots for rehabilitation and assistance,3,editorial,0.4374,0.3322,0.1053
+doi:10.1126/scirobotics.abf1523,scirobotics,2021,Bringing the light inside the body to perform better surgery,1,article,0.1517,0.0536,0.0982
+doi:10.1126/scirobotics.abd9461,scirobotics,2021,Toward next-generation learned robot manipulation,2,article,0.4921,0.3978,0.0943
+doi:10.1126/scirobotics.aeg2985,scirobotics,2026,Translational bottlenecks for biohybrid microrobots,2,article,0.3708,0.2773,0.0935
+doi:10.1126/scirobotics.ado5566,scirobotics,2024,Robots and animals teaming up in the wild to tackle ecosystem challenges,2,article,0.4453,0.3522,0.0931
+doi:10.1126/scirobotics.adn6035,scirobotics,2024,Robot swarms meet soft matter physics,2,article,0.4446,0.3571,0.0876
+doi:10.1126/scirobotics.aat0430,scirobotics,2018,Autonomous task sequencing in a robot swarm,2,article,0.4543,0.3668,0.0875
+doi:10.1126/scirobotics.abi5066,scirobotics,2021,Unraveling DNA inspires artificial muscle,1,article,0.2662,0.1801,0.0861
+doi:10.1126/scirobotics.abj3937,scirobotics,2021,Optogenetics gets the worm,1,article,0.1631,0.0773,0.0858
+doi:10.1126/scirobotics.aei3152,scirobotics,2026,DNA origami snaps into place,1,article,0.1458,0.0606,0.0853
+doi:10.1126/scirobotics.abh1977,scirobotics,2021,Artificial microswimmers get smart,1,article,0.4094,0.3265,0.083
+doi:10.1126/scirobotics.adq1501,scirobotics,2024,The future lies in a pair of tactile hands,1,article,0.3416,0.2591,0.0825
+doi:10.1126/scirobotics.adz6787,scirobotics,2025,How reliable is robotic manipulation in the real world?,2,article,0.4613,0.381,0.0803
+doi:10.1126/scirobotics.abo2147,scirobotics,2022,Running birds reveal secrets for legged robot design,2,article,0.3884,0.3181,0.0703
+doi:10.1126/scirobotics.adr9299,scirobotics,2024,Taking control: Steering the future of biohybrid robots,2,article,0.4464,0.3764,0.0699
+doi:10.1126/scirobotics.aaw3520,scirobotics,2019,Robot learning—Beyond imitation,1,article,0.4695,0.3997,0.0698
+doi:10.1126/scirobotics.aam8119,scirobotics,2017,Beyond imaging: Macro- and microscale medical robots actuated by clinical MRI scanners,1,article,0.4119,0.3443,0.0676
+doi:10.1126/scirobotics.abm6369,scirobotics,2021,A sound approach to improving exoskeletons and exosuits,1,article,0.2302,0.1638,0.0663
+doi:10.1126/scirobotics.abe8379,scirobotics,2020,A stunt flying hawk-inspired drone,1,article,0.3288,0.2639,0.0649
+doi:10.1126/scirobotics.abm6010,scirobotics,2022,Learning garment manipulation policies toward robot-assisted dressing,2,article,0.3724,0.3109,0.0615
+doi:10.1126/scirobotics.abd7338,scirobotics,2020,Integrating chemical fuels and artificial muscles for untethered microrobots,2,article,0.3778,0.3201,0.0577
+doi:10.1126/scirobotics.adm7008,scirobotics,2023,Wildlife conservation using drones and artificial intelligence in Africa,2,article,0.3151,0.2598,0.0554
+doi:10.1126/scirobotics.abf1628,scirobotics,2021,Self-reconfigurable multilegged robot swarms collectively accomplish challenging terradynamic tasks,2,article,0.3777,0.3274,0.0503
+doi:10.1126/scirobotics.abd7941,scirobotics,2020,Enhancing insect flight research with a lab-on-cables,1,article,0.2272,0.1774,0.0498
+doi:10.1126/scirobotics.abh2682,scirobotics,2021,Climbing robots in a sticky situation,1,article,0.4442,0.3958,0.0484
+doi:10.1126/scirobotics.abd0233,scirobotics,2020,Flapping wing drones show off their skills,1,article,0.2973,0.2577,0.0395
+doi:10.1126/scirobotics.adk6086,scirobotics,2023,Toward self-contained bidirectional bionic limbs with high information throughput,1,article,0.2885,0.2505,0.0381
+doi:10.1126/scirobotics.aau9354,scirobotics,2019,Task-agnostic self-modeling machines,2,article,0.3101,0.2721,0.038
+doi:10.1126/scirobotics.abj3615,scirobotics,2021,Burrowing soft robots break new ground,1,article,0.3864,0.3535,0.0328
+doi:10.1126/scirobotics.ads4127,scirobotics,2024,"Float like a butterfly, swim like a biohybrid neuromuscular robot",1,article,0.421,0.3952,0.0258
+doi:10.1126/scirobotics.abk0395,scirobotics,2021,A professional slackliner robot,1,article,0.3703,0.3456,0.0247
+doi:10.1126/scirobotics.adj8292,scirobotics,2023,Robotic self-modulation enhances implantable long-acting drug delivery devices,2,article,0.2773,0.2539,0.0234
+doi:10.1126/scirobotics.abf1078,scirobotics,2021,"How adaptation, training, and customization contribute to benefits from exoskeleton assistance",2,article,0.2308,0.2133,0.0175
+doi:10.1126/scirobotics.adt1955,scirobotics,2024,AI-driven aerial robots advance whale research,1,article,0.3924,0.3774,0.0151
+doi:10.1126/scirobotics.ado3890,scirobotics,2024,A twist of the tail in turning maneuvers of bird-inspired drones,2,article,0.282,0.2674,0.0146
+doi:10.1126/scirobotics.abn6798,scirobotics,2022,Quadruped robots venture into the wild with open eyes,1,article,0.5015,0.488,0.0135
+doi:10.1126/scirobotics.adh8148,scirobotics,2023,Reconfigurable self-assembled DNA devices,2,article,0.1753,0.1629,0.0123
+doi:10.1126/scirobotics.adr6125,scirobotics,2025,Achieving animal endurance in robots through advanced energy storage,2,article,0.3467,0.3388,0.0078
+doi:10.1126/scirobotics.adp1956,scirobotics,2024,Legged robots beyond bioinspiration,1,article,0.4491,0.4422,0.0069

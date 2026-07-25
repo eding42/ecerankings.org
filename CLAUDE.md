@@ -17,6 +17,10 @@ methodology, area taxonomy, and venue-inclusion policy.
 - `data/known-strong.json` — tripwire for verification: per-area lists of
   institution IDs that MUST have non-zero scores. If any go to zero, it's a
   data bug, not a ranking insight.
+- `data/excluded-works.csv` — curated list of works `aggregate.py` skips
+  (editorials, columns, non-research items). Keyed by `work_key` from
+  `pipeline/workkey.py`: `doi:<normalized>`, or `vt:<venue>|<year>|<title>` for
+  the 2.6% of works with no DOI. Never auto-generated — see "Data quality".
 - `data/reports/` — one markdown report per collection run (see skill).
 - `cache/` — raw OpenAlex responses. Tracked via Git LFS; syncs across computers.
 - `pipeline/` — harvest/backfill/aggregate scripts. See "Pipeline architecture".
@@ -81,6 +85,11 @@ normalize_semantic.py                →  data/affiliation-map.csv
     raw_affiliation strings → OpenAlex institution IDs (auto/manual/unmatched).
     Requires .venv. normalize_affiliations_local.py is the stdlib fallback.
 
+detect_editorials.py                 →  data/editorial-candidates.csv
+    .venv only. Scores candidate titles by semantic similarity to editorial vs
+    research exemplars. PROPOSES ONLY — a human promotes accepted rows into
+    data/excluded-works.csv, which is what aggregate.py actually reads.
+
 aggregate.py --all-cached            →  site/data/inst-area-year.csv
                                         site/data/inst-venue-year.csv
                                         site/data/author-info.csv
@@ -133,6 +142,17 @@ OpenAlex coverage means more uncurated OpenAlex mistakes.
   1. Acronym validation (step 5)
   2. Institution type validation (step 6)
   3. Multi-campus cluster validation via `pipeline/fix_campus_clusters.py` (step 7)
+- **Non-research contamination**: adjusted count is 1/N per author, so a
+  single-author editorial or magazine column earns its institution a full 1.0 —
+  4x what an author gets on a 4-author research paper. 66 single-author
+  science-fiction columns ("Astromech robots in *Star Wars*") put Texas A&M at
+  #1 in Science Robotics at double the runner-up. `data/excluded-works.csv` is
+  the curated fix; `aggregate.py` skips those works and reports the count.
+  OpenAlex types all 66 as `article`, so **no `type` filter would catch them**,
+  and single-authorship alone is not a valid test — `tit` (8.2%) and
+  `automatica` (6.2%) are theory venues where solo research papers are normal.
+  Corpus-wide 3.48% of credited works are single-author, concentrated in
+  `flagship` (nature 21.1%, science 19.2%) which is `default_on: false`.
 - `pipeline/verify.py` checks: venue coverage vs expected, zero-count audits,
   author cross-validation, top-institution sanity per area.
 

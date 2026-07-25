@@ -68,12 +68,43 @@ from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import cpu_count
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from workkey import work_key  # noqa: E402  (shared work-identity helper)
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AREAS_JSON = os.path.join(REPO_ROOT, "data", "areas.json")
 CACHE_DIR = os.path.join(REPO_ROOT, "cache")
 SITE_DATA_DIR = os.path.join(REPO_ROOT, "site", "data")
+EXCLUDED_CSV = os.path.join(REPO_ROOT, "data", "excluded-works.csv")
 
 CREDIT_TYPES = {"education"}
+
+
+def load_exclusions():
+    """Read data/excluded-works.csv -> set of work keys to skip.
+
+    Exists because adjusted count is 1/N per author, so a single-author
+    non-research item (a magazine column, an editorial, a News & Views piece)
+    is worth a full 1.0 to its institution -- four times what an author earns
+    on a four-author research paper. 66 single-author science-fiction columns
+    in Science Robotics were enough to put one institution at #1 in that venue,
+    at double the runner-up.
+
+    The file is CURATED, never auto-generated: pipeline/detect_editorials.py
+    proposes candidates with scores, a human promotes them here. OpenAlex types
+    all 66 of those columns as `article`, so no automatic type filter would
+    have caught them -- and an auto-excluder that silently drops real papers is
+    a worse bug than the one it fixes.
+    """
+    if not os.path.exists(EXCLUDED_CSV):
+        return set()
+    excluded = set()
+    with open(EXCLUDED_CSV) as f:
+        for row in csv.DictReader(f):
+            key = (row.get("work_key") or "").strip()
+            if key and not key.startswith("#"):
+                excluded.add(key)
+    return excluded
 
 
 def load_registry():
@@ -148,7 +179,7 @@ def find_cached_years(venue_key):
     return years
 
 
-def process_venues(venue_keys, v2a, year_filter, affil_map):
+def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset()):
     """Process a list of venue keys and return accumulated results.
 
     Returns: (inst_area_year, inst_venue_year, author_area_year_inst,
@@ -165,6 +196,7 @@ def process_venues(venue_keys, v2a, year_filter, affil_map):
     dropped_no_edu_inst = 0
     crossref_resolved = 0
     multi_inst_author_events = 0
+    excluded_works = 0
     nested_institutions = {}
 
     for venue_key in venue_keys:
@@ -184,6 +216,9 @@ def process_venues(venue_keys, v2a, year_filter, affil_map):
             with open(path) as f:
                 for line in f:
                     w = json.loads(line)
+                    if excluded and work_key(w, venue_key, year_dir) in excluded:
+                        excluded_works += 1
+                        continue
                     total_works += 1
                     year = w["publication_year"]
                     authorships = w.get("authorships", [])
@@ -238,7 +273,7 @@ def process_venues(venue_keys, v2a, year_filter, affil_map):
                         inst_area_year[key]["pub_count"] += 1
 
     metrics = (total_works, total_authorship_pairs, dropped_no_edu_inst,
-               crossref_resolved, multi_inst_author_events)
+               crossref_resolved, multi_inst_author_events, excluded_works)
     return inst_area_year, inst_venue_year, dict(author_area_year_inst), inst_names, author_names, metrics, nested_institutions
 
 
@@ -254,6 +289,7 @@ def merge_results(results):
     dropped_no_edu_inst = 0
     crossref_resolved = 0
     multi_inst_author_events = 0
+    excluded_works = 0
     nested_institutions = {}
 
     for (r_inst_area_year, r_inst_venue_year, r_author_ay, r_inst_names,
@@ -276,12 +312,13 @@ def merge_results(results):
         inst_names.update(r_inst_names)
         author_names.update(r_author_names)
 
-        tw, tap, dne, cr, mie = metrics
+        tw, tap, dne, cr, mie, exw = metrics
         total_works += tw
         total_authorship_pairs += tap
         dropped_no_edu_inst += dne
         crossref_resolved += cr
         multi_inst_author_events += mie
+        excluded_works += exw
 
         for inst_id, val in r_nested.items():
             if inst_id not in nested_institutions:
@@ -289,7 +326,8 @@ def merge_results(results):
 
     return (inst_area_year, inst_venue_year, author_area_year_inst, inst_names,
             author_names, total_works, total_authorship_pairs, dropped_no_edu_inst,
-            crossref_resolved, multi_inst_author_events, nested_institutions)
+            crossref_resolved, multi_inst_author_events, nested_institutions,
+            excluded_works)
 
 
 def main():
@@ -310,10 +348,14 @@ def main():
         sys.exit(1)
 
     affil_map = load_affiliation_map()
+    excluded = load_exclusions()
+    if excluded:
+        print(f"Exclusion list: {len(excluded)} works will be skipped "
+              f"({os.path.relpath(EXCLUDED_CSV, REPO_ROOT)})")
     n_venues = len(venue_keys)
 
     if args.sequential or n_venues < 2:
-        results = [process_venues(venue_keys, v2a, args.year, affil_map)]
+        results = [process_venues(venue_keys, v2a, args.year, affil_map, excluded)]
     else:
         n_workers = args.workers or cpu_count()
         n_workers = min(n_workers, n_venues)
@@ -323,13 +365,14 @@ def main():
 
         print(f"Aggregating {n_venues} venues across {n_workers} workers...")
         with ProcessPoolExecutor(max_workers=n_workers) as pool:
-            futures = [pool.submit(process_venues, chunk, v2a, args.year, affil_map)
+            futures = [pool.submit(process_venues, chunk, v2a, args.year, affil_map, excluded)
                        for chunk in chunks]
             results = [f.result() for f in futures]
 
     (inst_area_year, inst_venue_year, author_area_year_inst, inst_names,
      author_names, total_works, total_authorship_pairs, dropped_no_edu_inst,
-     crossref_resolved, multi_inst_author_events, nested_institutions) = merge_results(results)
+     crossref_resolved, multi_inst_author_events, nested_institutions,
+     excluded_works) = merge_results(results)
 
     os.makedirs(SITE_DATA_DIR, exist_ok=True)
 
@@ -357,6 +400,8 @@ def main():
     # --- Summary ---
     print(f"Works processed:              {total_works}")
     print(f"Authorship-institution pairs: {total_authorship_pairs}")
+    if excluded_works:
+        print(f"Excluded works (data/excluded-works.csv): {excluded_works}")
     print(f"Dropped (no education inst):  {dropped_no_edu_inst}")
     print(f"Crossref-resolved via map:    {crossref_resolved}")
     print(f"Multi-education-inst authors: {multi_inst_author_events}  (share split provisionally)")
