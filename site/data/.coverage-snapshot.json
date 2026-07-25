@@ -3,7 +3,7 @@
   "global": {
     "coverage_pct": 93.77,
     "purity_pct": 60.28,
-    "resolution_pct": 69.16
+    "resolution_pct": 69.2
   },
   "venue_years": {
     "asplos/2016": {
@@ -554,7 +554,7 @@
     "icassp/2019": {
       "coverage_pct": 99.63,
       "purity_pct": 55.16,
-      "resolution_pct": 68.72
+      "resolution_pct": 68.62
     },
     "icassp/2020": {
       "coverage_pct": 99.0,
@@ -1264,7 +1264,7 @@
     "jlt/2017": {
       "coverage_pct": 99.54,
       "purity_pct": 73.93,
-      "resolution_pct": 28.68
+      "resolution_pct": 30.23
     },
     "jlt/2018": {
       "coverage_pct": 99.93,
@@ -1289,22 +1289,22 @@
     "jlt/2022": {
       "coverage_pct": 99.72,
       "purity_pct": 11.61,
-      "resolution_pct": 71.88
+      "resolution_pct": 72.35
     },
     "jlt/2023": {
       "coverage_pct": 99.78,
       "purity_pct": 0.07,
-      "resolution_pct": 69.66
+      "resolution_pct": 70.48
     },
     "jlt/2024": {
       "coverage_pct": 99.9,
       "purity_pct": null,
-      "resolution_pct": 72.41
+      "resolution_pct": 72.82
     },
     "jlt/2025": {
       "coverage_pct": 99.83,
       "purity_pct": 0.03,
-      "resolution_pct": 71.64
+      "resolution_pct": 71.96
     },
     "jsac/2016": {
       "coverage_pct": 75.1,

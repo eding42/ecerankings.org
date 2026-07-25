@@ -79,6 +79,49 @@ EXCLUDED_CSV = os.path.join(REPO_ROOT, "data", "excluded-works.csv")
 
 CREDIT_TYPES = {"education"}
 
+# OpenAlex `type` values that are not research contributions. Skipped outright,
+# because adjusted count is 1/N per author and these skew heavily single-author:
+# 961 of 2,483 editorials and 426 of 470 book reviews have exactly one author,
+# so each hands its institution a full 1.0 -- 4x what an author earns on a
+# 4-author paper. 8,928 credited works corpus-wide, 7,637 of them in flagship
+# venues (nature 21.1% single-author, science 19.2%).
+#
+# "review" is deliberately NOT in this set: review articles are legitimate
+# scholarly contributions and dropping them is a separate decision.
+#
+# This catches only what OpenAlex types correctly. It is NOT sufficient on its
+# own -- 66 single-author science-fiction columns in Science Robotics are all
+# typed `article`. data/excluded-works.csv covers what type cannot.
+NONRESEARCH_TYPES = {
+    "editorial", "erratum", "letter", "book-review",
+    "peer-review", "retraction", "other",
+}
+
+
+def load_aliases():
+    """Read data/institution-aliases.csv -> {duplicate_id: (canonical_id, name)}.
+
+    OpenAlex sometimes carries two records for one institution, which splits its
+    credit across two rows and understates it everywhere: UT Austin sat at
+    1,617.7 + 227.8, IIT Bombay at 494.7 + 84.2.
+
+    Merges are keyed on same NAME **and** same COUNTRY, because name alone is
+    badly unsafe here -- Northeastern University (US, 835.3) and Northeastern
+    University (CN, Shenyang, 400.2) are different universities, as are
+    Southeast University CN/BD, Northwestern US/PH, and Soochow CN/TW. Merging
+    on name would have silently fused four pairs of unrelated institutions.
+    """
+    path = os.path.join(REPO_ROOT, "data", "institution-aliases.csv")
+    if not os.path.exists(path):
+        return {}
+    aliases = {}
+    with open(path) as f:
+        for r in csv.DictReader(f):
+            dup, canon = r.get("duplicate_id"), r.get("canonical_id")
+            if dup and canon and dup != canon:
+                aliases[dup] = (canon, r.get("canonical_name", ""))
+    return aliases
+
 
 def load_exclusions():
     """Read data/excluded-works.csv -> set of work keys to skip.
@@ -179,12 +222,14 @@ def find_cached_years(venue_key):
     return years
 
 
-def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset()):
+def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset(),
+                   aliases=None):
     """Process a list of venue keys and return accumulated results.
 
     Returns: (inst_area_year, inst_venue_year, author_area_year_inst,
               inst_names, author_names, metrics, nested_institutions)
     """
+    aliases = aliases or {}
     inst_area_year = {}
     inst_venue_year = {}
     author_area_year_inst = defaultdict(float)
@@ -197,6 +242,7 @@ def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset()
     crossref_resolved = 0
     multi_inst_author_events = 0
     excluded_works = 0
+    nonresearch_works = 0
     nested_institutions = {}
 
     for venue_key in venue_keys:
@@ -216,6 +262,9 @@ def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset()
             with open(path) as f:
                 for line in f:
                     w = json.loads(line)
+                    if (w.get("type") or "").lower() in NONRESEARCH_TYPES:
+                        nonresearch_works += 1
+                        continue
                     if excluded and work_key(w, venue_key, year_dir) in excluded:
                         excluded_works += 1
                         continue
@@ -227,6 +276,12 @@ def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset()
                         continue
                     paper_weight = 1.0 / n_authors
                     papers_credited_insts_this_work = set()
+                    # pub_count is per-PAPER, not per-authorship: an institution
+                    # with three authors on one paper published one paper, not
+                    # three. Collect keys during the authorship loop, increment
+                    # once after. The venue-level set was missing entirely, so
+                    # inst-venue-year.csv shipped pub_count=0 on every row.
+                    papers_credited_venues_this_work = set()
 
                     for a in authorships:
                         total_authorship_pairs += 1
@@ -249,7 +304,15 @@ def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset()
 
                         for inst in edu_insts:
                             inst_id = inst["id"]
-                            inst_names[inst_id] = inst["display_name"]
+                            # Fold duplicate OpenAlex records onto one id before
+                            # any credit is recorded, so the split never reaches
+                            # the output CSVs. See load_aliases().
+                            alias = aliases.get(inst_id)
+                            if alias:
+                                inst_id = alias[0]
+                                inst_names[inst_id] = alias[1] or inst["display_name"]
+                            else:
+                                inst_names[inst_id] = inst["display_name"]
                             lineage = inst.get("lineage") or [inst_id]
                             if len(lineage) > 1 and inst_id not in nested_institutions:
                                 nested_institutions[inst_id] = (inst["display_name"], lineage)
@@ -264,6 +327,7 @@ def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset()
                             if venue_key_tup not in inst_venue_year:
                                 inst_venue_year[venue_key_tup] = {"pub_count": 0, "adjusted_count": 0.0}
                             inst_venue_year[venue_key_tup]["adjusted_count"] += share
+                            papers_credited_venues_this_work.add(venue_key_tup)
 
                             author_id = a["author_id"]
                             author_names[author_id] = a["author_name"]
@@ -271,9 +335,12 @@ def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset()
 
                     for key in papers_credited_insts_this_work:
                         inst_area_year[key]["pub_count"] += 1
+                    for key in papers_credited_venues_this_work:
+                        inst_venue_year[key]["pub_count"] += 1
 
     metrics = (total_works, total_authorship_pairs, dropped_no_edu_inst,
-               crossref_resolved, multi_inst_author_events, excluded_works)
+               crossref_resolved, multi_inst_author_events, excluded_works,
+               nonresearch_works)
     return inst_area_year, inst_venue_year, dict(author_area_year_inst), inst_names, author_names, metrics, nested_institutions
 
 
@@ -290,6 +357,7 @@ def merge_results(results):
     crossref_resolved = 0
     multi_inst_author_events = 0
     excluded_works = 0
+    nonresearch_works = 0
     nested_institutions = {}
 
     for (r_inst_area_year, r_inst_venue_year, r_author_ay, r_inst_names,
@@ -312,13 +380,14 @@ def merge_results(results):
         inst_names.update(r_inst_names)
         author_names.update(r_author_names)
 
-        tw, tap, dne, cr, mie, exw = metrics
+        tw, tap, dne, cr, mie, exw, nrw = metrics
         total_works += tw
         total_authorship_pairs += tap
         dropped_no_edu_inst += dne
         crossref_resolved += cr
         multi_inst_author_events += mie
         excluded_works += exw
+        nonresearch_works += nrw
 
         for inst_id, val in r_nested.items():
             if inst_id not in nested_institutions:
@@ -327,7 +396,7 @@ def merge_results(results):
     return (inst_area_year, inst_venue_year, author_area_year_inst, inst_names,
             author_names, total_works, total_authorship_pairs, dropped_no_edu_inst,
             crossref_resolved, multi_inst_author_events, nested_institutions,
-            excluded_works)
+            excluded_works, nonresearch_works)
 
 
 def main():
@@ -348,6 +417,9 @@ def main():
         sys.exit(1)
 
     affil_map = load_affiliation_map()
+    aliases = load_aliases()
+    if aliases:
+        print(f"Institution aliases: {len(aliases)} duplicate ids folded onto canonical ones")
     excluded = load_exclusions()
     if excluded:
         print(f"Exclusion list: {len(excluded)} works will be skipped "
@@ -355,7 +427,7 @@ def main():
     n_venues = len(venue_keys)
 
     if args.sequential or n_venues < 2:
-        results = [process_venues(venue_keys, v2a, args.year, affil_map, excluded)]
+        results = [process_venues(venue_keys, v2a, args.year, affil_map, excluded, aliases)]
     else:
         n_workers = args.workers or cpu_count()
         n_workers = min(n_workers, n_venues)
@@ -365,14 +437,14 @@ def main():
 
         print(f"Aggregating {n_venues} venues across {n_workers} workers...")
         with ProcessPoolExecutor(max_workers=n_workers) as pool:
-            futures = [pool.submit(process_venues, chunk, v2a, args.year, affil_map, excluded)
+            futures = [pool.submit(process_venues, chunk, v2a, args.year, affil_map, excluded, aliases)
                        for chunk in chunks]
             results = [f.result() for f in futures]
 
     (inst_area_year, inst_venue_year, author_area_year_inst, inst_names,
      author_names, total_works, total_authorship_pairs, dropped_no_edu_inst,
      crossref_resolved, multi_inst_author_events, nested_institutions,
-     excluded_works) = merge_results(results)
+     excluded_works, nonresearch_works) = merge_results(results)
 
     os.makedirs(SITE_DATA_DIR, exist_ok=True)
 
@@ -400,6 +472,8 @@ def main():
     # --- Summary ---
     print(f"Works processed:              {total_works}")
     print(f"Authorship-institution pairs: {total_authorship_pairs}")
+    if nonresearch_works:
+        print(f"Skipped non-research types {sorted(NONRESEARCH_TYPES)}: {nonresearch_works}")
     if excluded_works:
         print(f"Excluded works (data/excluded-works.csv): {excluded_works}")
     print(f"Dropped (no education inst):  {dropped_no_edu_inst}")

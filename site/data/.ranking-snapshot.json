@@ -11,13 +11,13 @@
     "rank": 3,
     "name": "Stanford University"
   },
-  "https://openalex.org/I136199984": {
-    "rank": 4,
-    "name": "Harvard University"
-  },
   "https://openalex.org/I63966007": {
-    "rank": 5,
+    "rank": 4,
     "name": "Massachusetts Institute of Technology"
+  },
+  "https://openalex.org/I136199984": {
+    "rank": 5,
+    "name": "Harvard University"
   },
   "https://openalex.org/I76130692": {
     "rank": 6,
@@ -75,37 +75,37 @@
     "rank": 19,
     "name": "University of Cambridge"
   },
-  "https://openalex.org/I157725225": {
-    "rank": 20,
-    "name": "University of Illinois Urbana-Champaign"
-  },
   "https://openalex.org/I130701444": {
-    "rank": 21,
+    "rank": 20,
     "name": "Georgia Institute of Technology"
+  },
+  "https://openalex.org/I157725225": {
+    "rank": 21,
+    "name": "University of Illinois Urbana-Champaign"
   },
   "https://openalex.org/I157485424": {
     "rank": 22,
     "name": "Korea Advanced Institute of Science and Technology"
   },
-  "https://openalex.org/I40120149": {
-    "rank": 23,
-    "name": "University of Oxford"
-  },
   "https://openalex.org/I74801974": {
-    "rank": 24,
+    "rank": 23,
     "name": "The University of Tokyo"
   },
-  "https://openalex.org/I47508984": {
+  "https://openalex.org/I149594827": {
+    "rank": 24,
+    "name": "Xidian University"
+  },
+  "https://openalex.org/I40120149": {
     "rank": 25,
+    "name": "University of Oxford"
+  },
+  "https://openalex.org/I47508984": {
+    "rank": 26,
     "name": "Imperial College London"
   },
   "https://openalex.org/I161318765": {
-    "rank": 26,
-    "name": "University of California, Los Angeles"
-  },
-  "https://openalex.org/I149594827": {
     "rank": 27,
-    "name": "Xidian University"
+    "name": "University of California, Los Angeles"
   },
   "https://openalex.org/I5124864": {
     "rank": 28,
@@ -123,80 +123,80 @@
     "rank": 31,
     "name": "Sun Yat-sen University"
   },
-  "https://openalex.org/I20089843": {
-    "rank": 32,
-    "name": "Princeton University"
-  },
   "https://openalex.org/I87445476": {
-    "rank": 33,
+    "rank": 32,
     "name": "Xi'an Jiaotong University"
+  },
+  "https://openalex.org/I20089843": {
+    "rank": 33,
+    "name": "Princeton University"
   },
   "https://openalex.org/I185261750": {
     "rank": 34,
     "name": "University of Toronto"
   },
-  "https://openalex.org/I205783295": {
-    "rank": 35,
-    "name": "Cornell University"
-  },
   "https://openalex.org/I177725633": {
-    "rank": 36,
+    "rank": 35,
     "name": "Chinese University of Hong Kong"
+  },
+  "https://openalex.org/I205783295": {
+    "rank": 36,
+    "name": "Cornell University"
   },
   "https://openalex.org/I139264467": {
     "rank": 37,
     "name": "Seoul National University"
   },
-  "https://openalex.org/I78577930": {
+  "https://openalex.org/I86519309": {
     "rank": 38,
+    "name": "The University of Texas at Austin"
+  },
+  "https://openalex.org/I78577930": {
+    "rank": 39,
     "name": "Columbia University"
   },
   "https://openalex.org/I79576946": {
-    "rank": 39,
+    "rank": 40,
     "name": "University of Pennsylvania"
   },
   "https://openalex.org/I74973139": {
-    "rank": 40,
-    "name": "Carnegie Mellon University"
-  },
-  "https://openalex.org/I32971472": {
     "rank": 41,
-    "name": "Yale University"
+    "name": "Carnegie Mellon University"
   },
   "https://openalex.org/I62916508": {
     "rank": 42,
     "name": "Technical University of Munich"
   },
-  "https://openalex.org/I200769079": {
+  "https://openalex.org/I32971472": {
     "rank": 43,
+    "name": "Yale University"
+  },
+  "https://openalex.org/I200769079": {
+    "rank": 44,
     "name": "Hong Kong University of Science and Technology"
   },
   "https://openalex.org/I122411786": {
-    "rank": 44,
+    "rank": 45,
     "name": "California Institute of Technology"
   },
   "https://openalex.org/I889458895": {
-    "rank": 45,
+    "rank": 46,
     "name": "University of Hong Kong"
   },
   "https://openalex.org/I881766915": {
-    "rank": 46,
+    "rank": 47,
     "name": "Nanjing University"
   },
-  "https://openalex.org/I86519309": {
-    "rank": 47,
-    "name": "The University of Texas at Austin"
-  },
-  "https://openalex.org/I145311948": {
+  "https://openalex.org/I125839683": {
     "rank": 48,
-    "name": "Johns Hopkins University"
+    "name": "Beijing Institute of Technology"
   },
   "https://openalex.org/I201448701": {
     "rank": 49,
     "name": "University of Washington"
   },
-  "https://openalex.org/I125839683": {
+  "https://openalex.org/I82880672": {
     "rank": 50,
-    "name": "Beijing Institute of Technology"
+    "name": "Beihang University"
   }
 }

@@ -1,0 +1,134 @@
+verdict,credit_at_stake,canonical_id,canonical_name,canonical_country,duplicate_id,duplicate_name,duplicate_country,group_total
+MERGE,227.8,https://openalex.org/I86519309,The University of Texas at Austin,US,https://openalex.org/I8618152,University of Texas at Austin,US,1845.5
+MERGE,108.8,https://openalex.org/I93860229,Politecnico di Milano,IT,https://openalex.org/I123021657,Politecnico di Milano,IT,687.7
+MERGE,96.4,https://openalex.org/I162577319,The University of Texas at Dallas,US,https://openalex.org/I61561971,University of Texas at Dallas,US,565.8
+MERGE,84.2,https://openalex.org/I162827531,Indian Institute of Technology Bombay,IN,https://openalex.org/I41316267,Indian Institute of Technology Bombay,IN,578.9
+MERGE,54.4,https://openalex.org/I24676775,Indian Institute of Technology Madras,IN,https://openalex.org/I78784900,Indian Institute of Technology Madras,IN,377.5
+MERGE,46.6,https://openalex.org/I145894827,Indian Institute of Technology Kharagpur,IN,https://openalex.org/I30401643,Indian Institute of Technology Kharagpur,IN,370.1
+MERGE,42.7,https://openalex.org/I94234084,Indian Institute of Technology Kanpur,IN,https://openalex.org/I12875819,Indian Institute of Technology Kanpur,IN,464.1
+MERGE,42.3,https://openalex.org/I4577782,Technische Universität Berlin,DE,https://openalex.org/I168164651,Technische Universität Berlin,DE,468.9
+MERGE,33.0,https://openalex.org/I68891433,Indian Institute of Technology Delhi,IN,https://openalex.org/I73295861,Indian Institute of Technology Delhi,IN,500.6
+MERGE,29.6,https://openalex.org/I189196454,The University of Texas at Arlington,US,https://openalex.org/I75885583,University of Texas at Arlington,US,152.2
+"MERGE (trivial, <2% on secondary)",28.0,https://openalex.org/I62916508,Technical University of Munich,DE,https://openalex.org/I186189362,Technical University of Munich,DE,1775.4
+MERGE,24.9,https://openalex.org/I31512782,Technische Universität Darmstadt,DE,https://openalex.org/I161976081,Technische Universität Darmstadt,DE,455.4
+MERGE,24.1,https://openalex.org/I65181880,Indian Institute of Technology Hyderabad,IN,https://openalex.org/I96815566,Indian Institute of Technology Hyderabad,IN,131.0
+MERGE,21.3,https://openalex.org/I154851008,Indian Institute of Technology Roorkee,IN,https://openalex.org/I45159170,Indian Institute of Technology Roorkee,IN,203.2
+MERGE,18.7,https://openalex.org/I1317621060,Indian Institute of Technology Guwahati,IN,https://openalex.org/I60986386,Indian Institute of Technology Guwahati,IN,134.6
+MERGE,17.1,https://openalex.org/I56404289,Indian Institute of Technology BHU,IN,https://openalex.org/I221098338,Indian Institute of Technology BHU,IN,68.1
+MERGE,14.4,https://openalex.org/I145847075,TU Wien,AT,https://openalex.org/I131987676,TU Wien,AT,449.3
+MERGE,13.8,https://openalex.org/I78650965,Technische Universität Dresden,DE,https://openalex.org/I79636420,Technische Universität Dresden,DE,503.5
+MERGE,10.6,https://openalex.org/I45438204,The University of Texas at San Antonio,US,https://openalex.org/I61619893,University of Texas at San Antonio,US,101.4
+MERGE,9.7,https://openalex.org/I119449181,Technische Universität Ilmenau,DE,https://openalex.org/I37042786,Technische Universität Ilmenau,,100.3
+MERGE,9.6,https://openalex.org/I154549908,Indian Institute of Technology Jodhpur,IN,https://openalex.org/I4210096097,Indian Institute of Technology Jodhpur,IN,68.3
+MERGE,8.0,https://openalex.org/I27674431,Indian Institute of Technology Gandhinagar,IN,https://openalex.org/I4210157303,Indian Institute of Technology Gandhinagar,IN,59.7
+"MERGE (trivial, <2% on secondary)",7.2,https://openalex.org/I191208505,Xiamen University,CN,https://openalex.org/I19370852,Xiamen University,CN,1028.9
+MERGE,6.2,https://openalex.org/I189109744,Indian Institute of Technology Dhanbad,IN,https://openalex.org/I203650698,Indian Institute of Technology Dhanbad,IN,52.5
+MERGE,4.1,https://openalex.org/I51783024,Brandenburg University of Technology Cottbus-Senftenberg,DE,https://openalex.org/I174935819,Brandenburg University of Technology Cottbus-Senftenberg,,31.4
+MERGE,4.0,https://openalex.org/I4210151615,Wuyi University,CN,https://openalex.org/I98834328,Wuyi University,CN,11.0
+MERGE,2.3,https://openalex.org/I164936912,The University of Texas at El Paso,US,https://openalex.org/I95384979,University of Texas at El Paso,US,14.5
+"MERGE (trivial, <2% on secondary)",2.0,https://openalex.org/I4210116924,"Chinese University of Hong Kong, Shenzhen",CN,I4210150387,"Chinese University of Hong Kong, Shenzhen",CN,470.1
+MERGE,2.0,https://openalex.org/I119241673,Indian Institute of Technology Ropar,IN,https://openalex.org/I125044677,Indian Institute of Technology Ropar,IN,62.9
+"MERGE (trivial, <2% on secondary)",1.8,https://openalex.org/I204778367,Norwegian University of Science and Technology,NO,https://openalex.org/I42456776,Norwegian University of Science and Technology,,390.2
+"MERGE (trivial, <2% on secondary)",1.3,https://openalex.org/I32021983,Christian-Albrechts-Universität zu Kiel,DE,I129467270,Christian-Albrechts-Universität zu Kiel,,273.9
+"MERGE (trivial, <2% on secondary)",1.2,https://openalex.org/I121883995,Johannes Kepler University of Linz,AT,https://openalex.org/I12584989,Johannes Kepler University of Linz,AT,160.9
+"MERGE (trivial, <2% on secondary)",1.0,https://openalex.org/I45129253,University College London,GB,https://openalex.org/I7148132,University College London,GB,1359.7
+"MERGE (trivial, <2% on secondary)",1.0,https://openalex.org/I130238516,University of Minnesota,US,https://openalex.org/I135232074,University of Minnesota,US,1207.2
+MERGE,1.0,https://openalex.org/I147009085,Technical University of Liberec,CZ,https://openalex.org/I209353064,Technical University of Liberec,,13.2
+MERGE,0.9,https://openalex.org/I3131982239,Institut Catholique d'Arts et Métiers,FR,https://openalex.org/I4210150621,Institut Catholique d'Arts et Métiers,FR,2.6
+MERGE,0.8,https://openalex.org/I227486990,University of Szeged,HU,https://openalex.org/I74322897,University of Szeged,,24.9
+"MERGE (trivial, <2% on secondary)",0.7,https://openalex.org/I29770179,Budapest University of Technology and Economics,HU,https://openalex.org/I19429393,Budapest University of Technology and Economics,,84.5
+MERGE,0.7,https://openalex.org/I129862065,Government Medical College,IN,https://openalex.org/I133769559,Government Medical College,IN,2.3
+"MERGE (trivial, <2% on secondary)",0.6,https://openalex.org/I884043246,Hamburg University of Technology,DE,https://openalex.org/I138391447,Hamburg University of Technology,,80.1
+"MERGE (trivial, <2% on secondary)",0.5,https://openalex.org/I106157433,University of Kassel,DE,https://openalex.org/I41154196,University of Kassel,,51.2
+MERGE,0.5,https://openalex.org/I188963388,International Institute of Information Technology,IN,https://openalex.org/I4210097016,International Institute of Information Technology,IN,14.9
+"MERGE (trivial, <2% on secondary)",0.4,https://openalex.org/I183067930,Shanghai Jiao Tong University,CN,https://openalex.org/I77127694,Shanghai Jiao Tong University,CN,4384.6
+"MERGE (trivial, <2% on secondary)",0.3,https://openalex.org/I44504214,Czech Technical University in Prague,CZ,I84892839,Czech Technical University in Prague,,287.7
+"MERGE (trivial, <2% on secondary)",0.3,https://openalex.org/I12356871,Télécom Paris,FR,https://openalex.org/I112355423,Télécom Paris,FR,94.2
+MERGE,0.3,https://openalex.org/I4210131129,American School of Classical Studies at Athens,US,https://openalex.org/I98720382,American School of Classical Studies at Athens,,1.7
+MERGE,0.3,https://openalex.org/I131740757,Texas A&M International University,US,https://openalex.org/I100653242,Texas A&M International University,US,1.4
+"MERGE (trivial, <2% on secondary)",0.2,https://openalex.org/I1174212,University of Southern California,US,https://openalex.org/I150972724,University of Southern California,US,1445.2
+"MERGE (trivial, <2% on secondary)",0.2,https://openalex.org/I102335020,Karlsruhe Institute of Technology,DE,https://openalex.org/I114748460,Karlsruhe Institute of Technology,DE,667.5
+MERGE,0.2,https://openalex.org/I4577782,Technische Universität Berlin,DE,https://openalex.org/I54635425,Technische Universität Berlin,DE,468.9
+"MERGE (trivial, <2% on secondary)",0.2,https://openalex.org/I106785703,Institut polytechnique de Grenoble,FR,https://openalex.org/I1312495809,Institut polytechnique de Grenoble,FR,247.5
+"MERGE (trivial, <2% on secondary)",0.2,https://openalex.org/I2802326326,The University of Texas Rio Grande Valley,US,https://openalex.org/I46121591,University of Texas Rio Grande Valley,US,16.7
+"MERGE (trivial, <2% on secondary)",0.2,https://openalex.org/I89440247,Myongji University,KR,https://openalex.org/I88458102,Myongji University,,10.6
+MERGE,0.2,https://openalex.org/I129862065,Government Medical College,IN,https://openalex.org/I180771373,Government Medical College,IN,2.3
+MERGE,0.2,https://openalex.org/I129862065,Government Medical College,IN,https://openalex.org/I4210164371,Government Medical College,IN,2.3
+MERGE,0.2,https://openalex.org/I193291145,Schiller International University,FR,https://openalex.org/I4210089978,Schiller International University,,1.3
+"MERGE (trivial, <2% on secondary)",0.1,https://openalex.org/I3045169105,Southern University of Science and Technology,CN,https://openalex.org/I27641155,Southern University of Science and Technology,,1084.2
+"MERGE (trivial, <2% on secondary)",0.1,https://openalex.org/I124055696,University of Copenhagen,DK,I38189715,University of Copenhagen,DK,735.2
+"MERGE (trivial, <2% on secondary)",0.1,https://openalex.org/I11923345,Wrocław University of Science and Technology,PL,https://openalex.org/I124076374,Wrocław University of Science and Technology,,45.6
+"MERGE (trivial, <2% on secondary)",0.1,https://openalex.org/I82509713,Mälardalen University,SE,https://openalex.org/I42381343,Mälardalen University,,15.0
+MERGE,0.1,https://openalex.org/I36353753,Central University,GH,https://openalex.org/I4210106093,Central University,,1.8
+MERGE,0.1,https://openalex.org/I129862065,Government Medical College,IN,https://openalex.org/I4210089425,Government Medical College,IN,2.3
+MERGE,0.1,https://openalex.org/I3131982239,Institut Catholique d'Arts et Métiers,FR,https://openalex.org/I4210112706,Institut Catholique d'Arts et Métiers,,2.6
+MERGE,0.1,https://openalex.org/I4210107971,Royal Academy of Music,DK,https://openalex.org/I7715029,Royal Academy of Music,,1.6
+MERGE,0.1,https://openalex.org/I4210154014,National Institute of Pharmaceutical Education and Research,IN,https://openalex.org/I4210146715,National Institute of Pharmaceutical Education and Research,IN,0.2
+MERGE,0.0,https://openalex.org/I129862065,Government Medical College,IN,https://openalex.org/I4210104136,Government Medical College,IN,2.3
+"MERGE (trivial, <2% on secondary)",0.0,https://openalex.org/I57629906,Nile University,EG,https://openalex.org/I4210131067,Nile University,,2.7
+MERGE,0.0,https://openalex.org/I194120229,Xavier University,US,https://openalex.org/I215989355,Xavier University,,0.4
+MERGE,0.0,https://openalex.org/I192664086,Northeastern State University,US,https://openalex.org/I4210091566,Northeastern State University,,0.6
+"DO NOT MERGE: different countries, distinct institutions",400.2,https://openalex.org/I12912129,Northeastern University,US,https://openalex.org/I9224756,Northeastern University,CN,1235.5
+"DO NOT MERGE: different countries, distinct institutions",325.7,https://openalex.org/I76569877,Southeast University,CN,https://openalex.org/I4210090971,Southeast University,BD,2803.4
+"DO NOT MERGE: different countries, distinct institutions",175.7,https://openalex.org/I197347611,Korea University,KR,https://openalex.org/I4210161052,Korea University,JP,667.8
+"DO NOT MERGE: different countries, distinct institutions",120.8,https://openalex.org/I111979921,Northwestern University,US,https://openalex.org/I4210100400,Northwestern University,PH,1282.3
+"DO NOT MERGE: different countries, distinct institutions",89.6,https://openalex.org/I3923682,Soochow University,CN,https://openalex.org/I185940356,Soochow University,TW,554.5
+"DO NOT MERGE: different countries, distinct institutions",56.9,https://openalex.org/I159948400,Jinan University,CN,https://openalex.org/I4210146271,Jinan University,LB,340.9
+"DO NOT MERGE: different countries, distinct institutions",32.0,https://openalex.org/I192455969,York University,CA,https://openalex.org/I4210112962,York University,US,189.7
+"DO NOT MERGE: different countries, distinct institutions",22.4,https://openalex.org/I165733156,University of Georgia,US,https://openalex.org/I4210126868,University of Georgia,GE,250.9
+"DO NOT MERGE: different countries, distinct institutions",19.3,https://openalex.org/I91656880,China Medical University,CN,https://openalex.org/I184693016,China Medical University,TW,58.3
+"DO NOT MERGE: different countries, distinct institutions",12.8,https://openalex.org/I223822909,Heidelberg University,DE,https://openalex.org/I85384741,Heidelberg University,US,670.5
+"DO NOT MERGE: different countries, distinct institutions",11.1,https://openalex.org/I132153292,Indian Institute of Technology Patna,IN,https://openalex.org/I4210138036,Indian Institute of Technology Patna,IL,62.9
+"DO NOT MERGE: different countries, distinct institutions",9.6,https://openalex.org/I9579091,Indian Institute of Technology Mandi,IN,https://openalex.org/I4210111082,Indian Institute of Technology Mandi,US,53.0
+"DO NOT MERGE: different countries, distinct institutions",7.1,https://openalex.org/I60158472,Concordia University,CA,https://openalex.org/I4210148195,Concordia University,US,379.3
+"DO NOT MERGE: different countries, distinct institutions",5.5,https://openalex.org/I47838141,Saint Louis University,US,https://openalex.org/I187476118,Saint Louis University,ES,48.6
+"DO NOT MERGE: different countries, distinct institutions",3.5,https://openalex.org/I4210109292,Indian Institute of Technology Tirupati,IN,https://openalex.org/I4210116869,Indian Institute of Technology Tirupati,CN,16.3
+"DO NOT MERGE: different countries, distinct institutions",3.2,https://openalex.org/I204442077,Trinity College,CA,https://openalex.org/I56722557,Trinity College,US,11.4
+"DO NOT MERGE: different countries, distinct institutions",3.0,https://openalex.org/I64295750,Indian Institute of Technology Indore,IN,https://openalex.org/I4210137438,Indian Institute of Technology Indore,RU,76.6
+"DO NOT MERGE: different countries, distinct institutions",3.0,https://openalex.org/I37802460,Northwest University,CN,https://openalex.org/I36819085,Northwest University,US,125.4
+"DO NOT MERGE: different countries, distinct institutions",2.5,https://openalex.org/I4210094862,National Defense University,TW,https://openalex.org/I111149068,National Defense University,US,8.4
+"DO NOT MERGE: different countries, distinct institutions",1.8,https://openalex.org/I4210088717,University of the West Indies,TT,https://openalex.org/I4210129319,University of the West Indies,JM,8.6
+"DO NOT MERGE: different countries, distinct institutions",1.6,https://openalex.org/I4210088717,University of the West Indies,TT,https://openalex.org/I4210158067,University of the West Indies,BB,8.6
+"DO NOT MERGE: different countries, distinct institutions",1.3,https://openalex.org/I5124864,École Polytechnique Fédérale de Lausanne,CH,https://openalex.org/I83783590,École Polytechnique Fédérale de Lausanne,FR,2151.6
+"DO NOT MERGE: different countries, distinct institutions",1.3,https://openalex.org/I60158472,Concordia University,CA,https://openalex.org/I161856759,Concordia University,US,379.3
+"DO NOT MERGE: different countries, distinct institutions",1.3,https://openalex.org/I4210112052,Indian Institute of Technology Goa,IN,https://openalex.org/I4210122508,Indian Institute of Technology Goa,US,14.0
+"DO NOT MERGE: different countries, distinct institutions",1.2,https://openalex.org/I4210112059,African Institute for Mathematical Sciences,RW,https://openalex.org/I148561064,African Institute for Mathematical Sciences,ZA,3.5
+"DO NOT MERGE: different countries, distinct institutions",1.1,https://openalex.org/I4210148693,Metropolitan University,BD,https://openalex.org/I4210142444,Metropolitan University,VE,3.6
+"DO NOT MERGE: different countries, distinct institutions",1.1,https://openalex.org/I102272798,INSEAD,FR,https://openalex.org/I4210152270,INSEAD,SG,4.2
+"DO NOT MERGE: different countries, distinct institutions",0.9,https://openalex.org/I53110688,University of Córdoba,ES,https://openalex.org/I324290372,University of Córdoba,CO,11.1
+"DO NOT MERGE: different countries, distinct institutions",0.9,https://openalex.org/I205051169,Kingston University,GB,https://openalex.org/I4210154901,Kingston University,US,11.6
+"DO NOT MERGE: different countries, distinct institutions",0.9,https://openalex.org/I4210118363,Indian Institute of Technology Palakkad,KR,https://openalex.org/I4210113248,Indian Institute of Technology Palakkad,IN,3.7
+"DO NOT MERGE: different countries, distinct institutions",0.8,https://openalex.org/I1877545,Saint Francis University,HK,https://openalex.org/I181950316,Saint Francis University,US,5.1
+"DO NOT MERGE: different countries, distinct institutions",0.7,https://openalex.org/I120250893,New York University Abu Dhabi,AE,I4210162871,New York University Abu Dhabi,US,110.6
+"DO NOT MERGE: different countries, distinct institutions",0.7,https://openalex.org/I4210092510,National University,SD,https://openalex.org/I4210112098,National University,US,7.9
+"DO NOT MERGE: different countries, distinct institutions",0.7,https://openalex.org/I86613570,Universidad Panamericana,MX,https://openalex.org/I4210160924,Universidad Panamericana,GT,3.3
+"DO NOT MERGE: different countries, distinct institutions",0.7,https://openalex.org/I162096671,Universidad de Los Andes,CO,https://openalex.org/I4210143738,Universidad de Los Andes,BO,20.6
+"DO NOT MERGE: different countries, distinct institutions",0.7,https://openalex.org/I4210148693,Metropolitan University,BD,https://openalex.org/I4210092976,Metropolitan University,RS,3.6
+"DO NOT MERGE: different countries, distinct institutions",0.6,https://openalex.org/I90745801,University of New England,AU,https://openalex.org/I275799156,University of New England,US,11.2
+"DO NOT MERGE: different countries, distinct institutions",0.5,https://openalex.org/I157556583,Institute of Science and Technology Austria,AT,https://openalex.org/I4210096019,Institute of Science and Technology Austria,GB,203.4
+"DO NOT MERGE: different countries, distinct institutions",0.5,https://openalex.org/I1310815967,Central European Institute of Technology,CZ,https://openalex.org/I4210117288,Central European Institute of Technology,AT,24.8
+"DO NOT MERGE: different countries, distinct institutions",0.5,https://openalex.org/I8833935,Universidad de León,ES,https://openalex.org/I4210139291,Universidad de León,MX,4.8
+"DO NOT MERGE: different countries, distinct institutions",0.5,https://openalex.org/I142879360,Universidad del Norte,CO,https://openalex.org/I4210121190,Universidad del Norte,MX,3.3
+"DO NOT MERGE: different countries, distinct institutions",0.5,https://openalex.org/I4210162377,National Institute of Science and Technology,ID,https://openalex.org/I4210098947,National Institute of Science and Technology,IN,1.4
+"DO NOT MERGE: different countries, distinct institutions",0.2,https://openalex.org/I76569877,Southeast University,CN,https://openalex.org/I178315698,Southeast University,CN,2803.4
+"DO NOT MERGE: different countries, distinct institutions",0.2,https://openalex.org/I12003341,National University of Science and Technology,RU,https://openalex.org/I312958679,National University of Science and Technology,ZW,12.5
+"DO NOT MERGE: different countries, distinct institutions",0.2,https://openalex.org/I119942576,University of the Pacific,US,https://openalex.org/I919628346,University of the Pacific,PE,4.8
+"DO NOT MERGE: different countries, distinct institutions",0.2,https://openalex.org/I60488453,Middlesex University,GB,https://openalex.org/I4210127577,Middlesex University,MT,6.8
+"DO NOT MERGE: different countries, distinct institutions",0.2,https://openalex.org/I4210122369,Universidad Santo Tomás,CL,https://openalex.org/I2800166025,Universidad Santo Tomás,CO,0.9
+"DO NOT MERGE: different countries, distinct institutions",0.2,https://openalex.org/I183941352,Transnational University Limburg,NL,https://openalex.org/I4210127597,Transnational University Limburg,BE,0.6
+"DO NOT MERGE: different countries, distinct institutions",0.2,https://openalex.org/I157674215,Presidency University,IN,https://openalex.org/I4210132279,Presidency University,BD,1.6
+"DO NOT MERGE: different countries, distinct institutions",0.2,https://openalex.org/I4210100353,Universidad del Mar,CL,https://openalex.org/I4210093905,Universidad del Mar,MX,0.4
+"DO NOT MERGE: different countries, distinct institutions",0.2,https://openalex.org/I193555791,Delta State University,NG,https://openalex.org/I82917088,Delta State University,US,0.4
+"DO NOT MERGE: different countries, distinct institutions",0.1,https://openalex.org/I96415178,University of Defence,CZ,https://openalex.org/I4210153194,University of Defence,RS,2.2
+"DO NOT MERGE: different countries, distinct institutions",0.1,https://openalex.org/I143578492,Asia University,TW,https://openalex.org/I3141906898,Asia University,JP,4.2
+"DO NOT MERGE: different countries, distinct institutions",0.1,https://openalex.org/I102272798,INSEAD,FR,https://openalex.org/I4210149427,INSEAD,AE,4.2
+"DO NOT MERGE: different countries, distinct institutions",0.1,https://openalex.org/I150263970,Jagannath University,IN,https://openalex.org/I4210125938,Jagannath University,BD,0.6
+"DO NOT MERGE: different countries, distinct institutions",0.1,https://openalex.org/I184614866,Far Eastern University,TH,https://openalex.org/I4210140868,Far Eastern University,PH,0.3
+"DO NOT MERGE: different countries, distinct institutions",0.0,https://openalex.org/I900890020,University of Palermo,IT,https://openalex.org/I4210139084,University of Palermo,AR,71.0
+"DO NOT MERGE: different countries, distinct institutions",0.0,https://openalex.org/I922845939,Philadelphia University,US,https://openalex.org/I153921779,Philadelphia University,JO,31.1
+"DO NOT MERGE: different countries, distinct institutions",0.0,https://openalex.org/I4210088717,University of the West Indies,TT,https://openalex.org/I4210103039,University of the West Indies,BS,8.6
+"DO NOT MERGE: different countries, distinct institutions",0.0,https://openalex.org/I142823887,St. John's University,US,https://openalex.org/I4210097625,St. John's University,TW,2.9
+"DO NOT MERGE: different countries, distinct institutions",0.0,https://openalex.org/I155673605,Union University,US,https://openalex.org/I4210105304,Union University,RS,0.9
+"DO NOT MERGE: different countries, distinct institutions",0.0,https://openalex.org/I142879360,Universidad del Norte,CO,https://openalex.org/I4210120932,Universidad del Norte,,3.3
+"DO NOT MERGE: different countries, distinct institutions",0.0,https://openalex.org/I4210102282,Universidad de Las Américas,EC,https://openalex.org/I4210087759,Universidad de las Américas,NI,2.7
+"DO NOT MERGE: different countries, distinct institutions",0.0,https://openalex.org/I55464072,Universidad Metropolitana,PR,https://openalex.org/I4210091419,Universidad Metropolitana,CO,0.3

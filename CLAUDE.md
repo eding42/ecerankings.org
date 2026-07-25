@@ -21,6 +21,13 @@ methodology, area taxonomy, and venue-inclusion policy.
   (editorials, columns, non-research items). Keyed by `work_key` from
   `pipeline/workkey.py`: `doi:<normalized>`, or `vt:<venue>|<year>|<title>` for
   the 2.6% of works with no DOI. Never auto-generated — see "Data quality".
+- `data/institution-aliases.csv` — duplicate OpenAlex institution IDs folded
+  onto a canonical one at aggregate time (69 as of 2026-07-25). **Merges require
+  matching name AND country.** Name alone is unsafe: Northeastern University US
+  (835.3) and Northeastern CN/Shenyang (400.2) are different universities, as
+  are Southeast CN/BD, Northwestern US/PH, Soochow CN/TW.
+  `data/institution-merge-proposal.csv` keeps the full classification,
+  including the 64 rows explicitly marked DO NOT MERGE.
 - `data/reports/` — one markdown report per collection run (see skill).
 - `cache/` — raw OpenAlex responses. Tracked via Git LFS; syncs across computers.
 - `pipeline/` — harvest/backfill/aggregate scripts. See "Pipeline architecture".
@@ -91,6 +98,9 @@ detect_editorials.py                 →  data/editorial-candidates.csv
     data/excluded-works.csv, which is what aggregate.py actually reads.
 
 aggregate.py --all-cached            →  site/data/inst-area-year.csv
+    Skips NONRESEARCH_TYPES (editorial/erratum/letter/book-review/peer-review/
+    retraction/other — `review` deliberately kept), then data/excluded-works.csv,
+    then folds duplicate ids via data/institution-aliases.csv.
                                         site/data/inst-venue-year.csv
                                         site/data/author-info.csv
     cache/*/works.jsonl  +  affiliation-map.csv  →  adjusted counts per (inst, area, year)
