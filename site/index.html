@@ -1,119 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ECE Rankings</title>
-  <meta name="description" content="A metrics-based ranking of Electrical & Computer Engineering programs worldwide." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ECERankings: Electrical &amp; Computer Engineering Rankings</title>
+  <meta name="description" content="A metrics-based ranking of institutions by publications in selective electrical and computer engineering journals and conferences, built on OpenAlex.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="eding-shared.css">
+  <script type="module" src="main.js"></script>
 </head>
 <body>
-  
-  <div class="app-layout">
-    
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <div class="logo">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-          </svg>
-          ECE Rankings
-        </div>
+  <a class="skip" href="#rankings">Skip to rankings</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <p class="site-title"><a href="./">ECERankings</a></p>
+      <nav aria-label="Site"><a class="eding-project-link" href="https://eding.dev/">Eding</a>
+        <a href="./" aria-current="page">Rankings</a>
+        <a href="methodology.html">Methodology</a>
+        <a href="coverage.html">Data coverage</a>
+        <a href="https://github.com/eding42/ecerankings.org">Source</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1>Electrical &amp; Computer Engineering Rankings</h1>
+    <p class="lede">
+      A metrics-based ranking of institutions by publications in selective
+      electrical and computer engineering journals and conferences. Each paper
+      is credited to the institutions its authors listed on that paper, split
+      evenly among authors. It ranks institutions, not ECE departments or
+      faculty rosters. <a href="methodology.html">How this is computed</a>.
+    </p>
+
+    <form class="filters" id="filters" aria-label="Ranking filters" onsubmit="return false">
+      <div class="field">
+        <label for="region">Region</label>
+        <select id="region" disabled></select>
       </div>
-
-      <div class="sidebar-content">
-        <!-- Region Filter -->
-        <div class="filter-section">
-          <label class="filter-label">Region</label>
-          <div class="select-wrapper">
-            <select id="region-filter" class="clean-select">
-              <option value="all">Global</option>
-              <option value="us">United States</option>
-              <option value="ca">Canada</option>
-              <option value="north-america">North America</option>
-              <option value="europe">Europe</option>
-              <option value="asia">Asia</option>
-              <option value="oceania">Oceania</option>
-            </select>
-            <svg class="select-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          </div>
-        </div>
-
-        <!-- Time Horizon Dual Slider -->
-        <div class="filter-section">
-          <div class="filter-header-flex">
-            <label class="filter-label">Time Horizon</label>
-            <div class="year-display">
-              <span id="display-start">2016</span> - <span id="display-end">2026</span>
-            </div>
-          </div>
-          
-          <div class="double-slider-container">
-            <div class="slider-track" id="slider-track"></div>
-            <input type="range" id="year-min" min="2000" max="2026" value="2016" class="range-input" />
-            <input type="range" id="year-max" min="2000" max="2026" value="2026" class="range-input" />
-          </div>
-        </div>
-
-        <!-- Research Domains (Pills) -->
-        <div class="filter-section">
-          <div class="filter-header-flex">
-            <label class="filter-label">Research Domains</label>
-            <button id="toggle-all-areas" class="btn-link">Toggle All</button>
-          </div>
-          <div id="areas-container" class="domains-container">
-            <!-- Dynamically populated -->
-          </div>
-        </div>
+      <div class="field">
+        <label for="year-from">From</label>
+        <select id="year-from" disabled></select>
       </div>
-      
-      <div class="sidebar-footer">
-        <a href="#">Methodology</a>
-        <a href="https://github.com/edwardding/ecerankings.org" target="_blank">GitHub</a>
+      <div class="field">
+        <label for="year-to">To</label>
+        <select id="year-to" disabled></select>
       </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-      <header class="main-header">
-        <div class="header-titles">
-          <h1>Institution Rankings</h1>
-          <p id="results-count">Loading data...</p>
-        </div>
-        <div class="header-actions">
-          <button class="btn-primary" onclick="window.print()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-            Export
-          </button>
-        </div>
-      </header>
-
-      <div class="table-card">
-        <table class="clean-table">
-          <thead>
-            <tr>
-              <th class="col-rank">Rank</th>
-              <th class="col-inst">Institution</th>
-              <th class="col-score">Geo Mean Score</th>
-            </tr>
-          </thead>
-          <tbody id="ranking-tbody">
-            <!-- Rows injected here -->
-          </tbody>
-        </table>
+      <div class="field field-grow">
+        <label for="search">Find institution</label>
+        <input id="search" type="search" autocomplete="off" spellcheck="false" placeholder="Name contains…">
       </div>
-    </main>
+      <div class="field field-actions">
+        <button type="button" id="export" disabled>Download CSV</button>
+      </div>
+    </form>
 
-  </div>
+    <div id="notices" class="notices" aria-live="polite"></div>
 
-  <div id="loading-overlay" class="loading-overlay active">
-    <div class="spinner"></div>
-  </div>
+    <div class="layout">
+      <aside class="areas" aria-labelledby="areas-heading">
+        <details id="areas-panel" open>
+          <summary><h2 id="areas-heading">Research areas <span id="area-count" class="muted"></span></h2></summary>
+          <p class="area-actions">
+            Select:
+            <button type="button" class="link" data-select="defaults">defaults</button> ·
+            <button type="button" class="link" data-select="all">all</button> ·
+            <button type="button" class="link" data-select="none">none</button>
+          </p>
+          <div id="area-groups"><p class="muted">Loading areas…</p></div>
+        </details>
+      </aside>
 
-  <script type="module" src="main.js"></script>
+      <section class="results" id="rankings" aria-labelledby="results-heading">
+        <h2 id="results-heading" class="visually-hidden">Rankings</h2>
+        <p id="status" class="status" role="status">Loading data…</p>
+        <div id="error" class="error" role="alert" hidden></div>
+        <div class="table-scroll">
+          <table class="ranking" id="ranking-table">
+            <caption class="visually-hidden">Institutions ranked by geometric-mean score across the selected areas. Use the institution name buttons to show per-area counts.</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="num rank">#</th>
+                <th scope="col">Institution</th>
+                <th scope="col" class="num"><abbr title="Geometric mean of (1 + adjusted count) across the selected areas, minus one">Score</abbr></th>
+                <th scope="col" class="num"><abbr title="Adjusted count: each paper worth 1, split evenly among its authors">Adj. count</abbr></th>
+                <th scope="col" class="num opt"><abbr title="Distinct papers with at least one author at this institution">Papers</abbr></th>
+              </tr>
+            </thead>
+            <tbody id="ranking-body"></tbody>
+          </table>
+        </div>
+        <p class="pager" id="pager" hidden>
+          <button type="button" id="show-more"></button>
+          <button type="button" id="show-all" class="link"></button>
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>
+        Publication and affiliation data from <a href="https://openalex.org/">OpenAlex</a>,
+        with venue membership from <a href="https://www.crossref.org/">Crossref</a> where OpenAlex lacks it.
+        Code and data: <a href="https://github.com/eding42/ecerankings.org">github.com/eding42/ecerankings.org</a>.
+        Modeled on <a href="https://csrankings.org/">CSRankings</a>.
+        <span id="data-stamp"></span>
+      </p>
+      <noscript><p>The ranking table needs JavaScript. The underlying data is in the repository.</p></noscript>
+    </div>
+  </footer>
 </body>
 </html>
