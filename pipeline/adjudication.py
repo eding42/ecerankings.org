@@ -1,47 +1,11 @@
 #!/usr/bin/env python3
-"""Stable mechanics for affiliation adjudication (data/affiliation-map.csv).
+"""Validate, record, replay, and audit affiliation-map decisions.
 
-The adjudicate-affiliations skill decides; this script does everything that
-must come out the same every time:
-
-  queue   Export unresolved raw strings as deterministic batches, sorted by
-          credited-share impact, with the current mapping and its case/space
-          variants alongside. Strings found in a cache tree but absent from
-          the map (new PDF/Crossref text) are included as status "unmapped".
-  search  Look up OpenAlex institutions in the local index
-          (data/institutions.json) -- no API budget, same answer every run.
-  apply   Validate decision files and merge them into the map. Institution
-          name/type/country always come from the index, never from the
-          adjudicator's text. Every accepted decision is appended to the
-          ledger data/affiliation-decisions.jsonl with its evidence.
-  replay  Re-apply the latest ledger decision for every string. Restores
-          adjudicated rows if a normalizer rerun or a fix script overwrote them.
-  check   Pure QA, no writes: known traps (data/adjudication-traps.csv),
-          case/space variants mapped to different institutions, rows whose
-          stored name/type/country contradict the index, non-acronym short
-          matches, and company strings matched to a university by city name.
-          Exits 1 when a trap fails.
-
-Decision file format (a JSON list; one object per queued row):
-
-  {"key": "<from queue>", "raw_affiliation": "...",
-   "decision": "supported|corrected|noneducation|unresolved|needs-policy",
-   "institution_id": "I123..." (required for supported/corrected; optional
-                                 for noneducation, e.g. a company's OpenAlex ID),
-   "evidence": "why -- what in the string identifies the institution",
-   "decided_by": "model or person"}
-
-Outcomes follow docs/review/refresh-workflow.proposed.md. A map row resolves
-to ONE institution (aggregate.py's contract), so a compound string naming two
-universities with no primary one is "unresolved", not a guess.
-
-Usage:
-    python3 pipeline/adjudication.py queue --out .tmp/adjudication --batch 20
-    python3 pipeline/adjudication.py queue --cache-dir .tmp/ml-harvest/cache --only-unmapped
-    python3 pipeline/adjudication.py search "purdue university"
-    python3 pipeline/adjudication.py apply .tmp/adjudication/decisions-*.json --dry-run
-    python3 pipeline/adjudication.py replay
-    python3 pipeline/adjudication.py check
+Commands: queue, search, apply, replay, check. Decisions require a raw string,
+outcome (supported/corrected/noneducation/unresolved/needs-policy), evidence,
+and an institution ID where applicable. Institution metadata comes from the
+local index. Apply appends a ledger; replay restores decisions after normalization.
+See .agents/skills/adjudicate-affiliations/SKILL.md for the decision workflow.
 """
 from __future__ import annotations
 

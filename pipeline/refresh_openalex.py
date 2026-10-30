@@ -27,7 +27,7 @@ else:
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REGISTRY = os.path.join(ROOT, "data", "areas.json")
-AUDIT = os.path.join(ROOT, "data", "refresh", "journals-2026-10-28.json")
+SOURCE_FIRST_YEARS = os.path.join(ROOT, "data", "source-first-years.json")
 ENV = os.path.join(ROOT, ".env")
 API = "https://api.openalex.org"
 PER_PAGE = 200
@@ -489,12 +489,12 @@ def main(argv=None):
     unknown = sorted(set(selected) - set(by_key))
     if unknown:
         p.error("unknown journal key(s): " + ", ".join(unknown))
+    with open(SOURCE_FIRST_YEARS, encoding="utf8") as handle:
+        first_years = json.load(handle)
     plan = []
     for key in selected:
         _, v = by_key[key]
-        sources = v.get("openalex_ids", [])
-        min_year = min((r.get("first_publication_year") for x in json.load(open(AUDIT, encoding="utf8")).get("venues", []) if x.get("key") == key for r in x.get("source_records", []) if isinstance(r.get("first_publication_year"), int)), default=lo)
-        for yr in range(max(lo, min_year), hi + 1):
+        for yr in range(max(lo, first_years.get(key, lo)), hi + 1):
             plan.append((key, v, yr))
     if args.dry_run:
         print(json.dumps({"venues": len(selected), "venue_years": len(plan), "out_cache": args.out_cache,

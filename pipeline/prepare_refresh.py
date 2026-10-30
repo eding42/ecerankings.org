@@ -12,7 +12,6 @@ import json
 import pathlib
 import re
 import shutil
-import sys
 import unicodedata
 
 from workkey import record_key, norm_doi
