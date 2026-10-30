@@ -7,7 +7,8 @@ Usage:
     python3 pipeline/aggregate.py --all-cached
     python3 pipeline/aggregate.py --all-cached --sequential
 
-Processes venues in parallel by default (one worker per CPU core).
+Processes venues in parallel by default (one worker per available CPU core).
+Free-threaded CPython uses threads; ordinary CPython uses spawned processes.
 Use --sequential to disable and run single-threaded.
 
 Reads cache/<venue_key>/<year>/works.jsonl (produced by harvest.py or
@@ -17,11 +18,9 @@ evenly across its credited authors. Only authorship-institution pairs with
 type == "education" are credited (drops industry/government/nonprofit/
 facility affiliations).
 
-Rewrites the full site/data/*.csv output from every cached year each run
-(not an incremental merge) -- at current data volumes (hundreds of works
-per venue-year) this stays cheap; --year narrows which cached years are
-read, for inspecting or spot-checking one year's contribution, but the
-output CSVs still cover whatever's in cache, not just that one year.
+Builds complete CSV outputs from the requested scope, never an incremental
+merge. Scoped --venue/--year runs require --out so they cannot overwrite the
+public full-corpus outputs. --cache-dir supports isolated refresh staging.
 
 Institution identity: an author's institution is credited AS OpenAlex
 reports it directly (its own id/display_name), with NO lineage rollup to a
@@ -63,13 +62,13 @@ import argparse
 import csv
 import json
 import os
+import re
 import sys
 from collections import defaultdict
-from concurrent.futures import ProcessPoolExecutor
-from multiprocessing import cpu_count
+from functools import lru_cache
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from workkey import work_key  # noqa: E402  (shared work-identity helper)
+from workkey import work_key, record_key  # noqa: E402
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AREAS_JSON = os.path.join(REPO_ROOT, "data", "areas.json")
@@ -78,6 +77,36 @@ SITE_DATA_DIR = os.path.join(REPO_ROOT, "site", "data")
 EXCLUDED_CSV = os.path.join(REPO_ROOT, "data", "excluded-works.csv")
 
 CREDIT_TYPES = {"education"}
+
+
+def institution_id(value):
+    """Use one representation for bare and URL-form OpenAlex institution IDs."""
+    value = str(value or '').strip().rstrip('/')
+    return _normalized_institution_id(value)
+
+
+@lru_cache(maxsize=65536)
+def _normalized_institution_id(value):
+    if re.fullmatch(r'I\d+', value):
+        return 'https://openalex.org/' + value
+    if value.startswith('http://openalex.org/'):
+        return 'https://' + value[len('http://'):]
+    return value
+
+
+def canonical_aliases(aliases):
+    normalized = {institution_id(k): (institution_id(v[0]), v[1]) for k, v in aliases.items()}
+    result = {}
+    for start in normalized:
+        current, name, visited = start, '', set()
+        while current in normalized:
+            if current in visited:
+                raise ValueError(f'Institution alias cycle at {start}')
+            visited.add(current)
+            current, label = normalized[current]
+            name = label or name
+        result[start] = (current, name)
+    return result
 
 # OpenAlex `type` values that are not research contributions. Skipped outright,
 # because adjusted count is 1/N per author and these skew heavily single-author:
@@ -120,7 +149,7 @@ def load_aliases():
             dup, canon = r.get("duplicate_id"), r.get("canonical_id")
             if dup and canon and dup != canon:
                 aliases[dup] = (canon, r.get("canonical_name", ""))
-    return aliases
+    return canonical_aliases(aliases)
 
 
 def load_exclusions():
@@ -163,13 +192,14 @@ def venue_to_area(registry):
     return mapping
 
 
-def find_cached_venues():
-    if not os.path.isdir(CACHE_DIR):
+def find_cached_venues(cache_dir=None):
+    cache_dir = cache_dir or CACHE_DIR
+    if not os.path.isdir(cache_dir):
         return []
     found = []
-    for venue_key in sorted(os.listdir(CACHE_DIR)):
-        venue_dir = os.path.join(CACHE_DIR, venue_key)
-        if os.path.isdir(venue_dir) and find_cached_years(venue_key):
+    for venue_key in sorted(os.listdir(cache_dir)):
+        venue_dir = os.path.join(cache_dir, venue_key)
+        if os.path.isdir(venue_dir) and find_cached_years(venue_key, cache_dir):
             found.append(venue_key)
     return found
 
@@ -197,22 +227,38 @@ def resolve_raw_affiliations(raw_affils, affil_map):
         row = affil_map.get(raw)
         if not row:
             continue
-        inst_id = row.get("institution_id", "")
-        if not inst_id or row.get("status") not in ("auto", "manual"):
-            continue
+        if isinstance(row, tuple):
+            inst_id, name, kind = row
+        else:
+            inst_id = institution_id(row.get("institution_id", ""))
+            if not inst_id or row.get("status") not in ("auto", "manual"):
+                continue
+            name, kind = row.get("institution_name", ""), row.get("institution_type", "")
         if inst_id in seen:
             continue
         seen.add(inst_id)
         resolved.append({
             "id": inst_id,
-            "display_name": row.get("institution_name", ""),
-            "type": row.get("institution_type", ""),
+            "display_name": name,
+            "type": kind,
         })
     return resolved
 
 
-def find_cached_years(venue_key):
-    venue_dir = os.path.join(CACHE_DIR, venue_key)
+def prepare_affiliation_map(mapping):
+    """Normalize accepted exact matches once, retaining non-education entries.
+
+    The first occurrence of an institution wins even if a later raw string
+    assigns it a different type, matching resolve_raw_affiliations.
+    """
+    return {raw: (institution_id(row.get('institution_id')), row.get('institution_name', ''),
+                  row.get('institution_type', ''))
+            for raw, row in mapping.items()
+            if row.get('status') in ('auto', 'manual') and institution_id(row.get('institution_id'))}
+
+
+def find_cached_years(venue_key, cache_dir=None):
+    venue_dir = os.path.join(cache_dir or CACHE_DIR, venue_key)
     if not os.path.isdir(venue_dir):
         return []
     years = []
@@ -223,13 +269,15 @@ def find_cached_years(venue_key):
 
 
 def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset(),
-                   aliases=None):
+                   aliases=None, cache_dir=None, venue_exclusions=None, *, prepared=False):
     """Process a list of venue keys and return accumulated results.
 
     Returns: (inst_area_year, inst_venue_year, author_area_year_inst,
               inst_names, author_names, metrics, nested_institutions)
     """
-    aliases = aliases or {}
+    aliases = (aliases or {}) if prepared else canonical_aliases(aliases or {})
+    cache_dir = cache_dir or CACHE_DIR
+    venue_exclusions = venue_exclusions or {}
     inst_area_year = {}
     inst_venue_year = {}
     author_area_year_inst = defaultdict(float)
@@ -250,7 +298,9 @@ def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset()
             print(f"  [{venue_key}] not in data/areas.json, skipping.", file=sys.stderr)
             continue
         area_key, _area_name = v2a[venue_key]
-        cached_years = find_cached_years(venue_key)
+        venue_excluded = venue_exclusions.get(venue_key, frozenset())
+        cached_years = find_cached_years(venue_key, cache_dir)
+        seen_works = set()
         if year_filter is not None:
             cached_years = [y for y in cached_years if y == year_filter]
         if not cached_years:
@@ -258,14 +308,25 @@ def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset()
             continue
 
         for year_dir in cached_years:
-            path = os.path.join(CACHE_DIR, venue_key, str(year_dir), "works.jsonl")
+            path = os.path.join(cache_dir, venue_key, str(year_dir), "works.jsonl")
             with open(path) as f:
                 for line in f:
                     w = json.loads(line)
+                    key = work_key(w, venue_key, year_dir)
+                    if key in venue_excluded:
+                        excluded_works += 1
+                        continue
+                    # A repeated provider page or duplicate DOI must not create
+                    # another paper. Venue ownership is separately specified by
+                    # registry exclusions, including the TECS/EMSOFT decision.
+                    identity = record_key(w, venue_key, year_dir)
+                    if identity in seen_works:
+                        continue
+                    seen_works.add(identity)
                     if (w.get("type") or "").lower() in NONRESEARCH_TYPES:
                         nonresearch_works += 1
                         continue
-                    if excluded and work_key(w, venue_key, year_dir) in excluded:
+                    if key in excluded:
                         excluded_works += 1
                         continue
                     total_works += 1
@@ -298,24 +359,27 @@ def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset()
                         if not edu_insts:
                             dropped_no_edu_inst += 1
                             continue
-                        if len(edu_insts) > 1:
-                            multi_inst_author_events += 1
-                        share = paper_weight / len(edu_insts)
-
+                        # Resolve aliases and collapse duplicate affiliations
+                        # before dividing the author's share. Two provider IDs
+                        # for the same university are one affiliation.
+                        unique_insts = {}
                         for inst in edu_insts:
-                            inst_id = inst["id"]
-                            # Fold duplicate OpenAlex records onto one id before
-                            # any credit is recorded, so the split never reaches
-                            # the output CSVs. See load_aliases().
-                            alias = aliases.get(inst_id)
-                            if alias:
-                                inst_id = alias[0]
-                                inst_names[inst_id] = alias[1] or inst["display_name"]
-                            else:
-                                inst_names[inst_id] = inst["display_name"]
-                            lineage = inst.get("lineage") or [inst_id]
+                            iid = institution_id(inst.get("id"))
+                            if not iid:
+                                raise ValueError(f"Education institution without id in {path}")
+                            target = aliases.get(iid)
+                            canonical = target[0] if target else iid
+                            name = target[1] if target and target[1] else inst["display_name"]
+                            unique_insts.setdefault(canonical, (name, inst.get("lineage")))
+                        if len(unique_insts) > 1:
+                            multi_inst_author_events += 1
+                        share = paper_weight / len(unique_insts)
+
+                        for inst_id, (name, lineage) in unique_insts.items():
+                            inst_names[inst_id] = name
+                            lineage = lineage or [inst_id]
                             if len(lineage) > 1 and inst_id not in nested_institutions:
-                                nested_institutions[inst_id] = (inst["display_name"], lineage)
+                                nested_institutions[inst_id] = (name, lineage)
 
                             area_key_tup = (inst_id, area_key, year)
                             if area_key_tup not in inst_area_year:
@@ -364,18 +428,23 @@ def merge_results(results):
          r_author_names, metrics, r_nested) in results:
         for key, vals in r_inst_area_year.items():
             if key not in inst_area_year:
-                inst_area_year[key] = {"pub_count": 0, "adjusted_count": 0.0}
-            inst_area_year[key]["pub_count"] += vals["pub_count"]
-            inst_area_year[key]["adjusted_count"] += vals["adjusted_count"]
+                inst_area_year[key] = vals.copy()
+            else:
+                inst_area_year[key]["pub_count"] += vals["pub_count"]
+                inst_area_year[key]["adjusted_count"] += vals["adjusted_count"]
 
         for key, vals in r_inst_venue_year.items():
             if key not in inst_venue_year:
-                inst_venue_year[key] = {"pub_count": 0, "adjusted_count": 0.0}
-            inst_venue_year[key]["pub_count"] += vals["pub_count"]
-            inst_venue_year[key]["adjusted_count"] += vals["adjusted_count"]
+                inst_venue_year[key] = vals.copy()
+            else:
+                inst_venue_year[key]["pub_count"] += vals["pub_count"]
+                inst_venue_year[key]["adjusted_count"] += vals["adjusted_count"]
 
         for key, val in r_author_ay.items():
-            author_area_year_inst[key] += val
+            if key in author_area_year_inst:
+                author_area_year_inst[key] += val
+            else:
+                author_area_year_inst[key] = val
 
         inst_names.update(r_inst_names)
         author_names.update(r_author_names)
@@ -399,6 +468,22 @@ def merge_results(results):
             excluded_works, nonresearch_works)
 
 
+def sorted_credit_rows(table, author=False):
+    """Sort by credit then identity without allocating millions of sort tuples."""
+    buckets = defaultdict(list)
+    for key, value in table.items():
+        credit = value if author else value['adjusted_count']
+        buckets[credit].append(key)
+    for credit in sorted(buckets, reverse=True):
+        keys = buckets[credit]
+        if author:
+            keys.sort(key=lambda key: key if key[0] is not None else ('', *key[1:]))
+        else:
+            keys.sort()
+        for key in keys:
+            yield key, table[key]
+
+
 def main():
     parser = argparse.ArgumentParser(description="Aggregate cached works into adjusted counts.")
     parser.add_argument("--venue", action="append", default=[], help="Venue key to include (repeatable)")
@@ -406,17 +491,50 @@ def main():
     parser.add_argument("--year", type=int, default=None, help="Only read this year's cache per venue (default: all cached years)")
     parser.add_argument("--sequential", action="store_true", help="Disable parallel processing (single-threaded)")
     parser.add_argument("--workers", type=int, default=None, help="Number of parallel workers (default: CPU count)")
+    parser.add_argument("--executor", choices=('auto', 'processes', 'threads'), default='auto',
+                        help="auto: threads with the GIL disabled, otherwise spawned processes")
+    parser.add_argument("--aggregation-cache-dir", default=os.path.join(REPO_ROOT, '.tmp', 'aggregation-cache'),
+                        help="Content-addressed venue aggregates (independent of the raw --cache-dir)")
+    parser.add_argument("--no-aggregation-cache", action='store_true', help="Recompute every venue")
+    parser.add_argument("--stats", help="Write execution and cache measurements to a separate JSON log")
+    parser.add_argument("--cache-dir", default=CACHE_DIR, help="Read an isolated cache tree")
+    parser.add_argument("--out", default=None, help="Output directory (required for scoped runs)")
     args = parser.parse_args()
+    if args.workers is not None and args.workers < 1:
+        parser.error('--workers must be positive')
+    from aggregation_runtime import aggregate_venues, select_executor, store_tables
+    if not args.sequential:
+        try:
+            select_executor(args.executor)
+        except ValueError as error:
+            parser.error(str(error))
+    output_dir = os.path.realpath(args.out or SITE_DATA_DIR)
+    if (args.venue or args.year is not None) and (
+            args.out is None or output_dir == os.path.realpath(SITE_DATA_DIR)):
+        parser.error("Scoped runs require --out pointing outside site/data")
 
     registry = load_registry()
     v2a = venue_to_area(registry)
 
-    venue_keys = args.venue if args.venue else (find_cached_venues() if args.all_cached else [])
+    venue_keys = sorted(set(args.venue if args.venue else (find_cached_venues(args.cache_dir) if args.all_cached else [])))
     if not venue_keys:
         print("Specify --venue <key> (repeatable) or --all-cached", file=sys.stderr)
         sys.exit(1)
 
-    affil_map = load_affiliation_map()
+    # Fail before opening output files when a checkout contains LFS pointers.
+    for venue in venue_keys:
+        for year in find_cached_years(venue, args.cache_dir):
+            path = os.path.join(args.cache_dir, venue, str(year), "works.jsonl")
+            with open(path, "rb") as f:
+                if f.read(48).startswith(b"version https://git-lfs.github.com/spec/v1"):
+                    parser.error(f"Unmaterialized Git LFS pointer: {path}")
+    from workkey import norm_doi
+    venue_exclusions = {
+        v["key"]: {"doi:" + norm_doi(d) for d in v.get("exclude_dois", [])}
+        for area in registry["areas"].values() for v in area["venues"]
+    }
+
+    affil_map = prepare_affiliation_map(load_affiliation_map())
     aliases = load_aliases()
     if aliases:
         print(f"Institution aliases: {len(aliases)} duplicate ids folded onto canonical ones")
@@ -424,50 +542,56 @@ def main():
     if excluded:
         print(f"Exclusion list: {len(excluded)} works will be skipped "
               f"({os.path.relpath(EXCLUDED_CSV, REPO_ROOT)})")
-    n_venues = len(venue_keys)
-
-    if args.sequential or n_venues < 2:
-        results = [process_venues(venue_keys, v2a, args.year, affil_map, excluded, aliases)]
-    else:
-        n_workers = args.workers or cpu_count()
-        n_workers = min(n_workers, n_venues)
-        chunks = [[] for _ in range(n_workers)]
-        for i, vk in enumerate(venue_keys):
-            chunks[i % n_workers].append(vk)
-
-        print(f"Aggregating {n_venues} venues across {n_workers} workers...")
-        with ProcessPoolExecutor(max_workers=n_workers) as pool:
-            futures = [pool.submit(process_venues, chunk, v2a, args.year, affil_map, excluded, aliases)
-                       for chunk in chunks]
-            results = [f.result() for f in futures]
+    report = {}
+    results = aggregate_venues(venue_keys, v2a, args.year, affil_map, excluded, aliases,
+                              args.cache_dir, venue_exclusions, workers=args.workers,
+                              executor=args.executor, sequential=args.sequential,
+                              aggregation_cache_dir=None if args.no_aggregation_cache else args.aggregation_cache_dir,
+                              report=report, output=output_dir)
 
     (inst_area_year, inst_venue_year, author_area_year_inst, inst_names,
      author_names, total_works, total_authorship_pairs, dropped_no_edu_inst,
      crossref_resolved, multi_inst_author_events, nested_institutions,
      excluded_works, nonresearch_works) = merge_results(results)
+    print(f"Aggregated {len(report['venues'])} venues with {report['executor']} "
+          f"({report['workers']} workers); cache hits={report['cache_hits']}, misses={report['cache_misses']}")
+    if report['table_cache_hit']:
+        print('Restored SHA-256-verified aggregate tables; source inventory reverified.')
+        print('Audit metrics:', report['metrics'])
+        if args.stats:
+            with open(args.stats, 'w') as handle:
+                json.dump(report, handle, indent=2)
+                handle.write('\n')
+        return
 
-    os.makedirs(SITE_DATA_DIR, exist_ok=True)
+    os.makedirs(output_dir, exist_ok=True)
 
-    inst_out = os.path.join(SITE_DATA_DIR, "inst-area-year.csv")
+    inst_out = os.path.join(output_dir, "inst-area-year.csv")
     with open(inst_out, "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["institution_id", "institution_name", "area", "year", "pub_count", "adjusted_count"])
-        for (inst_id, area, year), vals in sorted(inst_area_year.items(), key=lambda x: -x[1]["adjusted_count"]):
+        for (inst_id, area, year), vals in sorted_credit_rows(inst_area_year):
             w.writerow([inst_id, inst_names[inst_id], area, year, vals["pub_count"], round(vals["adjusted_count"], 5)])
 
-    venue_out = os.path.join(SITE_DATA_DIR, "inst-venue-year.csv")
+    venue_out = os.path.join(output_dir, "inst-venue-year.csv")
     with open(venue_out, "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["institution_id", "institution_name", "area", "venue", "year", "pub_count", "adjusted_count"])
-        for (inst_id, area, venue, year), vals in sorted(inst_venue_year.items(), key=lambda x: -x[1]["adjusted_count"]):
+        for (inst_id, area, venue, year), vals in sorted_credit_rows(inst_venue_year):
             w.writerow([inst_id, inst_names[inst_id], area, venue, year, vals["pub_count"], round(vals["adjusted_count"], 5)])
 
-    author_out = os.path.join(SITE_DATA_DIR, "author-info.csv")
+    author_out = os.path.join(output_dir, "author-info.csv")
     with open(author_out, "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["author_id", "author_name", "institution_id", "institution_name", "area", "year", "adjusted_count"])
-        for (author_id, area, year, inst_id), adj in sorted(author_area_year_inst.items(), key=lambda x: -x[1]):
+        for (author_id, area, year, inst_id), adj in sorted_credit_rows(author_area_year_inst, author=True):
             w.writerow([author_id, author_names[author_id], inst_id, inst_names[inst_id], area, year, round(adj, 5)])
+    report['metrics'] = dict(works=total_works, authorships=total_authorship_pairs,
+                            dropped_no_education=dropped_no_edu_inst, crossref_resolved=crossref_resolved,
+                            multi_institution_authors=multi_inst_author_events,
+                            excluded_works=excluded_works, nonresearch_works=nonresearch_works)
+    if not args.no_aggregation_cache:
+        store_tables(args.aggregation_cache_dir, report['fingerprint'], output_dir, report['metrics'])
 
     # --- Summary ---
     print(f"Works processed:              {total_works}")
@@ -493,6 +617,10 @@ def main():
     top = sorted(inst_area_year.items(), key=lambda x: -x[1]["adjusted_count"])[:15]
     for (inst_id, area, year), vals in top:
         print(f"  {vals['adjusted_count']:.3f}  (pubs={vals['pub_count']:>3})  {inst_names[inst_id]:45s}  [{area}, {year}]")
+    if args.stats:
+        with open(args.stats, 'w') as handle:
+            json.dump(report, handle, indent=2)
+            handle.write('\n')
 
 
 if __name__ == "__main__":

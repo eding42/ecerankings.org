@@ -51,3 +51,21 @@ def work_key(work, venue=None, year=None):
         return "doi:" + d
     yr = year if year is not None else work.get("publication_year")
     return f"vt:{venue or '?'}|{yr or '?'}|{norm_title(work.get('title'))}"
+
+
+def record_key(work, venue=None, year=None):
+    """Identity for deduplication, preserving distinct no-DOI records.
+
+    Curated exclusion keys remain DOI/title based through work_key. A provider
+    record ID is stronger than a common title such as 'Editorial' when deciding
+    whether two cached records represent the same work.
+    """
+    if norm_doi(work.get('doi')):
+        return work_key(work, venue, year)
+    for field in ('id', 'openalex_id'):
+        value = str(work.get(field) or '').rstrip('/').rsplit('/', 1)[-1]
+        if re.fullmatch(r'W\d+', value):
+            return 'openalex:' + value
+    if work.get('s2_corpusid') is not None:
+        return 's2:' + str(work['s2_corpusid'])
+    return work_key(work, venue, year)

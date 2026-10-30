@@ -140,3 +140,10 @@ Current priority: venue-registry curation. Entries in `data/areas.json` are
 marked `todo`, `candidate`, or `verified`. Review `todo`/`candidate` entries
 for correct source IDs and year coverage; open an issue or PR referencing
 the venue key.
+
+## Parallel candidate builds
+
+Candidate releases use multiple CPUs, deterministic venue reduction, and caches
+verified with SHA-256. Standard Python uses spawned processes; free-threaded
+Python can use threads. Python 3.11 or newer is required for these build tools.
+See the [build commands, cache behavior, and accuracy checks](docs/pipeline-performance.md).
