@@ -1,4 +1,5 @@
 // ECERankings Frontend Application - Logic
+import { computeAnnualRanks, institutionHistory, rankResults, renderRankHistory } from './rank-history.js';
 
 const STATE = {
   areas: null,
@@ -12,6 +13,10 @@ const STATE = {
   
   region: 'all',
   selectedAreas: new Set(),
+  expandedInstitution: null,
+  rankings: [],
+  annualRanks: null,
+  updateVersion: 0,
   elements: {}
 };
 
@@ -204,18 +209,28 @@ async function fetchAreaData(areaKey) {
 }
 
 async function updateRankings() {
+  const version = ++STATE.updateVersion;
   showLoading(true);
   
   const fetchPromises = Array.from(STATE.selectedAreas).map(area => fetchAreaData(area));
   await Promise.all(fetchPromises);
-  
+  if (version !== STATE.updateVersion) return;
+
+  STATE.rankings = computeRankings();
+  STATE.annualRanks = null;
+  renderTable(STATE.rankings);
+  STATE.elements.resultsCount.textContent = `${STATE.rankings.length} institutions found`;
+  showLoading(false);
+}
+
+function computeRankings(startYear = STATE.startYear, endYear = STATE.endYear) {
   const instStats = new Map();
   
   for (const area of STATE.selectedAreas) {
     const areaData = STATE.dataCache.get(area) || [];
     const areaSums = new Map();
     for (const row of areaData) {
-      if (row.y >= STATE.startYear && row.y <= STATE.endYear) {
+      if (row.y >= startYear && row.y <= endYear) {
         areaSums.set(row.i, (areaSums.get(row.i) || 0) + row.a);
       }
     }
@@ -250,9 +265,7 @@ async function updateRankings() {
   
   results.sort((a, b) => b.score - a.score);
   
-  renderTable(results);
-  STATE.elements.resultsCount.textContent = `${results.length} institutions found`;
-  showLoading(false);
+  return results;
 }
 
 function renderTable(results) {
@@ -266,27 +279,73 @@ function renderTable(results) {
   
   const displayResults = results.slice(0, 150);
   const fragment = document.createDocumentFragment();
-  let currentRank = 1;
-  let previousScore = -1;
+  const ranks = rankResults(results);
   
   displayResults.forEach((stats, index) => {
-    if (Math.abs(stats.score - previousScore) > 0.0001) currentRank = index + 1;
-    previousScore = stats.score;
-    
     const meta = STATE.institutions[stats.id] || { name: 'Unknown Institution', country: '' };
     const scoreVal = (stats.score - 1).toFixed(1);
     
     const tr = document.createElement('tr');
+    const isExpanded = STATE.expandedInstitution === stats.id;
+    const detailId = `institution-detail-${index}`;
+    tr.className = `institution-row${isExpanded ? ' expanded' : ''}`;
     tr.innerHTML = `
-      <td class="col-rank">${currentRank}</td>
+      <td class="col-rank">${ranks.get(stats.id)}</td>
       <td class="col-inst">
-        <span class="flag">${getCountryEmoji(meta.country)}</span>
-        ${meta.name}
+        <button type="button" class="institution-toggle" aria-expanded="${isExpanded}" aria-controls="${detailId}">
+          <span class="institution-chevron" aria-hidden="true">▶</span>
+          <span class="flag" aria-hidden="true">${getCountryEmoji(meta.country)}</span>
+          <span class="institution-name"></span>
+        </button>
       </td>
       <td class="col-score">${scoreVal}</td>
     `;
+    tr.querySelector('.institution-name').textContent = meta.name;
+    tr.addEventListener('click', () => {
+      STATE.expandedInstitution = isExpanded ? null : stats.id;
+      renderTable(STATE.rankings);
+      STATE.elements.rankingBody.querySelector(`[aria-controls="${detailId}"]`).focus({ preventScroll: true });
+    });
     
     fragment.appendChild(tr);
+    const detail = document.createElement('tr');
+    detail.id = detailId;
+    detail.className = 'institution-detail-row';
+    detail.hidden = !isExpanded;
+    if (isExpanded) {
+      const cell = document.createElement('td');
+      cell.colSpan = 3;
+      const content = document.createElement('div');
+      content.className = 'institution-details';
+      const heading = document.createElement('h3');
+      heading.className = 'institution-areas-title';
+      heading.textContent = `Adjusted counts · ${STATE.startYear}–${STATE.endYear}`;
+      content.appendChild(heading);
+      const areaList = document.createElement('div');
+      areaList.className = 'institution-areas';
+      [...STATE.selectedAreas].sort((a, b) => (stats.areaCounts.get(b) || 0) - (stats.areaCounts.get(a) || 0))
+        .forEach(area => {
+          const item = document.createElement('span');
+          item.textContent = `${STATE.areas[area].name}: `;
+          const count = document.createElement('strong');
+          count.textContent = (stats.areaCounts.get(area) || 0).toFixed(1);
+          item.appendChild(count);
+          areaList.appendChild(item);
+        });
+      content.appendChild(areaList);
+      if (!STATE.annualRanks) {
+        STATE.annualRanks = computeAnnualRanks({
+          startYear: STATE.startYear, endYear: STATE.endYear,
+          rankingsForYear: year => computeRankings(year, year)
+        });
+      }
+      content.insertAdjacentHTML('afterbegin', renderRankHistory(
+        institutionHistory(STATE.annualRanks, stats.id), meta.name
+      ));
+      cell.appendChild(content);
+      detail.appendChild(cell);
+    }
+    fragment.appendChild(detail);
   });
   
   tbody.appendChild(fragment);
