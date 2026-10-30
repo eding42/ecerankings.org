@@ -150,7 +150,7 @@ button.link:hover { background: none; text-decoration: underline; }
 .area-header {
   display: flex; align-items: baseline; gap: 6px;
 }
-.area-header input { margin: 0; position: relative; top: 2px; accent-color: var(--link); }
+.area-header input { margin: 0; position: relative; top: 2px; accent-color: var(--link); cursor: pointer; }
 .area-header label { cursor: pointer; flex: 1 1 auto; }
 .area-row.off-default .area-header label { color: var(--muted); }
 .area-venues-toggle {
@@ -159,16 +159,23 @@ button.link:hover { background: none; text-decoration: underline; }
   font-size: 11px; color: var(--faint); cursor: pointer; line-height: 1;
 }
 .area-venues-toggle:hover { color: var(--link); background: none; }
+
 .area-venues-list {
-  margin: 2px 0 4px 24px; padding-left: 0; list-style: none; font-size: 12px; color: var(--muted);
+  margin: 3px 0 6px 20px; padding-left: 0; list-style: none; font-size: 12px; color: var(--muted);
 }
-.area-venues-list li {
-  padding: 1px 0; line-height: 1.35;
+.area-venues-list li.venue-row {
+  display: flex; align-items: baseline; gap: 6px; padding: 2px 0; line-height: 1.35;
+}
+.area-venues-list li.venue-row input[type="checkbox"] {
+  margin: 0; position: relative; top: 2px; accent-color: var(--link); cursor: pointer;
+}
+.area-venues-list li.venue-row label {
+  cursor: pointer; flex: 1 1 auto;
 }
 .area-venues-list .venue-badge {
-  font-size: 10px; text-transform: uppercase; letter-spacing: 0.03em;
+  font-size: 9px; text-transform: uppercase; letter-spacing: 0.03em;
   padding: 1px 4px; border-radius: 2px; background: var(--stripe);
-  border: 1px solid var(--rule); margin-right: 4px; color: var(--faint);
+  border: 1px solid var(--rule); margin-right: 4px; color: var(--muted);
 }
 .area-note { margin: 2px 0 4px 24px; font-size: 12px; line-height: 1.4; color: var(--muted); }
 
