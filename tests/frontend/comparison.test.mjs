@@ -53,7 +53,7 @@ test('comparison follows area and venue-filtered data, with no hidden fallback t
 test('single-year view changes displayed values while the full yearly history stays available', () => {
   const html = C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById, area: 'quantum', year: 2022 });
   assert.match(html, /Adjusted publication credit · 2022/);
-  assert.match(html, /left school 2.0, right school 6.0/);
+  assert.match(html, /&lt;Alpha &amp; Co&gt; 2.0, Beta 6.0/);
   assert.match(html, /data-compare-year="2020"/);
   assert.match(html, /data-compare-year="2022"/);
   assert.match(html, /compare-no-output/);
