@@ -168,7 +168,7 @@ def main():
         import torch
     except ImportError:
         sys.exit("sentence-transformers not available. Run with .venv/bin/python "
-                 "(see CLAUDE.md: .venv is reserved for the semantic scripts).")
+                 "(see AGENTS.md: .venv is reserved for the semantic scripts).")
 
     print("Scanning cache for candidate non-research works...")
     cands = collect_candidates(args.venue)
