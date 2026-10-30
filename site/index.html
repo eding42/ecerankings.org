@@ -6,10 +6,11 @@
   <title>ECERankings: Electrical &amp; Computer Engineering Rankings</title>
   <meta name="description" content="A metrics-based ranking of institutions by publications in selective electrical and computer engineering journals and conferences, built on OpenAlex.">
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=compare-1">
   <link rel="stylesheet" href="rank-history.css?v=rank-history-1">
+  <link rel="stylesheet" href="comparison.css?v=compare-1">
   <link rel="stylesheet" href="eding-shared.css">
-  <script type="module" src="main.js?v=rank-history-1"></script>
+  <script type="module" src="main.js?v=compare-1"></script>
 </head>
 <body>
   <a class="skip" href="#rankings">Skip to rankings</a>
@@ -77,8 +78,15 @@
 
       <section class="results" id="rankings" aria-labelledby="results-heading">
         <h2 id="results-heading" class="visually-hidden">Rankings</h2>
+        <div class="view-switch" role="group" aria-label="View">
+          <button type="button" id="view-rankings" aria-pressed="true" aria-controls="ranking-view">Rankings</button>
+          <button type="button" id="view-compare" aria-pressed="false" aria-controls="comparison-view">Compare <span id="comparison-count"></span></button>
+        </div>
+        <div id="comparison-tray" class="compare-tray" aria-live="polite"></div>
         <p id="status" class="status" role="status">Loading data…</p>
         <div id="error" class="error" role="alert" hidden></div>
+        <div id="comparison-view" class="compare-panel" aria-label="Compare institutions" hidden></div>
+        <div id="ranking-view">
         <p class="results-hint" id="results-hint">Select an institution to see counts and annual ranks.</p>
         <div class="table-scroll" aria-describedby="results-hint">
           <table class="ranking" id="ranking-table">
@@ -99,6 +107,7 @@
           <button type="button" id="show-more"></button>
           <button type="button" id="show-all" class="link"></button>
         </p>
+        </div>
       </section>
     </div>
   </main>

@@ -6,6 +6,7 @@ import {
   encodeState, decodeState, rankingsToCsv,
 } from './rank.js';
 import { computeAnnualRanks, institutionHistory, renderRankHistory } from './rank-history.js';
+import { renderComparison } from './comparison.js?v=compare-1';
 
 const PAGE_SIZE = 100;
 const CURRENT_YEAR = new Date().getFullYear();
@@ -36,6 +37,7 @@ const app = {
   expanded: new Set(),
   openVenues: new Set(), // set of area ids with open venue dropdown
   lastHash: null,
+  compare: { ids: [], mode: 'rankings', year: null, area: null, showAll: false, playing: false, playTimer: null },
 };
 
 const $ = (id) => document.getElementById(id);
@@ -105,10 +107,10 @@ function loadVenue(areaId, venueKey) {
   return p;
 }
 
-function getDisabledVenuesForArea(areaId) {
+function getDisabledVenuesForArea(areaId, sel = app.sel) {
   const set = new Set();
   const prefix = `${areaId}:`;
-  for (const item of (app.sel?.disabledVenues || [])) {
+  for (const item of (sel?.disabledVenues || [])) {
     if (item.startsWith(prefix)) {
       set.add(item.slice(prefix.length));
     }
@@ -116,8 +118,8 @@ function getDisabledVenuesForArea(areaId) {
   return set;
 }
 
-async function loadAreaData(areaId) {
-  const disabledSet = getDisabledVenuesForArea(areaId);
+async function loadAreaData(areaId, sel = app.sel) {
+  const disabledSet = getDisabledVenuesForArea(areaId, sel);
   const area = app.areaById.get(areaId);
   const venues = (area && area.venues) || [];
 
@@ -173,6 +175,7 @@ async function init() {
     disabledVenues: [],
   };
   app.sel = readHash();
+  readComparisonHash();
 
   renderRegionOptions();
   renderAreaGroups();
@@ -197,7 +200,12 @@ function readHash() {
 }
 
 function writeHash(sel) {
-  const hash = encodeState(sel, app.defaults);
+  const params = new URLSearchParams(encodeState(sel, app.defaults).replace(/^#/, ''));
+  if (app.compare.ids.length) params.set('compare', app.compare.ids.map(id => id.replace('https://openalex.org/', '')).join(','));
+  if (app.compare.mode === 'compare') params.set('view', 'compare');
+  if (app.compare.ids.length === 2 && app.compare.area) params.set('compare-area', app.compare.area);
+  if (app.compare.ids.length === 2 && app.compare.year !== null) params.set('compare-year', String(app.compare.year));
+  const hash = params.size ? `#${params.toString().replace(/%2C/g, ',')}` : '';
   app.lastHash = hash;
   if (hash !== location.hash || location.href.endsWith('#')) {
     history.replaceState(null, '', location.pathname + location.search + hash);
@@ -390,6 +398,7 @@ function toggleVenue(areaId, venueKey, isChecked) {
 }
 
 function bindStaticEvents() {
+  bindComparisonEvents();
   $('filters').addEventListener('submit', (e) => {
     e.preventDefault();
     // Dismiss a phone's search keyboard so the matching institutions are visible.
@@ -481,6 +490,14 @@ function bindStaticEvents() {
   });
 
   $('ranking-body').addEventListener('click', (e) => {
+    const compare = e.target.closest('button[data-compare-id]');
+    if (compare) {
+      const id = compare.dataset.compareId;
+      toggleComparisonSchool(id);
+      const again = $('ranking-body').querySelector(`button[data-compare-id="${CSS.escape(id)}"]`);
+      if (again) again.focus();
+      return;
+    }
     const b = e.target.closest('button.inst');
     if (!b) return;
     const id = b.dataset.id;
@@ -493,6 +510,7 @@ function bindStaticEvents() {
   window.addEventListener('hashchange', () => {
     if (!app.defaults || location.hash === app.lastHash) return;
     app.sel = readHash();
+    readComparisonHash();
     syncControls();
     if ([...$('region').options].every((o) => o.value !== app.sel.region)) renderRegionOptions();
     $('region').value = app.sel.region;
@@ -518,6 +536,7 @@ function bindStaticEvents() {
 // ---- Update cycle ----------------------------------------------------------
 
 async function update() {
+  stopComparisonPlayback();
   // Snapshot the selection: controls may change while files load.
   const sel = {
     ...app.sel,
@@ -536,13 +555,14 @@ async function update() {
     setBusy(false);
     setStatus('Select at least one research area to rank institutions.');
     clearTable();
+    updateComparison();
     return;
   }
 
   setStatus('Loading research area data…');
   setBusy(true);
 
-  const settled = await Promise.allSettled(sel.areas.map((id) => loadAreaData(id)));
+  const settled = await Promise.allSettled(sel.areas.map((id) => loadAreaData(id, sel)));
   if (run !== app.runId) return; // a newer selection superseded this run
 
   setBusy(false);
@@ -552,6 +572,7 @@ async function update() {
   if (failed.length) {
     app.result = null;
     clearTable();
+    updateComparison();
     showAreaError(failed);
     return;
   }
@@ -571,12 +592,15 @@ async function update() {
   app.result = { sel, rows, data: activeData, annualRanks: null };
   app.shown = PAGE_SIZE;
   renderTable();
+  updateComparison();
+  writeHash(sel);
 }
 
 function setBusy(on) {
   $('ranking-table').setAttribute('aria-busy', on ? 'true' : 'false');
   $('ranking-table').classList.toggle('stale', on);
   $('export').disabled = on || !app.result;
+  $('comparison-view').setAttribute('aria-busy', on ? 'true' : 'false');
 }
 
 function setStatus(text) { $('status').textContent = text; }
@@ -706,6 +730,7 @@ function detailRow(r, did) {
     `<td class="num">${fmtInt.format(x.pubs)}</td></tr>`,
   ).join('');
   return `<tr class="detail" id="${did}"><td colspan="${columns}">` +
+    `<div class="detail-actions"><button type="button" data-compare-id="${esc(r.id)}"${app.compare.ids.length === 2 && !app.compare.ids.includes(r.id) ? ' disabled title="Remove a selected school before adding another"' : ''}>${app.compare.ids.includes(r.id) ? 'Remove from comparison' : 'Add to comparison'}</button></div>` +
     `${trend}` +
     `<dl class="institution-totals" aria-label="Institution totals">` +
     `<div><dt>Adjusted count</dt><dd>${fmt1.format(r.adjTotal)}</dd></div>` +
@@ -713,6 +738,213 @@ function detailRow(r, did) {
     `<table class="breakdown"><caption>Credit by research area</caption>` +
     `<thead><tr><th scope="col">Area</th><th scope="col" class="num">Adj. count</th><th scope="col" class="num">Papers</th></tr></thead>` +
     `<tbody>${body}</tbody></table></td></tr>`;
+}
+
+// ---- Comparison mode -------------------------------------------------------
+
+function readComparisonHash() {
+  const params = new URLSearchParams(location.hash.replace(/^#/, ''));
+  const ids = (params.get('compare') || '').split(',').filter(Boolean)
+    .map(id => id.startsWith('https://openalex.org/') ? id : `https://openalex.org/${id}`)
+    .filter(id => Object.hasOwn(app.institutions, id));
+  app.compare.ids = [...new Set(ids)].slice(0, 2);
+  app.compare.mode = params.get('view') === 'compare' ? 'compare' : 'rankings';
+  const year = Number(params.get('compare-year'));
+  app.compare.year = params.has('compare-year') && Number.isInteger(year) && year >= app.sel.from && year <= app.sel.to ? year : null;
+  app.compare.area = app.sel.areas.includes(params.get('compare-area')) ? params.get('compare-area') : null;
+}
+
+function setComparisonMode(mode) {
+  if (mode !== 'compare') stopComparisonPlayback();
+  app.compare.mode = mode;
+  updateComparison();
+  if (mode === 'rankings') renderTable();
+  writeHash(app.sel);
+}
+
+function toggleComparisonSchool(id) {
+  stopComparisonPlayback();
+  const ids = app.compare.ids;
+  const index = ids.indexOf(id);
+  if (index >= 0) ids.splice(index, 1);
+  else if (ids.length < 2 && Object.hasOwn(app.institutions, id)) ids.push(id);
+  renderTable();
+  updateComparison();
+  writeHash(app.sel);
+}
+
+function bindComparisonEvents() {
+  $('view-rankings').addEventListener('click', () => setComparisonMode('rankings'));
+  $('view-compare').addEventListener('click', () => setComparisonMode('compare'));
+  $('comparison-tray').addEventListener('click', e => {
+    const remove = e.target.closest('[data-remove-school]');
+    if (remove) toggleComparisonSchool(remove.dataset.removeSchool);
+    if (e.target.closest('[data-open-comparison]')) setComparisonMode('compare');
+  });
+  const panel = $('comparison-view');
+  panel.addEventListener('change', e => {
+    if (!e.target.matches('[data-school-side]')) return;
+    const side = Number(e.target.dataset.schoolSide), id = e.target.value;
+    if (!id) app.compare.ids.splice(side, 1);
+    else {
+      const other = side === 0 ? 1 : 0;
+      if (app.compare.ids[other] === id) {
+        app.compare.ids[other] = app.compare.ids[side];
+      }
+      app.compare.ids[side] = id;
+      app.compare.ids = app.compare.ids.filter(Boolean);
+    }
+    renderTable();
+    updateComparison();
+    writeHash(app.sel);
+    $(`compare-school-toggle-${side}`)?.focus();
+  });
+  panel.addEventListener('input', e => {
+    if (e.target.id !== 'compare-year') return;
+    stopComparisonPlayback();
+    app.compare.year = Number(e.target.value);
+    updateComparison(true);
+    writeHash(app.sel);
+  });
+  panel.addEventListener('click', e => {
+    if (e.target.closest('[data-play-years]')) {
+      if (app.compare.playing) stopComparisonPlayback();
+      else startComparisonPlayback();
+      return;
+    }
+    if (e.target.closest('[data-show-areas]')) {
+      app.compare.showAll = !app.compare.showAll;
+      updateComparison(true);
+      panel.querySelector('[data-show-areas]')?.focus({ preventScroll: true });
+      return;
+    }
+    const remove = e.target.closest('[data-remove-school]');
+    if (remove) { toggleComparisonSchool(remove.dataset.removeSchool); return; }
+    if (e.target.closest('[data-browse-schools]')) { setComparisonMode('rankings'); return; }
+    const area = e.target.closest('[data-compare-area]');
+    const year = e.target.closest('[data-compare-year]');
+    if (area) app.compare.area = area.dataset.compareArea;
+    else if (year) { stopComparisonPlayback(); app.compare.year = Number(year.dataset.compareYear); }
+    else if (e.target.closest('[data-whole-period]')) { stopComparisonPlayback(); app.compare.year = null; }
+    else return;
+    updateComparison(true);
+    writeHash(app.sel);
+    const selector = area ? `[data-compare-area="${CSS.escape(area.dataset.compareArea)}"]`
+      : year ? `[data-compare-year="${year.dataset.compareYear}"]` : '[data-whole-period]';
+    panel.querySelector(selector)?.focus({ preventScroll: true });
+  });
+  panel.addEventListener('keydown', e => {
+    const point = e.target.closest('[data-compare-year]');
+    if (point && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault();
+      point.dispatchEvent(new Event('click', { bubbles: true }));
+    }
+  });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stopComparisonPlayback(); });
+  let lastWidth = 0;
+  if (typeof ResizeObserver !== 'undefined') new ResizeObserver(entries => {
+    const width = Math.round(entries[0].contentRect.width);
+    if (width > 0 && width !== lastWidth) {
+      lastWidth = width;
+      if (app.compare.mode === 'compare' && app.result) updateComparison(true);
+    }
+  }).observe(panel);
+}
+
+function stopComparisonPlayback() {
+  clearTimeout(app.compare.playTimer);
+  app.compare.playTimer = null;
+  app.compare.playing = false;
+  const button = document.querySelector?.('[data-play-years]');
+  if (button) { button.textContent = '▶ Play years'; button.setAttribute('aria-pressed', 'false'); }
+}
+
+function startComparisonPlayback() {
+  if (!app.result || app.result.sel.from === app.result.sel.to) return;
+  app.compare.playing = true;
+  const advance = () => {
+    if (!app.compare.playing || app.compare.mode !== 'compare' || !app.result) { stopComparisonPlayback(); return; }
+    const { from, to } = app.result.sel;
+    app.compare.year = app.compare.year === null || app.compare.year >= to ? from : app.compare.year + 1;
+    updateComparison(true);
+    writeHash(app.sel);
+    app.compare.playTimer = setTimeout(advance, 1000);
+  };
+  advance();
+}
+
+function updateComparison(preserveControls = false) {
+  const active = app.compare.mode === 'compare';
+  $('ranking-view').hidden = active;
+  $('comparison-view').hidden = !active;
+  $('view-rankings').setAttribute('aria-pressed', String(!active));
+  $('view-compare').setAttribute('aria-pressed', String(active));
+  $('comparison-count').textContent = app.compare.ids.length ? `(${app.compare.ids.length})` : '';
+  $('search').closest('.field').hidden = active;
+  $('export').closest('.field').hidden = active;
+  const names = app.compare.ids.map(id => app.institutions[id]?.name || id);
+  $('comparison-tray').hidden = active;
+  $('comparison-tray').innerHTML = names.map((name, i) => `<span class="compare-chip">${esc(name)}<button type="button" data-remove-school="${esc(app.compare.ids[i])}" aria-label="Remove ${esc(name)} from comparison">×</button></span>`).join('')
+    + (names.length && !active ? names.length === 2 ? '<button type="button" class="link" data-open-comparison>Compare these schools →</button>' : '<span>Add one more school from the rankings.</span>' : '');
+  const panel = $('comparison-view');
+  if (!app.result) {
+    panel.innerHTML = '<p class="muted">Select research areas and load their data to compare schools.</p>';
+    return;
+  }
+  const { sel } = app.result;
+  if (app.compare.year !== null && (app.compare.year < sel.from || app.compare.year > sel.to)) app.compare.year = null;
+  if (!sel.areas.includes(app.compare.area)) app.compare.area = sel.areas[0] || null;
+  const previous = new Map([...panel.querySelectorAll('[data-compare-area], [data-compare-year]')].map(row => {
+    const track = row.querySelector('.compare-track');
+    return [row.dataset.compareArea || row.dataset.compareYear, track?.getAttribute('style')];
+  }));
+  const oldDots = new Map([...panel.querySelectorAll('[data-compare-year]')].map(row => [row.dataset.compareYear, row.querySelector('.compare-history-dot')?.getAttribute('cx')]));
+  const oldLine = panel.querySelector('.compare-history-line')?.getAttribute('d');
+  const html = renderComparison({ result: app.result, ids: app.compare.ids, institutions: app.institutions,
+    areaById: app.areaById, year: app.compare.year, area: app.compare.area, showAll: app.compare.showAll,
+    playing: app.compare.playing, width: Math.max(300, panel.clientWidth || 640) });
+  if (preserveControls && panel.querySelector('.compare-area-list')) {
+    // Keep the range input alive while dragging so it retains pointer capture.
+    const template = document.createElement('template');
+    template.innerHTML = html;
+    for (const selector of ['.compare-area-list', '.compare-history', '.compare-explainer']) {
+      panel.querySelector(selector).replaceWith(template.content.querySelector(selector));
+    }
+    const more = panel.querySelector('[data-show-areas]'), nextMore = template.content.querySelector('[data-show-areas]');
+    if (more && nextMore) more.replaceWith(nextMore);
+    panel.querySelector('.compare-time output').textContent = app.compare.year ?? (sel.from === sel.to ? String(sel.from) : `${sel.from}–${sel.to}`);
+    panel.querySelector('#compare-year').value = app.compare.year ?? sel.to;
+    const total = panel.querySelector('[data-whole-period]');
+    total.setAttribute('aria-pressed', String(app.compare.year === null));
+    total.classList.toggle('active', app.compare.year === null);
+    const play = panel.querySelector('[data-play-years]');
+    play.textContent = app.compare.playing ? 'Pause' : '▶ Play years';
+    play.setAttribute('aria-pressed', String(app.compare.playing));
+  } else panel.innerHTML = html;
+  if (active) setStatus(`Comparing ${names.length} schools · ${sel.from}–${sel.to} · ${sel.areas.length} selected areas.`);
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  for (const row of panel.querySelectorAll('[data-compare-area], [data-compare-year]')) {
+    const old = previous.get(row.dataset.compareArea || row.dataset.compareYear);
+    if (!old) continue;
+    const style = document.createElement('span').style;
+    style.cssText = old;
+    const track = row.querySelector('.compare-track');
+    if (!track) continue;
+    const before = name => style.getPropertyValue(name);
+    const after = name => track.style.getPropertyValue(name);
+    const fill = track.querySelector('.compare-fill'), knot = track.querySelector('.compare-knot');
+    if (!fill.animate) continue;
+    fill.animate([{ left: before('--pull-start'), width: before('--pull-width') }, { left: after('--pull-start'), width: after('--pull-width') }], { duration: 420, easing: 'cubic-bezier(.22,.8,.2,1)' });
+    knot.animate([{ left: `calc(${before('--pull-position')} - 5px)` }, { left: `calc(${after('--pull-position')} - 5px)` }], { duration: 420, easing: 'cubic-bezier(.22,.8,.2,1)' });
+  }
+  for (const row of panel.querySelectorAll('[data-compare-year]')) {
+    const dot = row.querySelector('.compare-history-dot'), before = oldDots.get(row.dataset.compareYear);
+    if (dot?.animate && before) dot.animate([{ cx: `${before}px` }, { cx: `${dot.getAttribute('cx')}px` }], { duration: 420, easing: 'cubic-bezier(.22,.8,.2,1)' });
+  }
+  const line = panel.querySelector('.compare-history-line');
+  if (line?.animate && oldLine && CSS.supports('d', `path("${oldLine}")`)) {
+    line.animate([{ d: `path("${oldLine}")` }, { d: `path("${line.getAttribute('d')}")` }], { duration: 420, easing: 'cubic-bezier(.22,.8,.2,1)' });
+  }
 }
 
 // ---- Export ----------------------------------------------------------------
