@@ -310,6 +310,7 @@ tr.detail-row { background: var(--bg); }
   .stat-card strong { font-size: .95rem; }
 }
 </style>
+<link rel="stylesheet" href="rank-history.css">
 </head>
 <body>
 
@@ -380,6 +381,8 @@ let selectedCountry = '';  // '' = all countries
 let yearFrom = YEAR_MIN;
 let yearTo = YEAR_MAX;
 let expandedRow = null;
+let rankingHistory;
+let annualRanks = null;
 
 // ═══════════════════════════════════════════
 // 1. LOAD DATA
@@ -473,14 +476,14 @@ function rebuildInstAreaYear() {
 // 2. COMPUTE RANKINGS
 // ═══════════════════════════════════════════
 
-function computeRankings() {
+function computeRankings(fromYear = yearFrom, toYear = yearTo) {
   const instArea = {};
   const instNames = {};
   const instCountries = {};
 
   for (const row of INST_AREA_YEAR) {
     if (!selectedAreas.has(row.area)) continue;
-    if (row.y < yearFrom || row.y > yearTo) continue;
+    if (row.y < fromYear || row.y > toYear) continue;
 
     const cc = (INSTITUTIONS_META[row.i] && INSTITUTIONS_META[row.i].country) || '';
     if (selectedCountry && cc !== selectedCountry) continue;
@@ -678,12 +681,26 @@ function buildTable(scores) {
     html += `<td class="count">${s.total_adjusted.toFixed(1)}</td></tr>`;
 
     if (isExpanded) {
-      html += `<tr class="detail-row"><td colspan="4"><div class="detail-inner">`;
+      html += `<tr class="detail-row"><td colspan="4">`;
+      if (!annualRanks) {
+        annualRanks = rankingHistory.computeAnnualRanks({
+          startYear: yearFrom, endYear: yearTo,
+          rankingsForYear: year => computeRankings(year, year),
+          idForResult: result => result.institution_id,
+          tieTolerance: null
+        });
+      }
+      html += rankingHistory.renderRankHistory(
+        rankingHistory.institutionHistory(annualRanks, s.institution_id),
+        s.institution_name, 'selected areas, venues and country'
+      );
+      html += `<div class="detail-inner">`;
       for (const d of s.area_details) {
         const areaName = (AREAS[d.area] && AREAS[d.area].name) || d.area;
         html += `<span class="detail-area">${areaName}: <strong>${d.score.toFixed(1)}</strong></span>`;
       }
-      html += `</div></td></tr>`;
+      html += `</div>`;
+      html += `</td></tr>`;
     }
   }
   html += `</tbody></table>`;
@@ -692,7 +709,7 @@ function buildTable(scores) {
 
 function toggleExpand(instId) {
   expandedRow = expandedRow === instId ? null : instId;
-  renderTable();
+  renderTable(false);
 }
 
 // ═══════════════════════════════════════════
@@ -820,7 +837,8 @@ function onYearInput() {
   renderTable();
 }
 
-function renderTable() {
+function renderTable(resetHistory = true) {
+  if (resetHistory) annualRanks = null;
   const scores = computeRankings();
   buildTable(scores);
 }
@@ -835,6 +853,7 @@ function renderAll() {
 // ═══════════════════════════════════════════
 
 (async function init() {
+  rankingHistory = await import('./rank-history.js');
   await Promise.all([loadAreas(), loadInstitutionsMeta()]);
 
   for (const [key, area] of Object.entries(AREAS)) {

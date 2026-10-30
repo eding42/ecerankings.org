@@ -5,6 +5,7 @@ import {
   REGIONS, listAreas, defaultAreaIds, computeRankings, yearExtent,
   encodeState, decodeState, rankingsToCsv,
 } from './rank.js';
+import { computeAnnualRanks, institutionHistory, renderRankHistory } from './rank-history.js';
 
 const PAGE_SIZE = 100;
 const CURRENT_YEAR = new Date().getFullYear();
@@ -545,7 +546,7 @@ async function update() {
   }
 
   const rows = computeRankings(sel, activeData, app.institutions);
-  app.result = { sel, rows };
+  app.result = { sel, rows, data: activeData, annualRanks: null };
   app.shown = PAGE_SIZE;
   renderTable();
 }
@@ -659,6 +660,19 @@ function renderTable() {
 }
 
 function detailRow(r, did) {
+  const result = app.result;
+  if (!result.annualRanks) {
+    result.annualRanks = computeAnnualRanks({
+      startYear: result.sel.from, endYear: result.sel.to,
+      rankingsForYear: year => computeRankings(
+        { ...result.sel, from: year, to: year }, result.data, app.institutions
+      ),
+      rankForResult: row => row.rank,
+    });
+  }
+  const trend = renderRankHistory(
+    institutionHistory(result.annualRanks, r.id), r.name, 'selected areas, venues and region'
+  );
   const items = r.perArea
     .map((x, idx) => ({ ...x, idx, name: app.areaById.get(x.area)?.name || x.area }))
     .sort((a, b) => b.adj - a.adj || a.idx - b.idx);
@@ -669,6 +683,7 @@ function detailRow(r, did) {
     `<td class="num opt">${fmtInt.format(x.pubs)}</td></tr>`,
   ).join('');
   return `<tr class="detail" id="${did}"><td colspan="5">` +
+    `${trend}` +
     `<table class="breakdown"><caption>Credit by research area</caption>` +
     `<thead><tr><th>Area</th><th class="num">Adj. count</th><th class="num opt">Papers</th></tr></thead>` +
     `<tbody>${body}</tbody></table></td></tr>`;
