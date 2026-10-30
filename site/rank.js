@@ -12,7 +12,7 @@ const REGION_CODES = {
     'AL AD AT BY BE BA BG HR CY CZ DK EE FO FI FR DE GI GR GG HU IS IE IM IT JE XK LV LI LT LU MT MD MC ' +
     'ME NL MK NO PL PT RO RU SM RS SK SI ES SE CH UA GB VA AX SJ',
   asia:
-    'AF AM AZ BH BD BT BN KH CN GE HK IN ID IR IQ IL JP JO KZ KW KG LA LB MO MY MV MN MM NP KP OM PK PS ' +
+    'AF AM AZ BH BD BT BN KH CN GE HK IN ID IR IQ IL JP JO KZ KW KG LA LB MO MY AM NP KP OM PK PS ' +
     'PH QA SA SG KR LK SY TW TJ TH TL TR TM AE UZ VN YE',
   africa:
     'DZ AO BJ BW BF BI CV CM CF TD KM CG CD CI DJ EG GQ ER SZ ET GA GM GH GN GW KE LS LR LY MG MW ML MR ' +
@@ -158,7 +158,7 @@ export function yearExtent(dataByArea) {
 }
 
 // ---- URL state -----------------------------------------------------------
-// Hash form: #from=2016&to=2025&region=europe&areas=circuits,eda
+// Hash form: #from=2016&to=2025&region=europe&areas=circuits,eda&disabled_venues=circuits:isscc
 // Keys equal to their defaults are omitted to keep shared links short.
 
 export function encodeState(sel, defaults) {
@@ -169,6 +169,9 @@ export function encodeState(sel, defaults) {
   if (sel.region !== defRegion) p.set('region', sel.region);
   const a = [...sel.areas].sort().join(',');
   if (a !== [...defaults.areas].sort().join(',')) p.set('areas', a || 'none');
+  if (sel.disabledVenues && sel.disabledVenues.length > 0) {
+    p.set('disabled_venues', [...sel.disabledVenues].sort().join(','));
+  }
   const s = p.toString().replace(/%2C/g, ',');
   return s ? `#${s}` : '';
 }
@@ -177,7 +180,13 @@ export function decodeState(hash, defaults, knownAreaIds) {
   const p = new URLSearchParams((hash || '').replace(/^#/, ''));
   const known = new Set(knownAreaIds);
   const defRegion = (defaults && defaults.region) || 'US';
-  const sel = { from: defaults.from, to: defaults.to, region: defRegion, areas: [...defaults.areas] };
+  const sel = {
+    from: defaults.from,
+    to: defaults.to,
+    region: defRegion,
+    areas: [...defaults.areas],
+    disabledVenues: [],
+  };
   const from = parseInt(p.get('from'), 10);
   const to = parseInt(p.get('to'), 10);
   // Bound untrusted URL values before the UI creates a year option per year.
@@ -195,6 +204,14 @@ export function decodeState(hash, defaults, knownAreaIds) {
   }
   // Keep registry order so per-area columns are stable.
   sel.areas = knownAreaIds.filter((id) => sel.areas.includes(id));
+
+  const dv = p.get('disabled_venues');
+  if (dv) {
+    sel.disabledVenues = dv
+      .split(',')
+      .map((x) => x.trim())
+      .filter((x) => /^[a-z0-9_-]+:[a-z0-9_-]+$/.test(x));
+  }
   return sel;
 }
 

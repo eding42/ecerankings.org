@@ -32,7 +32,7 @@ const data = new Map([
     { i: 'C', n: 'Gamma', y: 2021, p: 1, a: 3 },
   ]],
 ]);
-const sel = (o = {}) => ({ from: 2016, to: 2025, region: 'world', areas: ['x', 'y'], ...o });
+const sel = (o = {}) => ({ from: 2016, to: 2025, region: 'world', areas: ['x', 'y'], disabledVenues: [], ...o });
 
 test('geometric mean includes zero-count areas', () => {
   const rows = R.computeRankings(sel(), data, inst);
@@ -78,17 +78,19 @@ test('no areas selected yields no rows', () => {
 });
 
 test('URL state round-trips and omits defaults', () => {
-  const defaults = { from: 2016, to: 2025, region: 'US', areas: ['x', 'y'] };
+  const defaults = { from: 2016, to: 2025, region: 'US', areas: ['x', 'y'], disabledVenues: [] };
   const known = ['x', 'y', 'z'];
   assert.equal(R.encodeState({ ...defaults, region: 'US' }, defaults), '');
-  const s = { from: 2010, to: 2026, region: 'europe', areas: ['z', 'x'] };
+  const s = { from: 2010, to: 2026, region: 'europe', areas: ['z', 'x'], disabledVenues: ['x:v1'] };
   const h = R.encodeState(s, defaults);
-  assert.equal(h, '#from=2010&to=2026&region=europe&areas=x,z');
-  assert.deepEqual(R.decodeState(h, defaults, known), { from: 2010, to: 2026, region: 'europe', areas: ['x', 'z'] });
+  assert.equal(h, '#from=2010&to=2026&region=europe&areas=x,z&disabled_venues=x%3Av1');
+  assert.deepEqual(R.decodeState(h, defaults, known), {
+    from: 2010, to: 2026, region: 'europe', areas: ['x', 'z'], disabledVenues: ['x:v1'],
+  });
   assert.deepEqual(R.decodeState('#areas=none', defaults, known).areas, []);
   // garbage is ignored, reversed years are swapped
-  const g = R.decodeState('#from=2030&to=2001&region=<x>&areas=bogus', defaults, known);
-  assert.deepEqual(g, { from: 2001, to: 2030, region: 'US', areas: ['x', 'y'] });
+  const g = R.decodeState('#from=2030&to=2001&region=<x>&areas=bogus&disabled_venues=invalid,x:ok', defaults, known);
+  assert.deepEqual(g, { from: 2001, to: 2030, region: 'US', areas: ['x', 'y'], disabledVenues: ['x:ok'] });
 });
 
 test('CSV quotes fields and lists every ranked row', () => {
@@ -103,7 +105,7 @@ test('CSV quotes fields and lists every ranked row', () => {
 });
 
 test('untrusted URL years cannot create an unbounded option list', () => {
-  const defaults = { from: 2016, to: 2025, region: 'US', areas: ['x'] };
+  const defaults = { from: 2016, to: 2025, region: 'US', areas: ['x'], disabledVenues: [] };
   const value = R.decodeState('#from=-100000000&to=999999999', defaults, ['x']);
   assert.equal(value.from, 2016);
   assert.equal(value.to, 2025);
@@ -134,4 +136,15 @@ test('real data: default selection matches an independent computation', { skip: 
     assert.ok(Math.abs(r.score - Math.expm1(per.get(r.id) / areas.length)) < 1e-9, r.name);
   }
   for (let i = 1; i < rows.length; i++) assert.ok(rows[i - 1].score >= rows[i].score);
+});
+
+test('granular venue data matches subset ranking', { skip: !existsSync(path.join(siteDir, 'data', 'circuits', 'jssc.json')) }, () => {
+  const institutions = JSON.parse(readFileSync(path.join(siteDir, 'data', 'institutions.json'), 'utf8'));
+  const jsscRows = JSON.parse(readFileSync(path.join(siteDir, 'data', 'circuits', 'jssc.json'), 'utf8'));
+  const d = new Map([['circuits', jsscRows]]);
+  const rows = R.computeRankings({ from: 2016, to: 2025, region: 'world', areas: ['circuits'] }, d, institutions);
+  assert.ok(rows.length > 0);
+  // Rank 1 institution has positive score
+  assert.ok(rows[0].score > 0);
+  assert.equal(rows[0].active, 1);
 });
