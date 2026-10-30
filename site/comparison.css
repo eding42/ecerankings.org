@@ -88,7 +88,8 @@
 @media(max-width:600px) {
  .compare-schools { gap:10px; grid-template-columns:minmax(0,1fr) 12px minmax(0,1fr); }
  .compare-school h3 { font-size:17px; min-height:3.75em; }
- .compare-school-edit select { width:100%; max-width:150px; }
+ .compare-school-edit select { width:100%; max-width:100%; height:44px; font-size:16px; }
+ .compare-school-edit summary { display:flex; align-items:center; min-height:44px; }
  .compare-time { grid-template-columns:auto auto minmax(60px,1fr); gap:9px; }
  .compare-time output { grid-column:1/-1; grid-row:1; text-align:left; font-size:22px; margin-bottom:3px; }
  .compare-column-labels { grid-template-columns:1fr 1fr 1fr; gap:0; padding:0 6px 8px; }

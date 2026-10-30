@@ -37,7 +37,11 @@ a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible
 
 abbr[title] { text-decoration: none; cursor: help; }
 
-.wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+.wrap {
+  max-width: 1180px; margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+}
 
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
@@ -58,7 +62,7 @@ abbr[title] { text-decoration: none; cursor: help; }
 }
 .site-title { margin: 0; font-size: 17px; font-weight: 700; }
 .site-title a { color: var(--text); }
-.site-header nav { display: flex; gap: 20px; font-size: 14px; }
+.site-header nav { display: flex; flex-wrap: wrap; gap: 0 20px; font-size: 14px; }
 .site-header nav a[aria-current="page"] { color: var(--text); font-weight: 600; }
 
 .site-footer {
@@ -66,7 +70,7 @@ abbr[title] { text-decoration: none; cursor: help; }
   color: var(--muted); font-size: 13px;
 }
 .site-footer .wrap { padding-top: 14px; padding-bottom: 28px; }
-.site-footer p { margin: 0 0 6px; max-width: 80ch; }
+.site-footer p { margin: 0 0 6px; max-width: 80ch; overflow-wrap: anywhere; }
 
 h1 { font-size: 26px; font-weight: 600; line-height: 1.25; margin: 24px 0 8px; }
 h2 { font-size: 18px; font-weight: 600; margin: 28px 0 8px; }
@@ -80,7 +84,7 @@ h3 { font-size: 15px; font-weight: 600; margin: 20px 0 6px; }
   display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 18px;
   padding: 12px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
 }
-.field { display: flex; flex-direction: column; gap: 3px; }
+.field { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .field label { font-size: 13px; color: var(--muted); }
 .field-grow { flex: 1 1 200px; max-width: 320px; }
 .field-actions { margin-left: auto; }
@@ -99,6 +103,7 @@ input[type="search"] { width: 100%; }
 button {
   padding: 5px 12px; border: 1px solid var(--rule-strong); border-radius: 3px;
   background: var(--stripe); cursor: pointer;
+  touch-action: manipulation;
 }
 button:hover:not(:disabled) { background: #e9edf1; }
 button:disabled { color: var(--faint); cursor: default; }
@@ -128,12 +133,14 @@ button.link:hover { background: none; text-decoration: underline; }
   display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 36px;
   margin-top: 16px; align-items: start;
 }
+.areas, .results { min-width: 0; }
 
 /* ---- Area list ---- */
 
 .areas summary { cursor: pointer; }
 .areas summary h2 { display: inline; font-size: 15px; margin: 0; }
 .areas summary .muted { font-size: 13px; }
+.areas-done { display: none; }
 .area-actions { margin: 8px 0 4px; font-size: 13px; color: var(--muted); }
 
 .area-group { border: 0; margin: 12px 0 0; padding: 0; min-width: 0; }
@@ -159,6 +166,7 @@ button.link:hover { background: none; text-decoration: underline; }
   font-size: 11px; color: var(--faint); cursor: pointer; line-height: 1;
 }
 .area-venues-toggle:hover { color: var(--link); background: none; }
+.area-venues-toggle { transition: color 120ms ease, background-color 120ms ease; }
 
 .area-venues-list {
   margin: 3px 0 6px 20px; padding-left: 0; list-style: none; font-size: 12px; color: var(--muted);
@@ -182,6 +190,8 @@ button.link:hover { background: none; text-decoration: underline; }
 /* ---- Results ---- */
 
 .status { margin: 0 0 8px; font-size: 14px; color: var(--muted); min-height: 21px; }
+.results-hint { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
+.institution-totals { display: none; }
 
 .table-scroll { overflow-x: auto; }
 
@@ -219,7 +229,8 @@ table.breakdown thead th { color: var(--muted); border-bottom: 1px solid var(--r
 table.breakdown .num { text-align: right; padding-left: 16px; }
 table.breakdown tr.zero { color: var(--faint); }
 
-.pager { margin: 14px 0 0; display: flex; gap: 16px; align-items: center; }
+.pager { margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.pager[hidden] { display: none; }
 
 /* ---- Methodology / prose pages ---- */
 
@@ -234,3 +245,106 @@ table.venues { border-collapse: collapse; width: 100%; font-size: 14px; margin: 
 table.venues th, table.venues td { padding: 4px 8px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
 table.venues thead th { border-bottom: 2px solid var(--rule-strong); font-size: 13px; color: #3d444d; }
 table.venues td.kind, table.venues td.status { white-space: nowrap; color: var(--muted); }
+
+/* ---- Tablet / stacked workspace (matches main.js's area disclosure) ---- */
+
+@media (max-width: 899px) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .areas { border-bottom: 1px solid var(--rule); }
+  .areas summary { padding: 10px 0; min-height: 44px; }
+  .areas summary h2 { font-size: 16px; }
+  .areas summary .muted { margin-left: 6px; white-space: nowrap; }
+  #area-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; }
+  .area-group { margin-top: 0; }
+  .areas-done { display: block; margin: 16px 0; min-height: 44px; }
+}
+
+/* Room for fingers, including tablets with a wide landscape viewport. */
+@media (max-width: 899px), (pointer: coarse) {
+  .area-header, .area-venues-list li.venue-row { align-items: center; min-height: 44px; }
+  .area-header label, .venue-row label { min-height: 44px; padding: 10px 0; }
+  .area-header input, .area-venues-list li.venue-row input[type="checkbox"] {
+    width: 20px; height: 20px; flex: 0 0 20px; top: 0;
+  }
+  .area-venues-toggle { width: 44px; height: 44px; flex: 0 0 44px; font-size: 14px; }
+  .area-venues-list { margin-left: 26px; }
+  .area-actions { margin: 0 0 12px; }
+  .area-actions button.link, .group-actions button.link { min-width: 44px; min-height: 44px; }
+  .area-note { margin-left: 26px; }
+}
+
+/* ---- Phones: keep rank, institution and score in one readable table ---- */
+
+@media (max-width: 600px) {
+  .wrap {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+  .site-header .wrap { gap: 0; padding-top: 8px; padding-bottom: 4px; }
+  .site-title { width: 100%; }
+  .site-title a { display: inline-flex; align-items: center; min-height: 44px; }
+  .site-header nav { width: 100%; gap: 0 12px; font-size: 13px; }
+  .site-header nav a { display: inline-flex; align-items: center; min-height: 44px; }
+  h1 { font-size: 24px; margin-top: 20px; }
+  .lede { font-size: 14px; }
+
+  .filters {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px; padding: 14px 0;
+  }
+  .field-region, .field-grow, .field-actions { grid-column: span 2; }
+  .field-grow { max-width: none; }
+  .field-actions { margin-left: 0; }
+  select, input[type="search"] { width: 100%; min-width: 0; max-width: 100%; height: 44px; font-size: 16px; }
+  #region { min-width: 0; max-width: none; }
+  button { min-height: 44px; }
+  .filters button { width: 100%; }
+
+  .layout { margin-top: 8px; gap: 16px; }
+  #area-groups { grid-template-columns: minmax(0, 1fr); }
+  .areas summary h2 { font-size: 15px; }
+  .area-row { padding: 0; }
+  .status { font-size: 13px; }
+
+  table.ranking { table-layout: fixed; }
+  .ranking .opt { display: none; }
+  .ranking .rank { width: 34px; }
+  .ranking thead th:nth-child(3) { width: 76px; }
+  .ranking thead th, .ranking td { padding: 8px 6px; }
+  .ranking td { vertical-align: top; }
+  .ranking .name { overflow-wrap: anywhere; }
+  button.inst {
+    display: block; width: 100%; min-height: 44px;
+    padding: 4px 0; font-size: 14px; overflow-wrap: anywhere;
+  }
+  .ranking .score { padding-top: 20px; font-size: 14px; }
+  .ranking td.rank { padding-top: 20px; }
+  .cc { display: inline-block; margin-left: 1.1em; }
+
+  tr.detail > td { padding: 12px 6px 16px; }
+  tr.detail .rank-trend { margin-left: 0; }
+  .institution-totals { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 12px 0; font-size: 13px; }
+  .institution-totals dt { color: var(--muted); }
+  .institution-totals dd { margin: 0; font-weight: 600; }
+  table.breakdown { width: 100%; min-width: 0; margin-left: 0; table-layout: fixed; font-size: 12px; }
+  table.breakdown th, table.breakdown td { padding: 7px 4px; overflow-wrap: anywhere; }
+  table.breakdown th:first-child { width: 48%; }
+  table.breakdown .num { padding-left: 4px; }
+  table.breakdown thead th { white-space: normal; }
+
+  .site-footer { margin-top: 32px; }
+  .site-footer .wrap { padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+}
+
+/* Tablets with touch input need the same control sizes as phones. */
+@media (pointer: coarse) and (min-width: 601px) {
+  select, input[type="search"] { min-height: 44px; font-size: 16px; }
+  button, .site-header nav a { min-height: 44px; }
+  .site-header nav a { display: inline-flex; align-items: center; }
+  .area-venues-toggle { min-width: 44px; }
+  button.inst { padding: 8px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .area-venues-toggle { transition: none; }
+}

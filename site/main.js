@@ -352,7 +352,7 @@ function syncControls() {
   }
 
   const countEl = $('area-count');
-  if (countEl) countEl.textContent = '';
+  if (countEl) countEl.textContent = `${s.areas.length} of ${app.areas.length}`;
 }
 
 function setAreas(ids) {
@@ -399,6 +399,11 @@ function toggleVenue(areaId, venueKey, isChecked) {
 
 function bindStaticEvents() {
   bindComparisonEvents();
+  $('filters').addEventListener('submit', (e) => {
+    e.preventDefault();
+    // Dismiss a phone's search keyboard so the matching institutions are visible.
+    $('search').blur();
+  });
   $('region').addEventListener('change', (e) => {
     app.sel.region = e.target.value;
     update();
@@ -438,6 +443,8 @@ function bindStaticEvents() {
       }
       renderAreaGroups();
       syncControls();
+      // Rendering replaces the disclosure button; retain keyboard/touch focus.
+      $(`area-${areaId}`).closest('.area-header').querySelector('button').focus({ preventScroll: true });
       return;
     }
 
@@ -475,6 +482,12 @@ function bindStaticEvents() {
   $('show-more').addEventListener('click', () => { app.shown += PAGE_SIZE; renderTable(); });
   $('show-all').addEventListener('click', () => { app.shown = Infinity; renderTable(); });
   $('export').addEventListener('click', exportCsv);
+  $('areas-done').addEventListener('click', () => {
+    $('areas-panel').open = false;
+    const summary = $('areas-panel').querySelector('summary');
+    summary.focus({ preventScroll: true });
+    summary.scrollIntoView({ block: 'start' });
+  });
 
   $('ranking-body').addEventListener('click', (e) => {
     const compare = e.target.closest('button[data-compare-id]');
@@ -509,6 +522,15 @@ function bindStaticEvents() {
   const applyWidth = () => { $('areas-panel').open = wide.matches; };
   applyWidth();
   wide.addEventListener('change', applyWidth);
+
+  // Match styles.css: hidden phone columns must not leave phantom table columns
+  // when an expanded detail row spans the table, including after rotation.
+  const compact = window.matchMedia('(max-width: 600px)');
+  compact.addEventListener('change', () => {
+    document.querySelectorAll('tr.detail > td').forEach((cell) => {
+      cell.colSpan = compact.matches ? 3 : 5;
+    });
+  });
 }
 
 // ---- Update cycle ----------------------------------------------------------
@@ -525,7 +547,7 @@ async function update() {
   writeHash(sel);
   renderNotices(sel);
   const countEl = $('area-count');
-  if (countEl) countEl.textContent = '';
+  if (countEl) countEl.textContent = `${sel.areas.length} of ${app.areas.length}`;
   hideError();
 
   if (sel.areas.length === 0) {
@@ -622,7 +644,7 @@ function renderNotices(sel) {
   if (offDefaultActive.length) {
     const names = offDefaultActive.map((id) => esc(app.areaById.get(id)?.name || id));
     out.push(`<p><strong>Preliminary coverage.</strong> ${names.join(', ')} ${names.length > 1 ? 'are' : 'is'} enabled. ` +
-      `See each area's note on the left for verification status.</p>`);
+      `See each research area's note for verification status.</p>`);
   }
   if (sel.disabledVenues && sel.disabledVenues.length > 0) {
     out.push(`<p><strong>Filtered venues.</strong> Some individual conferences or journals have been deselected.</p>`);
@@ -668,7 +690,7 @@ function renderTable() {
       (r.country ? ` <abbr class="cc" title="${esc(countryName(r.country))}">${esc(r.country)}</abbr>` : '') +
       `</td>` +
       `<td class="num score">${fmt2.format(r.score)}</td>` +
-      `<td class="num">${fmt1.format(r.adjTotal)}</td>` +
+      `<td class="num opt">${fmt1.format(r.adjTotal)}</td>` +
       `<td class="num opt">${fmtInt.format(r.pubTotal)}</td></tr>`;
     if (open) html += detailRow(r, did);
   }
@@ -684,6 +706,7 @@ function renderTable() {
 }
 
 function detailRow(r, did) {
+  const columns = typeof matchMedia === 'function' && matchMedia('(max-width: 600px)').matches ? 3 : 5;
   const result = app.result;
   if (!result.annualRanks) {
     result.annualRanks = computeAnnualRanks({
@@ -704,13 +727,16 @@ function detailRow(r, did) {
     `<tr class="${x.adj === 0 ? 'zero' : ''}">` +
     `<td>${esc(x.name)}</td>` +
     `<td class="num">${fmt1.format(x.adj)}</td>` +
-    `<td class="num opt">${fmtInt.format(x.pubs)}</td></tr>`,
+    `<td class="num">${fmtInt.format(x.pubs)}</td></tr>`,
   ).join('');
-  return `<tr class="detail" id="${did}"><td colspan="5">` +
+  return `<tr class="detail" id="${did}"><td colspan="${columns}">` +
     `<div class="detail-actions"><button type="button" data-compare-id="${esc(r.id)}"${app.compare.ids.length === 2 && !app.compare.ids.includes(r.id) ? ' disabled title="Remove a selected school before adding another"' : ''}>${app.compare.ids.includes(r.id) ? 'Remove from comparison' : 'Add to comparison'}</button></div>` +
     `${trend}` +
+    `<dl class="institution-totals" aria-label="Institution totals">` +
+    `<div><dt>Adjusted count</dt><dd>${fmt1.format(r.adjTotal)}</dd></div>` +
+    `<div><dt>Papers</dt><dd>${fmtInt.format(r.pubTotal)}</dd></div></dl>` +
     `<table class="breakdown"><caption>Credit by research area</caption>` +
-    `<thead><tr><th>Area</th><th class="num">Adj. count</th><th class="num opt">Papers</th></tr></thead>` +
+    `<thead><tr><th scope="col">Area</th><th scope="col" class="num">Adj. count</th><th scope="col" class="num">Papers</th></tr></thead>` +
     `<tbody>${body}</tbody></table></td></tr>`;
 }
 
