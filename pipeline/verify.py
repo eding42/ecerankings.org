@@ -739,6 +739,8 @@ def phase2_normalization(areas, args, vy_stats, global_stats, nested_institution
             ["python3", cluster_script],
             capture_output=True, text=True, timeout=120
         )
+        if result.returncode:
+            flags["critical"].append("Campus-cluster detector failed; validation is incomplete")
         fix_match = None
         for line in result.stdout.splitlines():
             if line.startswith("Fixed:"):
@@ -768,6 +770,8 @@ def phase2_normalization(areas, args, vy_stats, global_stats, nested_institution
             ["python3", script],
             capture_output=True, text=True, timeout=600
         )
+        if result.returncode:
+            flags["critical"].append(f"{script_name} detector failed; validation is incomplete")
         n_fix = None
         for line in result.stdout.splitlines():
             line = line.strip()
@@ -969,9 +973,18 @@ def phase3_aggregate(areas, args):
             venue_credited[r["area"]] += float(r.get("adjusted_count", 0))
             area_insts[r["area"]].add(r["institution_id"])
 
-    for vkey, ak in sorted(v2a.items()):
-        if ak not in area_insts or not area_insts[ak]:
-            flags["high"].append(f"[{vkey}] area '{ak}' has zero credited institutions")
+    venue_csv = os.path.join(SITE_DATA, "inst-venue-year.csv")
+    credited_by_venue = defaultdict(float)
+    if not os.path.exists(venue_csv):
+        flags["critical"].append("inst-venue-year.csv not found — cannot validate venue contributions")
+    else:
+        with open(venue_csv) as f:
+            for r in csv.DictReader(f):
+                credited_by_venue[r["venue"]] += float(r.get("adjusted_count", 0))
+        for vkey, ak in sorted(v2a.items()):
+            if credited_by_venue[vkey] <= 0:
+                severity = "critical" if areas["areas"][ak].get("default_on") else "high"
+                flags[severity].append(f"[{vkey}] venue has zero credited output in area '{ak}'")
 
     # Area summary
     for ak in sorted(area_insts.keys()):
@@ -1125,8 +1138,8 @@ def phase3_aggregate(areas, args):
     snapshot_data = {}
     for iid, (rank, name) in current_top50.items():
         snapshot_data[iid] = {"rank": rank, "name": name}
-    with open(ranking_snapshot_path, "w") as f:
-        json.dump(snapshot_data, f, indent=2)
+    # The caller may explicitly accept this only after ALL requested phases pass.
+    args._ranking_snapshot = snapshot_data
 
     # 3g. Institution year-over-year cliff drops
     inst_year_scores = defaultdict(lambda: defaultdict(float))
@@ -1211,6 +1224,7 @@ def write_report(all_flags, args, global_stats=None):
 
 
 def main():
+    global CACHE_DIR, SITE_DATA, COVERAGE_SNAPSHOT
     parser = argparse.ArgumentParser(description="Verify ECE rankings pipeline data quality.")
     parser.add_argument("--phase", type=int, choices=[1, 2, 3], default=None,
                         help="Run a specific phase only (1=harvest, 2=normalize, 3=aggregate)")
@@ -1218,7 +1232,14 @@ def main():
     parser.add_argument("--area", type=str, default=None,
                         help="Filter to a single area key (e.g. 'architecture') or 'all'")
     parser.add_argument("--report", action="store_true", help="Write report to data/reports/")
+    parser.add_argument("--cache-dir", default=CACHE_DIR, help="Raw source tree to audit")
+    parser.add_argument("--data-dir", default=SITE_DATA, help="Candidate aggregate directory to audit")
+    parser.add_argument("--update-snapshots", action="store_true",
+                        help="Explicitly accept clean validation snapshots; default checks are read-only")
     args = parser.parse_args()
+    CACHE_DIR = os.path.realpath(args.cache_dir)
+    SITE_DATA = os.path.realpath(args.data_dir)
+    COVERAGE_SNAPSHOT = os.path.join(SITE_DATA, '.coverage-snapshot.json')
 
     if not args.all and not args.phase:
         parser.print_help()
@@ -1254,9 +1275,14 @@ def main():
     # Persist the new snapshot AFTER both phases have diffed against the
     # previous one, so this run's regression checks compare against the
     # prior run, not against themselves.
-    if need_scan:
+    if need_scan and args.update_snapshots and not any(
+            flags["critical"] or flags["high"] for flags in all_flags.values()):
         affil_map = load_affiliation_map_dict()
         save_snapshot(vy_stats, global_stats, nested_institutions, affil_map)
+    if args.update_snapshots and hasattr(args, "_ranking_snapshot") and not any(
+            flags["critical"] or flags["high"] for flags in all_flags.values()):
+        with open(os.path.join(SITE_DATA, ".ranking-snapshot.json"), "w") as f:
+            json.dump(args._ranking_snapshot, f, indent=2)
 
     # Summary
     print("\n" + "=" * 60)
@@ -1289,7 +1315,8 @@ def main():
 
     if args.report:
         write_report(all_flags, args, global_stats)
+    return 2 if total["critical"] or total["high"] else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
