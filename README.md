@@ -1,15 +1,34 @@
+<div align="center">
+
 # ECERankings.org
 
-A static ranking of Electrical & Computer Engineering programs, based on
-publications in curated journals and conferences. The browser computes rankings
-from precomputed institutional counts. See [PLAN.md](PLAN.md) for methodology
-and [data/areas.json](data/areas.json) for the venue registry.
+*A metrics-based ranking of Electrical & Computer Engineering programs, built on [OpenAlex](https://openalex.org) and [Crossref](https://www.crossref.org).*
 
-Each paper contributes one unit, divided equally among its authors and then
-among an author's education institutions. Overall scores use the geometric mean
-of `1 + adjusted_count` across selected areas, including zero-scoring areas.
-Affiliations belong to the paper at publication time; current author profiles
-never supply historical credit. Citations do not affect scores.
+![Status](https://img.shields.io/badge/status-in_development-lightgrey?style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square)
+
+</div>
+
+---
+
+Modeled on [CSRankings](https://csrankings.org), adapted for how ECE publishes:
+journals, conferences, and the institutions named on each paper. The site is
+static; ranking calculations run in your browser over precomputed counts.
+
+## Methodology
+
+- **Adjusted count.** Each paper contributes 1.0, divided equally among its
+  authors and then among each author's education institutions.
+- **Overall score.** Geometric mean of `1 + adjusted_count` across selected
+  areas, including areas that score zero.
+- **Attribution.** Affiliations at publication time. Current author profiles
+  never supply historical credit.
+- **Venue inclusion.** Curated, selective journals and conferences with at
+  least 80% of their content in scope for the area.
+- **Publication counts only.** No citation counts or impact factors.
+
+Full methodology: [PLAN.md](PLAN.md). Venues and area defaults:
+[data/areas.json](data/areas.json).
 
 ## View and test
 
@@ -46,7 +65,7 @@ Use the [refresh runbook](docs/refresh-runbook.md) for commands, release gates,
 and publication. Use the [ML guide](docs/ml-pipeline.md) for publisher collection
 and PDF verification. Do not rebuild `site/data/` directly during scoped work.
 
-## Files to maintain
+## Around the repository
 
 | Path | Purpose |
 |---|---|
@@ -72,6 +91,10 @@ evidence. Follow [AGENTS.md](AGENTS.md); commit, push, merge, and deployment are
 separate approvals. Deterministic parallel builds and their cache behavior are
 documented in [docs/pipeline-performance.md](docs/pipeline-performance.md).
 
-The scoring approach is adapted from [CSRankings](https://csrankings.org).
-Bibliographic sources are [OpenAlex](https://openalex.org),
-[Crossref](https://www.crossref.org), and the relevant publisher proceedings.
+## Data sources & acknowledgments
+
+- **[OpenAlex](https://openalex.org)** — works, authorships, and resolved institutions.
+- **[Crossref](https://www.crossref.org)** — conference-edition records and DOI joins.
+- **Publisher proceedings** — canonical paper lists for ML venues.
+- **[CSRankings](https://csrankings.org)**, by Emery Berger et al. — the scoring
+  approach this project adapts for ECE.
