@@ -1,0 +1,210 @@
+{
+  "affiliation_semantics": "Only paper-specific evidence populates raw_affiliations/institutions: OpenAlex work-author joins for the publisher DOI or an identity-checked arXiv twin, and the author block of the final publisher PDF (affiliation_source records which, per author). Semantic Scholar supplies arXiv identifiers only; no author-profile affiliations are stored.",
+  "gate_thresholds": {
+    "author_slot_affiliation_min": 0.9,
+    "institution_resolution_min": 0.95,
+    "membership_unexplained_diff_max": 0.01
+  },
+  "generated_at": "2026-10-30T06:32:45Z",
+  "membership_semantics": "Rows come only from the publisher's official edition list; track filter applied at build.",
+  "provider": "harvest_ml.py",
+  "results": [
+    {
+      "gates": {
+        "byline_integrity": {
+          "empty_bylines": 0,
+          "papers_without_evidence_due_to_byline_mismatch": 271,
+          "pass": true
+        },
+        "institution_resolution": {
+          "note": "PDF strings resolve only after normalize_semantic.py adds them to data/affiliation-map.csv.",
+          "pass": false,
+          "pdf_slots": 15270,
+          "pdf_slots_resolved": 12757,
+          "rate": 0.8492,
+          "resolved_via_affiliation_map": 12771,
+          "slots_with_affiliation": 17316,
+          "slots_with_education_institution": 12109,
+          "slots_with_institution": 14705,
+          "threshold": 0.95
+        },
+        "membership": {
+          "anchors": [
+            {
+              "count": 3703,
+              "diff": 0,
+              "have": 3703,
+              "rel_diff": 0.0,
+              "scope": "included",
+              "source": "https://proceedings.iclr.cc/paper_files/paper/2025"
+            },
+            {
+              "count": 3704,
+              "diff": -1,
+              "have": 3703,
+              "note": "Reconciled 2026-10-30: authenticated OpenReview lists 3,703 accepted notes, matching the book paper-for-paper (7 retitled at camera-ready). No accepted record accounts for the 3,704th; treat as a post-fact-sheet change.",
+              "rel_diff": 0.00027,
+              "scope": "included",
+              "source": "https://media.iclr.cc/Conferences/ICLR2025/ICLR2025_Fact_Sheet.pdf"
+            }
+          ],
+          "note": null,
+          "pass": true,
+          "rows_without_membership_or_allowed_track": 0
+        },
+        "paper_specific_affiliations": {
+          "author_slots": 21270,
+          "papers": 3703,
+          "papers_any_coverage": 3211,
+          "papers_fully_covered": 3099,
+          "pass": false,
+          "rate": 0.8141,
+          "slots_with_affiliation": 17316,
+          "threshold": 0.9
+        },
+        "pdf_evidence": {
+          "confidence": {
+            "high": 2899,
+            "none": 116,
+            "partial": 688
+          },
+          "credited_confidence_levels": [
+            "high"
+          ],
+          "papers_extracted": 3703,
+          "pass": true,
+          "pdf_openalex_conflict_slots": 330,
+          "prefer_pdf": true,
+          "review_queue": 804,
+          "review_queue_path": "/home/eding/ecerankings.org/.tmp/ml-harvest/iclr/2025/pdf-review.jsonl",
+          "slots_from_image": 14
+        },
+        "pdf_verification": {
+          "conflict_papers_checked": 0,
+          "extractor_accuracy": null,
+          "extractor_slots_correct": 0,
+          "extractor_slots_wrong": 0,
+          "judge_model": [
+            "claude-haiku-5-5"
+          ],
+          "note": "Image verification not run: --stage verify-prep, then the verify-pdf-affiliations skill, then --stage verify-apply",
+          "pass": false,
+          "review_papers_read_from_image": 3,
+          "sample_papers_checked": 0,
+          "threshold": 0.98
+        },
+        "profile_leakage": {
+          "author_slots_with_profile_or_unknown_source": 0,
+          "pass": true
+        },
+        "scope_purity": {
+          "audit_sample": "/home/eding/ecerankings.org/.tmp/ml-harvest/iclr/2025/audit-sample.jsonl",
+          "duplicate_work_keys": 0,
+          "pass": true
+        }
+      },
+      "gates_passed": false,
+      "http_last_run": {},
+      "include_tracks": [
+        "Conference"
+      ],
+      "membership_source": "https://proceedings.iclr.cc/paper_files/paper/2025",
+      "path": ".tmp/ml-harvest/cache/iclr/2025/works.jsonl",
+      "sha256": "b8067b5277f7999f99889704febb3ef718ed3020b961c80f08b40826736a98b9",
+      "stages": {
+        "build": {
+          "counts": {
+            "duplicate_work_keys": 0,
+            "evidence:none": 1204,
+            "evidence:openalex-arxiv-doi": 2453,
+            "evidence:openalex-title-match": 46,
+            "excluded_track_rows": 0,
+            "pdf_openalex_conflict_slots": 330,
+            "rejected_candidates": 324,
+            "slot_source:none": 3954,
+            "slot_source:openalex-arxiv-doi": 2007,
+            "slot_source:openalex-title-match": 39,
+            "slot_source:publisher-pdf": 15256,
+            "slot_source:publisher-pdf-image": 14,
+            "works": 3703
+          },
+          "done": true,
+          "finished_at": "2026-10-30T03:44:23Z",
+          "input_sha256": "1ff7a4f8989fade8cf8fd921f302dc226623139a813509c079d11f1dc86596c9:b2fa763b30be450644083294f18aacd56209128dd99222afda38c955e99ded9c:25096067b1f69a5133ec42d516284d8330f5def462e499c179924439dc865209:c5c639f07da0b79b1b698d94abe61e60d6bbd5b054bc92c022e2c444c0ea9c0f:264808eabbc46550ab7714dd01ed50c331cbdaa6182475710aa59a81596593b8:prefer_pdf=True",
+          "sha256": "b8067b5277f7999f99889704febb3ef718ed3020b961c80f08b40826736a98b9"
+        },
+        "discover": {
+          "counts": {
+            "already_resolved": 3653,
+            "none:arxiv-api": 46,
+            "ok:arxiv-api": 4,
+            "openalex_title_calls": 0,
+            "papers": 3703,
+            "with_identifier": 3011
+          },
+          "done": true,
+          "finished_at": "2026-10-30T02:47:01Z",
+          "input_sha256": "1ff7a4f8989fade8cf8fd921f302dc226623139a813509c079d11f1dc86596c9"
+        },
+        "enrich": {
+          "counts": {
+            "doi_none": 201,
+            "doi_ok": 652,
+            "dois_already_queried": 0,
+            "dois_wanted": 853,
+            "list_calls": 9,
+            "retries": 0,
+            "singleton_calls": 0
+          },
+          "done": true,
+          "finished_at": "2026-10-30T02:47:06Z",
+          "input_sha256": "1ff7a4f8989fade8cf8fd921f302dc226623139a813509c079d11f1dc86596c9:b2fa763b30be450644083294f18aacd56209128dd99222afda38c955e99ded9c"
+        },
+        "gates": {
+          "counts": {
+            "passed": 0
+          },
+          "done": true,
+          "finished_at": "2026-10-30T06:32:45Z",
+          "gates_passed": false,
+          "input_sha256": "b8067b5277f7999f99889704febb3ef718ed3020b961c80f08b40826736a98b9"
+        },
+        "membership": {
+          "counts": {
+            "included": 3703,
+            "publisher_doi": 0,
+            "rows": 3703,
+            "track:Conference": 3703
+          },
+          "done": true,
+          "finished_at": "2026-10-30T03:24:19Z",
+          "input_sha256": "0c3e6662d40fc89ba3396c1a8562656659269f9693bb88d7549077b49dcca36b"
+        },
+        "pdf": {
+          "counts": {
+            "already_fetched": 0,
+            "confidence:high": 2899,
+            "confidence:none": 116,
+            "confidence:partial": 688,
+            "extracted": 3703,
+            "fetched_download": 1333,
+            "fetched_local": 2370,
+            "layout:None": 13,
+            "layout:columns": 1513,
+            "layout:markers": 2177,
+            "papers": 3703,
+            "review_queue": 804
+          },
+          "done": true,
+          "finished_at": "2026-10-30T03:25:49Z",
+          "input_sha256": "1ff7a4f8989fade8cf8fd921f302dc226623139a813509c079d11f1dc86596c9:extractor-v2"
+        }
+      },
+      "status": "staged",
+      "venue": "iclr",
+      "works": 3703,
+      "year": 2025
+    }
+  ],
+  "status_semantics": "status is 'complete' only when every stage is done and every gate passes; otherwise 'staged'."
+}

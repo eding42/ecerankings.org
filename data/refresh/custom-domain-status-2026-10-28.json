@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-10-29T00:55:21.746474+00:00",
+  "host": "ecerankings.eding.dev",
+  "pages_domain_status": "pending",
+  "verification": {
+    "status": "pending",
+    "error_message": "CNAME record not set"
+  },
+  "dns_status": 3,
+  "dns_answers": []
+}

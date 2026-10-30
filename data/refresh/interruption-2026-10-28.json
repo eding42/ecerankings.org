@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-10-28T21:45:49Z",
+  "event": "T3 server restart cleared temporary raw-data staging and cancelled active workers",
+  "lost_staging": ["/tmp/ece-review-data", "/tmp/ece-live-journals", "/tmp/ece-live-conferences", "/tmp/ece-live-ml", "/tmp/ece-preliminary-cache"],
+  "persisted_manifest_milestones_before_loss": {"journal_complete_scopes": 422, "conference_complete_scopes": 220, "conference_blocked_scopes": 7, "ml_complete_scopes": 95},
+  "milestone_meaning": "Historical collection progress only. Referenced raw files did not survive; these counts are not accepted current release coverage.",
+  "persisted_corrections": {"initial_institution_rows": 76, "exact_auto_rows": 284, "affiliation_map_sha256": "c56fcb5df634f5176890f7b3170183544b688d06ef476a864525ee7d342dd9f9"},
+  "recovery_root": ".tmp/refresh-2026-10-28",
+  "release_published": false,
+  "recovery_policy": "Restore committed baseline from verified LFS objects; recollect lost observations into durable checkout staging; validate every accepted file hash and full candidate before publication. Preserve prior manifests as interrupted-run evidence."
+}

@@ -1,0 +1,1752 @@
+# Full-name mismatch fix report
+
+- examined: 91233
+- kept: 73504
+- proposed: 398
+- flagged: 944
+
+## Fixes
+
+- `#National Science Foundation, Arlington, VA`
+  - The University of Texas at Arlington -> U.S. National Science Foundation (full name in raw (27 chars), no evidence for assigned)
+- `ADC Automotive Distance Control Systems GmbH, Continental, Germany`
+  - Continental (United States) -> Continental (Germany) (full name in raw (19 chars), no evidence for assigned)
+- `AFRL/RVSWS, Air Force Research Laboratory, Kirtland AFB, NM, U.S.A`
+  - Kirtland Air Force Base -> United States Air Force Research Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `ASRI, INMC, ISRC, Institute of Engineering Research, Seoul National University`
+  - Institute of Engineering Science -> Seoul National University (full name in raw (25 chars), no evidence for assigned)
+- `Accelerator Technology and Applied Physics Division, Lawrence Berkeley National Laboratory, Berkeley, California 94720, USA`
+  - University of California, Berkeley -> Lawrence Berkeley National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Advanced Fiber Devices and Systems Group, Key Laboratory of Micro and Nano Photonic Structures (MoE), Department of Optical Science and Engineering, Fudan University, Shanghai, China`
+  - Shanghai Medical College of Fudan University -> Fudan University (full name in raw (16 chars), no evidence for assigned)
+- `Advanced Fiber Devices and Systems Group, Key Laboratory of Micro and Nano Photonic Structures (MoE), Department of Optical Science and Engineering, Fudan University, Shanghai, China,`
+  - Shanghai Medical College of Fudan University -> Fudan University (full name in raw (16 chars), no evidence for assigned)
+- `Advanced Materials and Microsystems Group, MIT Lincoln Laboratory, Lexington, MA, 02139, USA`
+  - HAMR Industries (United States) -> MIT Lincoln Laboratory (full name in raw (22 chars), no evidence for assigned)
+- `Agrate Brianza, STMicroelectronics, Italy`
+  - STMicroelectronics (United States) -> STMicroelectronics (Italy) (full name in raw (24 chars), no evidence for assigned)
+- `Air Force Research Laboratory, Eglin AFB, FL 32542`
+  - Eglin Air Force Base -> United States Air Force Research Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Air Force Research Laboratory, Munitions Directorate, Eglin AFB, USA`
+  - Eglin Air Force Base -> United States Air Force Research Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Airbus, France`
+  - Airbus (United States) -> Airbus (France) (full name in raw (13 chars), no evidence for assigned)
+- `Amazon, Germany`
+  - Amazon (United States) -> Amazon (Germany) (full name in raw (14 chars), no evidence for assigned)
+- `Ampere lab, Univ. Lyon, Lyon, France`
+  - Communauté urbaine de Lyon -> Laboratoire Ampère (full name in raw (17 chars), no evidence for assigned)
+- `Anhui Province Key Laboratory of Medical Physics and Technology, Institute of Health and Medical Technology, Hefei Institutes of Physical Sciences, Chinese Academy of Sciences, Hefei 230031, China`
+  - National Academy of Medicine -> Chinese Academy of Sciences (full name in raw (27 chars), no evidence for assigned)
+- `Australian Centre for Robotic Vision (ACRV)`
+  - Archives Cantonales Vaudoises -> Australian Centre for Robotic Vision (full name in raw (36 chars), no evidence for assigned)
+- `Australian Centre for Robotic vision (ACRV)`
+  - Archives Cantonales Vaudoises -> Australian Centre for Robotic Vision (full name in raw (36 chars), no evidence for assigned)
+- `Australian National Univ., Canberra, ACT (Australia). Research School of Physics and Engineering. Nonlinear Physics Centre`
+  - Canberra (United Kingdom) -> Australian National University (full name in raw (30 chars), no evidence for assigned)
+- `Australian Research Council (ARC) Centre of Excellence for Transformative Meta-Optical Systems, Research School of Physics, The Australian National University, Canberra, Australian Capital Territory, Australia`
+  - University of Canberra -> Australian National University (full name in raw (30 chars), no evidence for assigned)
+- `Bernstein Center for Computational Neuroscience, Tübingen, Germany`
+  - Tübingen AI Center -> Bernstein Center for Computational Neuroscience Tübingen (full name in raw (56 chars), no evidence for assigned)
+- `Beth Israel Deaconess Medical Center, Harvard Medical School, Boston, MA, USA`
+  - Boston University -> Beth Israel Deaconess Medical Center (full name in raw (36 chars), no evidence for assigned)
+- `Biocore Team, Sophia Antipolis, Université Côte d’Azur, Inria, INRAE, CNRS, Sorbonne Université, France`
+  - Centre Inria d'Université Côte d'Azur -> Université Côte d'Azur (full name in raw (22 chars), no evidence for assigned)
+- `Biocore Team, Université Côte d'Azur, Inria, INRAE, CNRS, Sorbonne Université, Sophia Antipolis, France`
+  - Centre Inria d'Université Côte d'Azur -> Université Côte d'Azur (full name in raw (22 chars), no evidence for assigned)
+- `Biocore Team, Université Côte d’Azur, Inria, INRAE, CNRS, Sorbonne Université, Sophia Antipolis, France`
+  - Centre Inria d'Université Côte d'Azur -> Université Côte d'Azur (full name in raw (22 chars), no evidence for assigned)
+- `Biomedical Research Networking Center in Bioengineering Biomaterials and Nanomedicine, Madrid, Spain`
+  - American Society For Nanomedicine -> Biomedical Research Networking Center in Bioengineering, Biomaterials and Nanomedicine (full name in raw (85 chars), no evidence for assigned)
+- `Bionic Sensing and Intelligence Center, Institute of Biomedical and Health Engineering, Shenzhen Institutes of Advanced Technology, Chinese Academy of Sciences, Shenzhen, China`
+  - Institute for Biomedical Engineering -> Shenzhen Institutes of Advanced Technology (full name in raw (42 chars), no evidence for assigned)
+- `Bordeaux INP, CNRS, IMS Laboratory, Univ. Bordeaux, Talence, France`
+  - Université de Bordeaux -> Institut Polytechnique de Bordeaux (full name in raw (12 chars), no evidence for assigned)
+- `Boston University; MIT-IBM Watson AI Lab, IBM Research`
+  - IBM Research (China) -> Boston University (full name in raw (17 chars), no evidence for assigned)
+- `Boulogne Billancourt, Huawei Technologies, France`
+  - Huawei Technologies (United States) -> Huawei Technologies (France) (full name in raw (26 chars), no evidence for assigned)
+- `CASE Department, Barcelona Supercomputing Center, Barcelona, Spain`
+  - FC Barcelona -> Barcelona Supercomputing Center (full name in raw (31 chars), no evidence for assigned)
+- `CNRS, ESIEE Paris, LIGM, Univ Gustave Eiffel, Marne-la-Vallée, France`
+  - Université Gustave Eiffel -> ESIEE Paris (full name in raw (11 chars), no evidence for assigned)
+- `CNRS, GIPSA-Lab, Grenoble, France`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `CNRS, GIPSA-lab, Grenoble`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `CNRS, GIPSA-lab, Grenoble, France`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `CNRS, Gipsa-lab, Grenoble, France`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `CNRS, SIGMA Clermont, Institut Pascal, Universit Clermont Auvergne, Clermont-Ferrand, France`
+  - Université Clermont Auvergne -> Institut Pascal (full name in raw (15 chars), no evidence for assigned)
+- `CNRS, UMR 5516, Institut dOptique Graduate School, Laboratoire Hubert Curien, Université Jean-Monnet, Saint-Etienne, France`
+  - Laboratoire des Multimatériaux et Interfaces -> Laboratoire Hubert Curien (full name in raw (25 chars), no evidence for assigned)
+- `CNRS, UMR 7222, Institut des Systemes Intelligents et de Robotique - ISIR, Sorbonne Université, Paris, France`
+  - Laboratoire d'Étude des Microstructures et de Mécanique des Matériaux -> Sorbonne Université (full name in raw (19 chars), no evidence for assigned)
+- `CUDOS, Laser Physics Centre, Research School of Physics and Engineering, The Australian National University, Canberra, ACT 2601, Australia`
+  - University of Canberra -> Australian National University (full name in raw (30 chars), no evidence for assigned)
+- `CURENT, Department of EECS, Oak Ridge National Lab, Knoxville, TN, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `CURENT, Oak Ridge National Lab, Knoxville, TN, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `California Institute of Tech.,Jet Propulsion Laboratory,,Pasadena,CA,,91109`
+  - California Institute of Technology -> Jet Propulsion Laboratory (full name in raw (25 chars), no evidence for assigned)
+- `Center for Advanced Manufacturing, University of Southern, California, CA, USA`
+  - Southern University -> University of Southern California (full name in raw (33 chars), no evidence for assigned)
+- `Center for Free Electron Laser Science, Deutsches Elektronen-Synchrotron, Hamburg`
+  - Deutsches Elektronen-Synchrotron DESY -> Center for Free-Electron Laser Science (full name in raw (38 chars), no evidence for assigned)
+- `Center for Free-Electron Laser Science, Deutsches Elektronen-Synchrotron, 22607 Hamburg, Germany`
+  - Deutsches Elektronen-Synchrotron DESY -> Center for Free-Electron Laser Science (full name in raw (38 chars), no evidence for assigned)
+- `Center for Free-Electron Laser Science, Deutsches Elektronen-Synchrotron, Notkestraße 85, Hamburg 22607, Germany`
+  - Deutsches Elektronen-Synchrotron DESY -> Center for Free-Electron Laser Science (full name in raw (38 chars), no evidence for assigned)
+- `Center for Medical AI, Institute of Biomedical and Health Engineering, Shenzhen Institutes of Advanced Technology, Chinese Academy of Sciences, Shenzhen, China`
+  - Institute for Biomedical Engineering -> Shenzhen Institutes of Advanced Technology (full name in raw (42 chars), no evidence for assigned)
+- `Center for Micro-BioRobotics, IIT, Pisa, Italy`
+  - Polymer Institute of the Slovak Academy of Sciences -> Center for Micro-BioRobotics (full name in raw (28 chars), no evidence for assigned)
+- `Center for Power Electronics Systems (CPES), The Bradley Department of Electrical and Computer Engineering, Virginia Tech, Blacksburg, VA, U.S.A`
+  - Colorado Power Electronics (United States) -> Virginia Tech (full name in raw (13 chars), no evidence for assigned)
+- `Center for Unmanned Aerial Vehicles, University of Southern, Denmark, Odense, Denmark`
+  - Southern University -> University of Southern Denmark (full name in raw (30 chars), no evidence for assigned)
+- `Central Institute for Engineering, Electronics and Analytics (ZEA), Forschungszentrum Jülich, 52425 Jülich, Germany`
+  - Central Institute of Technology -> Forschungszentrum Jülich (full name in raw (24 chars), no evidence for assigned)
+- `Centre National de la Recherche Scientifique, CEA-LETI, University of Grenoble Alpes, Grenoble, France`
+  - Université Grenoble Alpes -> Centre National de la Recherche Scientifique (full name in raw (44 chars), no evidence for assigned)
+- `Centre National d’Etudes Spatiales, Toulouse, France`
+  - Institut National Polytechnique de Toulouse -> Centre National d'Études Spatiales (full name in raw (34 chars), no evidence for assigned)
+- `Centre Tecnologic de Telecomunicacions de Catalunya, Barcelona, Spain`
+  - FC Barcelona -> Centre Tecnologic de Telecomunicacions de Catalunya (full name in raw (51 chars), no evidence for assigned)
+- `Centre de Nanosciences et de Nanotechnologies, CNRS, Univ. Paris-Sud,`
+  - Université Paris-Sud -> Centre de Nanosciences et de Nanotechnologies (full name in raw (45 chars), no evidence for assigned)
+- `Centre de Nanosciences et de Nanotechnologies, Univ. Paris-Sud, Orsay, France`
+  - Université Paris-Sud -> Centre de Nanosciences et de Nanotechnologies (full name in raw (45 chars), no evidence for assigned)
+- `Centre de Recherche en Informatique, Signal et Automatique de Lille, UMR CNRS 9189, France`
+  - Matrice Extracellulaire et Dynamique Cellulaire MEDyC -> Centre de Recherche en Informatique, Signal et Automatique de Lille (full name in raw (66 chars), no evidence for assigned)
+- `Centre de Visio per Computador, Universitat Aut`onoma de Barcelona, Bellaterra, Spain`
+  - Universitat de Barcelona -> Computer Vision Center (full name in raw (30 chars), no evidence for assigned)
+- `Centre d’Economie de la Sorbonne, Université Paris 1, Paris Cedex 13, France`
+  - Université Paris Cité -> Centre d'Économie de la Sorbonne (full name in raw (32 chars), no evidence for assigned)
+- `Centre for Nanoscience and Nanotechnology, Univ. Paris-Sud, Orsay, France`
+  - Université Paris-Sud -> Centre de Nanosciences et de Nanotechnologies (full name in raw (41 chars), no evidence for assigned)
+- `Centre for Optical and Electromagnetic Research, Guangdong Provincial Key Laboratory of Optical Information Materials and Technology, South China Academy of Advanced Optoelectronics, South China Normal University, Higher-Education Mega-Center, Guangzhou, China`
+  - Anhui East China Institute of Optoelectronic Technology (China) -> South China Normal University (full name in raw (29 chars), no evidence for assigned)
+- `Centre for VLSI and Embedded System Technologies, International Institute of Information Technology, Hyderabad, India`
+  - Embedded Systems (United States) -> International Institute of Information Technology, Hyderabad (full name in raw (59 chars), no evidence for assigned)
+- `Centre national de la recherche scientifique (CNRS), Université de Toulouse`
+  - Université Toulouse III - Paul Sabatier -> Centre National de la Recherche Scientifique (full name in raw (44 chars), no evidence for assigned)
+- `Charles Stark Draper Laboratory, Cambridge, MA 02139, United States`
+  - University of Cambridge -> Draper Laboratory (full name in raw (31 chars), no evidence for assigned)
+- `Chinese Academy of Scie, Institute of Computing Technology, China`
+  - Chinese Academy of Sciences -> Institute of Computing Technology (full name in raw (33 chars), no evidence for assigned)
+- `Chinese Academy of Sciences (CAS), Institute of Systems Science (ISS), Beijing, P. R. China`
+  - Systems Research Institute -> Chinese Academy of Sciences (full name in raw (27 chars), no evidence for assigned)
+- `Colg. of Computer Science & Technology, Beijing Univ. of Technology, Beijing, P. R. China`
+  - Beijing Institute of Technology -> Beijing University of Technology (full name in raw (32 chars), no evidence for assigned)
+- `College of Engineering, Mathematics and Physical Sciences, University of Exeter, UK; Institute of Computer Science, Foundation for Research and Technology-Hellas (FORTH-ICS), Greece; FaceSoft.io, London, UK`
+  - FORTH Institute of Computer Science -> Foundation for Research and Technology Hellas (full name in raw (45 chars), no evidence for assigned)
+- `College of Information Science and Engineering, Northeastern University, Shenyang, China; Laser Physics Centre, Australian National University, Canberra, A.C.T., Australia`
+  - University of Canberra -> Australian National University (full name in raw (30 chars), no evidence for assigned)
+- `College of Information Science and Engineering, State Key Laboratory of Synthetical Automation for Process Industries, Northeastern University, Shenyang, P. R. China`
+  - Shenyang University -> State Key Laboratory of Synthetical Automation for Process Industries (full name in raw (69 chars), no evidence for assigned)
+- `Computational and Information Sciences Directorate, U.S. Army Research Laboratory`
+  - Directorate for Computer & Information Science & Engineering -> DEVCOM Army Research Laboratory (full name in raw (28 chars), no evidence for assigned)
+- `Computational and Information Sciences Directorate, U.S. Army Research Laboratory, Adelphi, MD, USA`
+  - Directorate for Computer & Information Science & Engineering -> DEVCOM Army Research Laboratory (full name in raw (28 chars), no evidence for assigned)
+- `Computational and Information Sciences Directorate, U.S. Army Research Laboratory, USA`
+  - Directorate for Computer & Information Science & Engineering -> DEVCOM Army Research Laboratory (full name in raw (28 chars), no evidence for assigned)
+- `Computer Vision Center (Barcelona)`
+  - FC Barcelona -> Computer Vision Center (full name in raw (22 chars), no evidence for assigned)
+- `Computer Vision Center, Barcelona, Spain`
+  - FC Barcelona -> Computer Vision Center (full name in raw (22 chars), no evidence for assigned)
+- `Control System Department, GIPSA-Lab, Grenoble, France`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `Corporate R&D Center, Toshiba, Japan`
+  - Toshiba (United States) -> Toshiba (Japan) (full name in raw (13 chars), no evidence for assigned)
+- `Current address: Photoacoustic Imaging Laboratory, Department of Biomedical Engineering, Duke University, Durham, North Carolina 27708, USA`
+  - Durham University -> Duke University (full name in raw (15 chars), no evidence for assigned)
+- `Currently at: Institute of Science and Technology Austria, 3400 Klosterneuburg, Austria`
+  - AustriaTech (Austria) -> Institute of Science and Technology Austria (full name in raw (43 chars), no evidence for assigned)
+- `Department of Automatic Control, Gipsa-lab, Grenoble, France`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `Department of Automation, Tsinghua University, Institute for Artificial Intelligence, Tsinghua University (THUAI), Beijing National Research Center for Information Science and Technology (BNRist)`
+  - The Hague University of Applied Sciences -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `Department of Biomedical Engineering, Duke University Medical Center, Durham, NC, USA`
+  - Regional Municipality of Durham -> Duke Medical Center (full name in raw (30 chars), no evidence for assigned)
+- `Department of Chemistry, Biochemistry and Pharmaceutical Sciences (DCBP), University of Bern, Freiestrasse 3, 3012 Bern, Switzerland`
+  - Development Center for Biotechnology -> University of Bern (full name in raw (18 chars), no evidence for assigned)
+- `Department of Computer Science and Technology, Tsinghua University, Institute for Artificial Intelligence, Tsinghua University (THUAI), Beijing National Research Center for Information Science and Technology (BNRist), State Key Lab on Intelligent Technology and Systems, Beijing, P.R.China`
+  - The Hague University of Applied Sciences -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `Department of Computer Science and Technology, Tsinghua-CUHK Joint Research Center for Media Sciences, Technologies and Systems, Shenzhen Key Laboratory of Information Science and Technology, Tsinghua University, Beijing, China`
+  - Beijing City University -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `Department of Computer Science, State Key Laboratory of Intelligent Technology and Systems, THUAI, BNRist, Center for Intelligent Connected Vehicles and Transportation, Tsinghua University, Beijing, China`
+  - Beijing City University -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `Department of Computer Science, University of Central, Florida`
+  - Central University -> University of Central Florida (full name in raw (29 chars), no evidence for assigned)
+- `Department of EECS, Oak Ridge National Laboratory, Knoxville, TN, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Department of Electrical & Computer Engineering, University of Washington; Seattle, Washington, 98195, USA`
+  - Seattle University -> University of Washington (full name in raw (24 chars), no evidence for assigned)
+- `Department of Electrical Engineering, IIT, Madras, India`
+  - University of Madras -> Indian Institute of Technology Madras (full name in raw (10 chars), no evidence for assigned)
+- `Department of Electrical and Computer Engineering and Laboratory of Biosensors and Bioinstruments, National Laboratory, Astana, Nazarbayev University, Astana, Kazakhstan`
+  - Astana International University -> Nazarbayev University (full name in raw (21 chars), no evidence for assigned)
+- `Department of Electrical, Electronics and Information, University of Technology, Nagaoka, Niigata, JP`
+  - Nagaoka University of Technology -> University of Technology (full name in raw (24 chars), no evidence for assigned)
+- `Department of Electronic Engineering, Tsinghua University, Beijing, China; Shenzhen International Graduate School, Tsinghua University, Shenzhen, China`
+  - Shenzhen University -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `Department of Electronics Engineering, CA "Nonlinear Photonics", Division of Engineering at Campus Irapuato-Salamanca (DICIS), University of Guanajuato, Salamanca, Gto., Mexico`
+  - Universidad de Salamanca -> Universidad de Guanajuato (full name in raw (24 chars), no evidence for assigned)
+- `Department of Electronics Engineering, CA ”Nonlinear Photonics”, Division of Engineering at Campus Irapuato-Salamanca (DICIS), University of Guanajuato, Salamanca, Gto., Mexico`
+  - Universidad de Salamanca -> Universidad de Guanajuato (full name in raw (24 chars), no evidence for assigned)
+- `Department of Electronics and Communication Engineering and, Indraprastha Institute of Information Technology, Delhi, India`
+  - National Institute of Technology Delhi -> Indraprastha Institute of Information Technology Delhi (full name in raw (54 chars), no evidence for assigned)
+- `Department of Fiber Optics, Leibniz Institute of Photonic Technology, Jena, Germany`
+  - Ernst Abbe University of Applied Sciences Jena -> Leibniz Institute of Photonic Technology (full name in raw (40 chars), no evidence for assigned)
+- `Department of Hematology, Tongji Hospital, Tongji Medical College, Huazhong University of Science and Technology, Wuhan, Hubei 430030, China`
+  - Wuhan Union Hospital -> Huazhong University of Science and Technology (full name in raw (45 chars), no evidence for assigned)
+- `Department of Materials Science and Engineering, University of Washington; Seattle, Washington, 98195, USA`
+  - Seattle University -> University of Washington (full name in raw (24 chars), no evidence for assigned)
+- `Department of Neurology, Beth Israel Deaconess Medical Center, Boston, USA`
+  - Boston University -> Beth Israel Deaconess Medical Center (full name in raw (36 chars), no evidence for assigned)
+- `Department of Ophthalmology, Duke University Medical Center, Durham, NC, 27710, USA`
+  - Regional Municipality of Durham -> Duke Medical Center (full name in raw (30 chars), no evidence for assigned)
+- `Department of Ophthalmology, Duke University Medical Center, Durham, NC, USA`
+  - Regional Municipality of Durham -> Duke Medical Center (full name in raw (30 chars), no evidence for assigned)
+- `Department of Physics & Astronomy, Dornsife College of Letters, Arts, & Sciences, University of Southern California, Los Angeles, CA 90089, USA`
+  - University of California, Los Angeles -> University of Southern California (full name in raw (33 chars), no evidence for assigned)
+- `Department of Physics, Duke University, Durham, North Carolina 27708, USA*`
+  - Durham University -> Duke University (full name in raw (15 chars), no evidence for assigned)
+- `Department of Physics, Faculty of Sciences, King Abdulaziz University, P.O. Box 80203, Jeddah, 21589 Saudi Arabia`
+  - University of Jeddah -> King Abdulaziz University (full name in raw (25 chars), no evidence for assigned)
+- `Department of Physics, Graduate School of Engineering Science, Yokohama National University, 79-5 Tokiwadai, Hodogaya-ku, Yokohama 240-8501, Japan`
+  - Toin University of Yokohama -> Yokohama National University (full name in raw (28 chars), no evidence for assigned)
+- `Department of Physics, University of Washington; Seattle, Washington, 98195, USA`
+  - Seattle University -> University of Washington (full name in raw (24 chars), no evidence for assigned)
+- `Department of Signal Theory and Communications, Universidad Carlos III de Madrid, Avda. Universidad 30, 28911, Leganés (Madrid), Getafe, Madrid, Spain`
+  - Universidad Europea de Madrid -> Universidad Carlos III de Madrid (full name in raw (32 chars), no evidence for assigned)
+- `Departments of Electrical Engineering, Bioengineering, Mechanical Engineering, and Surgery, University of Washington, Seattle, WA, USA 98195`
+  - Seattle University -> University of Washington (full name in raw (24 chars), no evidence for assigned)
+- `Dept, of Comp. Sci. and Tech., BNRist Center, Institute for Al, Tsinghua-Bosch Joint ML Center, Tsinghua University, Beijing, China`
+  - Beijing City University -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `Dept. of Architecture, Design, and Media Technology, Aalborg University, Copenhagen, Denmark`
+  - University of Copenhagen -> Aalborg University (full name in raw (18 chars), no evidence for assigned)
+- `Dept. of Automation, Institute for Brain and Cognitive Sciences, Tsinghua Univ., Beijing, China`
+  - Institute of Cognitive and Brain Sciences -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `Dept. of Comp. Sci. & Tech., Institute for AI, BNRist Center, THBI Lab, Tsinghua University, Beijing, China`
+  - Beijing City University -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `Dept. of Comp. Sci. and Tech., BNRist Center, Institute for AI, THBI Lab, Tsinghua University, Beijing, China`
+  - Beijing City University -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `Dept. of Computer Science, Stony Brook University; Dept. of Biomedical Informatics, Stony Brook University; Dept. of Pathology, Stony Brook Hospital; Cancer Center, Stony Brook Hospital`
+  - Stony Brook University Hospital -> Stony Brook University (full name in raw (22 chars), no evidence for assigned)
+- `Dept. of ECE and Digital Tech. Center, Univ. of Minnesota, Mpls, MN, USA`
+  - Max Planck Institute for the Science of Light -> University of Minnesota (full name in raw (23 chars), no evidence for assigned)
+- `Dept. of ECE, Univ. of Illinois, Urbana, IL, USA`
+  - Urbana University -> University of Illinois Urbana-Champaign (full name in raw (22 chars), no evidence for assigned)
+- `Dept. of EE, Univ. of Texas at Dallas, Richardson, TX`
+  - University of North Texas at Dallas -> The University of Texas at Dallas (full name in raw (29 chars), no evidence for assigned)
+- `Dept. of Electric Propulsion Systems, Volvo Car Group, Gothenburg, Sweden`
+  - Göteborgs Stads -> Volvo Cars (Sweden) (full name in raw (15 chars), no evidence for assigned)
+- `Division of Accelerator Technology and Applied Physics, Lawrence Berkeley National Laboratory, Berkeley, CA 94720, USA`
+  - University of California, Berkeley -> Lawrence Berkeley National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Division of Advanced Manufacturing, Tsinghua Shenzhen International Graduate School, Tsinghua University, Tsinghua Campus, the University Town, Shenzhen, 518055, China`
+  - University Town of Shenzhen -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `Division of Molecular Biophysics and Integrated Bioimaging, Lawrence Berkeley National Laboratory, Berkeley, CA, USA`
+  - University of California, Berkeley -> Lawrence Berkeley National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Draper Laboratory, Cambridge, MA`
+  - University of Cambridge -> Draper Laboratory (full name in raw (17 chars), no evidence for assigned)
+- `Draper Laboratory, Cambridge, MA, USA`
+  - University of Cambridge -> Draper Laboratory (full name in raw (17 chars), no evidence for assigned)
+- `Draper Scholar Program, The Charles Stark Draper Laboratory, Inc, Cambridge, MA 02139, USA`
+  - University of Cambridge -> Draper Laboratory (full name in raw (31 chars), no evidence for assigned)
+- `Drive System Control Research Dept., Hitachi, Ltd., Hitachi, Japan`
+  - Hitachi (United States) -> Hitachi (Japan) (full name in raw (13 chars), no evidence for assigned)
+- `Duke Univ., Durham, NC (United States). Dept .of Electrical and Computer Engineering`
+  - Regional Municipality of Durham -> Duke University (full name in raw (15 chars), no evidence for assigned)
+- `Duke Univ., Durham, NC (United States). Dept. of Electrical and Computer Engineering`
+  - Regional Municipality of Durham -> Duke University (full name in raw (15 chars), no evidence for assigned)
+- `ECE Dept. and Digital Tech. Center, Univ. of Minnesota, Mpls., MN, USA`
+  - Max Planck Institute for the Science of Light -> University of Minnesota (full name in raw (23 chars), no evidence for assigned)
+- `EEE Dept., Keio Univ., Yokohama, Kanagawa, Japan`
+  - Kanagawa University -> Keio University (full name in raw (15 chars), no evidence for assigned)
+- `ELI Beamlines, Institute of Physics, Czech Academy of Sciences, Na Slovance 2, 18221 Prague, Czech Republic`
+  - FZU ‒ Institute of Physics of the Academy of Sciences of the Czech Republic -> Czech Academy of Sciences (full name in raw (25 chars), no evidence for assigned)
+- `ESPCI Paris, PSL Research University, CNRS, Institut Langevin, 1 rue Jussieu, F-75005 Paris, France`
+  - Institut Laue-Langevin -> Université Paris Sciences et Lettres (full name in raw (23 chars), no evidence for assigned)
+- `ESYCOM (EA2552), ESIEE Paris, UPEM, Le Cnam, Université Paris-Est, Noisy-le-Grand, France`
+  - Biologie, ingénierie et imagerie pour l'Ophtalmologie -> Paris-Est Sup (full name in raw (20 chars), no evidence for assigned)
+- `ESYCOM (FRE2028), CNAM, CNRS, ESIEE Paris, Université Paris-Est Marne-la-Vallée, Paris Cedex 3, France`
+  - Université Paris-Est Créteil -> ESIEE Paris (full name in raw (11 chars), no evidence for assigned)
+- `ETH Zurich, Institute of Electromagnetic Fields (IEF), Gloriastrasse 35, 8092 Zurich, Switzerland`
+  - Institutt for Eksperimentell Medisinsk Forskning -> ETH Zurich (full name in raw (10 chars), no evidence for assigned)
+- `ETH Zurich, Institute of Eletromagnetic Fields (IEF), Gloriastrasse 35, 8092 Zurich, Switzerland`
+  - Institutt for Eksperimentell Medisinsk Forskning -> ETH Zurich (full name in raw (10 chars), no evidence for assigned)
+- `Edifici O, Computer Vision Center, Barcelona, Spain`
+  - FC Barcelona -> Computer Vision Center (full name in raw (22 chars), no evidence for assigned)
+- `Electric Drives Research Group, Oak Ridge National Laboratory, Knoxville, TN, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Electric Energy Systems Integration Group, Oak Ridge National Laboratory, Knoxville, TN, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Electrical Engineering and Applied Mathematics of the School of Engineering and Applied Sciences, Harvard Univ., Cambridge, MA, USA`
+  - University of Cambridge -> Harvard University (full name in raw (18 chars), no evidence for assigned)
+- `Electrical and Electronics Systems Research Division, National Transportation Research Center, Knoxville, TN, USA`
+  - Knoxville College -> National Transportation Research Center (full name in raw (39 chars), no evidence for assigned)
+- `Empirical Inference Department, Max Planck Inst. for Intelligent Systems, Tübingen, 72076, Germany`
+  - Tübingen AI Center -> Max Planck Institute for Intelligent Systems (full name in raw (44 chars), no evidence for assigned)
+- `Empirical Inference Department, Max Planck Inst. for Intelligent Systems, Tübingen, Germany`
+  - Tübingen AI Center -> Max Planck Institute for Intelligent Systems (full name in raw (44 chars), no evidence for assigned)
+- `Energy Science and Technology Directorate, Oak Ridge National Laboratory, Knoxville, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Energy and Environment Directorate, Pacific Northwest National Laboratory`
+  - Department of Energy and Environment -> Pacific Northwest National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `GIPSA Lab, Univ. Grenoble Alpes INRIA Grenoble Rhone-Alpes, France`
+  - Centre Inria de l'Université Grenoble Alpes -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `GIPSA-Lab, CNRS, Grenoble, France`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `GIPSA-Lab, Saint Martin d'Heres, Auvergne-Rhône-Alpes, FR`
+  - Délégation Régionale Auvergne-Rhône-Alpes -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `GIPSA-Lab, Univ. Grenoble Alpes, CNRS, Grenoble, France`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `GIPSA-Lab, Univ. Grenoble Alpes, Grenoble, France`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `GIPSA-lab, Univ. Grenoble Alpes, Grenoble, France`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `GIPSA-lab, University Grenoble-Alpes`
+  - Université Grenoble Alpes -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `GIPSA-lab, University of Grenoble-Alpes`
+  - Université Grenoble Alpes -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `GIPSA-lab, University of Grenoble–Alpes`
+  - Université Grenoble Alpes -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `German Aerospace Center (DLR), Institute of Communication and Navigation, Weßling, Germany`
+  - Institut des sciences de la communication -> Deutsches Zentrum für Luft- und Raumfahrt e. V. (DLR) (full name in raw (23 chars), no evidence for assigned)
+- `German Aerospace Center (DLR), Institute of System Dynamics and Controls, Weβling, Germany`
+  - Institute for System Dynamics and Control Theory -> Deutsches Zentrum für Luft- und Raumfahrt e. V. (DLR) (full name in raw (23 chars), no evidence for assigned)
+- `Gipsa-Lab (CNRS), Grenoble, France`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `Graduate School for the Creation of New Photonics Industries (GPI), Hamamatsu, Japan`
+  - Hamamatsu University -> Graduate School for the Creation of New Photonics Industries (full name in raw (56 chars), no evidence for assigned)
+- `Graduate School of IPS, Waseda Univ., Fukuoka, Japan`
+  - Fukuoka University -> Waseda University (full name in raw (17 chars), no evidence for assigned)
+- `Graduate School of Information, Production and Systems, Waseda University, Kitakyushu-shi, Fukuoka, Japan`
+  - Fukuoka University -> Waseda University (full name in raw (17 chars), no evidence for assigned)
+- `Grenoble Alpes Univ, Grenoble`
+  - Université Pierre Mendès France -> Université Grenoble Alpes (full name in raw (25 chars), no evidence for assigned)
+- `Grenoble INP, CNRS, GIPSA-lab, University Grenoble Alpes, Grenoble, France`
+  - Université Grenoble Alpes -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `Grenoble INP, CNRS, IMEP-LaHC Laboratory, UMR 5130, University of Grenoble-Alpes, Grenoble, France`
+  - Université Grenoble Alpes -> Institut polytechnique de Grenoble (full name in raw (12 chars), no evidence for assigned)
+- `Guangdong Research Center of Polarization Imaging and Measurement Engineering Technology, Shenzhen Key Laboratory for Minimal Invasive Medical Technologies, the Division of Life and Health Sciences, Graduate School at Shenzhen, Tsinghua University, Shenzhen, China`
+  - Shenzhen University -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `Harvard - MIT Division of Health Sciences & Technology, Cambridge, MA, USA`
+  - University of Cambridge -> Harvard–MIT Division of Health Sciences and Technology (full name in raw (54 chars), no evidence for assigned)
+- `Harvard-MIT Division of Health Sciences and Technology, 77 Massachusetts Avenue, Cambridge, MA 02139`
+  - University of Cambridge -> Harvard–MIT Division of Health Sciences and Technology (full name in raw (54 chars), no evidence for assigned)
+- `Harvard-MIT Division of Health Sciences and Technology, 77 Massachusetts Avenue, Cambridge, Massachusetts 02139, USA`
+  - University of Cambridge -> Harvard–MIT Division of Health Sciences and Technology (full name in raw (54 chars), no evidence for assigned)
+- `Harvard-MIT Division of Health Sciences and Technology, Cambridge, MA`
+  - University of Cambridge -> Harvard–MIT Division of Health Sciences and Technology (full name in raw (54 chars), no evidence for assigned)
+- `Harvard-MIT Health Sciences and Technology, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139, USA`
+  - Harvard–MIT Division of Health Sciences and Technology -> Massachusetts Institute of Technology (full name in raw (37 chars), no evidence for assigned)
+- `Harvard-Smithsonian Center for Astrophysics, Cambridge, MA, USA`
+  - University of Cambridge -> Center for Astrophysics Harvard & Smithsonian (full name in raw (43 chars), no evidence for assigned)
+- `High Institute of applied sciences and technology of Sousse, Cité Taffala (Ibn Khaldoun), National Engineering School of Monastir, Tunisia`
+  - Université Ibn Khaldoun -> Ecole Nationale d'Ingénieurs de Monastir (full name in raw (39 chars), no evidence for assigned)
+- `Hochschule Wismar, Department of Electrical Engineering and Computer Science, University of Applied Sciences: Technology, Business and Design, Wismar, Germany`
+  - University of Applied Science and Technology -> Wismar University of Applied Sciences (full name in raw (17 chars), no evidence for assigned)
+- `Huawei German Research Center, Munich, Germany`
+  - Forschungsinstitut für Wärmeschutz München -> Huawei German Research Center (full name in raw (29 chars), no evidence for assigned)
+- `Huawei Technologies, France`
+  - Huawei Technologies (United States) -> Huawei Technologies (France) (full name in raw (26 chars), no evidence for assigned)
+- `IBM Research, India`
+  - IBM Research (China) -> IBM Research - India (full name in raw (18 chars), no evidence for assigned)
+- `IBM Research, Ireland`
+  - IBM Research (China) -> IBM Research - Ireland (full name in raw (20 chars), no evidence for assigned)
+- `IBM Research; Shanghai Jiao Tong University`
+  - IBM Research (China) -> Shanghai Jiao Tong University (full name in raw (29 chars), no evidence for assigned)
+- `ICube Laboratory, Strasbourg University, INSA Strasbourg, UMR CNRS, Strasbourg, France`
+  - Université de Strasbourg -> Institut National des Sciences Appliquées de Strasbourg (full name in raw (15 chars), no evidence for assigned)
+- `IFIMUP and DFA, Faculdade de Ciências, Universidade do Porto, Rua do Campo Alegre s/n, 4169-007 Porto, Portugal`
+  - Universidade Federal de Ciências da Saúde de Porto Alegre -> Universidade do Porto (full name in raw (21 chars), no evidence for assigned)
+- `IFIMUP and DFA, Faculdade de Ciências, Universidade do Porto, Rua do Campo Alegre, 4169-007 Porto, Portugal`
+  - Universidade Federal de Ciências da Saúde de Porto Alegre -> Universidade do Porto (full name in raw (21 chars), no evidence for assigned)
+- `IFIMUP and Departamento de Física e Astronomia, Faculdade de Ciências, Universidade do Porto, Rua do Campo Alegre s/n, 4169-007 Porto, Portugal`
+  - Universidade Federal de Ciências da Saúde de Porto Alegre -> Universidade do Porto (full name in raw (21 chars), no evidence for assigned)
+- `IFIMUP and Departamento de Física e Astronomia, Faculdade de Ciências, Universidade do Porto, Rua do Campo Alegre, 4169-007 Porto, Portugal`
+  - Universidade Federal de Ciências da Saúde de Porto Alegre -> Universidade do Porto (full name in raw (21 chars), no evidence for assigned)
+- `INSA Centre Val de Loire, Laboratoire d'Informatique de l'Univ. de Tours, Blois, France`
+  - Laboratoire d'Informatique Fondamentale et Appliquée de Tours -> Institut National des Sciences Appliquées Centre Val de Loire (full name in raw (24 chars), no evidence for assigned)
+- `INSPIRE Lab, University of Central, Florida, USA`
+  - Central University -> University of Central Florida (full name in raw (29 chars), no evidence for assigned)
+- `ITAMP, Harvard-Smithsonian Center for Astrophysics, Cambridge, MA, USA`
+  - University of Cambridge -> Center for Astrophysics Harvard & Smithsonian (full name in raw (43 chars), no evidence for assigned)
+- `ITAMP, Harvard-Smithsonian Center for Astrophysics, Cambridge, Massachusetts 02138, USA`
+  - University of Cambridge -> Center for Astrophysics Harvard & Smithsonian (full name in raw (43 chars), no evidence for assigned)
+- `Indian Institute of Technology, Goa`
+  - Indian Institute of Technology Bombay -> Indian Institute of Technology Goa (full name in raw (34 chars), no evidence for assigned)
+- `Indraprastha Institute of Information Technology Delhi, Delhi, India`
+  - National Institute of Technology Delhi -> Indraprastha Institute of Information Technology Delhi (full name in raw (54 chars), no evidence for assigned)
+- `Indraprastha Institute of Information Technology, Delhi, New Delhi#TAB#`
+  - National Institute of Technology Delhi -> Indraprastha Institute of Information Technology Delhi (full name in raw (54 chars), no evidence for assigned)
+- `Infineon Technologies, Villach, Austria; Politecnico di Milano, Milan, Italy`
+  - Infineon Technologies (United States) -> Politecnico di Milano (full name in raw (21 chars), no evidence for assigned)
+- `Information Sciences Institute, University of Southern, California`
+  - Southern University -> University of Southern California (full name in raw (33 chars), no evidence for assigned)
+- `Inria, CNRS, Grenoble INP, LJK, University Grenoble Alpes, Grenoble, France`
+  - Université Grenoble Alpes -> Institut polytechnique de Grenoble (full name in raw (12 chars), no evidence for assigned)
+- `Institute for Data, Systems, and Society, Massachusetts Institute of Technology,Department of Civil and Environmental Engineering,Cambridge`
+  - Data & Society Research Institute -> Massachusetts Institute of Technology (full name in raw (37 chars), no evidence for assigned)
+- `Institute for Learning and Brain Sciences, University of Washington, 1715 NE Columbia Rd, Seattle, WA 98195, USA`
+  - Institute of Cognitive and Brain Sciences -> University of Washington (full name in raw (24 chars), no evidence for assigned)
+- `Institute for Medical Engineering Science, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139`
+  - Institute for Biomedical Engineering -> Massachusetts Institute of Technology (full name in raw (37 chars), no evidence for assigned)
+- `Institute for Medical Engineering Science, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, Massachusetts 02139, USA`
+  - Institute for Biomedical Engineering -> Massachusetts Institute of Technology (full name in raw (37 chars), no evidence for assigned)
+- `Institute for Particle Physics and Astrophysics, ETH Zurich, Otto-Stern-Weg 5, 8093 Zurich, Switzerland`
+  - Institute of Astronomy and Astrophysics, Academia Sinica -> ETH Zurich (full name in raw (10 chars), no evidence for assigned)
+- `Institute for Photonic Integration, Department of Applied Physics, Eindhoven University of Technology, P.O. Box 513, 5600 MB Eindhoven, The Netherlands`
+  - Institute of Photonic Sciences -> Eindhoven University of Technology (full name in raw (34 chars), no evidence for assigned)
+- `Institute for Quantum Science and Engineering, and Department of Biological and Agricultural Engineering, Texas A&M University, College Station, Texas 77843, USA`
+  - National Institutes for Quantum Science and Technology -> Texas A&M University (full name in raw (24 chars), no evidence for assigned)
+- `Institute of Automation, Chinese Academy of Sciences;Shandong University`
+  - University of Chinese Academy of Sciences -> Chinese Academy of Sciences (full name in raw (27 chars), no evidence for assigned)
+- `Institute of Communication, Information and Perception Technologies (TeCIP), Scuola Superiore Sant'Anna, Pisa, Italy`
+  - Institut des sciences de la communication -> Scuola Superiore Sant'Anna (full name in raw (26 chars), no evidence for assigned)
+- `Institute of Communication, Information and Perception Technologies, Sant'Anna School of Advanced Studies, Pisa, Italy`
+  - Institut des sciences de la communication -> Scuola Superiore Sant'Anna (full name in raw (36 chars), no evidence for assigned)
+- `Institute of Communication, Information, and Perception Technologies, Scuola Superiore Sant’Anna, Pisa, Italy`
+  - Institut Supérieur de l'Information et de la Communication -> Scuola Superiore Sant'Anna (full name in raw (26 chars), no evidence for assigned)
+- `Institute of Communications and Navigation, German Aerospace Center`
+  - Institut des sciences de la communication -> Deutsches Zentrum für Luft- und Raumfahrt e. V. (DLR) (full name in raw (23 chars), no evidence for assigned)
+- `Institute of Communications and Navigation, German Aerospace Center (DLR), Neustrelitz, Germany`
+  - Institut des sciences de la communication -> Deutsches Zentrum für Luft- und Raumfahrt e. V. (DLR) (full name in raw (23 chars), no evidence for assigned)
+- `Institute of Communications and Navigation, German Aerospace Center (DLR), Wessling, Germany`
+  - Institut des sciences de la communication -> Deutsches Zentrum für Luft- und Raumfahrt e. V. (DLR) (full name in raw (23 chars), no evidence for assigned)
+- `Institute of Communications and Navigation, German Aerospace Center (DLR), Weßling, Germany`
+  - Institut des sciences de la communication -> Deutsches Zentrum für Luft- und Raumfahrt e. V. (DLR) (full name in raw (23 chars), no evidence for assigned)
+- `Institute of Electromagnetic Fields (IEF), ETH Zurich, Gloriastrasse 35, 8092 Zurich, Switzerland`
+  - Institutt for Eksperimentell Medisinsk Forskning -> ETH Zurich (full name in raw (10 chars), no evidence for assigned)
+- `Institute of Electronic Structure and Laser, Foundation for Research and Technology-Hellas, N. Plastira 100, Vasilika Vouton, 70013 Heraklion, Crete, Greece`
+  - FORTH Institute of Electronic Structure and Laser -> Foundation for Research and Technology Hellas (full name in raw (45 chars), no evidence for assigned)
+- `Institute of Industrial Science, The University of Tokyo, 4-6-1 Komaba, Meguro, Tokyo 153-8505, Japan`
+  - Industrial Technology Institute -> The University of Tokyo (full name in raw (19 chars), no evidence for assigned)
+- `Institute of Industrial Science, The University of Tokyo, 4-6-1 Komaba, Meguro-Ku, Tokyo 153-8505, Japan`
+  - Industrial Technology Institute -> The University of Tokyo (full name in raw (19 chars), no evidence for assigned)
+- `Institute of Industrial Science, The University of Tokyo, 4-6-1 Komaba, Meguro-ku, Tokyo, Japan`
+  - Industrial Technology Institute -> The University of Tokyo (full name in raw (19 chars), no evidence for assigned)
+- `Institute of Industrial Science, The University of Tokyo, 4-6-1, Komaba, Meguro-ku, Tokyo, 1538904, Japan`
+  - Industrial Technology Institute -> The University of Tokyo (full name in raw (19 chars), no evidence for assigned)
+- `Institute of Industrial Science, University of Tokyo, 4‐6‐1 Komaba, Meguro‐ku, Tokyo 153‐8505, Japan`
+  - Industrial Technology Institute -> The University of Tokyo (full name in raw (19 chars), no evidence for assigned)
+- `Institute of Information Engineering, Chinese Academy of Science`
+  - Chinese Academy of Sciences -> Institute of Information Engineering (full name in raw (36 chars), no evidence for assigned)
+- `Institute of Information Engineering, Chinese Academy of Science, Beijing, China`
+  - Chinese Academy of Sciences -> Institute of Information Engineering (full name in raw (36 chars), no evidence for assigned)
+- `Institute of Innovative Research, Tokyo Institute of Technology, 4259, Nagatsuta-cho, Midori-ku, Yokohama , Japan`
+  - Institut de Recherche et d’Innovation -> Tokyo Institute of Technology (full name in raw (29 chars), no evidence for assigned)
+- `Institute of Optics, Information and Photonics, University Erlangen-Nuremberg; Max Planck Institute for the Science of Light`
+  - National Institute of Optics -> Max Planck Institute for the Science of Light (full name in raw (41 chars), no evidence for assigned)
+- `Institute of Optics, Information and Photonics, University Erlangen-Nuremberg; Max Planck Institute for the Science of Light; Max Planck-University of Ottawa Centre for Extreme and Quantum Photonics`
+  - National Institute of Optics -> Max Planck - University of Ottawa Centre for Extreme and Quantum Photonics (full name in raw (72 chars), no evidence for assigned)
+- `Institute of Opto-Electronics, Collaborative Innovation Center of Extreme Optics, State Key Laboratory of Quantum Optics and Quantum Optics Devices, Shanxi University, Taiyuan, China`
+  - Academy of Opto-Electronics -> State Key Laboratory of Quantum Optics and Quantum Optics Devices (full name in raw (65 chars), no evidence for assigned)
+- `Institute of Photonics and Optical Science, Centre for Ultrahigh Bandwidth Devices for Optical Systems, School of Physics, University of Sydney Nano Institute, Camperdown, NSW, Australia`
+  - Institute of Photonic Sciences -> Centre for Ultrahigh Bandwidth Devices for Optical Systems (full name in raw (58 chars), no evidence for assigned)
+- `Institute of Robotics and Intelligent Manufacturing (IRIM), Chinese University of Hong Kong (CUHK), Shenzhen, China`
+  - Chinese University of Hong Kong, Shenzhen -> Chinese University of Hong Kong (full name in raw (31 chars), no evidence for assigned)
+- `Institute of System Dynamics and Control (SR-FLS), German Aerospace Center (DLR), Weßling, Germany`
+  - Institute for System Dynamics and Control Theory -> Deutsches Zentrum für Luft- und Raumfahrt e. V. (DLR) (full name in raw (23 chars), no evidence for assigned)
+- `Intel, Germany`
+  - Intel (United States) -> Intel (Germany) (full name in raw (13 chars), no evidence for assigned)
+- `Intel, Israel, Israel`
+  - Intel (United States) -> Intel (Israel) (full name in raw (12 chars), no evidence for assigned)
+- `Inter-University Centre for Astronomy and Astrophysics, Pune, India`
+  - Savitribai Phule Pune University -> Inter-University Centre for Astronomy and Astrophysics (full name in raw (54 chars), no evidence for assigned)
+- `Interactive and Analytics Lab, Palo Alto Research Center, Palo Alto, CA`
+  - Palo Alto University -> Palo Alto Research Center (full name in raw (25 chars), no evidence for assigned)
+- `International Audio Laboratories Erlangen (Friedrich-Alexander University of Erlangen-Nürnberg), Erlangen, Germany`
+  - Friedrich-Alexander-Universität Erlangen-Nürnberg -> International Audio Laboratories Erlangen (full name in raw (41 chars), no evidence for assigned)
+- `International Institute of Information Technology, Bangalore, India`
+  - Bangalore University -> International Institute of Information Technology Bangalore (full name in raw (59 chars), no evidence for assigned)
+- `International Institute of Information Technology, Bangalore, Karnataka, IN`
+  - Bangalore University -> International Institute of Information Technology Bangalore (full name in raw (59 chars), no evidence for assigned)
+- `Jet Propulsion Lab, Pasadena, CA, USA`
+  - Point Loma Nazarene University -> Jet Propulsion Laboratory (full name in raw (25 chars), no evidence for assigned)
+- `Jet Propulsion Lab., Pasadena, CA., USA`
+  - Point Loma Nazarene University -> Jet Propulsion Laboratory (full name in raw (25 chars), no evidence for assigned)
+- `Jet Propulsion Laboratory, Cantorma Insntute of Technology, Pasadena, CA`
+  - Point Loma Nazarene University -> Jet Propulsion Laboratory (full name in raw (25 chars), no evidence for assigned)
+- `Jet Propulsion Laboratory, Pasadena, CA`
+  - Point Loma Nazarene University -> Jet Propulsion Laboratory (full name in raw (25 chars), no evidence for assigned)
+- `Jet Propulsion Laboratory, Pasadena, CA, USA`
+  - Point Loma Nazarene University -> Jet Propulsion Laboratory (full name in raw (25 chars), no evidence for assigned)
+- `Jet Propulsion Laboratory, Pasadena, California 91109`
+  - Point Loma Nazarene University -> Jet Propulsion Laboratory (full name in raw (25 chars), no evidence for assigned)
+- `Jet Propulsion Laboratory, Pasadena, California, USA`
+  - Point Loma Nazarene University -> Jet Propulsion Laboratory (full name in raw (25 chars), no evidence for assigned)
+- `Jiaxing Key Laboratory of Photonic Sensing & Intelligent Imaging, Intelligent Optics and Photonics Research Center, Jiaxing Research Institute, Zhejiang University, Jiaxing 314000, China`
+  - Jiaxing University -> Zhejiang University (full name in raw (19 chars), no evidence for assigned)
+- `Jinan Institute of Quantum Technology, Jinan, Shandong, China`
+  - Shandong University -> Jinan Institute of Quantum Technology (full name in raw (37 chars), no evidence for assigned)
+- `KCIS, International Institute of Information Technology, Hyderabad, India`
+  - Clinical Center University of Sarajevo -> International Institute of Information Technology, Hyderabad (full name in raw (59 chars), no evidence for assigned)
+- `Keio Photonics Research Institute (KPRI), Keio University, Saiwai-ku, Kawasaki, Kanagawa, Japan`
+  - Korea Polar Research Institute -> Keio University (full name in raw (15 chars), no evidence for assigned)
+- `Key Laboratory of Systems and Control, Institute of Systems Science, Academy of Mathematics and System Science, Chinese Academy of Sciences, Beijing, China`
+  - Academy of Mathematics and Systems Science -> Chinese Academy of Sciences (full name in raw (27 chars), no evidence for assigned)
+- `LIGM, CNRS, Univ Gustave Eiffel, ESIEE Paris, Marne-la-Vallée`
+  - Université Gustave Eiffel -> ESIEE Paris (full name in raw (11 chars), no evidence for assigned)
+- `LNE-SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne Université, Paris, France`
+  - Université Paris Cité -> Observatoire de Paris (full name in raw (21 chars), no evidence for assigned)
+- `Laboratoire PRISME, INSA Centre Val de Loire, Bourges, France`
+  - Protéomique, Réponse Inflammatoire et Spectrométrie de Masse -> Institut National des Sciences Appliquées Centre Val de Loire (full name in raw (24 chars), no evidence for assigned)
+- `Laboratoire de Physique Statistique, ENS-Université PSL, CNRS, Sorbonne Université, Paris, France`
+  - Université Paris Cité -> Sorbonne Université (full name in raw (19 chars), no evidence for assigned)
+- `Laboratoire de Physique de l’Ecole normale supérieure, ENS, Université PSL, CNRS, Sorbonne Université, Université Paris-Diderot, Sorbonne Paris Cité, Paris, France`
+  - Université Paris Cité -> Laboratoire de Physique de l'Ecole Normale Supérieure (full name in raw (53 chars), no evidence for assigned)
+- `Laboratoire des Solides Irradiés, CNRS, CEA, Ecole Polytechnique, Université Paris Saclay, Palaiseau, France`
+  - Polytech Nice Sophia -> Université Paris-Saclay (full name in raw (23 chars), no evidence for assigned)
+- `Laser Physics Centre, Department of Quantum Science and Technology, Research School of Physics, The Australian National University, Canberra, ACT 2601, Australia`
+  - University of Canberra -> Australian National University (full name in raw (30 chars), no evidence for assigned)
+- `Lawrence Berkeley National Lab, One Cyclotron Road, Berkeley, CA 94720, USA`
+  - University of California, Berkeley -> Lawrence Berkeley National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Lawrence Berkeley National Laboratory, 1 Cyclotron Road, Berkeley, CA 94720, USA`
+  - University of California, Berkeley -> Lawrence Berkeley National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Lawrence Berkeley National Laboratory, Berkeley, CA`
+  - University of California, Berkeley -> Lawrence Berkeley National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Lawrence Berkeley National Laboratory, Berkeley, CA 94720, USA`
+  - University of California, Berkeley -> Lawrence Berkeley National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Lawrence Berkeley National Laboratory, Berkeley, United States`
+  - University of California, Berkeley -> Lawrence Berkeley National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Lawrence Berkeley National Laboratory, Berkeley,#TAB#`
+  - University of California, Berkeley -> Lawrence Berkeley National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Le2i Laboratory UMR 6306, CNRS, Arts et Métiers, Univ. Bourgogne Franche-Comté, Dijon, France`
+  - Université Bourgogne Franche-Comté -> Arts et Métiers (full name in raw (15 chars), no evidence for assigned)
+- `Leibniz Institute of Photonic Technology (IPHT Jena), Jena, Germany`
+  - Ernst Abbe University of Applied Sciences Jena -> Leibniz Institute of Photonic Technology (full name in raw (40 chars), no evidence for assigned)
+- `Leibniz Institute of Photonic Technology (IPHT), Jena, Germany`
+  - Ernst Abbe University of Applied Sciences Jena -> Leibniz Institute of Photonic Technology (full name in raw (40 chars), no evidence for assigned)
+- `Leibniz Institute of Photonic Technology, Albert-Einstein Strasse 9, 07745, Jena, Germany`
+  - Ernst Abbe University of Applied Sciences Jena -> Leibniz Institute of Photonic Technology (full name in raw (40 chars), no evidence for assigned)
+- `Leibniz Institute of Photonic Technology, Albert-Einstein-Strasse, Jena, Germany`
+  - Ernst Abbe University of Applied Sciences Jena -> Leibniz Institute of Photonic Technology (full name in raw (40 chars), no evidence for assigned)
+- `Leibniz Institute of Photonic Technology, Jena, Germany`
+  - Ernst Abbe University of Applied Sciences Jena -> Leibniz Institute of Photonic Technology (full name in raw (40 chars), no evidence for assigned)
+- `Leitat Technological Center, Barcelona, Spain`
+  - FC Barcelona -> Leitat Technological Center (full name in raw (27 chars), no evidence for assigned)
+- `Massachusetts Inst. of Technology (MIT), Cambridge, MA (United States)`
+  - University of Cambridge -> Massachusetts Institute of Technology (full name in raw (37 chars), no evidence for assigned)
+- `Massachusetts Inst. of Technology (MIT), Cambridge, MA (United States). Dept. of Mathematics`
+  - University of Cambridge -> Massachusetts Institute of Technology (full name in raw (37 chars), no evidence for assigned)
+- `Massachusetts Inst. of Technology (MIT), Cambridge, MA (United States). Dept. of Physics`
+  - University of Cambridge -> Massachusetts Institute of Technology (full name in raw (37 chars), no evidence for assigned)
+- `Massachusetts Inst. of Technology (MIT), Cambridge, MA (United States). Dept. of Physics and Research Lab. of Electronics`
+  - University of Cambridge -> Massachusetts Institute of Technology (full name in raw (37 chars), no evidence for assigned)
+- `Massachusetts Inst. of Technology (MIT), Cambridge, MA (United States). Research Lab. of Electronics`
+  - University of Cambridge -> Massachusetts Institute of Technology (full name in raw (37 chars), no evidence for assigned)
+- `Materials Engineering & Manufacturing, National Energy Technology Laboratory, Pittsburgh, PA, USA`
+  - Matériaux Ingénierie et Science -> National Energy Technology Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Materials Science and Technology Division, Oak Ridge National Laboratory, Oak Ridge, TN, 37831, USA`
+  - Matériaux Ingénierie et Science -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Materials Sciences Division, Lawrence Berkeley National Laboratory, Berkeley, CA, USA`
+  - University of California, Berkeley -> Lawrence Berkeley National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Materials Sciences Division, Lawrence Berkeley National Laboratory, Berkeley, California 94720, USA`
+  - University of California, Berkeley -> Lawrence Berkeley National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Materials Sciences Division, Lawrence Berkeley National Laboratory, Berkeley, California, USA`
+  - University of California, Berkeley -> Lawrence Berkeley National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Medical Imaging, Robotics, and Analytic Computing Laboratory and Engineering (MIRACLE), School of Biomedical Engineering & Suzhou Institute for Advance Research, University of Science and Technology of China, Suzhou, China`
+  - Suzhou University of Science and Technology -> University of Science and Technology of China (full name in raw (45 chars), no evidence for assigned)
+- `Microsoft Research, India`
+  - Microsoft Research (United Kingdom) -> Microsoft Research (India) (full name in raw (24 chars), no evidence for assigned)
+- `Mitsubishi Electric, Japan`
+  - Mitsubishi Electric (United States) -> Mitsubishi Electric (Japan) (full name in raw (25 chars), no evidence for assigned)
+- `Multimedia, Vision and Graphics Lab, Koc¸ University, Istanbul, Turkey`
+  - Istanbul University -> Koç University (full name in raw (14 chars), no evidence for assigned)
+- `Munitions Directorate, Air Force Research Laboratory, Eglin AFB, FL, USA`
+  - Eglin Air Force Base -> United States Air Force Research Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `NCSU/UNC Department of Biomedical Engineering, NC State University, Raleigh, NC, 27695-7115; University of North Carolina at Chapel Hill, Chapel Hill, NC, USA`
+  - University of North Carolina at Greensboro -> University of North Carolina at Chapel Hill (full name in raw (43 chars), no evidence for assigned)
+- `NORCE Norwegian Research Centre AS, Bergen, Norway`
+  - Bergen Kommune -> NORCE Research AS (full name in raw (34 chars), no evidence for assigned)
+- `NORCE Norwegian Research Centre, Bergen, Norway`
+  - Bergen Kommune -> NORCE Research AS (full name in raw (31 chars), no evidence for assigned)
+- `Nano-Sensors and Detectors, Faculty of Electrical and Computer Engineering, Tarbiat Modares University, Tehran, Iran`
+  - Kharazmi University -> Tarbiat Modares University (full name in raw (26 chars), no evidence for assigned)
+- `National Institute for Materials Science; 1-1 Namiki, Tsukuba, Ibaraki 305-0044, Japan`
+  - University of Tsukuba -> National Institute for Materials Science (full name in raw (40 chars), no evidence for assigned)
+- `National Nanotechnology Research Center, Bilkent University UNAM, Ankara, 06800, Turkey`
+  - Ankara Bilim Üniversitesi -> National Nanotechnology Research Center (full name in raw (39 chars), no evidence for assigned)
+- `National Transportation Research Center, Oak Ridge National Laboratory, Knoxville, TN, USA`
+  - Knoxville College -> National Transportation Research Center (full name in raw (39 chars), no evidence for assigned)
+- `Naval Undersea Warfare Center (NUWCDIVNPT), Newport, RI, USA`
+  - Newport (United States) -> Naval Undersea Warfare Center (full name in raw (29 chars), no evidence for assigned)
+- `Naval Undersea Warfare Center, Newport, RI, USA`
+  - Newport (United States) -> Naval Undersea Warfare Center (full name in raw (29 chars), no evidence for assigned)
+- `Nikon Corporation, Japan`
+  - Nikon (United States) -> Nikon (Japan) (full name in raw (17 chars), no evidence for assigned)
+- `Nippon Telegraph and Telephone Corporation, Atsugi, Kanagawa, Japan; Waseda University, Kitakyushu, Fukuoka, Japan`
+  - Kanagawa University -> Waseda University (full name in raw (17 chars), no evidence for assigned)
+- `Noah's Ark Lab, Huawei Technologies, China`
+  - Huawei Technologies (United States) -> Huawei Technologies (China) (full name in raw (25 chars), no evidence for assigned)
+- `Noah’s Ark Lab, Huawei Technologies, China`
+  - Huawei Technologies (United States) -> Huawei Technologies (China) (full name in raw (25 chars), no evidence for assigned)
+- `Northwest Institute of Nuclear Technology , Xi'an , China`
+  - China XD Group (China) -> Northwest Institute of Nuclear Technology (full name in raw (41 chars), no evidence for assigned)
+- `Northwest Institute of Nuclear Technology, Xi'an, China`
+  - China XD Group (China) -> Northwest Institute of Nuclear Technology (full name in raw (41 chars), no evidence for assigned)
+- `Oak Ridge National Laboratory, Knoxville, TN`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Oak Ridge National Laboratory, Knoxville, TN, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Oak Ridge National Laboratory, Knoxville, Tennessee, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Oak Ridge National Laboratory, Knoxville, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Oak Ridge National Laboratory,Power Electronics and Electric Machinery Group,Knoxville,TN,37932`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Pacific Northwest National Laboratory, Seattle, WA`
+  - Seattle University -> Pacific Northwest National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Pacific Northwest National Laboratory, Seattle, WA, USA`
+  - Seattle University -> Pacific Northwest National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Pacific Northwest National Laboratory,Energy and Environment Directorate`
+  - Department of Energy and Environment -> Pacific Northwest National Laboratory (full name in raw (37 chars), no evidence for assigned)
+- `Palo Alto Research Center (PARC), Palo Alto, CA`
+  - Palo Alto University -> Palo Alto Research Center (full name in raw (25 chars), no evidence for assigned)
+- `Palo Alto Research Center, Palo Alto, California 94304, USA`
+  - Palo Alto University -> Palo Alto Research Center (full name in raw (25 chars), no evidence for assigned)
+- `Photonics, National Physical Laboratory, Teddington, U.K`
+  - Photonics (United States) -> National Physical Laboratory (full name in raw (28 chars), no evidence for assigned)
+- `Power Electronic and Electric Machinery Group, Oak Ridge National Laboratory, Knoxville, TN, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Power Electronics & Electric Machinery Group, Oak Ridge National Lab, Knoxville, TN, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Power Electronics and Electric Machinery Group, Oak Ridge National Laboratory, Knoxville, TN`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Power Electronics and Electric Machinery Group, Oak Ridge National Laboratory, Knoxville, TN, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Power Electronics and Electric Machinery Group, Oak Ridge National Laboratory, Knoxville, Tennessee, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Power Electronics and Electric Machinery Group, Oak Ridge National Laboratory, Knoxville, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Power Electronics and Electric Machinery Research Center, Oak Ridge National Laboratory, Knoxville, TN, USA`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Radar and Electronic Warfare Systems, ASELSAN, Turkey`
+  - Radar (United States) -> Aselsan (Turkey) (full name in raw (14 chars), no evidence for assigned)
+- `Remote Sensing Technology Institute, German Aerospace Center`
+  - Indian Institute of Remote Sensing -> Deutsches Zentrum für Luft- und Raumfahrt e. V. (DLR) (full name in raw (23 chars), no evidence for assigned)
+- `Remote Sensing Technology Institute, German Aerospace Center, Germany`
+  - Indian Institute of Remote Sensing -> Deutsches Zentrum für Luft- und Raumfahrt e. V. (DLR) (full name in raw (23 chars), no evidence for assigned)
+- `Research Department, Hitachi Ltd, Hitachi, Japan`
+  - Hitachi (United States) -> Hitachi (Japan) (full name in raw (13 chars), no evidence for assigned)
+- `Research School of Engineering, Australian Centre for Robotic Vision (ACRV), Canberra, ACT, Australia`
+  - Canberra (United Kingdom) -> Australian Centre for Robotic Vision (full name in raw (36 chars), no evidence for assigned)
+- `Robotic Embedded Systems Lab, University of Southern, California, CA, USA`
+  - Southern University -> University of Southern California (full name in raw (33 chars), no evidence for assigned)
+- `SDU Robotics, University of Southern, Denmark`
+  - Southern University -> University of Southern Denmark (full name in raw (30 chars), no evidence for assigned)
+- `SKLCA, Institute of Computing Technology, Beijing, China`
+  - State Key Laboratory of Cryptology -> Institute of Computing Technology (full name in raw (33 chars), no evidence for assigned)
+- `STMICROELECTRONICS, France`
+  - STMicroelectronics (United States) -> STMicroelectronics (France) (full name in raw (25 chars), no evidence for assigned)
+- `STMICROELECTRONICS, Italy`
+  - STMicroelectronics (United States) -> STMicroelectronics (Italy) (full name in raw (24 chars), no evidence for assigned)
+- `STMicroelectronics , Italy`
+  - STMicroelectronics (United States) -> STMicroelectronics (Italy) (full name in raw (24 chars), no evidence for assigned)
+- `School of Electrical Engineering and Telecommunication, University of New South, Wales, Australia`
+  - South University -> UNSW Sydney (full name in raw (29 chars), no evidence for assigned)
+- `School of Engineering and Physical Sciences, Heriot-Watt Univ., Edinburgh, UK`
+  - Physical Sciences (United States) -> Heriot-Watt University (full name in raw (22 chars), no evidence for assigned)
+- `School of Information Science and Technology, University of Science and Technology of China, Hefei, China; Shenzhen Graduate School, Tsinghua University, Shenzhen, China`
+  - Shenzhen University -> University of Science and Technology of China (full name in raw (45 chars), no evidence for assigned)
+- `Semiconductor Research Corporation, Durham, NC, USA`
+  - Regional Municipality of Durham -> Semiconductor Research Corporation (full name in raw (34 chars), no evidence for assigned)
+- `Shanghai Institute for Advanced Communication and Data Science, Key Laboratory for Information Science of Electromagnetic Waves (MoE), and State Key Laboratory of ASIC and System, Fudan University, Shanghai, China`
+  - Shanghai Medical College of Fudan University -> Fudan University (full name in raw (16 chars), no evidence for assigned)
+- `Shizuoka Univ., Hamamatsu, Japan`
+  - University of Shizuoka -> Shizuoka University (full name in raw (19 chars), no evidence for assigned)
+- `Signal, Image and Information technology Laboratory, National Engineering School of Tunis (ENIT)`
+  - IMAGES : La médecine de la femme et de l’enfant assistée par l’image -> National Engineering School of Tunis (full name in raw (36 chars), no evidence for assigned)
+- `Software Eng. Institute, East China Normal Univ., Shanghai, China`
+  - Software Engineering Institute -> East China Normal University (full name in raw (28 chars), no evidence for assigned)
+- `Space Vehicles Directorate, Air Force Research Laboratory, Kirtland AFB, NM`
+  - Kirtland Air Force Base -> United States Air Force Research Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `Space Vehicles Directorate, Air Force Research Laboratory, Kirtland AFB, NM, USA`
+  - Kirtland Air Force Base -> United States Air Force Research Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `State Key Lab. of Information Photonics and Optical Communications, Beijing U. of Posts and Telecommunications, Beijing 100876, China`
+  - Beijing University of Posts and Telecommunications -> State Key Laboratory of Information Photonics and Optical Communications (full name in raw (72 chars), no evidence for assigned)
+- `State Key Lab. of Information Photonics and Optical Communications, Beijing U. of Posts and Telecommunications, Beijing 100876, China;`
+  - Beijing University of Posts and Telecommunications -> State Key Laboratory of Information Photonics and Optical Communications (full name in raw (72 chars), no evidence for assigned)
+- `State Key Lab. of Millimeter-waves, Southeast University, Nanjing, China`
+  - Nanjing University -> State Key Laboratory of Millimeter Waves (full name in raw (40 chars), no evidence for assigned)
+- `State Key Laboratory of Advanced Electromagnetic Engineering and Technology, Huazhong University of Science and Techonology, WuHan, China`
+  - Huazhong University of Science and Technology -> State Key Laboratory of Advanced Electromagnetic Engineering and Technology (full name in raw (75 chars), no evidence for assigned)
+- `State Key Laboratory of Advanced Electromagnetic Engineering and Technology, University of Science and Technology, Wuhan, China`
+  - University of the Sciences -> State Key Laboratory of Advanced Electromagnetic Engineering and Technology (full name in raw (75 chars), no evidence for assigned)
+- `State Key Laboratory of Bioelectronics, School of Instrument Science and Engineering, Southeast University, Nanjing, China`
+  - Nanjing University -> State Key Laboratory of Digital Medical Engineering (full name in raw (38 chars), no evidence for assigned)
+- `State Key Laboratory of Information Photonics and Optical Communications, Beijing University of Post and Telecommunication, Beijing, China`
+  - Beijing University of Posts and Telecommunications -> State Key Laboratory of Information Photonics and Optical Communications (full name in raw (72 chars), no evidence for assigned)
+- `State Key Laboratory of Intelligent Technology and Systems, THUAI, BNRist, Center for Intelligent Connected Vehicles and Transportation, Tsinghua University, Beijing, China`
+  - Beijing City University -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `State Key Laboratory of Intense Pulsed Radiation Simulation and Effect, Northwest Institute of Nuclear Technology, Xi'an, China`
+  - China XD Group (China) -> Northwest Institute of Nuclear Technology (full name in raw (41 chars), no evidence for assigned)
+- `State Key Laboratory of Laser Interaction with Matter, Northwest Institute of Nuclear Technology, Xi'an, China`
+  - China XD Group (China) -> Northwest Institute of Nuclear Technology (full name in raw (41 chars), no evidence for assigned)
+- `State Key Laboratory of Millimeter Waves, Southeast University, Nanjing, China`
+  - Nanjing University -> State Key Laboratory of Millimeter Waves (full name in raw (40 chars), no evidence for assigned)
+- `State Key Laboratory of Millimeter Waves, Southeast University, Nanjing, P. R. China`
+  - Nanjing University -> State Key Laboratory of Millimeter Waves (full name in raw (40 chars), no evidence for assigned)
+- `State Key Laboratory of Millimeter Waves, Southeast University, Nanjing, P.R. China`
+  - Nanjing University -> State Key Laboratory of Millimeter Waves (full name in raw (40 chars), no evidence for assigned)
+- `State Key Laboratory of Millimeter Waves, Southeast University, Nanjing, P.R.China`
+  - Nanjing University -> State Key Laboratory of Millimeter Waves (full name in raw (40 chars), no evidence for assigned)
+- `State Key Laboratory of Quantum Optics and Quantum Optics Devices, Institute of Opto-Electronics, Collaborative Innovation Center of Extreme Optics, Shanxi University, Taiyuan, China`
+  - Academy of Opto-Electronics -> State Key Laboratory of Quantum Optics and Quantum Optics Devices (full name in raw (65 chars), no evidence for assigned)
+- `State Key Laboratory of Synthetical Automation for Process Industries, Northeastern University, Shenyang, Liaoning, China`
+  - Shenyang University -> State Key Laboratory of Synthetical Automation for Process Industries (full name in raw (69 chars), no evidence for assigned)
+- `State Key Laboratory of Wireless Mobile Communications, China Academy of Telecommunications Technology (CATT), Beijing, China`
+  - China Academy of Information and Communications Technology -> State Key Laboratory of Wireless Mobile Communications (full name in raw (54 chars), no evidence for assigned)
+- `State Key Laboratory on Integrated Optoelectronics, College of Electronic Science and Engineering, Jilin University Changchun China`
+  - Jilin Jianzhu University -> State Key Laboratory on Integrated Optoelectronics (full name in raw (50 chars), no evidence for assigned)
+- `State key laboratory of bioelectronics, School of biological science & medical engineering, Southeast University, Nanjing, 210096, China`
+  - Nanjing University -> State Key Laboratory of Digital Medical Engineering (full name in raw (38 chars), no evidence for assigned)
+- `Stmicroelectronics, France`
+  - STMicroelectronics (United States) -> STMicroelectronics (France) (full name in raw (25 chars), no evidence for assigned)
+- `TeCIP Institute, Sant'Anna School of Advanced Studies, Pisa, Italy`
+  - Polymer Institute of the Slovak Academy of Sciences -> Scuola Superiore Sant'Anna (full name in raw (36 chars), no evidence for assigned)
+- `Technical University Munich, Munich Center for Machine Learning`
+  - Technical University of Munich -> Munich Center for Machine Learning (full name in raw (34 chars), no evidence for assigned)
+- `Texas Instruments, Dallas, TX; University of Texas at Dallas, Richardson, TX`
+  - Texas Instruments (United States) -> The University of Texas at Dallas (full name in raw (29 chars), no evidence for assigned)
+- `The Australian Centre for Robotic Vision, Research School of Engineering Australian National University, Canberra, Australia`
+  - Canberra (United Kingdom) -> Australian Centre for Robotic Vision (full name in raw (36 chars), no evidence for assigned)
+- `The Bradley Department of Electrical and Computer Engineering, Virginia Tech, Center for Power Electronics Systems (CPES), Blacksburg, VA, U.S.A`
+  - Colorado Power Electronics (United States) -> Virginia Tech (full name in raw (13 chars), no evidence for assigned)
+- `The Charles Stark Draper Laboratory, Cambridge, MA 02139, USA`
+  - University of Cambridge -> Draper Laboratory (full name in raw (31 chars), no evidence for assigned)
+- `The Charles Stark Draper Laboratory, Inc, Cambridge, MA 02139, USA`
+  - University of Cambridge -> Draper Laboratory (full name in raw (31 chars), no evidence for assigned)
+- `The Charles Stark Draper Laboratory, Inc., Cambridge, MA`
+  - University of Cambridge -> Draper Laboratory (full name in raw (31 chars), no evidence for assigned)
+- `The Charles Stark Draper Laboratory, Inc., Cambridge, Massachusetts 02139, USA`
+  - University of Cambridge -> Draper Laboratory (full name in raw (31 chars), no evidence for assigned)
+- `The Dodd-Walls Centre for Photonic and Quantum Technologies`
+  - Applied Quantum Technologies (United States) -> The Dodd-Walls Centre for Photonic and Quantum Technologies (full name in raw (55 chars), no evidence for assigned)
+- `The Dodd-Walls Centre for Photonic and Quantum Technologies, 730 Cumberland Street, 9016 Dunedin, New Zealand`
+  - Applied Quantum Technologies (United States) -> The Dodd-Walls Centre for Photonic and Quantum Technologies (full name in raw (55 chars), no evidence for assigned)
+- `The Dodd-Walls Centre for Photonic and Quantum Technologies, New Zealand`
+  - Applied Quantum Technologies (United States) -> The Dodd-Walls Centre for Photonic and Quantum Technologies (full name in raw (55 chars), no evidence for assigned)
+- `The Institute of Optics, University of Rochester, 275 Hutchinson Rd., Rochester, New York 14627, USA`
+  - National Institute of Optics -> University of Rochester (full name in raw (23 chars), no evidence for assigned)
+- `The Institute of Optics, University of Rochester, 275 Hutchison Road, Rochester, New York 14620, USA`
+  - National Institute of Optics -> University of Rochester (full name in raw (23 chars), no evidence for assigned)
+- `The Institute of Optics, University of Rochester, 275 Hutchison Road, Rochester, New York 14627, USA`
+  - National Institute of Optics -> University of Rochester (full name in raw (23 chars), no evidence for assigned)
+- `Tianjin Key Laboratory of Optoelectronic Sensor and Sensing Network Technology, Institute of Modern Optics, College of Electronic Information and Optical Engineering, Nankai University, Tianjin, China`
+  - Maksymilian Pluta Institute of Applied Optics -> Nankai University (full name in raw (17 chars), no evidence for assigned)
+- `Tima Laboratory, Grenoble, France`
+  - Université Pierre Mendès France -> Techniques of Informatics and Microelectronics for Integrated Systems Architecture (full name in raw (15 chars), no evidence for assigned)
+- `Toshiba, Japan`
+  - Toshiba (United States) -> Toshiba (Japan) (full name in raw (13 chars), no evidence for assigned)
+- `Toyota Motor Corporation, Japan`
+  - Toyota Motor North America (United States) -> Toyota Motor Corporation (Japan) (full name in raw (30 chars), no evidence for assigned)
+- `Tsinghua-CUHK Joint Research Center for Media Science, Technologies and Systems, Graduate School at Shenzhen, Tsinghua University, Shenzhen, China`
+  - Shenzhen University -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `Tsinghua-CUHK Joint Research Center for Media Sciences, Technologies and Systems, Graduate School at Shenzhen, Tsinghua University, Shenzhen, China`
+  - Shenzhen University -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `Tsinghua-CUHK Joint Research Center for Media Sciences, Technologies and Systems, Shenzhen Key Laboratory of Information Science and Technology, Tsinghua University, Beijing, Beijing, CN`
+  - Beijing City University -> Tsinghua University (full name in raw (19 chars), no evidence for assigned)
+- `TéSA Lab., Toulouse, France`
+  - Institut National Polytechnique de Toulouse -> TéSA (full name in raw (15 chars), no evidence for assigned)
+- `Univ. Bordeaux, Bordeaux INP, CNRS, IMS, UMR 5218, Talence, France`
+  - Centre de Recherche en Archéologie, Archéosciences, Histoire -> Institut Polytechnique de Bordeaux (full name in raw (12 chars), no evidence for assigned)
+- `Univ. Grenoble Alpes, GIPSA-lab, Grenoble`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `Univ. Grenoble Alpes, GIPSA-lab, Grenoble, France`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `Univ. Grenoble Alpes, Gipsa-Lab, Grenoble, France`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `Univ. Grenoble Alpes, Gipsa-lab, Grenoble, France`
+  - Université Pierre Mendès France -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `Univ. Grenoble Alpes, Grenoble, INP, LCIS, Valence, France`
+  - Université Pierre Mendès France -> Institut polytechnique de Grenoble (full name in raw (12 chars), no evidence for assigned)
+- `Univ. of Alabama, Birmingham, AL (United States)`
+  - University of Alabama at Birmingham -> University of Alabama (full name in raw (21 chars), no evidence for assigned)
+- `Univ. of Southern California, Signal & Image Processing Institute, USA`
+  - Image Processing Systems Institute -> University of Southern California (full name in raw (33 chars), no evidence for assigned)
+- `Universitat Rovira i Virgili, Departament Química Física i Inorgànica, Física i Cristal·lografia de Materials i Nanomaterials (FiCMA-FiCNA)-EMaS, Campus Sescelades, Tarragona, Spain`
+  - Foundation for Clinical and Applied Cancer Research -> Universitat Rovira i Virgili (full name in raw (28 chars), no evidence for assigned)
+- `University Grenoble-Alpes, Gipsa-Lab, Grenoble, France`
+  - Université Grenoble Alpes -> GIPSA-Lab (full name in raw (16 chars), no evidence for assigned)
+- `University of Central, Florida, USA`
+  - Central University -> University of Central Florida (full name in raw (29 chars), no evidence for assigned)
+- `University of Southern, California`
+  - Southern University -> University of Southern California (full name in raw (33 chars), no evidence for assigned)
+- `University of Southern, California, USA`
+  - Southern University -> University of Southern California (full name in raw (33 chars), no evidence for assigned)
+- `University of Tunis El Manar, National Engineering School of Tunis, Tunis, Tunisia`
+  - Tunis El Manar University -> National Engineering School of Tunis (full name in raw (36 chars), no evidence for assigned)
+- `Université Côte d'Azur, Inria, INRA, CNRS, Sorbonne Université, Biocore Team, Sophia Antipolis, France`
+  - Centre Inria d'Université Côte d'Azur -> Université Côte d'Azur (full name in raw (22 chars), no evidence for assigned)
+- `Université Côte d’Azur, Inria, INRA, CNRS, Sorbonne Université, Biocore Team, Sophia Antipolis, France`
+  - Centre Inria d'Université Côte d'Azur -> Université Côte d'Azur (full name in raw (22 chars), no evidence for assigned)
+- `Université Paris-Dauphine, PSL, CNRS, Laboratoire d’analyse et modélisation de systèmes pour l’aide à la décision, Paris, France`
+  - Lamsade -> Université Paris Dauphine-PSL (full name in raw (29 chars), no evidence for assigned)
+- `Université Paris-Dauphine, PSL, CNRS, Laboratoire d’analyse et modélisation de systèmes pour l’aide à la décision,Paris,France`
+  - Lamsade -> Université Paris Dauphine-PSL (full name in raw (29 chars), no evidence for assigned)
+- `Université de Lorraine, CRAN, UMR 7039, and CNRS, CRAN, UMR 7039, Vandxuvre, France`
+  - Laboratoire d'Étude des Microstructures et de Mécanique des Matériaux -> Université de Lorraine (full name in raw (22 chars), no evidence for assigned)
+- `Valse team, Inria Lille - Nord Europe, and CRIStAL (UMR-CNRS 9189), Ecole Centrale de Lille, Cité Scientifique, France`
+  - Matrice Extracellulaire et Dynamique Cellulaire MEDyC -> École Centrale de Lille (full name in raw (23 chars), no evidence for assigned)
+- `[Institute of Innovative Research, Tokyo Institute of Technology, Yokohama, Kanagawa, Japan]`
+  - Institut de Recherche et d’Innovation -> Tokyo Institute of Technology (full name in raw (29 chars), no evidence for assigned)
+- `[Oak Ridge National Laboratory, Knoxville, USA]`
+  - Knoxville College -> Oak Ridge National Laboratory (full name in raw (29 chars), no evidence for assigned)
+- `continental AG, Germany`
+  - Continental (United States) -> Continental (Germany) (full name in raw (14 chars), no evidence for assigned)
+- `Łukasiewicz Research Network-PORT Polish Center for Technology Development, Wrocław, Poland`
+  - University of Wrocław -> Łukasiewicz Research Network – PORT Polish Center for Technology Development (full name in raw (73 chars), no evidence for assigned)
+
+## Flagged (needs adjudication)
+
+- `A*STAR, Bioinformatics Institute` — now: Agency for Science, Technology and Research; candidates: ['Bioinformatics Institute', 'Bioinformatics Institute'] (assigned has acronym-token evidence)
+- `A*STAR, Institute for Infocomm Research, Singapore` — now: Agency for Science, Technology and Research; candidates: ['Institute for Infocomm Research'] (assigned has acronym-token evidence)
+- `A*STAR, Institute of High Performance Computing, Singapore` — now: Agency for Science, Technology and Research; candidates: ['Institute of High Performance Computing'] (assigned has acronym-token evidence)
+- `A*STAR, Institute of Materials Research and Engineering (IMRE), Singapore` — now: Agency for Science, Technology and Research; candidates: ['Institute of Materials Research and Engineering'] (assigned has acronym-token evidence)
+- `ASEE, Beihang University` — now: American Society For Engineering Education; candidates: ['Beihang University'] (assigned has acronym-token evidence)
+- `ASIC & System State Key Lab, Fudan University, Shanghai, China` — now: Australian Securities and Investments Commission; candidates: ['Fudan University'] (assigned has acronym-token evidence)
+- `ASIC and System State Key Laboratory, School of Microelectronics, Fudan University,China` — now: Australian Securities and Investments Commission; candidates: ['Fudan University'] (assigned has acronym-token evidence)
+- `ASRI and Interdisciplinary Program in Artificial Intelligence, Seoul National University, Seoul, South Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `ASRI, Department of ECE, Seoul National University` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `ASRI, Department of Electrical and Computer Engineering, Seoul National University, Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `ASRI, Department of Electrical and Computer Engineering, Seoul National University, Seoul, Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `ASRI, Dept. of Electrical and Computer Eng., Seoul National University, South Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `ASRI, Dept. of Electrical and Computer Engineering, Seoul National University, Seoul, Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `ASRI, Seoul National University` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `ASRI, Seoul National University, Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `ASRI, Seoul National University, Seoul, Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `ASRI, Seoul National University, Seoul, South Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `ASRI, Seoul National University, South Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `Advanced Power Electronics Laboratory for Sustainable Energy Research Dept. of Electrical Engineering and Computer Science Lassonde School of Engineering, York University, Toronto, Canada` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `Advanced Power Electronics Laboratory for Sustainable Energy Research, York University, Toronto, Canada` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `Advanced Radar Research Center (ARRC), The University of Oklahoma, Norman, OK, USA` — now: Australian Resources Research Centre; candidates: ['University of Oklahoma'] (assigned has acronym-token evidence)
+- `Air Force Institute of Technology, WPAFB, OH` — now: Wright-Patterson Air Force Base; candidates: ['U.S. Air Force Institute of Technology', 'Instytut Techniczny Wojsk Lotniczych'] (assigned has acronym-token evidence)
+- `Air Force Institute of Technology, Wright-Patterson AFB, OH` — now: Wright-Patterson Air Force Base; candidates: ['U.S. Air Force Institute of Technology', 'Instytut Techniczny Wojsk Lotniczych'] (assigned has acronym-token evidence)
+- `Air Force Research Laboratory, Sensors Directorate, 45433, Wright-Patterson AFB, USA` — now: Wright-Patterson Air Force Base; candidates: ['United States Air Force Research Laboratory'] (assigned has acronym-token evidence)
+- `Air Force Research Laboratory, Sensors Directorate, Wright-Patterson AFB, Ohio 45433, USA` — now: Wright-Patterson Air Force Base; candidates: ['United States Air Force Research Laboratory'] (assigned has acronym-token evidence)
+- `Air Force Research Laboratory, WPAFB, OH` — now: Wright-Patterson Air Force Base; candidates: ['United States Air Force Research Laboratory'] (assigned has acronym-token evidence)
+- `Air Force Research Laboratory, Wright Patterson AFB, OH 45433, USA` — now: Wright-Patterson Air Force Base; candidates: ['United States Air Force Research Laboratory'] (assigned has acronym-token evidence)
+- `Air Force Research Laboratory, Wright-Patterson AFB, OH` — now: Wright-Patterson Air Force Base; candidates: ['United States Air Force Research Laboratory'] (assigned has acronym-token evidence)
+- `Alibaba Group, Bellevue, WA, USA` — now: Bellevue Hospital Center; candidates: ['Alibaba Group (China)'] (assigned has acronym-token evidence)
+- `Ames Research Center, NASA, Moffett Field, CA, USA` — now: National Aeronautics and Space Administration; candidates: ['Ames Research Center'] (assigned has acronym-token evidence)
+- `Amirkabir University, Western University` — now: Amirkabir University of Technology; candidates: ['Western University', 'Western Caspian University'] (2 tied candidates)
+- `Ampere Laboratory, University of Lyon, UCBL, Villeurbanne, France` — now: Université Claude Bernard Lyon 1; candidates: ['Laboratoire Ampère'] (assigned has acronym-token evidence)
+- `Apple,The Graduate Center, CUNY,New York,NY` — now: Apple (United States); candidates: ['The Graduate Center, CUNY'] (assigned has acronym-token evidence)
+- `Arizona State University,The Polytechnic School,Mesa,AZ,USA,85212` — now: Middle East Studies Association of North America; candidates: ['Arizona State University'] (assigned has acronym-token evidence)
+- `Avago Technologies, Wireless Semiconductor Division, San Jose, CA, USA` — now: San Jose State University; candidates: ['Broadcom (Israel)', 'Broadcom (United States)'] (2 tied candidates)
+- `Biomedical Engineering program, Western University, London, ON, Canada` — now: University of West London; candidates: ['Western University', 'Western Caspian University'] (2 tied candidates)
+- `Britton Chance Center for Biomedical Photonics, Wuhan National Laboratory for Optoelectronics-Huazhong , University of Science and Technology , Wuhan , Hubei 430074 , China` — now: Wuhan University of Science and Technology; candidates: ['University of Science and Technology', 'Korea University of Science and Technology'] (2 tied candidates)
+- `Brown Univ., Providence, RI (United States). School of Engineering` — now: Providence College; candidates: ['Brown University'] (assigned has acronym-token evidence)
+- `Brown Univ., Providence, RI (United States). School of Engineering, and Dept. of Physics` — now: Providence College; candidates: ['Brown University'] (assigned has acronym-token evidence)
+- `Brown University, Providence, RI, US` — now: Providence College; candidates: ['Brown University'] (assigned has acronym-token evidence)
+- `Brown University, Providence, RI,USA` — now: Providence College; candidates: ['Brown University'] (assigned has acronym-token evidence)
+- `CAS, Institute of Microelectronics, Beijing, China` — now: Beijing Microelectronics Technology Institute; candidates: ['Institute of Microelectronics', 'Institute of Microelectronics'] (2 tied candidates)
+- `CBMM, Massachusetts Institute of Technology, Cambridge, MA` — now: Companhia Brasileira de Metalurgia e Mineração (Brazil); candidates: ['Massachusetts Institute of Technology'] (assigned has acronym-token evidence)
+- `CBSR & NLPR, Institute of Automation, Beijing, China` — now: China Iron and Steel Research Institute Group; candidates: ['Institute of Automation', 'Institute of Automation'] (2 tied candidates)
+- `CCNR, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `CEA List, Université Paris-Saclay, Saclay, France` — now: Laboratoire d'Intégration des Systèmes et des Technologies; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `CEA, LETI, Université Grenoble Alpes, Grenoble, France` — now: Laboratoire d'Électronique des Technologies de l'Information; candidates: ['Université Grenoble Alpes'] (assigned has acronym-token evidence)
+- `CEA, Leti, Université Grenoble Alpes, Grenoble, France` — now: Laboratoire d'Électronique des Technologies de l'Information; candidates: ['Université Grenoble Alpes'] (assigned has acronym-token evidence)
+- `CECS, The Australian National University, Canberra, Australia` — now: Centro de Estudios Científicos; candidates: ['Australian National University'] (assigned has acronym-token evidence)
+- `CIERA Physics and Astronomy, Northwestern University, Evanston, IL, USA` — now: Astronomy and Space; candidates: ['Northwestern University', 'Northwestern University'] (2 tied candidates)
+- `CIFAR, Mila, Université de Montréal` — now: Mila - Quebec Artificial Intelligence Institute; candidates: ['Université de Montréal'] (assigned has acronym-token evidence)
+- `CIOMP, Chinese Academy of Sciences` — now: Changchun Institute of Optics, Fine Mechanics and Physics; candidates: ['Chinese Academy of Sciences'] (assigned has acronym-token evidence)
+- `CIOMP, Chinese Academy of Sciences, Changchun, China` — now: Changchun Institute of Optics, Fine Mechanics and Physics; candidates: ['Chinese Academy of Sciences'] (assigned has acronym-token evidence)
+- `CIRMMT, McGill University, Montréal, Canada` — now: Centre for Interdisciplinary Research in Music Media and Technology; candidates: ['McGill University'] (assigned has acronym-token evidence)
+- `CISTER, ISEP, Polytechnic Institute of Porto, Portugal` — now: Institut Supérieur d'Électronique de Paris; candidates: ['Polytechnic Institute of Porto'] (assigned has acronym-token evidence)
+- `CITRIS, UC Berkeley, CA, USA` — now: Center for Information Technology Research in the Interest of Society; candidates: ['University of California, Berkeley'] (assigned has acronym-token evidence)
+- `CMAP, Ecole Polytechnique, Palaiseau, France` — now: Centre de Mathématiques Appliquées de l'École polytechnique; candidates: ['École Polytechnique'] (assigned has acronym-token evidence)
+- `CMLA, CNRS, ENS Paris-Saclay, Université Paris-Saclay` — now: Center for MathematicaL studies and their Applications; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `CMLA, Université Paris-Saclay, Cachan, France` — now: Center for MathematicaL studies and their Applications; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `CMLA, École normale supérieure Paris-Saclay, CNRS, Université Paris-Saclay, France` — now: Center for MathematicaL studies and their Applications; candidates: ['École Normale Supérieure Paris-Saclay'] (assigned has acronym-token evidence)
+- `CNIT, University of Palermo, Italy` — now: Consorzio Nazionale Interuniversitario per le Telecomunicazioni; candidates: ['University of Palermo', 'University of Palermo'] (assigned has acronym-token evidence)
+- `CNRS (UMR 6620), University of Clermont Auvergne, France` — now: Laboratoire de Mathématiques Blaise Pascal; candidates: ['Université Clermont Auvergne'] (assigned has acronym-token evidence)
+- `CNRS L2S, CentraleSupelec, Université Paris-Sud` — now: CentraleSupélec; candidates: ['Université Paris-Sud'] (assigned has acronym-token evidence)
+- `CNRS, INSERM, ISIR-Agathe, Sorbonne Université, France` — now: Inserm; candidates: ['Sorbonne Université'] (assigned has acronym-token evidence)
+- `CNRS, Inria, LJAD, Université Côte d’Azur, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ["Université Côte d'Azur"] (assigned has acronym-token evidence)
+- `CNRS, LEMTA, Université de Lorraine, Nancy, France` — now: Laboratoire Énergies et Mécanique Théorique et Appliquée; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `CNRS, Université Paris-Saclay, Gif-sur-Yvette, cedex, France` — now: Centro de Estudios y Experimentación de Obras Públicas; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `CNRS, Université Paris-Sud, Gif-sur- Yvette, cedex, France` — now: Centro de Estudios y Experimentación de Obras Públicas; candidates: ['Université Paris-Sud'] (assigned has acronym-token evidence)
+- `CNRS-L2S, CentraleSupélec, Université Paris-Saclay` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `CONACyT Research Fellow to the Advanced Studies and Research Center (CINVESTAV), National Polytechnic Institute (IPN), Zapopan, México` — now: Centro de Investigación y de Estudios Avanzados del Instituto Politécnico Nacional; candidates: ['Instituto Politécnico Nacional'] (assigned has acronym-token evidence)
+- `CRA-CHUSJ, Mila, Université de Montréal` — now: Mila - Quebec Artificial Intelligence Institute; candidates: ['Université de Montréal'] (assigned has acronym-token evidence)
+- `CRAN, Univ. of Lorraine, CNRS, Vandoeuvre-lès-Nancy, France` — now: Centre de Recherche en Automatique de Nancy; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `CRAN, Universite de Lorraine, Nancy, France` — now: Centre de Recherche en Automatique de Nancy; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `CRAN, Université de Lorraine` — now: Centre de Recherche en Automatique de Nancy; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `CRAN, Université de Lorraine, CNRS, France` — now: Centre de Recherche en Automatique de Nancy; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `CRAN, Université de Lorraine, CNRS, Nancy, France` — now: Centre de Recherche en Automatique de Nancy; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `CRAN, Université de Lorraine, Vandmuvre-lès-Nancy, France` — now: Centre de Recherche en Automatique de Nancy; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `CRAN, Université de Lorraine, Vandœuvre, France` — now: Centre de Recherche en Automatique de Nancy; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `CReSTIC, University of Reims Champagne-Ardenne, Reims, France` — now: Centre de Recherche en Sciences et Technologies de l'Information et de la Communication; candidates: ['Université de Reims Champagne-Ardenne'] (assigned has acronym-token evidence)
+- `CSE Dept., HKUST, Hong Kong CS Dept., FCI, Assiut University, Egypt` — now: Hong Kong University of Science and Technology; candidates: ['Assiut University'] (assigned has acronym-token evidence)
+- `CUNY, The Graduate Center, New York, NY, USA` — now: City University of New York; candidates: ['The Graduate Center, CUNY'] (assigned has acronym-token evidence)
+- `CVN, INRIA Saclay, CentraleSupélec, Université Paris Saclay, Gif-sur-Yvette, France` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Cell Biology and Biophysics Unit, European Molecular Biology Laboratory, Heidelberg, Germany` — now: Heidelberg (Poland); candidates: ['European Molecular Biology Laboratory', 'European Molecular Biology Laboratory', 'European Molecular Biology Laboratory', 'European Molecular Biology Laboratory', 'European Molecular Biology Laboratory'] (5 tied candidates)
+- `Center for Advanced Power-Conversion Technology and Equipment School of Electrical Engineering, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Center for Advanced Power-Conversion Technology and Equipment, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Center for Complex Networks Research and Department of Psychology, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Center for Complex Networks Research, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Center for Free-Electron Laser Science, DESY, Notkestrasse 85, 22607 Hamburg, Germany` — now: Deutsches Elektronen-Synchrotron DESY; candidates: ['Center for Free-Electron Laser Science'] (assigned has acronym-token evidence)
+- `Center for Information Security Technologies (CIST), Korea University, Seoul, Republic of Korea` — now: Chitose Institute of Science and Technology; candidates: ['Korea University', 'Korea University'] (assigned has acronym-token evidence)
+- `Center for Mind and Brain, Univ. of California, Davis, CA, USA` — now: Bio-oriented Technology Research Advancement Institution; candidates: ['University of California, Davis'] (assigned has acronym-token evidence)
+- `Center for Terahertz Waves, College of Precision Instrument and Optoelectronics Engineering, and the Key Laboratory of Optoelectronics Information and Technology (Ministry of Education) Tianjin University  Tianjin 300072 China` — now: Tianjin University of Technology; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `CentraleSupelec, Université Paris-Saclay, Gif-sur-Yvette, France` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `CentraleSupélec, INRIA, Center for Visual Computing, Université Paris-Saclay, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `CentraleSupélec, Inria Centre de Vision Numérique, Université Paris-Saclay, France` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `CentraleSupélec, Inria, CVN, Université Paris-Saclay, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `CentraleSupélec, University of Paris–Saclay` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `CentraleSupélec, Université Paris-Saclay` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `CentraleSupélec, Université Paris-Saclay, France` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `CentraleSupélec, Université Paris-Saclay, Gif-sur-Yvette, France` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Centre for Autonomous Systems, University of Technology, Sydney, Broadway, Australia` — now: Broadway; candidates: ['University of Technology Sydney'] (assigned has acronym-token evidence)
+- `Centre for Intelligent Systems Research (CISR), Deakin University, Australia` — now: Centre for Independent Social Research; candidates: ['Deakin University'] (assigned has acronym-token evidence)
+- `Centre for Metamaterials Research and Innovation, University of Exeter, Exeter, EX4 4QF, UK` — now: Phillips Exeter Academy; candidates: ['University of Exeter'] (assigned has acronym-token evidence)
+- `Centre for Ultrahigh bandwidth Devices for Optical System (CUDOS), Institute of Photonics and Optical Sciences (IPOS), School of Physics, University of Sydney, NSW 2006, Australia` — now: Centre for Ultrahigh Bandwidth Devices for Optical Systems; candidates: ['The University of Sydney'] (assigned has acronym-token evidence)
+- `Chair For Processor Design (CfAED), Technische Universität Dresden, Dresden, Germany` — now: Center for Advancing Electronics Dresden; candidates: ['Technische Universität Dresden'] (assigned has acronym-token evidence)
+- `Chang'an University, School of Automobile, Xi'an` — now: China XD Group (China); candidates: ['Jangan University', "Chang'an University"] (2 tied candidates)
+- `Chinese Academy of Science, Institute of Electrical Engineering, Beijing, China` — now: Chinese Academy of Sciences; candidates: ['Institute of Electrical Engineering of the Slovak Academy of Sciences', 'Institute of Electrical Engineering'] (2 tied candidates)
+- `Chinese Academy of Sciences, CIOMP` — now: Changchun Institute of Optics, Fine Mechanics and Physics; candidates: ['Chinese Academy of Sciences'] (assigned has acronym-token evidence)
+- `Christopher Edwards and Prathyush Menon are both affiliated with the College of Engineering, University of Exeter, Exeter, UK` — now: Phillips Exeter Academy; candidates: ['University of Exeter'] (assigned has acronym-token evidence)
+- `Cognitive Assistive Robotics Laboratory, University of New Hampshire, Durham, NH, USA` — now: Regional Municipality of Durham; candidates: ['University of New Hampshire', 'University of New Hampshire at Manchester'] (2 tied candidates)
+- `Collaborative Research Centre Everyday Activities Science and Engineering (EASE), University of Bremen, Bremen, Germany` — now: Exercise and Survivorship Education Cancer Foundation; candidates: ['University of Bremen'] (assigned has acronym-token evidence)
+- `College of Computer Science, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `College of Computer and Information Science (CCIS), Northeastern University, Boston, MA, USA` — now: Clear Creek Independent School District; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `College of Computer and Information Science (CCIS), Northeastern University, Boston, USA` — now: Clear Creek Independent School District; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `College of Computer and Information Science, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `College of Computer and Information Science, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `College of Computer and Information Science, Northeastern University, Boston, Massachusetts` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `College of Computer and Information Science, Northeastern University, Boston, Massachusetts, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `College of Computer and Information Science, Northeastern University, Boston, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `College of Cyber Security, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `College of Engineering and Science, Victoria University, Melbourne, Australia` — now: The University of Melbourne; candidates: ['Victoria School of Management', 'Victoria University', 'Victoria University'] (3 tied candidates)
+- `College of Engineering, Department of Mechanical and Industrial Engineering, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `College of Engineering, Mathematics' and Physical Sciences, University of Exeter, Exeter, UK` — now: Phillips Exeter Academy; candidates: ['University of Exeter'] (assigned has acronym-token evidence)
+- `College of Engineering, University of Exeter, Exeter, UK` — now: Phillips Exeter Academy; candidates: ['University of Exeter'] (assigned has acronym-token evidence)
+- `College of Engineering, University of Georgia, Athens, GA, USA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `College of Engineering, University of Georgia, Athens, USA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `College of Information Science & Engineering, Northeastern University, Shenyang, China` — now: Shenyang University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `College of Information Science and Engineering, Northeastern University, Shenyang` — now: Shenyang University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `College of Information Science and Engineering, Northeastern University, Shenyang, Liaoning, P. R. China` — now: Shenyang University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `College of Information Science and Engineering, Northeastern University, Shenyang, P. R. China` — now: Shenyang University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `College of Information Science and Technology, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `College of Physics and Electronic Information, Anhui Normal University, and Anhui Province Key Laboratory of Optoelectric Materials Science and Technology, Wuhu, China` — now: West Ukrainian National University; candidates: ['Anhui Normal University', 'Huaibei Normal University'] (2 tied candidates)
+- `College of Physics and Materials Science, Tianjin Normal University, Tianjin 300387, China` — now: Matériaux Ingénierie et Science; candidates: ['Tianjin Normal University', 'Hebei University'] (2 tied candidates)
+- `College of Physics, Optoelectronics and Energy, Soochow University, Suzhou (215006), China` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `College of Precision Instrument and Opto-electronics Engineering, Tianjin university, Key Laboratory of Optoelectronics Information Technology, Ministry of Education, Tianjin, 300072, China` — now: Tianjin Municipal Education Commission; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `College of Staten Island, CUNY, Staten Island, New York 10314, USA` — now: City University of New York; candidates: ['College of Staten Island'] (assigned has acronym-token evidence)
+- `Communication Networks Institute (CNI), TU Dortmund University, Dortmund, Germany` — now: Center for Nanotechnology Innovation; candidates: ['TU Dortmund University'] (assigned has acronym-token evidence)
+- `Communications Systems Laboratory (SysCom), National Engineering School of Tunis (ENIT), University of Tunis El Manar (UTM), Tunis, Tunisia` — now: Tunis El Manar University; candidates: ['National Engineering School of Tunis'] (assigned has acronym-token evidence)
+- `Communications, Sensors, Signal and Information Processing Group, Newcastle University, UK` — now: Sensors (United States); candidates: ['University of Newcastle Australia', 'Newcastle University'] (2 tied candidates)
+- `Computer Science Department, University of New Hampshire, Durham, USA` — now: Regional Municipality of Durham; candidates: ['University of New Hampshire', 'University of New Hampshire at Manchester'] (2 tied candidates)
+- `Computer Science and Engineering Department, University of California, Riverside` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Computer Science and Engineering, SUNY, Buffalo` — now: State University of New York; candidates: ['University at Buffalo, State University of New York'] (assigned has acronym-token evidence)
+- `Computer Science and Engineering, University of California Riverside, Riverside, USA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Computer Science and Engineering, University of California, Riverside, Riverside, USA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Computer Science,The Graduate Center, CUNY,New York,NY,USA` — now: City University of New York; candidates: ['The Graduate Center, CUNY'] (assigned has acronym-token evidence)
+- `Computer Vision Lab., ASRI, Seoul National University, Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `Computer and Telecommunication Engineering, Institute of Electronics, Italy` — now: Institute of Electronics, Computer and Telecommunication Engineering; candidates: ['Institute of Electronics', 'Institute of Electronics'] (2 tied candidates)
+- `Computers and Telecommunication Engineering (I.E.I.I.T.), Institute of Electronics` — now: Institute of Electronics, Computer and Telecommunication Engineering; candidates: ['Institute of Electronics', 'Institute of Electronics'] (2 tied candidates)
+- `Control Science Center of Excellence, Air Force Research Laboratory, Wright-Patterson AFB, OH` — now: Wright-Patterson Air Force Base; candidates: ['United States Air Force Research Laboratory'] (assigned has acronym-token evidence)
+- `DEMR, ONERA, Université Paris Saclay, Palaiseau, France` — now: Office National d'Études et de Recherches Aérospatiales; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `DEMR, ONERA, Université Paris-Saclay, Palaiseau, France` — now: Office National d'Études et de Recherches Aérospatiales; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `DFKI GmbH, University of Bremen, Bremen, Germany` — now: German Research Centre for Artificial Intelligence; candidates: ['University of Bremen'] (assigned has acronym-token evidence)
+- `DPHY, ONERA, Université Paris-Saclay, 91123 Palaiseau, France` — now: Office National d'Études et de Recherches Aérospatiales; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `DTIS, ONERA, Université Paris Saclay, Palaiseau, France` — now: Office National d'Études et de Recherches Aérospatiales; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `DTIS, ONERA, Université Paris-Saclay, Palaiseau, France` — now: Office National d'Études et de Recherches Aérospatiales; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Data61 (formerly NICTA), UNSW, Sydney, Australia` — now: Data61; candidates: ['UNSW Sydney'] (assigned has acronym-token evidence)
+- `Data61, Commonwealth Scientific and Industrial Research Organisation, Australia` — now: Data61; candidates: ['Commonwealth Scientific and Industrial Research Organisation'] (assigned has acronym-token evidence)
+- `Data61, The Australian National University, Australia` — now: Data61; candidates: ['Australian National University'] (assigned has acronym-token evidence)
+- `Data61, The Commonwealth Scientific and Industrial Research Organisation, Australia` — now: Data61; candidates: ['Commonwealth Scientific and Industrial Research Organisation'] (assigned has acronym-token evidence)
+- `DeepMind, Stanford University` — now: Google DeepMind (United Kingdom); candidates: ['Stanford University'] (assigned has acronym-token evidence)
+- `Departamento de Electrónica y Circuitos, Universidad Simón Bolívar, Caracas, Venezuela` — now: Bolivarian University of Venezuela; candidates: ['Universidad Simón Bolívar', 'Simón Bolívar University'] (2 tied candidates)
+- `Departamento de Ingeniería Eléctrica y Electrónica, Universidad de los Andes, Bogotá, Colombia` — now: Universidad de América; candidates: ['Universidad de Los Andes', 'University of the Andes', 'Universidad de Los Andes'] (3 tied candidates)
+- `Departamento de Ingeniería Eléctrica y Electrónica, Universidad de los Andes, Colombia` — now: Universidad de América; candidates: ['Universidad de Los Andes', 'University of the Andes', 'Universidad de Los Andes'] (3 tied candidates)
+- `Departement of Electrical and Computer Engineering, Western University, London, Canada` — now: University of West London; candidates: ['Western University', 'Western Caspian University'] (2 tied candidates)
+- `Departement of Electrical and Computer Engineering, Western university, London, Canada` — now: University of West London; candidates: ['Western University', 'Western Caspian University'] (2 tied candidates)
+- `Departement of Electrical and Information Engineering, Politecnico di Bari, Bari, ITALY` — now: Bangladesh Agricultural Research Institute; candidates: ['Polytechnic University of Bari'] (assigned has acronym-token evidence)
+- `Department for Automatics, Biocybernetics and Robotics, Jožef Stefan Institute, Ljubljana, Slovenia` — now: Elektro Ljubljana (Slovenia); candidates: ['Jožef Stefan International Postgraduate School', 'Jožef Stefan Institute'] (2 tied candidates)
+- `Department of Artificial Intelligence, Korea University, Seoul, Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Artificial Intelligence, Korea University, Seoul, Republic of Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Artificial Intelligence, Korea University, Seoul, South Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Automation, Biocybernetics and Robotics, Jožef Stefan Institute, Ljubljana, Slovenia` — now: Elektro Ljubljana (Slovenia); candidates: ['Jožef Stefan International Postgraduate School', 'Jožef Stefan Institute'] (2 tied candidates)
+- `Department of Bio-convergence Engineering, Korea University, Seoul 02841, South Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Bioengineering and Department of Electrical and Computer Engineering, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Bioengineering, University of California, Riverside, CA 92521, USA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Bioengineering, and Department of Electrical and Computer Engineering, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Biology, Northeastern University, Boston, Massachusetts` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Biomicro System Technology, Korea University, Seoul 02841, South Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Biotechnology, College of Life Sciences and Biotechnology, Korea University, Seoul, 02841, Republic of Korea` — now: University of Seoul; candidates: ['Department of Biotechnology'] (country ['KR'] contradicts IN)
+- `Department of Brain and Cognitive Engineering, Korea University, Seoul, Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Brain and Cognitive Engineering, Korea University, Seoul, Republic of Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Brain and Cognitive Engineering, Korea University, Seoul, South Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Chemistry and Chemical Biology, Northeastern University, Boston, Massachusetts, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Computer Engineering, Memorial University, St. John's, NL, Canada` — now: St. John's School; candidates: ['Memorial University of Newfoundland'] (assigned has acronym-token evidence)
+- `Department of Computer Science & Engineering, University of California, Riverside` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Computer Science and Engineering, Korea University, Seoul, Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Computer Science and Engineering, Korea University, Seoul, Republic of Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Computer Science and Engineering, SUNY, Buffalo` — now: State University of New York; candidates: ['University at Buffalo, State University of New York'] (assigned has acronym-token evidence)
+- `Department of Computer Science and Engineering, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Department of Computer Science and Engineering, University of California, Riverside, Riverside, CA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Computer Science, Brown University, Providence, RI, USA` — now: Providence College; candidates: ['Brown University'] (assigned has acronym-token evidence)
+- `Department of Computer Science, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `Department of Computer Science, SUNY, Korea` — now: State University of New York; candidates: ['SUNY Korea'] (assigned has acronym-token evidence)
+- `Department of Computer Science, University of California Riverside, Riverside, CA, USA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Computer Science, University of Georgia, Athens, GA, USA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `Department of Computer Science, University of New Hampshire, Durham, NH, USA` — now: Regional Municipality of Durham; candidates: ['University of New Hampshire', 'University of New Hampshire at Manchester'] (2 tied candidates)
+- `Department of Computer and Radio Communications Engineering, Korea University, Seoul, South Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of ECE and ASRI, Seoul National University, South Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `Department of ECE, ASRI, Seoul National University` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `Department of ECE, ASRI, Seoul National University, Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `Department of ECE, ASRI, Seoul National University, Seoul, Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `Department of ECE, ASRI, Seoul National University, South Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `Department of ECE, Northeastern University, Boston, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of ECE, University of California, Riverside, CA, USA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Early Childhood Education and Care, University of West Attica, Athens, Greece` — now: Chettinad Academy of Research and Education; candidates: ['University of West Attica'] (assigned has acronym-token evidence)
+- `Department of Ecology and Evolutionary Biology, Brown University, Providence, RI, USA` — now: Providence College; candidates: ['Brown University'] (assigned has acronym-token evidence)
+- `Department of Electrical & Computer Engineering, University of California, Riverside` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Electrical & Computer Engineering, Western University, London, Ontario, Canada` — now: University of West London; candidates: ['Western University', 'Western Caspian University'] (2 tied candidates)
+- `Department of Electrical & Electronics Engineering, National Institute of Technology, Surathkal, Karnataka, India` — now: National Institute of Technology Karnataka; candidates: ['Maulana Azad National Institute of Technology', 'Instituto Nacional de Tecnologia', 'National Institute of Technology', 'National Institute of Technology', 'Institut Teknologi Nasional Bandung'] (5 tied candidates)
+- `Department of Electrical Engineering & Computer Science, York University, Toronto, Canada` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `Department of Electrical Engineering and Computer Science, York University, Toronto` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `Department of Electrical Engineering and Computer Science, York University, Toronto, Canada` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `Department of Electrical Engineering and Computer Science, York University, Toronto, Ontario, Canada` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `Department of Electrical Engineering, Information Technology University (ITU), Lahore` — now: Istanbul Technical University; candidates: ['Information Technology University'] (assigned has acronym-token evidence)
+- `Department of Electrical Engineering, Information Technology University (ITU), Lahore, Pakistan` — now: Istanbul Technical University; candidates: ['Information Technology University'] (assigned has acronym-token evidence)
+- `Department of Electrical Engineering, Korea University, Seongbuk-gu, Seoul, KR` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Electrical Engineering, Korea University, Seoul, Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Electrical Engineering, Northeastern University, Boston, MA, U.S.A` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Electrical Engineering, The Hong Kong Polytechnic University, Hung Hom, Kowloon, Hong Kong (SAR), China` — now: School for Advanced Research; candidates: ['Hong Kong Polytechnic University'] (assigned has acronym-token evidence)
+- `Department of Electrical Engineering, University of California, Riverside, Riverside, CA, USA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Electrical Engineering, University of Science and Technology, Pohang, Gyeungbuk, Republic of Korea` — now: Pohang University of Science and Technology; candidates: ['University of Science and Technology', 'Korea University of Science and Technology'] (2 tied candidates)
+- `Department of Electrical and Computer Engineering and ASRI, Seoul National University, Seoul, Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `Department of Electrical and Computer Engineering and the Department of Biology, Northeastern University, Boston, Massachusetts` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Electrical and Computer Engineering, National Institute of Technology, Kagawa, Japan` — now: National Institute of Technology, Kagawa College; candidates: ['Maulana Azad National Institute of Technology', 'Instituto Nacional de Tecnologia', 'National Institute of Technology', 'National Institute of Technology', 'Institut Teknologi Nasional Bandung'] (5 tied candidates)
+- `Department of Electrical and Computer Engineering, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Electrical and Computer Engineering, Northeastern University, Boston, Massachusetts, United States` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Electrical and Computer Engineering, Northeastern University, Boston, Massauchusetts, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Electrical and Computer Engineering, Northeastern University, Boston, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Electrical and Computer Engineering, Power Electronics and Energy Research (PEER) Group, Concordia University, Montreal, QC, Canada` — now: Pacific Earthquake Engineering Research Center; candidates: ['Concordia University', 'Concordia University', 'Concordia University', 'Concordia University'] (assigned has acronym-token evidence)
+- `Department of Electrical and Computer Engineering, Silicon-Synapse Laboratory, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Electrical and Computer Engineering, University of California, Riverside, CA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Electrical and Computer Engineering, University of California, Riverside, CA, USA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Electrical and Computer Engineering, University of California, Riverside, Riverside, CA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Electrical and Computer Engineering, University of California, Riverside, USA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Electrical and Computer Engineering, University of New Hampshire, Durham, NH, USA` — now: Regional Municipality of Durham; candidates: ['University of New Hampshire', 'University of New Hampshire at Manchester'] (2 tied candidates)
+- `Department of Electrical and Computer Engineering, University of New Hampshire, Durham, USA` — now: Regional Municipality of Durham; candidates: ['University of New Hampshire', 'University of New Hampshire at Manchester'] (2 tied candidates)
+- `Department of Electrical and Computer Engineering, Western University, London, Canada` — now: University of West London; candidates: ['Western University', 'Western Caspian University'] (2 tied candidates)
+- `Department of Electrical and Computer Engineering, Western University, London, ON, Canada` — now: University of West London; candidates: ['Western University', 'Western Caspian University'] (2 tied candidates)
+- `Department of Electrical and Computer Engineering, Western University, London, Ontario` — now: University of West London; candidates: ['Western University', 'Western Caspian University'] (2 tied candidates)
+- `Department of Electrical and Computer Engineering, Western University, London, Ontario, Canada` — now: University of West London; candidates: ['Western University', 'Western Caspian University'] (2 tied candidates)
+- `Department of Electrical and Computer Engineering, York University, Toronto, Canada` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `Department of Electrical and Computer Systems Eng., Monash University, and Data61, Australia` — now: Data61; candidates: ['Monash University'] (assigned has acronym-token evidence)
+- `Department of Electrical and Electronics Engineering, Anadolu University, Eskişehir, Turkey` — now: Eskişehir City Hospital; candidates: ['Anadolu University', 'Usak University'] (assigned has acronym-token evidence)
+- `Department of Electrical and Information Engineering, Politecnico Di Bari, Bari, IT` — now: Bangladesh Agricultural Research Institute; candidates: ['Polytechnic University of Bari'] (assigned has acronym-token evidence)
+- `Department of Electrical and Information Engineering, Polytechnic University of Bari, Bari, Italy` — now: Bangladesh Agricultural Research Institute; candidates: ['Polytechnic University of Bari'] (assigned has acronym-token evidence)
+- `Department of Electrical, Electronic and Information Engineering (DEI), University of Bologna, Bologna, Italy` — now: Dayalbagh Educational Institute; candidates: ['University of Bologna'] (assigned has acronym-token evidence)
+- `Department of Electrical, Electronic and Information Engineering “Guglielmo Marconi” (DEI), University of Bologna, Italy` — now: Dayalbagh Educational Institute; candidates: ['University of Bologna'] (assigned has acronym-token evidence)
+- `Department of Electrical, Electronic, and Information Engineering (DEI) "Guglielmo Marconi,", University of Bologna, Bologna, Italy` — now: Dayalbagh Educational Institute; candidates: ['University of Bologna'] (assigned has acronym-token evidence)
+- `Department of Electrical, Electronic, and Information Engineering (DEI) “Guglielmo Marconi,”, University of Bologna, Bologna, Italy` — now: Dayalbagh Educational Institute; candidates: ['University of Bologna'] (assigned has acronym-token evidence)
+- `Department of Electrical, Electronic, and Information Engineering (DEI), University of Bologna, Bologna, Italy` — now: Dayalbagh Educational Institute; candidates: ['University of Bologna'] (assigned has acronym-token evidence)
+- `Department of Electronic Engineering, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `Department of Electronic and Electrical Engineering of the Southern, University of Science and Technology, Shenzhen, China` — now: University of the Sciences; candidates: ['University of Science and Technology', 'Korea University of Science and Technology'] (2 tied candidates)
+- `Department of Electronic and Information Engineering, The Hong Kong Polytechnic University, Hung Hom, Kowloon, Hong Kong (SAR), China` — now: School for Advanced Research; candidates: ['Hong Kong Polytechnic University'] (assigned has acronym-token evidence)
+- `Department of Electronics Engineering, Institute of Electronics, National Chiao Tung University, Taiwan` — now: National Yang Ming Chiao Tung University; candidates: ['Institute of Electronics', 'Institute of Electronics'] (2 tied candidates)
+- `Department of Engineering, University of Exeter, Exeter, EX4 4QF, UK` — now: Phillips Exeter Academy; candidates: ['University of Exeter'] (assigned has acronym-token evidence)
+- `Department of Engineering, University of Exeter, Exeter, U.K` — now: Phillips Exeter Academy; candidates: ['University of Exeter'] (assigned has acronym-token evidence)
+- `Department of HCI & Robotics, University of Science and Technology(UST), Daejeon, Korea` — now: University of the Sciences; candidates: ['University of Science and Technology', 'Korea University of Science and Technology'] (2 tied candidates)
+- `Department of Industrial Engineering (DII), University of Trento, Trento, Italy` — now: Design Intelligence (United States); candidates: ['University of Trento'] (assigned has acronym-token evidence)
+- `Department of Infectious Diseases, College of Veterinary Medicine, The University of Georgia, Athens, GA 30602, USA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `Department of Kinesiology, University of New Hampshire, Durham, USA` — now: Regional Municipality of Durham; candidates: ['University of New Hampshire', 'University of New Hampshire at Manchester'] (2 tied candidates)
+- `Department of Mathematics and Statistics, York University, Toronto, Canada` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `Department of Mathematics, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `Department of Mathematics, Northwest University, Xi'an, China` — now: China XD Group (China); candidates: ['Northwest University', 'Northwest University'] (2 tied candidates)
+- `Department of Mathematics, University of Georgia, Athens, GA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `Department of Mechanical Engineering, Korea University, Seoul, Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Mechanical Engineering, Korea University, Seoul, Republic of Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Mechanical Engineering, Korea University,Seoul,Republic of Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Mechanical Engineering, Memorial University, St. John's, Canada` — now: St. John's School; candidates: ['Memorial University of Newfoundland'] (assigned has acronym-token evidence)
+- `Department of Mechanical Engineering, University of California Riverside, Riverside, CA, USA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Mechanical Engineering, University of California, Riverside` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Mechanical Engineering, University of California, Riverside, CA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Mechanical Engineering, University of California, Riverside, California 92521, USA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Mechanical and Aerospace Engineering, Automation and Systems Research Institute (ASRI), Seoul National University, Gwanak-gu, Seoul, Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `Department of Mechanical and Industrial Engineering, Northeastern University, Boston, MA 02115, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Mechanical and Industrial Engineering, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Neurosurgery, University Hospital, Zurich, Switzerland` — now: University Hospital of Zurich; candidates: ['University of New Mexico Hospital', 'University Hospital', 'University of Colorado Hospital'] (3 tied candidates)
+- `Department of Ophthalmology, College of Medicine, Korea University, Seoul, South Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Optoelectronic Engineering, College of Science and Engineering, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `Department of Organic and Macromolecular Chemistry, Polymer Chemistry and Biomaterials Group (PBM), Centre of Macromolecular Chemistry (CMaC), Universiteit Gent, Ghent, Belgium` — now: Princeton BioMeditech (United States); candidates: ['Ghent University'] (assigned has acronym-token evidence)
+- `Department of Physics and Astronomy, Augustana College, Rock Island, IL, USA` — now: Astronomy and Space; candidates: ['Augustana University', 'Augustana College'] (2 tied candidates)
+- `Department of Physics and Astronomy, The University of Georgia, Athens, GA 30602, USA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `Department of Physics and Astronomy, University College London, London WC1E 6BT, United Kingdom` — now: Astronomy and Space; candidates: ['University College London', 'UCL Australia'] (2 tied candidates)
+- `Department of Physics and Astronomy, University of California, Riverside, California 92521, United States` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Department of Physics and Astronomy, University of New Hampshire, 9 Library Way, Durham, New Hampshire, 03824, USA` — now: Regional Municipality of Durham; candidates: ['University of New Hampshire', 'University of New Hampshire at Manchester'] (2 tied candidates)
+- `Department of Physics and Astronomy, and Irvine Materials Research Institute (IMRI), University of California, Irvine, Irvine, California, USA` — now: MOROCCAN INSTITUTE OF INTERNATIONAL RELATIONS; candidates: ['University of California, Irvine'] (assigned has acronym-token evidence)
+- `Department of Physics and Regensburg Center for Ultrafast Nanoscopy (RUN), University of Regensburg, 93040 Regensburg, Germany` — now: Redeemer's University; candidates: ['University of Regensburg'] (assigned has acronym-token evidence)
+- `Department of Physics, Korea University, Seoul, 02841, Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Physics, Korea University, Seoul, South Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Department of Physics, Ministry of Education, Beijing, China` — now: Beijing Institute of Education; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Department of Physics, Northeastern University, Boston, Massachusetts 02115, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Physics, Northwest University, Xi'an, China` — now: China XD Group (China); candidates: ['Northwest University', 'Northwest University'] (2 tied candidates)
+- `Department of Physics, Northwest University, Xi’an, China` — now: China XD Group (China); candidates: ['Northwest University', 'Northwest University'] (2 tied candidates)
+- `Department of Physics, SUPA, University of Strathclyde, Glasgow, Scotland, U.K` — now: Scottish Universities Physics Alliance; candidates: ['University of Strathclyde'] (assigned has acronym-token evidence)
+- `Department of Physics, Southeast University, Nanjing 211189, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Department of Psychology, Northeastern University, Boston, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Department of Radiology and BRIC, UNC Chapel Hill, USA` — now: BoRdeaux Institute of onCology; candidates: ['University of North Carolina at Chapel Hill'] (assigned has acronym-token evidence)
+- `Department of Signal and Control Engineering, Soochow University, Suzhou, China` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `Department of Statistics, The University of Georgia, Athens, GA 30602, USA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `Departments of Biology, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Dept. Computer application technology, Northeastern University, Shenyang, China` — now: Shenyang University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Dept. for Automation, Jožef Stefan Institute, Ljubljana, Slovenia` — now: Elektro Ljubljana (Slovenia); candidates: ['Jožef Stefan International Postgraduate School', 'Jožef Stefan Institute'] (2 tied candidates)
+- `Dept. of Artificial Intelligence, Korea University, Seoul` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Dept. of Artificial Intelligence, Korea University, Seoul, South Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Dept. of Automatics, Biocybernetics, and Robotics, Jožef Stefan Institute, Ljubljana, Slovenia` — now: Elektro Ljubljana (Slovenia); candidates: ['Jožef Stefan International Postgraduate School', 'Jožef Stefan Institute'] (2 tied candidates)
+- `Dept. of Automatics, Jožef Stefan Institute, Ljubljana, Slovenia` — now: Elektro Ljubljana (Slovenia); candidates: ['Jožef Stefan International Postgraduate School', 'Jožef Stefan Institute'] (2 tied candidates)
+- `Dept. of Computer Science, THINC Lab, University of Georgia, Athens, GA, USA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `Dept. of Computer Science, University of Georgia, Athens, GA, USA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `Dept. of ECE and ASRI, Seoul National University` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `Dept. of ECE, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Dept. of ECE., ASRI, Seoul National University` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `Dept. of EECS, York University, Toronto, Canada` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `Dept. of EECS, York University, Toronto, Ontario, Canada` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `Dept. of Elect. Engineering, Korea University, Seoul, Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Dept. of Electr. & Comput. Eng., Northeastern University, Boston, MA, US` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Dept. of Electrical & Computer Engineering, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Dept. of Electrical Engineering and Computer Science, Lassonde School of Engineering, York University, Toronto, Canada` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `Dept. of Electrical Engineering and Computer Science, York University, Toronto, Canada` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `Dept. of Electrical Engineering and Computer Science, York University, Toronto, Ontario, Canada` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `Dept. of Electrical and Computer Eng., Memorial University, St. John's, Canada` — now: St. John's School; candidates: ['Memorial University of Newfoundland'] (assigned has acronym-token evidence)
+- `Dept. of Electrical and Computer Eng., Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Dept. of Electrical and Computer Engineering and the Dept. of Bioengineering, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Dept. of Electrical and Computer Engineering, Air Force Institute of Technology, Wright-Patterson AFB, OH` — now: Wright-Patterson Air Force Base; candidates: ['U.S. Air Force Institute of Technology', 'Instytut Techniczny Wojsk Lotniczych'] (assigned has acronym-token evidence)
+- `Dept. of Electrical and Computer Engineering, Northeastern University, Boston, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Dept. of Electrical and Computer Engineering, University of California, Riverside` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Dept. of Electrical and Computer Engineering, University of California, Riverside, CA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Dept. of Electrical and Electronics Engineering, National Institute of Technology, Surathkal, Karnataka, India` — now: National Institute of Technology Karnataka; candidates: ['Maulana Azad National Institute of Technology', 'Instituto Nacional de Tecnologia', 'National Institute of Technology', 'National Institute of Technology', 'Institut Teknologi Nasional Bandung'] (5 tied candidates)
+- `Dept. of Mechanical Eng., Memorial University, St. John's, Canada` — now: St. John's School; candidates: ['Memorial University of Newfoundland'] (assigned has acronym-token evidence)
+- `Dept. of Visual Information Processing, Korea University, Seoul, Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Dipartimento di Ingegneria Industriale (DII), University of Trento, Italy` — now: Design Intelligence (United States); candidates: ['University of Trento'] (assigned has acronym-token evidence)
+- `Distributed Artificial Intelligence and Knowledge Laboratory (CIAD), University of Technology of Belfort-Montbéliard (UTBM), France` — now: Centro de Investigación en Alimentación y Desarrollo; candidates: ['Université de technologie de belfort-montbéliard'] (assigned has acronym-token evidence)
+- `Division of Physics, Mathematics and Astronomy, and Alliance for Quantum Technologies (AQT)}` — now: Alpine Quantum Technologies (Austria); candidates: ['Division of Physics'] (assigned has acronym-token evidence)
+- `Dolby Laboratories, Barcelona, Spain` — now: FC Barcelona; candidates: ['Dolby (Netherlands)', 'Dolby (United States)'] (2 tied candidates)
+- `Dolby Laboratories, Inc., San Francisco, USA` — now: San Francisco State University; candidates: ['Dolby (Netherlands)', 'Dolby (United States)'] (2 tied candidates)
+- `Dolby Laboratories, San Francisco, CA` — now: San Francisco State University; candidates: ['Dolby (Netherlands)', 'Dolby (United States)'] (2 tied candidates)
+- `Dolby Laboratories, San Francisco, CA, USA` — now: San Francisco State University; candidates: ['Dolby (Netherlands)', 'Dolby (United States)'] (2 tied candidates)
+- `Dynamic Legged Systems (DLS) Lab, Istituto Italiano di Tecnologia (IIT), Genova, Italy` — now: German Liver Foundation; candidates: ['Italian Institute of Technology'] (assigned has acronym-token evidence)
+- `Dynamic Legged Systems (DLS) lab, Istituto Italiano di Tecnologia, Genova, Italy` — now: German Liver Foundation; candidates: ['Italian Institute of Technology'] (assigned has acronym-token evidence)
+- `Département Informatique, Ecole Normale Supérieure, Paris, France` — now: Département d'Informatique; candidates: ["École Normale Supérieure d'Abidjan", 'École Normale Supérieure'] (2 tied candidates)
+- `E. C. E., Northeastern University, Boston, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `EAST Lab, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `ECE & ASRI, Seoul National University, Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `ECE Department, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `ECE Department, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `ECE Dept., Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `ECE and ASRI, Seoul National University` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `ECE& ASRI, Seoul National University, Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `EESI, Oak Ridge National Laboratory, Oak Ridge, Tennessee` — now: École Européenne Supérieure de l'Image; candidates: ['Oak Ridge National Laboratory'] (assigned has acronym-token evidence)
+- `ENS Rennes, IRISA & Inria Rennes, France` — now: Institut de Recherche en Informatique et Systèmes Aléatoires; candidates: ['École Normale Supérieure de Rennes'] (assigned has acronym-token evidence)
+- `EPFL, Institute of Electrical Engineering, Lausanne, Switzerland` — now: École Polytechnique Fédérale de Lausanne; candidates: ['Institute of Electrical Engineering of the Slovak Academy of Sciences', 'Institute of Electrical Engineering'] (assigned has acronym-token evidence)
+- `EPI DISCO INRIA-Saclay, CentraleSupélec, Universite Paris-Sud, Gif-sur-Y vette, France` — now: CentraleSupélec; candidates: ['Université Paris-Sud'] (assigned has acronym-token evidence)
+- `EPI DISCO INRIA-Saclay, CentraleSupélec, Universite Paris-Sud, Gif-sur-Yvette, France` — now: CentraleSupélec; candidates: ['Université Paris-Sud'] (assigned has acronym-token evidence)
+- `ETH Zurich, KU Leuven, Zurich, Switzerland` — now: KU Leuven; candidates: ['ETH Zurich'] (assigned has acronym-token evidence)
+- `ETH Zurich, Power Electronic Systems Laboratory (PES), Zurich, Switzerland` — now: PES University; candidates: ['ETH Zurich'] (assigned has acronym-token evidence)
+- `Ecole Nationale Superieure d'Ingenieurs de Caen, Caen, Normandie, FR` — now: Costruzioni Apparecchiature Elettroniche Nucleari (Italy); candidates: ["École Nationale Supérieure d'Ingénieurs de Caen"] (assigned has acronym-token evidence)
+- `Educational Testing Service (ETS), San Francisco, CA, USA` — now: École de Technologie Supérieure; candidates: ['Educational Testing Service'] (assigned has acronym-token evidence)
+- `Electrical & Computer Engineering, Northeastern University, Boston, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Electrical Engineering Department, Korea University, Seoul, Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Electrical Engineering Department, National Institute of Technology, Hamipur, H.P., India` — now: National Institute of Technology Hamirpur; candidates: ['Maulana Azad National Institute of Technology', 'Instituto Nacional de Tecnologia', 'National Institute of Technology', 'National Institute of Technology', 'Institut Teknologi Nasional Bandung'] (5 tied candidates)
+- `Electrical Engineering and Computer Science Department, York University, Toronto` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `Electrical and Comp. Engineering Department, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Electrical and Computer Dept, Northeastern University, Boston, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Electrical and Computer Engineering Department, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Electrical and Computer Engineering Department, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Electrical and Computer Engineering Department, Northeastern University, Boston, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Electrical and Computer Engineering Department, University of California, Riverside` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Electrical and Computer Engineering, ASRI, Seoul National University, Korea` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `Electrical and Computer Engineering, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Electrical and Computer Engineering, Northeastern University, Boston, MA, US` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Electrical and Computer Engineering, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Electrical and Computer Engineering, Northeastern University, Boston, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Electrical and Computer Engineering, University of California, Riverside` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Electrical engineering department, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Energy Research Institute, Nanayang Technological University, Singapore` — now: Nanyang Technological University; candidates: ['Energy Research Institute', 'Energy Research Institute'] (2 tied candidates)
+- `Engineering Product Development (EPD), Singapore University of Technology and Design, Singapore` — now: Enthought (United States); candidates: ['Singapore University of Technology and Design'] (assigned has acronym-token evidence)
+- `Engineering Research Center of Advanced Lighting Technology, Ministry of Education, and Institute of Beyond Lighting, Academy for Engineering and Technology, Fudan University, Shanghai, China` — now: Shanghai Medical College of Fudan University; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Engineering Research Center of Oceanic Sensing Technology and Equipment, Ministry of Education, Zhoushan, China` — now: Zhejiang Entry-Exit Inspection and Quarantine Bureau; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Engineering School, Universidad Autonoma del Carmen, Carmen, Mexico` — now: Laboratoire de recherche en cardiovasculaire, métabolisme, diabétologie et nutrition; candidates: ['Universidad Autónoma del Carmen'] (assigned has acronym-token evidence)
+- `Eskisehir Osmangazi University, Eskisehir, Turkey` — now: Eskişehir City Hospital; candidates: ['Eskişehir Osmangazi University'] (assigned has acronym-token evidence)
+- `European Commission, Joint Research Centre (JRC), Ispra (VA), Italy` — now: Istituto Superiore per la Protezione e la Ricerca Ambientale; candidates: ['Joint Research Centre', 'Joint Research Centre', 'Joint Research Centre'] (assigned has acronym-token evidence)
+- `Excellenzcluster Cyber Security in the Age of Large-Scale Adversaries (CASA), Ruhr Universität, Bochum, Germany` — now: Child, Adolescent and Family Mental Health; candidates: ['Ruhr University Bochum'] (assigned has acronym-token evidence)
+- `Facultad de Ingenieria, Universidad Panamericana, Ags., Ags., Mexico` — now: Universidad Continental; candidates: ['Universidad Panamericana', 'Universidad Panamericana'] (2 tied candidates)
+- `Facultad de Ingenieria, Universidad Panamericana, Zapopan, Jalisco, Mexico` — now: Universidad Continental; candidates: ['Universidad Panamericana', 'Universidad Panamericana'] (2 tied candidates)
+- `Facultad de Ingeniería, Universidad Panamericana, Aguascalientes, Mexico` — now: Universidad Continental; candidates: ['Universidad Panamericana', 'Universidad Panamericana'] (2 tied candidates)
+- `Facultad de Ingeniería, Universidad Panamericana, México` — now: Universidad Continental; candidates: ['Universidad Panamericana', 'Universidad Panamericana'] (2 tied candidates)
+- `Facultad de Ingeniería, Universidad Panamericana, Zapopan, Jalisco, México` — now: Universidad Continental; candidates: ['Universidad Panamericana', 'Universidad Panamericana'] (2 tied candidates)
+- `Faculties of Education and Arts, University of Hong Kong, Hong Kong` — now: National Root Crops Research Institute; candidates: ['University of Hong Kong'] (assigned has acronym-token evidence)
+- `Faculty of Electrical Engineering, Mathematics & Computer Science (EWI), Robotics and Mechatronics (RAM), University of Twente, Enschede, The Netherlands` — now: Royal Alberta Museum; candidates: ['University of Twente'] (assigned has acronym-token evidence)
+- `Faculty of Engineering and Applied Science, Memorial University, St. John's, Canada` — now: St. John's School; candidates: ['Memorial University of Newfoundland'] (assigned has acronym-token evidence)
+- `Faculty of Engineering and Information Technology, University of Technology Sydney, Broadway, NSW, Australia` — now: Broadway; candidates: ['University of Technology Sydney'] (assigned has acronym-token evidence)
+- `Faculty of Robot Science and Engineering, Northeastern University, Shenyang, China` — now: Shenyang University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Faculty of Science and Engineering, Åbo Akademi University, Turku (Åbo), Finland` — now: Association of British Orchestras; candidates: ['Åbo Akademi University'] (assigned has acronym-token evidence)
+- `Fiber Optic Sensors Laboratory, School of Physics, Northwest University, Xi’an, China` — now: China XD Group (China); candidates: ['Northwest University', 'Northwest University'] (2 tied candidates)
+- `General Robotics Automation Sensing and Perception (GRASP) Laboratory, University of Pennsylvania` — now: Global and Regional Asperger Syndrome Partnership; candidates: ['University of Pennsylvania'] (assigned has acronym-token evidence)
+- `General Robotics Automation Sensing and Perception (GRASP) Laboratory, University of Pennsylvania, Philadelphia, PA, USA` — now: Global and Regional Asperger Syndrome Partnership; candidates: ['University of Pennsylvania'] (assigned has acronym-token evidence)
+- `General Robotics, Automation, Sensing & Perception (GRASP) Lab, University of Pennsylvania` — now: Global and Regional Asperger Syndrome Partnership; candidates: ['University of Pennsylvania'] (assigned has acronym-token evidence)
+- `General Robotics, Automation, Sensing & Perception (GRASP) Lab, University of Pennsylvania, Philadelphia, PA, USA` — now: Global and Regional Asperger Syndrome Partnership; candidates: ['University of Pennsylvania'] (assigned has acronym-token evidence)
+- `General Robotics, Automation, Sensing & Perception (GRASP) Laboratory, University of Pennsylvania, Phildadelphia, PA, USA` — now: Global and Regional Asperger Syndrome Partnership; candidates: ['University of Pennsylvania'] (assigned has acronym-token evidence)
+- `General Robotics, Automation, Sensing and Perception (GRASP) Laboratory, University of Pennsylvania, Philadelphia, PA, USA` — now: Global and Regional Asperger Syndrome Partnership; candidates: ['University of Pennsylvania'] (assigned has acronym-token evidence)
+- `Graduate School of Engineering, Tokyo Institute of Techonology, Meguro-ku, Tokyo, Japan` — now: Tokyo Institute of Technology; candidates: ["École Supérieure d'Ingénieurs en Génie Électrique"] (country ['JP'] contradicts FR)
+- `Graduate School of Engineering, Tokyo Institute of Techonology, Tokyo, Japan` — now: Tokyo Institute of Technology; candidates: ["École Supérieure d'Ingénieurs en Génie Électrique"] (country ['JP'] contradicts FR)
+- `Grupo de Aplicaciones del Láser y Fotónica (ALF), Departamento de Física Aplicada, Universidad de Salamanca, Plaza de la Merced s/n, 37008 Salamanca, Spain` — now: American Liver Foundation; candidates: ['Universidad de Salamanca'] (assigned has acronym-token evidence)
+- `Guangdong Key Laboratory of Optical Fiber Sensing and Communications, Institute of Photonics Technology, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `Guangdong Province Key Laboratory of Molecular Immunology and Antibody Engineering, Department of Bioengineering, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `Guangdong Province Key Laboratory of Optical Fiber Sensing and Communications, Institute of Photonics Technology, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `Guangdong Provincial Key Laboratory of Optical Fiber Sensing and Communication, Institute of Photonics Technology, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `HCI / IWR, Heidelberg University, Heidelberg, Germany` — now: Heidelberg (Poland); candidates: ['Heidelberg University', 'Heidelberg University'] (2 tied candidates)
+- `HCI, Heidelberg University, Heidelberg, Germany` — now: Heidelberg (Poland); candidates: ['Heidelberg University', 'Heidelberg University'] (2 tied candidates)
+- `HEPHAISTOS project, Université Côte d' Azur, Inria, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ["Université Côte d'Azur"] (assigned has acronym-token evidence)
+- `HEPHAISTOS project, Université Côte d’ Azur, Inria, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ["Université Côte d'Azur"] (assigned has acronym-token evidence)
+- `HEPHAISTOS project, Université Côte d’Azur, Inria, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ["Université Côte d'Azur"] (assigned has acronym-token evidence)
+- `Heidelberg Collaboratory for Image Processing, Heidelberg University, Heidelberg, Germany` — now: Heidelberg (Poland); candidates: ['Heidelberg University', 'Heidelberg University'] (2 tied candidates)
+- `Heidelberg University, Heidelberg, Germany` — now: Heidelberg (Poland); candidates: ['Heidelberg University', 'Heidelberg University'] (2 tied candidates)
+- `Heidelberg University, Institute for Computational Linguistics, Heidelberg, Germany` — now: Heidelberg (Poland); candidates: ['Heidelberg University', 'Heidelberg University'] (2 tied candidates)
+- `Helene Frankowska is with CNRS, IMJ-PRG, Sorbonne Université, Paris, France` — now: Institut de Mathématiques de Jussieu-Paris Rive Gauche; candidates: ['Sorbonne Université'] (assigned has acronym-token evidence)
+- `Humanoid & Cognitive Robotics Lab, Biocybernetics and Robotics, Jožef Stefan Institute, Ljubljana, Slovenia` — now: Elektro Ljubljana (Slovenia); candidates: ['Jožef Stefan International Postgraduate School', 'Jožef Stefan Institute'] (2 tied candidates)
+- `IBENS, Département de Biologie, Ecole Normale Supérieure, CNRS, Inserm,` — now: Institut de Biologie de l'École Normale Supérieure; candidates: ["École Normale Supérieure d'Abidjan", 'École Normale Supérieure'] (assigned has acronym-token evidence)
+- `ICNLAB, School of Electronics and Computer Engineering (SECE), Peking University, Shenzhen, China` — now: Sri Eshwar College of Engineering; candidates: ['Peking University'] (assigned has acronym-token evidence)
+- `ICSI, UC Berkeley` — now: International Computer Science Institute; candidates: ['University of California, Berkeley'] (assigned has acronym-token evidence)
+- `ICube, University of Strasbourg, CNRS, IHU Strasbourg, France` — now: Laboratoire des Sciences de l'Ingénieur, de l'Informatique et de l'Imagerie; candidates: ['Université de Strasbourg'] (assigned has acronym-token evidence)
+- `ICube, University of Strasbourg, CNRS, IHU, Strasbourg, France` — now: Laboratoire des Sciences de l'Ingénieur, de l'Informatique et de l'Imagerie; candidates: ['Université de Strasbourg'] (assigned has acronym-token evidence)
+- `ICube, Université de Strasbourg` — now: Laboratoire des Sciences de l'Ingénieur, de l'Informatique et de l'Imagerie; candidates: ['Université de Strasbourg'] (assigned has acronym-token evidence)
+- `IEMN, Université de Lille, France` — now: Institut d'électronique de microélectronique et de nanotechnologie; candidates: ['Université de Lille'] (assigned has acronym-token evidence)
+- `III-V Lab, Palaiseau, Cedex, France` — now: Centro de Estudios y Experimentación de Obras Públicas; candidates: ['III V Lab'] (assigned has acronym-token evidence)
+- `INFN, Sezione di Milano, I-20133 Milano, Italy` — now: Istituto Nazionale di Fisica Nucleare; candidates: ['Istituto Nazionale di Fisica Nucleare, Sezione di Milano Bicocca', 'Istituto Nazionale di Fisica Nucleare, Sezione di Milano'] (assigned has acronym-token evidence)
+- `INRIA, Sophia-Antipolis Méditerranée, Sophia Antipolis, FRANCE` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ["Centre Inria d'Université Côte d'Azur"] (assigned has acronym-token evidence)
+- `INRIA, Univ. Rennes, Campus de Beaulieu, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université de Rennes'] (assigned has acronym-token evidence)
+- `INRIA, Université Paris-Saclay, Saclay, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `INRIA, École normale supérieure, Paris, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ["École Normale Supérieure d'Abidjan", 'École Normale Supérieure'] (assigned has acronym-token evidence)
+- `INSA Lyon, Inria, Universite de Lyon, Villeurbanne, France` — now: Institut National des Sciences Appliquées de Lyon; candidates: ['Université de Lyon'] (assigned has acronym-token evidence)
+- `INSA Lyon, Université de Lyon, Villeurbanne, France` — now: Institut National des Sciences Appliquées de Lyon; candidates: ['Université de Lyon'] (assigned has acronym-token evidence)
+- `INSA-Lyon, LIRIS, Université de Lyon` — now: Laboratoire d'Informatique en Images et Systèmes d'Information; candidates: ['Université de Lyon'] (assigned has acronym-token evidence)
+- `INSERM U1150, CNRS UMR 7222, Institut des Systèmes Intelligents et de Robotique (ISIR), Sorbonne Université, Paris, France` — now: Institut Systèmes Intelligents et de Robotique; candidates: ['Sorbonne Université'] (assigned has acronym-token evidence)
+- `IRCAM, CNRS, Sorbonne Université, Paris, France` — now: Institut de Recherche et Coordination Acoustique Musique; candidates: ['Sorbonne Université'] (assigned has acronym-token evidence)
+- `IRCER, Centre Européen de la Céramique, 12 rue Atlantis, 87068 Limoges, France` — now: Institut de Recherche sur les Céramiques; candidates: ['Centre Européen de la Céramique'] (assigned has acronym-token evidence)
+- `IRIT, Université Paul Sabatier, CNRS, Toulouse, France` — now: Institut de Recherche en Informatique de Toulouse; candidates: ['Université Toulouse III - Paul Sabatier'] (assigned has acronym-token evidence)
+- `IRIT, Université Paul Sabatier, Toulouse, France` — now: Institut de Recherche en Informatique de Toulouse; candidates: ['Université Toulouse III - Paul Sabatier'] (assigned has acronym-token evidence)
+- `ISEP, Instituto Politécnico do Porto, Porto, Portugal` — now: Institut Supérieur d'Électronique de Paris; candidates: ['Polytechnic Institute of Porto'] (assigned has acronym-token evidence)
+- `Idiap Research Institute, EPFL` — now: École Polytechnique Fédérale de Lausanne; candidates: ['Idiap Research Institute'] (assigned has acronym-token evidence)
+- `Information Technologies Institute (ITI), Center of Research and Technology Hellas (CERTH), Thessaloniki, Greece` — now: Centre for Research and Technology Hellas; candidates: ['Information Technologies Institute'] (assigned has acronym-token evidence)
+- `Inria Paris and RIIS, SUFE, LMO, Université Paris-Sud` — now: Shanghai University of Finance and Economics; candidates: ['Université Paris-Sud'] (assigned has acronym-token evidence)
+- `Inria, CNRS, Centale Lille, Univ. Lille, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université de Lille'] (assigned has acronym-token evidence)
+- `Inria, CNRS, I3S, Université Côte D’Azur, Nice, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ["Université Côte d'Azur"] (assigned has acronym-token evidence)
+- `Inria, CNRS, Univ. Lille, Centale Lille, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université de Lille'] (assigned has acronym-token evidence)
+- `Inria, GIPSA-lab, Grenoble, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['GIPSA-Lab'] (assigned has acronym-token evidence)
+- `Inria, Grenoble-Alpes University, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université Grenoble Alpes'] (assigned has acronym-token evidence)
+- `Inria, IRISA, Univ. Rennes` — now: Institut de Recherche en Informatique et Systèmes Aléatoires; candidates: ['Université de Rennes'] (assigned has acronym-token evidence)
+- `Inria, LJAD, Université Côte d’Azur, CNRS, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ["Université Côte d'Azur"] (assigned has acronym-token evidence)
+- `Inria, Univ. Grenoble Alpes, CNRS, Grenoble INP, LJK, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Institut polytechnique de Grenoble'] (assigned has acronym-token evidence)
+- `Inria, Univ. Lille, CNRS, Lille, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université de Lille'] (assigned has acronym-token evidence)
+- `Inria, Univ. Lille, CNRS, UMR, Lille, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université de Lille'] (assigned has acronym-token evidence)
+- `Inria, Univ. Lille, Lille, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université de Lille'] (assigned has acronym-token evidence)
+- `Inria, Univ. Rennes, CNRS, IRISA, M2S, France` — now: Institut de Recherche en Informatique et Systèmes Aléatoires; candidates: ['Université de Rennes'] (assigned has acronym-token evidence)
+- `Inria, Univ. Rennes, Rennes, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université de Rennes'] (assigned has acronym-token evidence)
+- `Inria, Université Cote d’Azur, Sophia Antipolis, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ["Université Côte d'Azur"] (assigned has acronym-token evidence)
+- `Inria, Université Côte d’Azur, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ["Université Côte d'Azur"] (assigned has acronym-token evidence)
+- `Inria, Université Paris-Saclay, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Inria, Université Paris-Saclay, Gif-sur-Yvette cedex, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Inria, Université Paris-Saclay, Saclay, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Inria, Villers-les-Nancy, Université de Lorraine, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `Inria, École Normale Supérieure` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ["École Normale Supérieure d'Abidjan", 'École Normale Supérieure'] (assigned has acronym-token evidence)
+- `Inst. of Photonics and Quantum Electr. (IPQ) and Inst. of Microstruct. Technol. (IMT), Karlsruhe Inst. of Technology (KIT), 76131 Karlsruhe, Germany` — now: Instituto Português Da Qualidade; candidates: ['Karlsruhe Institute of Technology'] (assigned has acronym-token evidence)
+- `Inst. of Photonics and Quantum Electr. (IPQ) and Inst. of Microstruct. Technol. (IMT), Karlsruhe Inst. of Technology (KIT), 76131 Karlsruhe, Germany;` — now: Instituto Português Da Qualidade; candidates: ['Karlsruhe Institute of Technology'] (assigned has acronym-token evidence)
+- `Institut National de la Recherche Scientifique (INRS), Centre Énergie, Matériaux et Télécommunications (EMT), Varennes, Québec J3X 1S2, Canada` — now: Empresa Municipal de Transportes de Madrid; candidates: ['Institut National de la Recherche Scientifique'] (assigned has acronym-token evidence)
+- `Institut des Systèmes Intelligents et de Robotique (ISIR), Sorbonne Université, France` — now: Institut Systèmes Intelligents et de Robotique; candidates: ['Sorbonne Université'] (assigned has acronym-token evidence)
+- `Institut des Systèmes Intelligents et de Robotique, ISIR, Sorbonne Université, CNRS, Paris, France` — now: Institut Systèmes Intelligents et de Robotique; candidates: ['Sorbonne Université'] (assigned has acronym-token evidence)
+- `Institut des Systémes Intelligents et Robotique (ISIR), Sorbonne Université, Paris, France` — now: Institut Systèmes Intelligents et de Robotique; candidates: ['Sorbonne Université'] (assigned has acronym-token evidence)
+- `Institute for Advanced Study, Technical University Munich, Garching, Germany` — now: Technical University of Munich; candidates: ['Institute for Advanced Study', 'Institute for Advanced Study', 'Institute for Advanced Study'] (3 tied candidates)
+- `Institute for Applied Mathematics, Heidelberg University, GERMANY` — now: Institute of Applied Mathematics; candidates: ['Heidelberg University', 'Heidelberg University'] (2 tied candidates)
+- `Institute for Control Engineering of Machine Tools and Manufacturing Units (ISW), University of Stuttgart, Stuttgart, Germany` — now: Institute of Social Work; candidates: ['University of Stuttgart'] (assigned has acronym-token evidence)
+- `Institute for Experiential Robotics, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Institute for Infocomm Research (I2R), A*STAR, Singapore` — now: Agency for Science, Technology and Research; candidates: ['Institute for Infocomm Research'] (assigned has acronym-token evidence)
+- `Institute for Infocomm Research, A*STAR, Connexis, Singapore` — now: Agency for Science, Technology and Research; candidates: ['Institute for Infocomm Research'] (assigned has acronym-token evidence)
+- `Institute for Infocomm Research, A*Star, Singapore` — now: Agency for Science, Technology and Research; candidates: ['Institute for Infocomm Research'] (assigned has acronym-token evidence)
+- `Institute for Photonics and Nanotechnologies (CNR-IFN), Politecnico di Bari, Bari, Italy` — now: Bangladesh Agricultural Research Institute; candidates: ['Polytechnic University of Bari'] (assigned has acronym-token evidence)
+- `Institute for The Wireless Internet of Things, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Institute for Theoretical Physics, TU Wien, 1040 Vienna, Austria` — now: TU Wien; candidates: ['Instituto de Física Teórica'] (assigned has acronym-token evidence)
+- `Institute for the Wireless Internet of Things, Northeastern University, Boston, MA, U.S.A` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Institute for the Wireless Internet of Things, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Institute of Aerospace Design and Innovation, Concordia University, Montreal, Quebec, Canada` — now: Aerospace Technology Institute; candidates: ['Concordia University', 'Concordia University', 'Concordia University', 'Concordia University'] (4 tied candidates)
+- `Institute of Applied Physics "Nello Carrara" (IFAC-CNR), National Research Council, Sesto Fiorentino (FI), Italy` — now: Nello Carrara Institute of Applied Physics; candidates: ['National Research Council', 'National Academies of Sciences, Engineering, and Medicine', 'National Research Council', 'National Research Council'] (assigned has acronym-token evidence)
+- `Institute of Applied Physics “Nello Carrara” (IFAC-CNR), National Research Council, Sesto Fiorentino (FI), Italy` — now: Nello Carrara Institute of Applied Physics; candidates: ['National Research Council', 'National Academies of Sciences, Engineering, and Medicine', 'National Research Council', 'National Research Council'] (assigned has acronym-token evidence)
+- `Institute of Applied Physics, Faculty of Advanced Technologies and Chemistry, Military University of Technology, Warsaw, Poland` — now: Military University of Technology in Warsaw; candidates: ['Institute of Applied Physics', 'Institute of Applied Physics', 'Institute of Applied Physics', 'Institute of Applied Physics'] (4 tied candidates)
+- `Institute of Applied Physics, Military University of Technology, Warsaw, Poland` — now: Military University of Technology in Warsaw; candidates: ['Institute of Applied Physics', 'Institute of Applied Physics', 'Institute of Applied Physics', 'Institute of Applied Physics'] (4 tied candidates)
+- `Institute of Automation, Beijing, China` — now: China Iron and Steel Research Institute Group; candidates: ['Institute of Automation', 'Institute of Automation'] (2 tied candidates)
+- `Institute of Automation, CAS, Beijing, China` — now: China Iron and Steel Research Institute Group; candidates: ['Institute of Automation', 'Institute of Automation'] (2 tied candidates)
+- `Institute of Automation, Chinese Academy of Science` — now: Chinese Academy of Sciences; candidates: ['Institute of Automation', 'Institute of Automation'] (2 tied candidates)
+- `Institute of Electrical Engineering, Swiss Federal Institute of Technology of Lausanne, Lausanne CH, Switzerland` — now: École Polytechnique Fédérale de Lausanne; candidates: ['Institute of Electrical Engineering of the Slovak Academy of Sciences', 'Institute of Electrical Engineering'] (2 tied candidates)
+- `Institute of Electrical Engineering, Swiss Federal Institute of Technology of Lausanne, Lausanne, Switzerland` — now: École Polytechnique Fédérale de Lausanne; candidates: ['Institute of Electrical Engineering of the Slovak Academy of Sciences', 'Institute of Electrical Engineering'] (2 tied candidates)
+- `Institute of Electronics, Communications and Information Technology (ECIT), Queens University, Belfast, UK` — now: Institute of Electronics, Information and Communication Engineers; candidates: ['Institute of Electronics', 'Institute of Electronics'] (2 tied candidates)
+- `Institute of Electronics, National Chiao Tung University` — now: National Yang Ming Chiao Tung University; candidates: ['Institute of Electronics', 'Institute of Electronics'] (2 tied candidates)
+- `Institute of Electronics, National Chiao Tung University, Hsinchu, Taiwan` — now: National Yang Ming Chiao Tung University; candidates: ['Institute of Electronics', 'Institute of Electronics'] (2 tied candidates)
+- `Institute of Electronics, National Chiao-Tung University, Hsinchu, Taiwan, R.O.C` — now: National Yang Ming Chiao Tung University; candidates: ['Institute of Electronics', 'Institute of Electronics'] (2 tied candidates)
+- `Institute of Experimental Physics I and Center for Materials Research (LAMA), Justus-Liebig-University Giessen, Heinrich-Buff-Ring 16, D-35392 Giessen, Germany` — now: Laboratoire d’Analyse et de Mathématiques Appliquées; candidates: ['Justus-Liebig-Universität Gießen'] (assigned has acronym-token evidence)
+- `Institute of Functional Nano & Soft Materials, Soochow University, Suzhou, China` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `Institute of Functional Nano and Soft Materials, Jiangsu Key Laboratory for Carbon-Based Functional Materials and Devices, and Collaborative Innovation Center of Suzhou Nano Science and Technology, Soochow University, Suzhou, China` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `Institute of High Performance Computing, A*STAR` — now: Agency for Science, Technology and Research; candidates: ['Institute of High Performance Computing'] (assigned has acronym-token evidence)
+- `Institute of High Performance Computing, A*STAR, Singapore` — now: Agency for Science, Technology and Research; candidates: ['Institute of High Performance Computing'] (assigned has acronym-token evidence)
+- `Institute of Image Processing and Pattern Recognition, The Key Laboratory of System Control and Information Processing, Ministry of Education, China` — now: Image Processing Systems Institute; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Institute of Industrial Technology and Automation,National Research Council,Milano,Italy,20133` — now: Milano University Press; candidates: ['National Research Council', 'National Academies of Sciences, Engineering, and Medicine', 'National Research Council', 'National Research Council'] (4 tied candidates)
+- `Institute of Information Science (IIS), Academia Sinica, Taipei, Taiwan` — now: Institute of Information Science, Academia Sinica; candidates: ['Institute of Information Science'] (assigned has acronym-token evidence)
+- `Institute of Intelligent Systems for Automation, National Research Council (ISSIA-CNR), Bari, Italy` — now: Bangladesh Agricultural Research Institute; candidates: ['Institute of Intelligent Systems for Automation'] (assigned has acronym-token evidence)
+- `Institute of Linguistics, Chinese Academy of Social Science, Beijing, China` — now: Chinese Academy of Social Sciences; candidates: ['Institute of Linguistics', 'Institute of Linguistics'] (2 tied candidates)
+- `Institute of Mathematics, Academy of Sciences of the Czech Republic, Brno, Czech Republic` — now: Czech Academy of Sciences, Institute of Mathematics; candidates: ['Institute of Mathematics', 'Institute of Mathematics', 'Institute of Mathematics and Informatics', 'Institute of Mathematics', 'Institute of Mathematics'] (5 tied candidates)
+- `Institute of Mathematics, TU Berlin` — now: Technische Universität Berlin; candidates: ['Institute of Mathematics', 'Institute of Mathematics', 'Institute of Mathematics and Informatics', 'Institute of Mathematics', 'Institute of Mathematics'] (assigned has acronym-token evidence)
+- `Institute of Microelectronics, A*STAR, Singapore` — now: Agency for Science, Technology and Research; candidates: ['Institute of Microelectronics', 'Institute of Microelectronics'] (assigned has acronym-token evidence)
+- `Institute of Microelectronics, A*STAR, Singapore 117865, Singapore` — now: Agency for Science, Technology and Research; candidates: ['Institute of Microelectronics', 'Institute of Microelectronics'] (assigned has acronym-token evidence)
+- `Institute of Microelectronics, Beijing Innovation Center for Future Chips, Beijing National Research Center for Information Science and Technology, Tsinghua University, Beijing, China` — now: Beijing City University; candidates: ['Institute of Microelectronics', 'Institute of Microelectronics'] (2 tied candidates)
+- `Institute of Molecular and Cell Biology, Agency for Science, Research and Technology (A*STAR), 31 Biopolis Way, Singapore 138673` — now: Agency for Science, Technology and Research; candidates: ['Institute of Molecular and Cell Biology', 'Institute of Molecular and Cell Biology'] (assigned has acronym-token evidence)
+- `Institute of Photonics Technology, Guangdong Provincial Key Laboratory of Optical Fiber Sensing and Communications, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `Institute of Photonics and Quantum Electronics (IPQ) / Institute of Microstructure Technology (IMT), Karlsruhe Institute of Technology (KIT), Karlsruhe, Germany` — now: Instituto Português Da Qualidade; candidates: ['Karlsruhe Institute of Technology'] (assigned has acronym-token evidence)
+- `Institute of Photonics and Quantum Electronics (IPQ), Karlsruhe Institute of Technology (KIT), 76131 Karlsruhe, Germany` — now: Instituto Português Da Qualidade; candidates: ['Karlsruhe Institute of Technology'] (assigned has acronym-token evidence)
+- `Institute of Photonics and Quantum Electronics (IPQ), Karlsruhe Institute of Technology (KIT), Engesserstr. 5, 76131 Karlsruhe, Germany` — now: Instituto Português Da Qualidade; candidates: ['Karlsruhe Institute of Technology'] (assigned has acronym-token evidence)
+- `Institute of Photonics and Quantum Electronics (IPQ), Karlsruhe Institute of Technology (KIT), Germany` — now: Instituto Português Da Qualidade; candidates: ['Karlsruhe Institute of Technology'] (assigned has acronym-token evidence)
+- `Institute of Photonics and Quantum Electronics (IPQ), Karlsruhe Institute of Technology (KIT),Karlsruhe,Germany` — now: Instituto Português Da Qualidade; candidates: ['Karlsruhe Institute of Technology'] (assigned has acronym-token evidence)
+- `Institute of Physics, Academy of Sciences of the Czech Republic v.v.i., 18221 Prague, Czech Republic` — now: FZU ‒ Institute of Physics of the Academy of Sciences of the Czech Republic; candidates: ['Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics'] (8 tied candidates)
+- `Institute of Physics, Academy of Sciences of the Czech Republic v.v.i., Na Slovance 2, 182 21, Praha 8, Czech Republic` — now: FZU ‒ Institute of Physics of the Academy of Sciences of the Czech Republic; candidates: ['Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics'] (8 tied candidates)
+- `Institute of Physics, Carl von Ossietzky University, Carl-von-Ossietzky-Str. 9-11, 26129 Oldenburg, Germany` — now: Carl von Ossietzky Universität Oldenburg; candidates: ['Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics'] (8 tied candidates)
+- `Institute of Physics, Humboldt University of Berlin, Newtonstr. 15, 12489 Berlin, Germany` — now: Humboldt-Universität zu Berlin; candidates: ['Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics'] (8 tied candidates)
+- `Institute of Physics, Polish Academy of Science, Warszawa, PL-02668 Poland` — now: Polish Academy of Sciences; candidates: ['Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics'] (8 tied candidates)
+- `Institute of Physics, École Polytechnique Eédérale de Lausanne, Lausanne, Switzerland` — now: École Polytechnique Fédérale de Lausanne; candidates: ['Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics'] (8 tied candidates)
+- `Institute of Physics, Łódź University of Technology, Łódź, Poland` — now: University of Łódź; candidates: ['Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics'] (8 tied candidates)
+- `Institute of Quantum Technology (IQT), The Hong Kong Polytechnic University, Hong Kong` — now: In-Q-Tel; candidates: ['Hong Kong Polytechnic University'] (assigned has acronym-token evidence)
+- `Institute of Semiconductor Engineering (IHT), University of Stuttgart, Germany` — now: Instytut Hematologii i Transfuzjologi; candidates: ['University of Stuttgart'] (assigned has acronym-token evidence)
+- `Institute of Solid State Physics, Technical University Berlin, 10623 Berlin, Germany` — now: Technische Universität Berlin; candidates: ['Osipyan Institute of Solid State Physics RAS', 'Institute of Solid State Physics', 'Georgi Nadjakov Institute of Solid State Physics'] (3 tied candidates)
+- `Institute of Solid State Physics, Technical University Berlin, Germany` — now: Technische Universität Berlin; candidates: ['Osipyan Institute of Solid State Physics RAS', 'Institute of Solid State Physics', 'Georgi Nadjakov Institute of Solid State Physics'] (3 tied candidates)
+- `Institute of Solid-State Physics, Technical University Berlin, Berlin, Germany` — now: Technische Universität Berlin; candidates: ['Osipyan Institute of Solid State Physics RAS', 'Institute of Solid State Physics', 'Georgi Nadjakov Institute of Solid State Physics'] (3 tied candidates)
+- `Intel Corporation, Portland, OR, USA` — now: City of Portland; candidates: ['Intel (United States)', 'Intel (Taiwan)'] (2 tied candidates)
+- `Intel Corporation, Portland, Oregon#TAB#` — now: City of Portland; candidates: ['Intel (United States)', 'Intel (Taiwan)'] (2 tied candidates)
+- `Intelligent Robot Engineering, University of Science and Technology (UST), Daejon, South Korea` — now: University of the Sciences; candidates: ['University of Science and Technology', 'Korea University of Science and Technology'] (2 tied candidates)
+- `Interdisciplinary Center for Scientific Computing (IWR), Heidelberg University, Heidelberg, Germany` — now: Heidelberg (Poland); candidates: ['Heidelberg University', 'Heidelberg University'] (2 tied candidates)
+- `Interdisciplinary Centre for Security Reliability and Trust (SnT), University of Luxembourg` — now: Scalable Network Technologies (United States); candidates: ['University of Luxembourg'] (assigned has acronym-token evidence)
+- `Interdisciplinary Centre for Security Reliability and Trust (SnT), University of Luxembourg, Luxembourg` — now: Scalable Network Technologies (United States); candidates: ['University of Luxembourg'] (assigned has acronym-token evidence)
+- `Interdisciplinary Centre for Security, Reliability and Trust (SnT), University of Luxembourg` — now: Scalable Network Technologies (United States); candidates: ['University of Luxembourg'] (assigned has acronym-token evidence)
+- `Interdisciplinary Centre for Security, Reliability and Trust (SnT), University of Luxembourg, Luxembourg` — now: Scalable Network Technologies (United States); candidates: ['University of Luxembourg'] (assigned has acronym-token evidence)
+- `International Institute of Information Technology, IIIT-H, Microsoft, India, Hyderabad, India` — now: Microsoft (United States); candidates: ['International Institute of Information Technology', 'International Institute of Information Technology', 'International Institute of Information Technology'] (3 tied candidates)
+- `Istituto Italiano di Tecnologia,Dynamic Legged Systems (DLS) lab,Genova,Italy` — now: German Liver Foundation; candidates: ['Italian Institute of Technology'] (assigned has acronym-token evidence)
+- `Istituto di Analisi dei Sistemi e Informatica "A. Ruberti", National Research Council (IASI-CNR), Rome, Italy` — now: Istituto di Analisi dei Sistemi ed Informatica Antonio Ruberti; candidates: ['National Research Council', 'National Academies of Sciences, Engineering, and Medicine', 'National Research Council', 'National Research Council'] (assigned has acronym-token evidence)
+- `JNU-HKUST Joint Laboratory for Neuroscience and Innovative Drug Research, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `Jet Propulsion Laboratory, Finland Northrop Grumman Corporation, Pasadena, CA` — now: Point Loma Nazarene University; candidates: ['Jet Propulsion Laboratory'] (country ['FI'] contradicts US)
+- `Jiangsu Engineering Research Center of Novel Optical Fiber Technology and Communication Network, Suzhou Key Laboratory of Advanced Optical Communication Network Technology, the School of Electronic and Information Engineering, Soochow University, Suzhou, Jiangsu, China` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `Jiangsu Engineering Research Center of Novel Optical, Fiber Technology and Communication Network, Suzhou Key Laboratory of Advanced Optical Communication Network Technology, the School of Electronic and Information Engineering, Soochow University, Suzhou, Jiangsu Province, China` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `Jiangsu Provincial Key Laboratory of Smart Grid Technology and Equipment, Southeast University, Nanjing, P.R. China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Jinan University, Guangzhou` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `Joint International Research Laboratory of Information Display and Visualization, School of Electronic Science and Engineering, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `KAIST, Korea and the department of applied mathematics, University of Waterloo, Canada` — now: Korea Advanced Institute of Science and Technology; candidates: ['University of Waterloo'] (assigned has acronym-token evidence)
+- `KU-KIST Graduate School of Converging Science and Technology, Korea University, Seoul, Republic of Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Kagawa Collage, National Institute of Technology, Kagawa, Japan` — now: National Institute of Technology, Kagawa College; candidates: ['Maulana Azad National Institute of Technology', 'Instituto Nacional de Tecnologia', 'National Institute of Technology', 'National Institute of Technology', 'Institut Teknologi Nasional Bandung'] (5 tied candidates)
+- `Kagawa College, National Institute of Technology, Kagawa, Japan` — now: National Institute of Technology, Kagawa College; candidates: ['Maulana Azad National Institute of Technology', 'Instituto Nacional de Tecnologia', 'National Institute of Technology', 'National Institute of Technology', 'Institut Teknologi Nasional Bandung'] (5 tied candidates)
+- `Karlsruhe Institute of Technology (KIT), Institute of Photonics and Quantum Electronics (IPQ), 76131 Karlsruhe, Germany` — now: Instituto Português Da Qualidade; candidates: ['Karlsruhe Institute of Technology'] (assigned has acronym-token evidence)
+- `Key Lab of Underwater Acoustic Signal Processing of Ministry of Education, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Key Laboratory of Child Development and Learning Science of Ministry of Education, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Key Laboratory of Control of Power Transmission and Conversion (SJTU), Ministry of Education, Shanghai, China` — now: Shanghai Jiao Tong University; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (assigned has acronym-token evidence)
+- `Key Laboratory of High Confidence Software Technologies (PKU), Ministry of Education` — now: Peking University; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (assigned has acronym-token evidence)
+- `Key Laboratory of High Confidence Software Technologies (PKU), Ministry of Education, China` — now: Peking University; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (assigned has acronym-token evidence)
+- `Key Laboratory of Micro Opto-electro Mechanical System Technology, Ministry of Education, Tianjin, China` — now: Tianjin Municipal Education Commission; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Key Laboratory of Microelectronics Devices & Integrated Technology, Institute of Microelectronics, Beijing, China` — now: Beijing Microelectronics Technology Institute; candidates: ['Institute of Microelectronics', 'Institute of Microelectronics'] (2 tied candidates)
+- `Key Laboratory of Opto-Elecronics Information Technology, Ministry of Education, Tianjin, China` — now: Tianjin Municipal Education Commission; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Key Laboratory of Opto-Electronics Information Technology, Ministry of Education, Tianjin, China` — now: Tianjin Municipal Education Commission; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Key Laboratory of Opto-Electronics Information and Technical Science, Ministry of Education, Tianjin, China` — now: Tianjin Municipal Education Commission; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Key Laboratory of Opto-electronics Information Technology, Ministry of Education, Tianjin, China` — now: Tianjin Municipal Education Commission; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Key Laboratory of Opto-electronics Information and Technical Science, Ministry of Education, Tianjin, China` — now: Tianjin Municipal Education Commission; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Key Laboratory of Optoelectronic Information Science and Technology, Ministry of Education, Tianjin 300072, China` — now: Tianjin Municipal Education Commission; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Key Laboratory of Space Applied Physics and Chemistry, Ministry of Education, Xi'an, China` — now: China XD Group (China); candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Key Laboratory of Space Applied Physics, and Chemistry, Ministry of Education, Xi'an, China` — now: China XD Group (China); candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Key Laboratory of Space Applied Physics, and Chemistry, Ministry of Education, Xi’an, China` — now: China XD Group (China); candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Key Laboratory of Underwater Acoustic Signal Processing of Ministry of Education, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Khoury College of Computer Science, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Khoury College of Computer Science, Northeastern University, Boston, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Khoury College of Computer Sciences, Northeastern University, Boston` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Khoury College of Computer Sciences, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Korea University, Seongbuk-gu, Seoul, Republic of Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Korea University, Seoul, Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Korea University, Seoul, South Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Kurume College, National Institute of Technology, Kurume, Fukuoka, Japan` — now: National Institute of Technology, Kurume College; candidates: ['Maulana Azad National Institute of Technology', 'Instituto Nacional de Tecnologia', 'National Institute of Technology', 'National Institute of Technology', 'Institut Teknologi Nasional Bandung'] (5 tied candidates)
+- `L2S, UMR CNRS 8506, CentraleSupélec, Université Paris Saclay, Gif-Sur-Yvette, France` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `L2S-Department of Signals and Statistics, Université Paris-Sud, CNRS, CentraleSupelec, France` — now: CentraleSupélec; candidates: ['Université Paris-Sud'] (assigned has acronym-token evidence)
+- `LAGEP, CNRS, CPE, Université Lyon 1, Villeurbanne, France` — now: Laboratoire d'Automatique, de Génie des Procédés et de Génie Pharmaceutique; candidates: ['Université Claude Bernard Lyon 1'] (assigned has acronym-token evidence)
+- `LAGEP, Université de Lyon, CNRS UMR 5007, France` — now: Laboratoire d'Automatique, de Génie des Procédés et de Génie Pharmaceutique; candidates: ['Université de Lyon'] (assigned has acronym-token evidence)
+- `LAPLACE, University of Toulouse, CNRS, INP, Toulouse, France` — now: Laboratoire Plasma et Conversion d'Energie; candidates: ['Institut National Polytechnique de Toulouse'] (assigned has acronym-token evidence)
+- `LCIS, Université Grenoble Alpes, France` — now: Laboratoire de Conception et d'Intégration des Systèmes; candidates: ['Université Grenoble Alpes'] (assigned has acronym-token evidence)
+- `LEMTA, Universite de Lorraine, France` — now: Laboratoire Énergies et Mécanique Théorique et Appliquée; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `LEMTA, Universite de Lorraine, Nancy, France` — now: Laboratoire Énergies et Mécanique Théorique et Appliquée; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `LEMTA, Université de Lorraine, Vandoeuvre-lès-Nancy, France` — now: Laboratoire Énergies et Mécanique Théorique et Appliquée; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `LIDYL, CEA, CNRS; Université Paris-Saclay, CEA Saclay; 91191 Gif-sur-Yvette France` — now: Laboratoire Interactions, Dynamiques et Lasers; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LIGM (UMR 8049), Université Paris-Est, Marne-la-Vallée, France` — now: Laboratoire d'Informatique Gaspard-Monge; candidates: ['Paris-Est Sup'] (assigned has acronym-token evidence)
+- `LIMSI, Université Paris Saclay` — now: Laboratoire d'Informatique pour la Mécanique et les Sciences de l'Ingénieur; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LIMSI, Université Paris-Saclay, Orsay Cedex, France` — now: Laboratoire d'Informatique pour la Mécanique et les Sciences de l'Ingénieur; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LINE Corporation, Japan` — now: Laboratoire d'Innovation et Numérique pour l'Éducation; candidates: ['Line Corporation (Japan)'] (assigned has acronym-token evidence)
+- `LIP6, Sorbonne Université` — now: LIP6; candidates: ['Sorbonne Université'] (assigned has acronym-token evidence)
+- `LIRMM, University of Montpellier, CNRS, Montpellier, France` — now: Laboratoire d'Informatique, de Robotique et de Microélectronique de Montpellier; candidates: ['Université de Montpellier'] (assigned has acronym-token evidence)
+- `LJLL, Sorbonne Université, CNRS` — now: Laboratoire Jacques-Louis Lions; candidates: ['Sorbonne Université'] (assigned has acronym-token evidence)
+- `LORIA, Université de Lorraine, France` — now: Laboratoire Lorrain de Recherche en Informatique et ses Applications; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `LORIA, Université de Lorraine, Nancy, France` — now: Laboratoire Lorrain de Recherche en Informatique et ses Applications; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `LORIA, Université de Lorraine, Vandœuvre-lès-Nancy, France` — now: Laboratoire Lorrain de Recherche en Informatique et ses Applications; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `LTCI, CNRS, Telecom ParisTech, Universite Paris-Saclay, France` — now: Laboratoire Traitement et Communication de l’Information; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LTCI, CNRS, Télécom ParisTech, Université Paris-Saclay` — now: Laboratoire Traitement et Communication de l’Information; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LTCI, CNRS, Université Paris-Saclay, Paris, France` — now: Laboratoire Traitement et Communication de l’Information; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LTCI, Télécom ParisTech, Université Paris-Saclay, France` — now: Laboratoire Traitement et Communication de l’Information; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LTCI, Universite Paris-Saclay` — now: Laboratoire Traitement et Communication de l’Information; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LTCI, Universite Paris-Saclay, Paris, France` — now: Laboratoire Traitement et Communication de l’Information; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LTCI, Université Paris - Saclay, Paris, France` — now: Laboratoire Traitement et Communication de l’Information; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LTCI, Université Paris Saclay, Paris, France` — now: Laboratoire Traitement et Communication de l’Information; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LTCI, Université Paris-Saclay` — now: Laboratoire Traitement et Communication de l’Information; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LTCI, Université Paris-Saclay, France` — now: Laboratoire Traitement et Communication de l’Information; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LTCI, Université Paris-Saclay, Paris Cedex 13, France` — now: Laboratoire Traitement et Communication de l’Information; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LTCI, Université Paris-Saclay, Paris, France` — now: Laboratoire Traitement et Communication de l’Information; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `LaBRI, University of Bordeaux` — now: Laboratoire Bordelais de Recherche en Informatique; candidates: ['Université de Bordeaux'] (assigned has acronym-token evidence)
+- `LaBRI, University of Bordeaux, France` — now: Laboratoire Bordelais de Recherche en Informatique; candidates: ['Université de Bordeaux'] (assigned has acronym-token evidence)
+- `Laboratoire Electronique Informatique Image (Le2i), University of Technology of Belfort-Montbéliard (UTBM), France` — now: Laboratoire d’Électronique, Informatique et Image; candidates: ['Université de technologie de belfort-montbéliard'] (assigned has acronym-token evidence)
+- `Laboratoire de Physique, Ecole normale supérieure, Paris` — now: Laboratoire de Physique de l'Ecole Normale Supérieure; candidates: ["École Normale Supérieure d'Abidjan", 'École Normale Supérieure'] (2 tied candidates)
+- `Laboratoire d’Optique Appliquée, ENSTA Paris, CNRS, Ecole Polytechnique, Institut Polytechnique de Paris, 828 Bd. des Maréchaux, 91120 Palaiseau, France` — now: Polytech Nice Sophia; candidates: ['Institut Polytechnique de Paris', "Laboratoire d'Optique Appliquée"] (2 tied candidates)
+- `Laboratory for Image and Video Engineering (LIVE), The University of Texas at Austin` — now: Laboratoire Image, Ville, Environnement; candidates: ['The University of Texas at Austin'] (assigned has acronym-token evidence)
+- `Laboratory of Image Science and Technology, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Laboratory of Optoelectronic Information and Sensing Technologies of Guangdong Higher Education Institutes, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `Laboratory of Science and Technology, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Laboratory of Security Operation and Control for Intelligent Autonomous Systems, Southeast University, Nanjing, P. R. China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Laboratory of Signals and Systems, CentraleSupeléc, Université Paris-Saclay, Gif-sur-Yvette, France` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Large Networks and System Group (LANEAS), CentraleSupélec, Université Paris-Saclay, France` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Large Networks and System Group (LANEAS), CentraleSupélec, Université Paris-Saclay, Gif-sur-Yvette, France` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Le2i, Université Bourgogne Franche-Comté, France` — now: Laboratoire d’Électronique, Informatique et Image; candidates: ['Université Bourgogne Franche-Comté'] (assigned has acronym-token evidence)
+- `Learning Intelligence & Vision Essential (LiVE) Group, School of Microelectronics and Communication Engineering, Chongqing University, China` — now: Laboratoire Image, Ville, Environnement; candidates: ['Chongqing University'] (assigned has acronym-token evidence)
+- `Light, Nanomaterials & Nanotechnologies (L2n), CNRS-EMR 7004, University of Technology of Troyes, Troyes, France` — now: Light, nanomaterials, nanotechnologies; candidates: ['Université de Technologie de Troyes'] (assigned has acronym-token evidence)
+- `Lightwave and Microwave Photonics Laboratory, College of Engineering, The University of Georgia, Athens, GA, USA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `Lightwave and Microwave Photonics Laboratory, University of Georgia, Athens, GA, USA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `Loria, UMR 7503, Université de Lorraine, Vandœuvre-lès-Nancy, France` — now: Laboratoire Lorrain de Recherche en Informatique et ses Applications; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `MILA, Université de Montréal, Canada` — now: Mila - Quebec Artificial Intelligence Institute; candidates: ['Université de Montréal'] (assigned has acronym-token evidence)
+- `MINES ParisTech, Université PSL, Centre de Morphologie, Mathématique (CMM), Fontainebleau, France` — now: Centre for Microscopy and Microanalysis; candidates: ['École Nationale Supérieure des Mines de Paris'] (assigned has acronym-token evidence)
+- `MTA SZTAKI, Hungarian Academy of Sciences, Budapest, Hungary` — now: HUN-REN Institute for Computer Science and Control; candidates: ['Hungarian Academy of Sciences'] (assigned has acronym-token evidence)
+- `MaIAGE, INRA, Université Paris-Saclay, Jouy-en-Josas, France` — now: Mathématiques et Informatique Appliquées du Génome à l'Environnement; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Macedonian Academy of Sciences and Arts` — now: National Root Crops Research Institute; candidates: ['Macedonian Academy of Sciences and Arts'] (assigned has acronym-token evidence)
+- `Machine Intelligence Technology, Alibaba Group, Bellevue, USA` — now: Bellevue Hospital Center; candidates: ['Alibaba Group (China)'] (assigned has acronym-token evidence)
+- `Materials and Manufacturing Directorate, Air Force Research Laboratory, Wright-Patterson AFB, OH 45433, USA` — now: Wright-Patterson Air Force Base; candidates: ['United States Air Force Research Laboratory'] (assigned has acronym-token evidence)
+- `McMaster Automotive Resource Centre (MARC), McMaster University, Hamilton, ON, Canada` — now: Model Animal Research Center; candidates: ['McMaster University'] (assigned has acronym-token evidence)
+- `Mechanical Engineering Department, University of California, Riverside` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `Mechanical Engineering, Northeastern University, WHOI` — now: Woods Hole Oceanographic Institution; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (assigned has acronym-token evidence)
+- `Microelectronics and Nanotechnology, Institute of Electronics, Villeneuve d' Ascq, France` — now: Institut d'électronique de microélectronique et de nanotechnologie; candidates: ['Institute of Electronics', 'Institute of Electronics'] (2 tied candidates)
+- `Microsoft, India, IIIT-H, Hyderabad, India` — now: International Institute of Information Technology, Hyderabad; candidates: ['Microsoft (India)'] (assigned has acronym-token evidence)
+- `Microsystems Technology Office (MTO), Defense Advanced Research Projects Agency (DARPA)` — now: Ministry of Transportation of Ontario; candidates: ['Defense Advanced Research Projects Agency'] (assigned has acronym-token evidence)
+- `Mila, McGill University, Montréal, Canada` — now: Mila - Quebec Artificial Intelligence Institute; candidates: ['McGill University'] (assigned has acronym-token evidence)
+- `Mila, Universite de Montreal` — now: Mila - Quebec Artificial Intelligence Institute; candidates: ['Université de Montréal'] (assigned has acronym-token evidence)
+- `Mila, Universite de Montreal, Canada` — now: Mila - Quebec Artificial Intelligence Institute; candidates: ['Université de Montréal'] (assigned has acronym-token evidence)
+- `Mila, University of Montreal` — now: Mila - Quebec Artificial Intelligence Institute; candidates: ['Université de Montréal'] (assigned has acronym-token evidence)
+- `Mila, Université de Montreal` — now: Mila - Quebec Artificial Intelligence Institute; candidates: ['Université de Montréal'] (assigned has acronym-token evidence)
+- `Ministry of Education, Huazhona University of Science and Technology` — now: Huazhong University of Science and Technology; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Ministry of Education, Southeast University, Nanjing, Jiangsu, China` — now: Nanjing University; candidates: ['Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education', 'Ministry of Education'] (21 tied candidates)
+- `Montpellier SupAgro, MISTEA, Univ. Montpellier, INRA, France` — now: Mathématiques, Informatique et Statistique pour l'Environnement et l'Agronomie; candidates: ['Institut Agro Montpellier'] (assigned has acronym-token evidence)
+- `Montreal (Qc), Concordia University, Canada` — now: Queensborough Community College, CUNY; candidates: ['Concordia University', 'Concordia University', 'Concordia University', 'Concordia University'] (4 tied candidates)
+- `NAOC, Chinese Academy of Sciences, China` — now: National Astronomical Observatories; candidates: ['Chinese Academy of Sciences'] (assigned has acronym-token evidence)
+- `NIST, Institute of Electronics, Beijing (Suzhou), China` — now: China Institute of Electronics; candidates: ['Institute of Electronics', 'Institute of Electronics'] (2 tied candidates)
+- `NVIDIA Corporation, Helsinki, Finland` — now: City of Helsinki; candidates: ['Nvidia (United States)'] (country ['FI'] contradicts US)
+- `Nano Optics Laboratory, Department of Physics, Korea University, Seoul, 02841, South Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Nanophotonics Research Center, Korea Institute of Science and Technology, Seoul, South Korea; School of Electrical Engineering, Korea University, Seoul, South Korea` — now: University of Seoul; candidates: ['Korea Institute of Science and Technology', 'Korean Association Of Science and Technology Studies'] (2 tied candidates)
+- `Nation ASIC System Engineering Technology Research Center, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `National ASIC System Engineering Center, School of Electronic Science and Engineering, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `National ASIC System Engineering Technology Research Center, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `National Institute of Technology, Okinawa College, Nago, Okinawa, Japan` — now: Okinawa University; candidates: ['Maulana Azad National Institute of Technology', 'Instituto Nacional de Tecnologia', 'National Institute of Technology', 'National Institute of Technology', 'Institut Teknologi Nasional Bandung'] (5 tied candidates)
+- `National Institute of Technology, Okinawa College, Nago-shi, Okinawa, Japan` — now: Okinawa University; candidates: ['Maulana Azad National Institute of Technology', 'Instituto Nacional de Tecnologia', 'National Institute of Technology', 'National Institute of Technology', 'Institut Teknologi Nasional Bandung'] (5 tied candidates)
+- `National Key Laboratory of Photoelectric Technology and Functional Materials (Culture Base), Northwest University, Xi'an, China` — now: China XD Group (China); candidates: ['Northwest University', 'Northwest University'] (2 tied candidates)
+- `National Lab of Pattern Recognition, Institute of Automation, CAS, Beijing, China` — now: China Iron and Steel Research Institute Group; candidates: ['Institute of Automation', 'Institute of Automation'] (2 tied candidates)
+- `National Laboratory of Pattern Recognition, Institute of Automation, Beijing, China` — now: China Iron and Steel Research Institute Group; candidates: ['Institute of Automation', 'Institute of Automation'] (2 tied candidates)
+- `National Laboratory of Pattern Recognition, Institute of Automation, CAS, Beijing, China` — now: China Iron and Steel Research Institute Group; candidates: ['Institute of Automation', 'Institute of Automation'] (2 tied candidates)
+- `National Mobile Commun. Research Lab, School of Info. Science and Eng., Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `National Mobile Communication Research Laboratory, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `National Mobile Communications Research Lab, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `National Mobile Communications Research Lab, Southeast University, Nanjing, P. R. China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `National Mobile Communications Research Laboratory, Southeast University, NanJing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `National Research Center for Optical Sensing/Communication Integrated Networking, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `National Research Council of Italy (C.N.R.), Institute of Electronics, Computers and Telecommunication Engineering (I.E.I.I.T.)` — now: Institute of Electronics, Computer and Telecommunication Engineering; candidates: ['Institute of Electronics', 'Institute of Electronics'] (2 tied candidates)
+- `National Research Council, Institute of Microlectronics and Microsystems, Via Pietro Castellino, Naples 80131, Italy` — now: Institute for Microelectronics and Microsystems; candidates: ['National Research Council', 'National Academies of Sciences, Engineering, and Medicine', 'National Research Council', 'National Research Council'] (4 tied candidates)
+- `National Research Council, Institute of Systems Analysis and Computer Science, Rome, Italy` — now: Istituto di Analisi dei Sistemi ed Informatica Antonio Ruberti; candidates: ['National Research Council', 'National Academies of Sciences, Engineering, and Medicine', 'National Research Council', 'National Research Council'] (4 tied candidates)
+- `Natural Sciences and Engineering Council of Canada (NSERC), University of Toronto, Toronto, ON, Canada` — now: Natural Sciences and Engineering Research Council of Canada; candidates: ['University of Toronto'] (assigned has acronym-token evidence)
+- `Network and Security Research Lab, Korea University, Seoul, Republic of Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `Network and Security Research Lab. School of Information Security, Korea University, Seoul, Republic of Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `New Technology for the Information Society (NTIS) Faculty of Applied Sciences, University of West Bohemia, Pilsen, Czech Rep` — now: National Technical Information Service; candidates: ['University of West Bohemia in Pilsen'] (assigned has acronym-token evidence)
+- `Newark College of Engineering (NCE), and is the Director of the Robotics and Data Laboratory (RADLab), New Jersey Institute of Technology, USA` — now: National Center for Epidemiology; candidates: ['New Jersey Institute of Technology'] (assigned has acronym-token evidence)
+- `Northeastern University, Boston` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Northeastern University, Boston, MA, US` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Northeastern University, Boston, U.S.A` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (assigned has acronym-token evidence)
+- `Northeastern University, Center for Complex Networks Research, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Northeastern University, College of Computer and Information Science , Boston, Massachusetts, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Northeastern University, Department of Electrical and Computer Engineering, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Northeastern University, Electrical and Computer Engineering, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Northeastern University, Shenyang, China 110819` — now: Shenyang University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Northeastern University,Institute for Experiential Robotics,Boston,MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Northeastern University,Institute for the Wireless Internet of Things,Boston,MA,U.S.A` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Northeastern University,Silicon-Synapse Laboratory,Department of Electrical and Computer Engineering,Boston,MA,USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Northeastern University,SiliconSynapse Laboratory,ECE Department,Boston,MA,USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Northwest University, Xi'an, China` — now: China XD Group (China); candidates: ['Northwest University', 'Northwest University'] (2 tied candidates)
+- `Northwestern University, U.S.A` — now: University of Northwestern; candidates: ['Northwestern University', 'Northwestern University'] (2 tied candidates)
+- `ONERA, Université Paris-Saclay, Palaiseau, France` — now: Office National d'Études et de Recherches Aérospatiales; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Oak Ridge National Laboratory,EESI,Oak Ridge,Tennessee` — now: École Européenne Supérieure de l'Image; candidates: ['Oak Ridge National Laboratory'] (assigned has acronym-token evidence)
+- `Office of Naval Research, Arlington, VA, USA` — now: The University of Texas at Arlington; candidates: ['Office of Naval Research', 'Office of Naval Research'] (2 tied candidates)
+- `Optical Networks Group, Department of Electrical and Electronic Engineering, University College London, Cambridge, U.K` — now: University of Cambridge; candidates: ['University College London', 'UCL Australia'] (2 tied candidates)
+- `Optimization in Robotics and Biomechanics (ORB), Heidelberg University, Heidelberg, Germany` — now: Heidelberg (Poland); candidates: ['Heidelberg University', 'Heidelberg University'] (2 tied candidates)
+- `Optoelectronics Research Centre (ORC), Physics Unit, Tampere University, Korkeakoulunkatu 3, Tampere, FI-33720, Finland` — now: Organic Research Centre; candidates: ['Tampere University'] (assigned has acronym-token evidence)
+- `PRISME, Université d’Orléans, France` — now: Laboratoire Pluridisciplinaire de Recherche en Ingénierie des Systèmes, Mécanique et Energétique; candidates: ["Université d'Orléans"] (assigned has acronym-token evidence)
+- `Photonics Group, Institute of Physics, Łódź University of Technology, Łódź, Poland` — now: University of Łódź; candidates: ['Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics', 'Institute of Physics'] (8 tied candidates)
+- `Photonics Research Group and the Department of Electrical and Information Engineering, Politecnico di Bari, Bari, Italy` — now: Bangladesh Agricultural Research Institute; candidates: ['Polytechnic University of Bari'] (assigned has acronym-token evidence)
+- `Physical Measurement Laboratory (PML), National Institute for Standards and Technology (NIST), Boulder, CO 80305, USA` — now: National Institute of Standards and Technology; candidates: ['Physical Measurement Laboratory'] (assigned has acronym-token evidence)
+- `Politecnico di Bari, Bari, Italy` — now: Bangladesh Agricultural Research Institute; candidates: ['Polytechnic University of Bari'] (assigned has acronym-token evidence)
+- `Politecnico di Bari, Department of Mechanics, Mathematics and Management, Bari, Italy` — now: Bangladesh Agricultural Research Institute; candidates: ['Polytechnic University of Bari'] (assigned has acronym-token evidence)
+- `Polytechnic School, Arizona State University, Mesa, AZ, USA` — now: Middle East Studies Association of North America; candidates: ['Arizona State University'] (assigned has acronym-token evidence)
+- `Polytechnic School, Ira A. Fulton Schools of Engineering, Arizona State University, Mesa, AZ, USA` — now: Middle East Studies Association of North America; candidates: ['Arizona State University'] (assigned has acronym-token evidence)
+- `Power Electronic Systems Laboratory (PES), ETH Zurich, Switzerland` — now: PES University; candidates: ['ETH Zurich'] (assigned has acronym-token evidence)
+- `Power Electronics and Control Engineering Laboratory (PEACE), Ira A. Fulton School of Engineering, Arizona State University, Mesa` — now: Middle East Studies Association of North America; candidates: ['Arizona State University'] (assigned has acronym-token evidence)
+- `Provincial Key Laboratory of Optical Fiber Sensing and Communications, Institute of Photonics Technology, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `Provincial Key Laboratory of Optical Fiber Sensing and Communications, Jinan University, Guangzhou, China` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `QuTech and Kavli Institute of Nanoscience, Delft University of Technology, 2628 CJ Delft, The Netherlands` — now: QuTech; candidates: ['Delft University of Technology'] (assigned has acronym-token evidence)
+- `QuTech and Kavli Institute of Nanoscience, Delft University of Technology, Delft 2628 CJ, Netherlands` — now: QuTech; candidates: ['Delft University of Technology'] (assigned has acronym-token evidence)
+- `QuTech and Kavli Institute of Nanoscience, Delft University of Technology, Delft, The Netherlands` — now: QuTech; candidates: ['Delft University of Technology'] (assigned has acronym-token evidence)
+- `QuTech and Kavli Institute, Delft University of Technology, Delft 2628 CJ, Netherlands` — now: QuTech; candidates: ['Delft University of Technology'] (assigned has acronym-token evidence)
+- `QuTech, Delft University of Technology, 2628 CJ Delft, The Netherlands` — now: QuTech; candidates: ['Delft University of Technology'] (assigned has acronym-token evidence)
+- `QuTech, Delft University of Technology, Delft, GA, Netherlands` — now: QuTech; candidates: ['Delft University of Technology'] (assigned has acronym-token evidence)
+- `QuTech, Delft University of Technology, Delft, Netherlands` — now: QuTech; candidates: ['Delft University of Technology'] (assigned has acronym-token evidence)
+- `Quantum Information Center, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `RIKEN Center for Advanced Photonics, RIKEN, Sendai 980-0845, Japan` — now: RIKEN; candidates: ['RIKEN Center for Advanced Photonics'] (assigned has acronym-token evidence)
+- `RIKEN Center for Advanced Photonics, RIKEN, Sendai, Japan 980-0845` — now: RIKEN; candidates: ['RIKEN Center for Advanced Photonics'] (assigned has acronym-token evidence)
+- `RIKEN, Center for Advanced Intelligence Project, Tokyo, Japan` — now: RIKEN; candidates: ['RIKEN Center for Advanced Intelligence Project'] (assigned has acronym-token evidence)
+- `RIVeR Lab, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Reliability and Trust (SnT), University of Luxembourg` — now: Scalable Network Technologies (United States); candidates: ['University of Luxembourg'] (assigned has acronym-token evidence)
+- `Reliability and Trust (SnT), University of Luxembourg, Luxembourg` — now: Scalable Network Technologies (United States); candidates: ['University of Luxembourg'] (assigned has acronym-token evidence)
+- `Research Center for Learning Science, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Research Institute for Science and Engineering (RISE), Waseda University, Tokyo, Japan` — now: RISE Research Institutes of Sweden; candidates: ['Waseda University'] (assigned has acronym-token evidence)
+- `Robert Bosch GmbH, Stuttgart, Germany; Ruhr University Bochum, Bochum, Germany` — now: Robert Bosch (United States); candidates: ['Ruhr University Bochum'] (assigned has acronym-token evidence)
+- `Robotics and Embodied AI Lab (REAL), Université de Montréal, Mila` — now: Mila - Quebec Artificial Intelligence Institute; candidates: ['Université de Montréal'] (assigned has acronym-token evidence)
+- `Robotics and Media Institute, Korea Institute of Science and Technology, Seoul, Korea` — now: Institute for New Media; candidates: ['Korea Institute of Science and Technology', 'Korean Association Of Science and Technology Studies'] (2 tied candidates)
+- `Robotics and Media Institute, Korea Institute of Science and Technology, Seoul, South Korea` — now: Institute for New Media; candidates: ['Korea Institute of Science and Technology', 'Korean Association Of Science and Technology Studies'] (2 tied candidates)
+- `Robotics and Microsystems Center, School of Mechanical and Electric Engineering, Soochow University, Suzhou, China` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `Robotics and Virtual Engineering, University of Science and Technology (UST), Daejon, South Korea` — now: University of the Sciences; candidates: ['University of Science and Technology', 'Korea University of Science and Technology'] (2 tied candidates)
+- `Robust Systems Lab, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Roux Institute, Northeastern University, Portland, ME, U.S.A` — now: City of Portland; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `SATIE, CNRS, Université Paris-Saclay, Cachan, France` — now: Laboratoire des systèmes et applications des technologies de l'information et de l'énergie; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `SATIE, Université, Paris-Saclay, France` — now: Laboratoire des systèmes et applications des technologies de l'information et de l'énergie; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `SECE, Peking University, Shenzhen, China` — now: Sri Eshwar College of Engineering; candidates: ['Peking University'] (assigned has acronym-token evidence)
+- `SECE, Shenzhen Graduate School, Peking University, Shenzhen, China` — now: Sri Eshwar College of Engineering; candidates: ['Peking University'] (assigned has acronym-token evidence)
+- `SEU-ALLEN Joint Center, Institute for Brain and Intelligence, Southeast University, China` — now: Institute of the Human Brain; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `SONDRA - Sondra, CentraleSupélec, Université Paris-Saclay (COmUE) (F- 91190 Gif-sur-Yvette - France)` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `SONDRA - Sondra, CentraleSupélec, Université Paris-Saclay (F- 91190 Gif-sur-Yvette - France)` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `SRIBD, The Chinese University of Hong Kong, Shenzhen` — now: Shenzhen Research Institute of Big Data; candidates: ['Chinese University of Hong Kong, Shenzhen'] (assigned has acronym-token evidence)
+- `SUNY, Korea` — now: State University of New York; candidates: ['SUNY Korea'] (assigned has acronym-token evidence)
+- `SUPA and Department of Physics, University of Strathclyde, Glasgow G4 0NG, Scotland, UK` — now: Scottish Universities Physics Alliance; candidates: ['University of Strathclyde'] (assigned has acronym-token evidence)
+- `SUPA and Department of Physics, University of Strathclyde, Glasgow, G4 0NG, Scotland, UK` — now: Scottish Universities Physics Alliance; candidates: ['University of Strathclyde'] (assigned has acronym-token evidence)
+- `SUPA, Department of Physics, University of Strathclyde, Glasgow G4 0NG, UK` — now: Scottish Universities Physics Alliance; candidates: ['University of Strathclyde'] (assigned has acronym-token evidence)
+- `SUPA, Heriot-Watt University, Edinburgh, U.K` — now: Scottish Universities Physics Alliance; candidates: ['Heriot-Watt University'] (assigned has acronym-token evidence)
+- `SUPA, School of Physics and Astronomy, University of Glasgow, G12 8QQ, UK` — now: Scottish Universities Physics Alliance; candidates: ['University of Glasgow'] (assigned has acronym-token evidence)
+- `SUPA, School of Physics and Astronomy, University of Glasgow, Glasgow, G12 8QQ, UK` — now: Scottish Universities Physics Alliance; candidates: ['University of Glasgow'] (assigned has acronym-token evidence)
+- `SUPA, School of Physics and Astronomy, University of St Andrews, KY16 9SS` — now: Scottish Universities Physics Alliance; candidates: ['University of St Andrews'] (assigned has acronym-token evidence)
+- `SUPA, School of Physics and Astronomy, University of St. Andrews, KY16 9SS, UK` — now: Scottish Universities Physics Alliance; candidates: ['University of St Andrews'] (assigned has acronym-token evidence)
+- `SUPA, University of St Andrews, St Andrews, U.K` — now: Scottish Universities Physics Alliance; candidates: ['University of St Andrews'] (assigned has acronym-token evidence)
+- `Saarland University, MMCI` — now: Masaryk Memorial Cancer Institute; candidates: ['Saarland University'] (assigned has acronym-token evidence)
+- `Samovar, Université Paris-Saclay, Evry, France` — now: Services répartis, Architectures, MOdélisation, Validation, Administration des Réseaux; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `School of Automation, Southeast University, Nanjing, Jiangsu, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Automation, Southeast University, Nanjing, Jiangsu, China; Kanazawa University, Kanazawa, Japan` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Biological Science and Medical Engineering, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Biomedical Engineering, Korea University, Seoul 02841, South Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `School of Computer Science & Engineering, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Computer Science and Engineering, Northeastern University, Shenyang, China` — now: Shenyang University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `School of Computer Science and Engineering, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Computer Science and Engineering, Southeast University, Nanjing, Jiangsu, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Computer Science and Technology, Soochow University, Suzhou` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `School of Computer Science and Technology, Soochow University, Suzhou, China` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `School of Computer Science and Technology, Soochow University, Suzhou, Jiangsu, China` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `School of Computer Science and Technology, Soochow University, Suzhou, P.R. China` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `School of Computer Science and Technology, University of Science and Technology, China` — now: University of the Sciences; candidates: ['University of Science and Technology', 'Korea University of Science and Technology'] (2 tied candidates)
+- `School of Computer Science and Technology, University of Science and Technology, Hefei, China` — now: Hefei University of Technology; candidates: ['University of Science and Technology', 'Korea University of Science and Technology'] (2 tied candidates)
+- `School of Cyber Science & Engineering, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Electrical & Computer Engineering, University of Georgia, Athens, GA, USA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `School of Electrical Engineering, Korea University, Seoul 02841, Republic of Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `School of Electrical Engineering, Korea University, Seoul, Republic of Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `School of Electrical Engineering, Southeast University, NanJing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Electrical Engineering, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Electrical Engineering, Southeast University, Nanjing, Jiangsu Province, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Electrical Engineering, Southeast University, Nanjing, Jiangsu Province, P. R. China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Electrical Engineering, Southeast University, Nanjing, Jiangsu, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Electrical Engineering, Southeast University, Nanjing, P. R. China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Electrical Engineering, Southeast University, Nanjing, Province, P. R. China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Electrical and Computer Engineering, College of Engineering, The University of Georgia, Athens, GA 30602, USA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `School of Electrical and Computer Engineering, Korea University, Seoul, Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `School of Electrical and Computer Engineering, University of Georgia, Athens, Georgia` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `School of Electrical and Computer Engineering, University of Georgia, Athens, Georgia, USA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `School of Electron. & Control Eng, Chang'an University, Xi'an, China` — now: China XD Group (China); candidates: ['Jangan University', "Chang'an University"] (2 tied candidates)
+- `School of Electronic Engineering, Northeastern University, Shenyang, China` — now: Shenyang University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `School of Electronic and Control Engineering, Chang'an University, Xi'an, China` — now: China XD Group (China); candidates: ['Jangan University', "Chang'an University"] (2 tied candidates)
+- `School of Engineering and Computer Science, Victoria University, Wellington, New Zealand` — now: Victoria University of Wellington; candidates: ['Victoria School of Management', 'Victoria University', 'Victoria University'] (3 tied candidates)
+- `School of Engineering and Information Technology, University of New South Wales, ADFA, Canberra, Australia` — now: Australian Defence Force Academy; candidates: ['UNSW Sydney'] (assigned has acronym-token evidence)
+- `School of Engineering, Brown University, Providence` — now: Providence College; candidates: ['Brown University'] (assigned has acronym-token evidence)
+- `School of Engineering, Brown University, Providence, RI` — now: Providence College; candidates: ['Brown University'] (assigned has acronym-token evidence)
+- `School of Engineering, Brown University, Providence, RI, 02912, USA` — now: Providence College; candidates: ['Brown University'] (assigned has acronym-token evidence)
+- `School of Engineering, Brown University, Providence, RI, US` — now: Providence College; candidates: ['Brown University'] (assigned has acronym-token evidence)
+- `School of Engineering, Brown University, Providence, RI, USA` — now: Providence College; candidates: ['Brown University'] (assigned has acronym-token evidence)
+- `School of Engineering, Brown University, Providence, Rhode Island, 02912, USA` — now: Providence College; candidates: ['Brown University'] (assigned has acronym-token evidence)
+- `School of Information Engineering, Chang'an University, Xi'an, China` — now: China XD Group (China); candidates: ['Jangan University', "Chang'an University"] (2 tied candidates)
+- `School of Information Engineering, Chang’an University, Xi’an, China` — now: China XD Group (China); candidates: ['Jangan University', "Chang'an University"] (2 tied candidates)
+- `School of Information Science and Engineering, Southeast University, Nanjing, P. R. China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Information Science and Technology, Northwest University, Xi'an, China` — now: China XD Group (China); candidates: ['Northwest University', 'Northwest University'] (2 tied candidates)
+- `School of Information Science and Technology, Northwest University, Xi'an, Shaanxi, China` — now: China XD Group (China); candidates: ['Northwest University', 'Northwest University'] (2 tied candidates)
+- `School of Mathematics, Institute for Advanced Study, Princeton, New Jersey` — now: Princeton University; candidates: ['Institute for Advanced Study', 'Institute for Advanced Study', 'Institute for Advanced Study'] (3 tied candidates)
+- `School of Mathematics, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Mechanical Eng., Korea University, Seoul, Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `School of Optical and Electronic Information Huazhong, University of Science and Technology, Wuhan, China` — now: University of the Sciences; candidates: ['University of Science and Technology', 'Korea University of Science and Technology'] (2 tied candidates)
+- `School of Physics Science and Engineering, Institute for Advanced Study, Tongji University, Shanghai, 200092 China` — now: Shanghai University; candidates: ['Institute for Advanced Study', 'Institute for Advanced Study', 'Institute for Advanced Study'] (3 tied candidates)
+- `School of Physics, Southeast University,Nanjing 211189,China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `School of Systems Engineering and Computer Science, Universidad del Valle, Cali, Colombia` — now: Universidad Externado de Colombia; candidates: ['Universidad del Valle', 'Universidad del Valle', 'Universidad del Valle'] (3 tied candidates)
+- `School of Systems and Computer Engineering, Universidad del Valle, Cali, Colombia` — now: Universidad Externado de Colombia; candidates: ['Universidad del Valle', 'Universidad del Valle', 'Universidad del Valle'] (3 tied candidates)
+- `School of Urban Rail Transportation, Soochow University, Suzhou, China` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `Senior Research Scientist of Center for Healthcare Robotics in Artificial Intelligence & Robotics Institute, Korea Institute of Science and Technology, Republic of Korea` — now: Institute of Robotics; candidates: ['Korea Institute of Science and Technology', 'Korean Association Of Science and Technology Studies'] (2 tied candidates)
+- `Sensors Directorate, Air Force Research Laboratory, 2241 Avionics Circle, Wright-Patterson AFB, OH, 45433, USA` — now: Wright-Patterson Air Force Base; candidates: ['United States Air Force Research Laboratory'] (assigned has acronym-token evidence)
+- `Shaanxi Joint Lab of Graphene, State Key Lab Incubation Base of Photoelectric Technology and Functional Materials, International Collaborative Center on Photoelectric Technology and Nano Functional Materials, Institute of Photonics and Photon-Technology, Northwest University, Xi'an, China` — now: Institute of Photonic Sciences; candidates: ['Northwest University', 'Northwest University'] (2 tied candidates)
+- `Shing-Tung Yau Center and School of Information Science and Engineering, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Signal et Automatique de Lille (CRIStAL), Centre de Recherche en Informatique` — now: Centre de Recherche en Informatique, Signal et Automatique de Lille; candidates: ['Centre de Recherche en Informatique'] (assigned has acronym-token evidence)
+- `SiliconSynapse Laboratory, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `SimulaMet, Simula Research Laboratory` — now: Simula Metropolitan Center for Digital Engineering; candidates: ['Simula Research Laboratory'] (assigned has acronym-token evidence)
+- `Singapore Institute of Manufacturing Technology (SIMTech), Technology and Research (A*STAR), Singapore` — now: Agency for Science, Technology and Research; candidates: ['Singapore Institute of Manufacturing Technology'] (assigned has acronym-token evidence)
+- `Soochow University, Suzhou` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `Soochow University, Suzhou, China` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `Soochow University, Suzhou, Jiangsu, China` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `Sorbonne Université, CNRS UMR 7222, Institut des Systémes Intelligents et de Robotique, ISIR, Paris - France` — now: Institut Systèmes Intelligents et de Robotique; candidates: ['Sorbonne Université'] (assigned has acronym-token evidence)
+- `Sorbonne Université, CNRS, Institut des Systèmes Intelligents et de Robotique, ISIR, Paris, France` — now: Institut Systèmes Intelligents et de Robotique; candidates: ['Sorbonne Université'] (assigned has acronym-token evidence)
+- `Sorbonne Université, CNRS, Institut des Systémes Intelligents et de Robotique, ISIR,Paris,France,F-75005` — now: Institut Systèmes Intelligents et de Robotique; candidates: ['Sorbonne Université'] (assigned has acronym-token evidence)
+- `Sorbonne Université, LIP6, Paris, France` — now: LIP6; candidates: ['Sorbonne Université'] (assigned has acronym-token evidence)
+- `Southeast University, Nanjing, Jiangsu, CN` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `Stat, Carnegie Mellon University` — now: Statistics Austria; candidates: ['Carnegie Mellon University'] (assigned has acronym-token evidence)
+- `State Key Laboratory of Alternate Electrical Power System with Renewable Energy Sources (NCEPU), Beijing, China` — now: North China Electric Power University; candidates: ['State Key Laboratory of Alternate Electrical Power System with Renewable Energy Sources'] (assigned has acronym-token evidence)
+- `State Key Laboratory of Computer Science, ISCAS, Beijing, China` — now: Institute of Software; candidates: ['State Key Laboratory of Computer Science'] (assigned has acronym-token evidence)
+- `State Key Laboratory of Information Photonics and Optical Communications, BUPT, Beijing, 100876, China` — now: Beijing University of Posts and Telecommunications; candidates: ['State Key Laboratory of Information Photonics and Optical Communications'] (assigned has acronym-token evidence)
+- `State Key Laboratory of Management and Control for Complex Systems, Institute of Automation, Beijing, China` — now: China Iron and Steel Research Institute Group; candidates: ['Institute of Automation', 'Institute of Automation'] (2 tied candidates)
+- `State Key Laboratory of Millimeter Wave, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `State Key Laboratory of Networking and Switching Technology, BUPT` — now: Beijing University of Posts and Telecommunications; candidates: ['State Key Laboratory of Networking and Switching Technology'] (assigned has acronym-token evidence)
+- `State Key Laboratory of Networking and Switching Technology, BUPT, China` — now: Beijing University of Posts and Telecommunications; candidates: ['State Key Laboratory of Networking and Switching Technology'] (assigned has acronym-token evidence)
+- `State Key Laboratory of Synthetical Automation for Process Industries and International Joint Research Laboratory of Integrated Automation, Northeastern University, Shenyang, China` — now: Shenyang University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `State Key Laboratory of Synthetical Automation of Process Industries, Northeastern University, Shenyang, Liaoning, P. R. China` — now: Shenyang University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Suzhou Key Laboratory of Advanced Optical Communication Network Technology, School of Electronic and Information Engineering, Soochow University, Suzhou, China` — now: Suzhou City University; candidates: ['Soochow University', 'Soochow University'] (2 tied candidates)
+- `Systèmes et applications des technologies de l'information et de l'energie (SATIE), Ecole normale supérieure Paris-Saclay, Cachan, France` — now: Laboratoire des systèmes et applications des technologies de l'information et de l'énergie; candidates: ['École Normale Supérieure Paris-Saclay'] (assigned has acronym-token evidence)
+- `Systèmes et applications des technologies de l'information et de l'énergie (SATIE), École normale supérieure Paris-Saclay, Cachan, France` — now: Laboratoire des systèmes et applications des technologies de l'information et de l'énergie; candidates: ['École Normale Supérieure Paris-Saclay'] (assigned has acronym-token evidence)
+- `Temasek Laboratories, Nanyang Technological University, 50 Nanyang Avenue, Research Techno Plaza (RTP), 639798 Singapore` — now: Research Triangle Park Foundation; candidates: ['Nanyang Technological University'] (assigned has acronym-token evidence)
+- `Terahertz Engineering Laboratory, School of Electrical and Electronics Engineering (EEE), Faculty of Engineering, Computer and Mathematical Sciences (ECMS), University of Adelaide, Adelaide, SA, Australia` — now: Environmental Education Exchange; candidates: ['The University of Adelaide'] (assigned has acronym-token evidence)
+- `The Chinese University of Hong Kong, Shenzhen and SRIBD` — now: Shenzhen Research Institute of Big Data; candidates: ['Chinese University of Hong Kong'] (assigned has acronym-token evidence)
+- `The Department of Industrial Engineering (DII), University of Trento, Trento, Italy` — now: Design Intelligence (United States); candidates: ['University of Trento'] (assigned has acronym-token evidence)
+- `The Graduate Center, CUNY, Apple, New York, NY` — now: Apple (United States); candidates: ['The Graduate Center, CUNY'] (assigned has acronym-token evidence)
+- `The Graduate Center, CUNY, Computer Science, New York, NY, USA` — now: City University of New York; candidates: ['The Graduate Center, CUNY'] (assigned has acronym-token evidence)
+- `The Graduate Center, CUNY, New York, NY` — now: City University of New York; candidates: ['The Graduate Center, CUNY'] (assigned has acronym-token evidence)
+- `The Graduate Center, CUNY, New York, NY 10016, USA` — now: City University of New York; candidates: ['The Graduate Center, CUNY'] (assigned has acronym-token evidence)
+- `The Graduate Center, CUNY, New York, New York 10016, USA` — now: City University of New York; candidates: ['The Graduate Center, CUNY'] (assigned has acronym-token evidence)
+- `The Polytechnic School, Arizona State University, Mesa, AZ, USA` — now: Middle East Studies Association of North America; candidates: ['Arizona State University'] (assigned has acronym-token evidence)
+- `The Polytechnic School, Ira A. Fulton Schools of Engineering, Arizona State University, Mesa, AZ, USA` — now: Middle East Studies Association of North America; candidates: ['Arizona State University'] (assigned has acronym-token evidence)
+- `The School of Electrical Engineering, Southeast University, Nanjing, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `The State Key Laboratory of Synthetical Automation for Process Industries and International Joint Research Laboratory of Integrated Automation, Northeastern University, Shenyang, China` — now: Shenyang University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `The authors are with the ECE Department, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `Trinity College, CONNECT, Dublin, Ireland` — now: Trinity College Dublin; candidates: ['Trinity College', 'Trinity College'] (2 tied candidates)
+- `Trinity College,School of Computer Science & Statistics, ADAPT Research Centre,Dublin,Ireland` — now: Technological University Dublin; candidates: ['Trinity College', 'Trinity College'] (2 tied candidates)
+- `U.S. Air Force Research Laboratory, Wright-Patterson AFB, OH, 45433, USA` — now: Wright-Patterson Air Force Base; candidates: ['United States Air Force Research Laboratory'] (assigned has acronym-token evidence)
+- `U.S. Navy, Office of Naval Research, Arlington, VA 22207 USA` — now: United States Navy; candidates: ['Office of Naval Research', 'Office of Naval Research'] (assigned has acronym-token evidence)
+- `UBTECH Sydney AI Centre, SCS, FEIT, the University of Sydney, Australia` — now: Finance and Economics Institute of Tajikistan; candidates: ['The University of Sydney'] (assigned has acronym-token evidence)
+- `UBTECH Sydney AI Centre, SIT, FEIT, The University of Sydney, Australia` — now: Finance and Economics Institute of Tajikistan; candidates: ['The University of Sydney'] (assigned has acronym-token evidence)
+- `UBTECH Sydney AI Centre, School of Computer Science, FEIT, The University of Sydney, Australia` — now: Finance and Economics Institute of Tajikistan; candidates: ['The University of Sydney'] (assigned has acronym-token evidence)
+- `UC Berkeley, ICSI` — now: International Computer Science Institute; candidates: ['University of California, Berkeley'] (assigned has acronym-token evidence)
+- `UCBL, Ampere Laboratory, ViIIeurbanne, France` — now: Université Claude Bernard Lyon 1; candidates: ['Laboratoire Ampère'] (assigned has acronym-token evidence)
+- `UMR5819-SPrAM (CEA/CNRS/UGA), INAC, CEA-Grenoble, France` — now: Institut Nanosciences et Cryogénie; candidates: ['CEA Grenoble'] (assigned has acronym-token evidence)
+- `UMR6285, Lab-STICC, IMT-Atlantique, Brest, France` — now: Laboratoire des Sciences et Techniques de l’Information de la Communication et de la Connaissance; candidates: ['IMT Atlantique'] (assigned has acronym-token evidence)
+- `UNICAEN, ENSICAEN, LAC, Normandie Université, Caen, France` — now: Université de Caen Normandie; candidates: ['Normandie Université'] (assigned has acronym-token evidence)
+- `UPEM, Laboratoire d'Analyse et de Mathématiques Appliquées (UMR 8050), Créteil, France` — now: Universidad Privada del Estado de Morelos; candidates: ['Laboratoire d’Analyse et de Mathématiques Appliquées'] (assigned has acronym-token evidence)
+- `UR1404, MaIAGE, Université Paris-Saclay, France` — now: Mathématiques et Informatique Appliquées du Génome à l'Environnement; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Univ. Grenoble Alpes, CNRS, Grenoble INP*, G2Elab, Grenoble, France` — now: Laboratoire de Génie Électrique de Grenoble; candidates: ['Institut polytechnique de Grenoble'] (assigned has acronym-token evidence)
+- `Univ. Grenoble Alpes, CNRS, Inria, Grenoble INP, LIG, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Institut polytechnique de Grenoble'] (assigned has acronym-token evidence)
+- `Univ. Lille, CRIStAL, Lille, France` — now: Centre de Recherche en Informatique, Signal et Automatique de Lille; candidates: ['Université de Lille'] (assigned has acronym-token evidence)
+- `Universidad Autónoma de Occidente, Colombia` — now: Universidad Autónoma de Colombia; candidates: ['Universidad Autónoma de Occidente', 'Universidad Autónoma de Occidente'] (2 tied candidates)
+- `Universidad Santo Tomas, Bogota, Colombia` — now: Pilot University of Colombia; candidates: ['Universidad Santo Tomás', 'Universidad Santo Tomás'] (2 tied candidates)
+- `Universidad Simón Bolívar, Caracas, Venezuela` — now: Bolivarian University of Venezuela; candidates: ['Universidad Simón Bolívar', 'Simón Bolívar University'] (2 tied candidates)
+- `Universidad de los Andes, Bogotá, Colombia` — now: Universidad de América; candidates: ['Universidad de Los Andes', 'University of the Andes', 'Universidad de Los Andes'] (3 tied candidates)
+- `Universidad del Norte, Colombia` — now: Universidad Externado de Colombia; candidates: ['Universidad del Norte', 'Universidad del Norte'] (2 tied candidates)
+- `Universite de Lorraine, Loria, Nancy, France` — now: Laboratoire Lorrain de Recherche en Informatique et ses Applications; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `Universite d’Orleans, PRISME, Bourges, France` — now: Laboratoire Pluridisciplinaire de Recherche en Ingénierie des Systèmes, Mécanique et Energétique; candidates: ["Université d'Orléans"] (assigned has acronym-token evidence)
+- `University at Buffalo, SUNY, Buffalo, NY` — now: State University of New York; candidates: ['University at Buffalo, State University of New York'] (assigned has acronym-token evidence)
+- `University of California Riverside, Riverside, CA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `University of California, Riverside, CA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `University of California, Riverside, CA, USA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `University of California, Riverside, Riverside, California` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `University of California, Riverside, USA` — now: Riverside; candidates: ['University of California, Riverside'] (assigned has acronym-token evidence)
+- `University of Chinese Academy of Sciences; Center for Research on Intelligent Perception and Computing, CASIA` — now: Institute of Automation; candidates: ['University of Chinese Academy of Sciences'] (assigned has acronym-token evidence)
+- `University of Electronic Science and Technology, China; University of Waterloo` — now: University of Electronic Science and Technology of China; candidates: ['University of Waterloo'] (country ['CN'] contradicts CA)
+- `University of Exeter, Exeter, EX4` — now: Phillips Exeter Academy; candidates: ['University of Exeter'] (assigned has acronym-token evidence)
+- `University of Exeter, Exeter, UK` — now: Phillips Exeter Academy; candidates: ['University of Exeter'] (assigned has acronym-token evidence)
+- `University of Georgia, Athens, GA` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `University of Georgia, Athens, GA, US` — now: National and Kapodistrian University of Athens; candidates: ['University of Georgia', 'University of Georgia'] (2 tied candidates)
+- `University of Lyon, UCBL, Ampere Laboratory, Villeurbanne, France` — now: Université Claude Bernard Lyon 1; candidates: ['Laboratoire Ampère'] (assigned has acronym-token evidence)
+- `University of L’Aquila, 67100 L’Aquila, and CNIT, Italy` — now: Consorzio Nazionale Interuniversitario per le Telecomunicazioni; candidates: ["University of L'Aquila"] (assigned has acronym-token evidence)
+- `University of Montreal, Mila` — now: Mila - Quebec Artificial Intelligence Institute; candidates: ['Université de Montréal'] (assigned has acronym-token evidence)
+- `University of Pennsylvania,General Robotics, Automation, Sensing & Perception (GRASP) Lab` — now: Global and Regional Asperger Syndrome Partnership; candidates: ['University of Pennsylvania'] (assigned has acronym-token evidence)
+- `University of Science and Technology, China` — now: University of the Sciences; candidates: ['University of Science and Technology', 'Korea University of Science and Technology'] (2 tied candidates)
+- `University of Science and Technology, Daejeon, South Korea` — now: University of the Sciences; candidates: ['University of Science and Technology', 'Korea University of Science and Technology'] (2 tied candidates)
+- `University of Science and Technology,Daejeon,South Korea` — now: University of the Sciences; candidates: ['University of Science and Technology', 'Korea University of Science and Technology'] (2 tied candidates)
+- `University of Science, VNU-HCM, Vietnam Vietnam National University,Faculty of Information Technology,Ho Chi Minh City,Vietnam` — now: Ho Chi Minh City University of Science; candidates: ['Centro Universitário FEI'] (country ['VN'] contradicts BR)
+- `University of York, Inria, UK, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['University of York'] (assigned has acronym-token evidence)
+- `Université Côte d’ Azur, Inria` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ["Université Côte d'Azur"] (assigned has acronym-token evidence)
+- `Université Côte d’Azur, Inria` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ["Université Côte d'Azur"] (assigned has acronym-token evidence)
+- `Université Côte d’Azur, Inria, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ["Université Côte d'Azur"] (assigned has acronym-token evidence)
+- `Université Grenoble Alpes, CNRS, LIPhy, Grenoble, France` — now: Laboratoire Interdisciplinaire de Physique; candidates: ['Université Grenoble Alpes'] (assigned has acronym-token evidence)
+- `Université Grenoble Alpes, Inria, CNRS, Grenoble INP, LJK, France` — now: Institut national de recherche en sciences et technologies du numérique; candidates: ['Université Grenoble Alpes'] (assigned has acronym-token evidence)
+- `Université Lyon 1,LAGEP, CNRS, CPE,Villeurbanne,France,69100` — now: Laboratoire d'Automatique, de Génie des Procédés et de Génie Pharmaceutique; candidates: ['Université Claude Bernard Lyon 1'] (assigned has acronym-token evidence)
+- `Université Paris-Est, LIGM (UMR 8049), CNRS, ENPC, ESIEE Paris, UPEM, Marne-la-Vallée, France` — now: Laboratoire d'Informatique Gaspard-Monge; candidates: ['Paris-Est Sup'] (assigned has acronym-token evidence)
+- `Université Paris-Est, UMR 8049` — now: Laboratoire d'Informatique Gaspard-Monge; candidates: ['Paris-Est Sup'] (assigned has acronym-token evidence)
+- `Université Paris-Saclay, CNRS, LIMSI, Orsay, France` — now: Laboratoire d'Informatique pour la Mécanique et les Sciences de l'Ingénieur; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Université Paris-Saclay, CentraleSupélec, Inria, CVN, Gif-sur-Yvette, France` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Université Paris-Saclay, CentraleSupélec, MICS, Gif-sur-Yvette, France` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Université Paris-Saclay,CentraleSupélec,SONDRA,Gif-sur-Yvette,France,91192` — now: CentraleSupélec; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Université Paris-Saclay,ONERA,DEMR,Palaiseau,France,91120` — now: Office National d'Études et de Recherches Aérospatiales; candidates: ['Université Paris-Saclay'] (assigned has acronym-token evidence)
+- `Université de Grenoble Alpes, Grenoble INP, LCIS, France` — now: Laboratoire de Conception et d'Intégration des Systèmes; candidates: ['Institut polytechnique de Grenoble'] (assigned has acronym-token evidence)
+- `Université de Lorraine, CNRS, LEMTA, Nancy, France` — now: Laboratoire Énergies et Mécanique Théorique et Appliquée; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `Université de Lorraine, CRAN, Nancy, France` — now: Centre de Recherche en Automatique de Nancy; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `Université de Lorraine, CRAN, UMR 7039` — now: Centre de Recherche en Automatique de Nancy; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `Université de Lorraine, LORIA, Nancy, France` — now: Laboratoire Lorrain de Recherche en Informatique et ses Applications; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `Université de Lorraine, Loria, UMR 7503, Vandœuvre-lès-Nancy, France` — now: Laboratoire Lorrain de Recherche en Informatique et ses Applications; candidates: ['Université de Lorraine'] (assigned has acronym-token evidence)
+- `Université de Lyon, ENTPE, Lyon, France` — now: École Nationale des Travaux Publics de l'État; candidates: ['Université de Lyon'] (assigned has acronym-token evidence)
+- `Université de Lyon, INSA-Lyon, LIRIS` — now: Laboratoire d'Informatique en Images et Systèmes d'Information; candidates: ['Université de Lyon'] (assigned has acronym-token evidence)
+- `Université de Lyon, LAGEP, France` — now: Laboratoire d'Automatique, de Génie des Procédés et de Génie Pharmaceutique; candidates: ['Université de Lyon'] (assigned has acronym-token evidence)
+- `Université de Montréal, Mila` — now: Mila - Quebec Artificial Intelligence Institute; candidates: ['Université de Montréal'] (assigned has acronym-token evidence)
+- `Université de Montréal,Mila,Canada` — now: Mila - Quebec Artificial Intelligence Institute; candidates: ['Université de Montréal'] (assigned has acronym-token evidence)
+- `Université de Strasbourg, ICube` — now: Laboratoire des Sciences de l'Ingénieur, de l'Informatique et de l'Imagerie; candidates: ['Université de Strasbourg'] (assigned has acronym-token evidence)
+- `Visual Recognition Group, Czech Technical University in Prague; Machine Perception Research Laboratory, MTA SZTAKI, Budapest` — now: HUN-REN Institute for Computer Science and Control; candidates: ['Czech Technical University in Prague'] (assigned has acronym-token evidence)
+- `Wellcome Trust Interventional and Surgical Sciences (WEISS) Institute, University College London, United Kingdom` — now: Wellcome / EPSRC Centre for Interventional and Surgical Sciences; candidates: ['University College London', 'UCL Australia'] (assigned has acronym-token evidence)
+- `Western University, London, Canada` — now: University of West London; candidates: ['Western University', 'Western Caspian University'] (2 tied candidates)
+- `XLIM, University of Limoges, Limoges, France` — now: XLIM; candidates: ['Université de Limoges'] (assigned has acronym-token evidence)
+- `Xlim, University of Limoges, Brive la Gaillarde, France` — now: XLIM; candidates: ['Université de Limoges'] (assigned has acronym-token evidence)
+- `York University, Toronto` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `York University, Toronto, Canada` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `York University, Toronto, ON, CA` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `York University, Toronto, ON, Canada` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `York University; Toronto` — now: University of Toronto; candidates: ['York University', 'York University'] (2 tied candidates)
+- `[Brown University,School of Engineering,Providence,RI]` — now: Providence College; candidates: ['Brown University'] (assigned has acronym-token evidence)
+- `[CVL, Linköping University, Sweden, IIAI, UAE]` — now: Inception Institute of Artificial Intelligence; candidates: ['Linköping University'] (assigned has acronym-token evidence)
+- `[Cornell University, Cornell Tech, Facebook AI Research (FAIR)]` — now: Facility for Antiproton and Ion Research; candidates: ['Cornell University'] (assigned has acronym-token evidence)
+- `[Department of Mechanical and Aerospace Engineering, Automation and Systems Research Institute (ASRI), Seoul National University, Gwanak-gu, Seoul, Korea]` — now: Allegheny-Singer Research Institute; candidates: ['Seoul National University'] (assigned has acronym-token evidence)
+- `[Guangdong Province Key Laboratory of Optical Fiber Sensing and Communications, Institute of Photonics Technology, Jinan University, Guangzhou, China]` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `[Human Language Technology Dept., A *STAR, Institute for Infocomm Research, Singapore]` — now: Agency for Science, Technology and Research; candidates: ['Institute for Infocomm Research'] (assigned has acronym-token evidence)
+- `[Institude of photonics technology, Jinan University, Guangzhou, Guangdong, China, 511442 (e-mail: ruiqizheng@stu2017.jnu.edu.cn)]` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `[Institute of Photonics Technology, Jinan University, Guangzhou, Guang Dong, China, 510632 (e-mail: guanboo@yahoo.com)]` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `[Institute of Photonics Technology, Jinan University, Guangzhou, Guangdong, China, (e-mail: txudong.wang@email.jnu.edu.cn)]` — now: Guangzhou University; candidates: ['Jinan University', 'Jinan University'] (2 tied candidates)
+- `[National Research Center for Optical Sensing/Communication Integrated Networking, School of Electronic Science and Engineering, Southeast University, Nanjing, China]` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)
+- `[Northeastern University,Institute for the Wireless Internet of Things,Boston,MA,USA,02115]` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `[University of Montreal, CIFAR]` — now: Canadian Institute for Advanced Research; candidates: ['Université de Montréal'] (assigned has acronym-token evidence)
+- `college of Information Science and Engineering, Northeastern University, Shenyang, China` — now: Shenyang University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `department of Mechanical and Industrial Engineering, Northeastern University, Boston, MA, USA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `houry College of Computer Science, Northeastern University, Boston, MA` — now: Boston University; candidates: ['Northeastern University', 'Universidad del Noreste', 'Northeastern University'] (3 tied candidates)
+- `school of Electrical and Computer Engineering, Korea University, Seoul, Korea` — now: University of Seoul; candidates: ['Korea University', 'Korea University'] (2 tied candidates)
+- `†Department of Physics, Southeast University, Nanjing 211189, China` — now: Nanjing University; candidates: ['Southeast University', 'Southeast University'] (2 tied candidates)

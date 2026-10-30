@@ -1,0 +1,235 @@
+{
+  "checked_at": "2026-10-29",
+  "purpose": "Proposed plan to replace source-driven Semantic Scholar ML collection with publisher-authoritative proceedings membership and paper-specific affiliation evidence. This file is planning metadata; it does not change the registry, cache, or site.",
+  "initial_ranking_window": {
+    "start_year": 2017,
+    "end_year": 2025,
+    "proposal": "Use a common continuous window for the first default-on decision. Keep 2026 partial until complete official inventories are available. Stage older years only after separate membership and affiliation gates pass; do not interpret excluded years as zero output."
+  },
+  "verified_baseline": {
+    "semantic_scholar_files": 95,
+    "works": 58145,
+    "works_without_doi": 31788,
+    "doi_bearing_rows": 26357,
+    "distinct_dois": 26355,
+    "rows_with_accepted_openalex_paper_affiliations": 15868,
+    "distinct_dois_with_accepted_openalex_match": 15866,
+    "doi_bearing_works_without_accepted_match": 10489,
+    "share_of_all_rows_backfilled": 0.273,
+    "full_byline_authors_in_backfilled_works": 78994,
+    "openalex_doi_batches": 264,
+    "openalex_list_attempts": 305,
+    "openalex_list_attempt_budget": 350,
+    "profile_affiliation_strings_withheld_from_historical_credit": 25301,
+    "current_site_ml_aggregate_rows": 2788,
+    "current_site_ml_years": {
+      "minimum": 1987,
+      "maximum": 2026,
+      "distinct_count": 39,
+      "interpretation": "Derived institution/year output rows; not evidence of accepted-paper membership completeness."
+    },
+    "source": "docs/data-refresh-ml-2026-10-28.md and data/refresh/ml-works-2026-10-28.json"
+  },
+  "per_venue": {
+    "neurips": {
+      "membership_source": {
+        "authority": "Official NeurIPS proceedings archive and linked proceedings book pages; use each edition's paper IDs, paper URLs, and track labels.",
+        "urls": [
+          "https://proceedings.neurips.cc/",
+          "https://proceedings.neurips.cc/paper_files/paper/2025/vol38-main-conference"
+        ],
+        "earliest_year": 1987,
+        "initial_default_window_start": 2017,
+        "verified_2025_counts": {
+          "proceedings_main_book_entries": 5823,
+          "fact_sheet_main_track_accepted": 5290,
+          "note": "The book's 5,823 entries span listed tracks; the fact sheet's 5,290 is main-track accepts. Reconcile track scope and IDs; these are not equivalent denominators.",
+          "urls": [
+            "https://proceedings.neurips.cc/paper_files/paper/2025/vol38-main-conference",
+            "https://media.neurips.cc/Conferences/NeurIPS2025/press/NeurIPS2025-Fact_Sheet.pdf",
+            "https://blog.neurips.cc/2025/09/30/reflections-on-the-2025-review-process-from-the-program-committee-chairs/"
+          ]
+        },
+        "track_policy_proposal": "Include research tracks in the official main-conference proceedings under a declared policy; preserve every track label. Exclude workshops and the separate Creative AI book by default. Treat 2021 Datasets & Benchmarks as a separate book and 2022 onward as a track within the main proceedings."
+      },
+      "affiliation_strategy": "First exact DOI join to OpenAlex work.authorships with DOI/title/year/byline identity checks; then DOI-specific Crossref author affiliations; then final NeurIPS proceedings PDF author/affiliation blocks. DBLP signature affiliations may be a secondary cross-check after year coverage validation. Never use S2/OpenReview author profiles for historical credit.",
+      "blockers": [
+        "The current S2/OpenAlex source-driven discovery is incomplete because proceedings papers are often attributed to arXiv or another source.",
+        "Track membership/counts need exact reconciliation, especially 2025: 5,823 proceedings book entries versus 5,290 fact-sheet main-track accepts.",
+        "The 1987-present archive requires a declared track policy and separate historical PDF affiliation work; 2017 is the proposed initial common ranking window."
+      ]
+    },
+    "icml": {
+      "membership_source": {
+        "authority": "Official PMLR ICML edition volume and canonical article slugs; enumerate the conference volume only, not workshop volumes.",
+        "urls": [
+          "https://proceedings.mlr.press/",
+          "https://proceedings.mlr.press/v28/",
+          "https://proceedings.mlr.press/v267/"
+        ],
+        "earliest_year": 2013,
+        "initial_default_window_start": 2017,
+        "pre_pmlr_note": "ICML proceedings predate PMLR; for 2010-2012 use official ICML archive adapters only after separate validation. Earlier years are outside the initial window.",
+        "verified_2025_count": {
+          "main_track_accepted": 3260,
+          "url": "https://media.icml.cc/Conferences/ICML2025/ICML2025_Fact_Sheet.pdf"
+        }
+      },
+      "affiliation_strategy": "First exact DOI join to OpenAlex work.authorships with DOI/title/year/byline identity checks; then DOI-specific Crossref author affiliations; then final PMLR paper PDF author/affiliation blocks. Use official volume membership independent of OpenAlex source venue. DBLP signature affiliations may be a secondary cross-check after year coverage validation. Never use author profiles for historical credit.",
+      "blockers": [
+        "No reliable OpenAlex ICML venue source; known OpenAlex venue source is contaminated and works are often attributed to arXiv.",
+        "Crossref fuzzy container-title search has ICMLA/ICMLC lookalikes; PMLR volume 28 is the first ICML edition in PMLR (2013).",
+        "2025 official main-track accept count is 3,260 and must reconcile to volume 267 paper IDs; DOI/PDF affiliation completion remains unmeasured against official membership."
+      ]
+    },
+    "iclr": {
+      "membership_source": {
+        "authority": "OpenReview accepted conference submissions keyed by year-specific venue ID, reconciled to ICLR's official proceedings page/list. Use API v1 for legacy years where required and API v2 for modern years.",
+        "urls": [
+          "https://iclr.cc/FAQ/Proceedings",
+          "https://openreview.net/venue?id=ICLR.cc",
+          "https://docs.openreview.net/getting-started/using-the-api",
+          "https://docs.openreview.net/getting-started/frequently-asked-questions/how-do-i-find-a-venue-id"
+        ],
+        "earliest_year": 2013,
+        "initial_default_window_start": 2017,
+        "api_coverage_note": "Official ICLR lists accepted papers for 2013-2025. API history is uneven: legacy forms for 2013-2014, 2015 absent from the public venue list, and the 2016 listing is reported as workshop-only in API analyses. Use archived official paper lists for 2015-2016 and reconcile them independently.",
+        "verified_2025_counts": {
+          "fact_sheet_accepted": 3704,
+          "proceedings_book_entries": 3703,
+          "note": "One-record difference; reconcile accepted OpenReview IDs against final proceedings before accepting either as the target count.",
+          "urls": [
+            "https://media.iclr.cc/Conferences/ICLR2025/ICLR2025_Fact_Sheet.pdf",
+            "https://proceedings.iclr.cc/paper_files/paper/2025"
+          ]
+        }
+      },
+      "affiliation_strategy": "Use an exact OpenAlex DOI work.authorships match where a DOI exists; otherwise use DOI-specific Crossref if available, then extract the author-specific affiliation block from the final accepted ICLR proceedings PDF. OpenReview profile affiliations and Semantic Scholar author-profile affiliations are profile snapshots and are never historical evidence. Preserve author IDs only for identity matching, not institutional credit.",
+      "blockers": [
+        "Current source-based harvest is structurally incomplete: ICLR papers are often attributed to arXiv, not an ICLR source.",
+        "OpenReview API v1/v2 and invitations vary by year; 2015-2016 need official archived-list recovery instead of assumed API coverage.",
+        "2025 fact sheet says 3,704 accepted while official proceedings lists 3,703 papers; resolve the exact missing/extra record.",
+        "Accepted submission metadata does not by itself establish historical affiliation; final-paper PDFs or identity-checked DOI metadata are required."
+      ]
+    }
+  },
+  "affiliation_evidence_rules": {
+    "allowed": [
+      "OpenAlex work.authorships joined by exact normalized DOI plus strong title, year, and byline identity checks",
+      "Crossref author affiliations attached to the DOI-specific work record",
+      "Author-to-affiliation mapping visibly printed in the final publisher proceedings paper",
+      "DBLP signature-level affiliation as a separately recorded, audited secondary source"
+    ],
+    "forbidden_for_historical_credit": [
+      "Semantic Scholar author-profile affiliation snapshots",
+      "OpenReview author-profile affiliations",
+      "Current employer inferred from author identity/profile"
+    ],
+    "provenance": "Preserve raw affiliation string, source, source URL/DOI, extraction confidence, resolved institution IDs, and author-slot mapping separately."
+  },
+  "phases": [
+    {
+      "id": 0,
+      "name": "Freeze scope and comparison rules",
+      "work": "Define included research tracks, excluded workshops/side tracks, the initial 2017-2025 common window, and how official accepted lists will be reconciled.",
+      "deliverable": "Versioned source/track table and expected-count evidence per venue-year."
+    },
+    {
+      "id": 1,
+      "name": "ICLR 2025 pilot",
+      "work": "Implement membership-only OpenReview/official-proceedings retrieval, reconcile the 3,704/3,703 delta, then enrich DOI-bearing rows and sample final PDFs.",
+      "deliverable": "One complete staged year and measured API, DOI, PDF, affiliation, and resolution costs."
+    },
+    {
+      "id": 2,
+      "name": "Complete ICLR initial window",
+      "work": "Add API-year configuration for 2017-2024 and separately assess official 2015-2016 archive recovery.",
+      "deliverable": "Per-year membership and affiliation gates; no profile-derived historical credit."
+    },
+    {
+      "id": 3,
+      "name": "ICML PMLR adapter",
+      "work": "Enumerate conference volumes starting with 2025 volume 267, reconcile 3,260 main-track accepts, and backfill DOI/PDF affiliations for 2017-2025 before older editions.",
+      "deliverable": "Canonical PMLR rows with track/source provenance and per-year gates."
+    },
+    {
+      "id": 4,
+      "name": "NeurIPS track-aware adapter",
+      "work": "Pilot 2025 proceedings and fact-sheet reconciliation, then process 2017-2024 with explicit track handling; measure older 1987-2016 separately.",
+      "deliverable": "Canonical publisher membership with no workshop/Creative AI contamination and per-year affiliation report."
+    },
+    {
+      "id": 5,
+      "name": "Full reconciliation and promotion review",
+      "work": "Reconcile all staged rows to official accepted sets, deduplicate proceedings versus arXiv versions, aggregate in isolated staging, review gates and a separately approved known-strong tripwire.",
+      "deliverable": "A reviewable evidence report supporting a separate default_on decision."
+    }
+  ],
+  "gates": {
+    "proposed": true,
+    "per_venue_year": true,
+    "publisher_membership_coverage": {
+      "minimum_fraction": 0.99,
+      "rule": "At least 99% of official included accepted-paper IDs/titles represented and at least 99% of cache rows matched to an official included record; every delta explained by track/scope or source evidence."
+    },
+    "affiliation_author_slot_coverage": {
+      "minimum_fraction": 0.9,
+      "rule": "At least 90% of byline author slots have a paper-specific affiliation string or institution from OpenAlex work, DOI-specific Crossref, or final publisher paper; profiles do not count. Report author-slot and paper-level rates separately."
+    },
+    "affiliation_resolution": {
+      "minimum_fraction": 0.95,
+      "rule": "At least 95% of paper-specific affiliation strings resolved or manually adjudicated; report evidence availability separately from institution resolution."
+    },
+    "identity_integrity": [
+      "Exact normalized DOI plus strong title/year/byline checks for OpenAlex matches",
+      "Complete author list, no truncation",
+      "No silently merged DOI/title/year/byline conflicts"
+    ],
+    "scope_purity": "Every row maps to an official included proceedings ID/URL and allowed track; no workshop, rejected, or preprint-only duplicate remains. Audit 100 titles per large edition or all papers for editions under 100, plus every exception.",
+    "official_count_reconciliation": "Explain 2025 NeurIPS 5,823 book entries vs 5,290 main-track accepts, ICML 3,260 main-track accepts, and ICLR 3,704 accepted vs 3,703 proceedings entries. Maximum unexplained residual after scope alignment: 1%.",
+    "known_strong_tripwire": "Before activation, separately configure diverse known-strong ML institutions and require nonzero area credit; investigate zeroes as data defects. This plan does not edit the tripwire.",
+    "window_completeness": "All three venues pass every edition from 2017 through 2025. Keep 2026 partial until official inventories are complete; stage older years only when separately gated."
+  },
+  "effort_estimate": {
+    "basis": "Planning estimate, not a measured quote. Replace after the ICLR 2025 pilot.",
+    "publisher_defined_papers_2017_2025": "Approximately 40,000-55,000 records across three venues.",
+    "openalex_doi_batches": "At an assumed 45-60% DOI share and batches up to 100 DOI values, approximately 180-330 batches.",
+    "openalex_list_attempts": "Plan 250-450 attempts including paging, retries, and response-size splits; existing 58,145-row DOI recovery used 264 batches and 305 attempts.",
+    "openreview_api": "Likely tens of paginated calls for recent ICLR years, depending on API page size; official docs do not state a fixed public rate budget. Use low concurrency, checkpointing, and backoff.",
+    "non_doi_affiliation_work": "Likely 16,000-30,000 no/weak-DOI rows plus the 10,489 historical DOI-bearing OpenAlex misses; PDF extraction and QA dominate. Use text extraction first, OCR only when needed.",
+    "recommended_order": [
+      "ICLR pilot first: modern accepted submissions are structured, and API/archival edge cases can be bounded before full collection.",
+      "ICML PMLR second: clean per-edition volume structure and a straightforward membership enumerator.",
+      "NeurIPS third: broad historical archive and track transitions make membership policy/QA the largest task."
+    ]
+  },
+  "references": {
+    "repository": [
+      "CLAUDE.md",
+      "docs/data-refresh-ml-2026-10-28.md",
+      "docs/review/2026-10-29-recent-completeness-audit.md",
+      "pipeline/harvest_s2.py",
+      "pipeline/refresh_ml.py",
+      "pipeline/backfill_openalex.py",
+      "data/areas.json",
+      "site/data/ml.json"
+    ],
+    "primary_external": [
+      "https://proceedings.neurips.cc/",
+      "https://media.neurips.cc/Conferences/NeurIPS2025/press/NeurIPS2025-Fact_Sheet.pdf",
+      "https://blog.neurips.cc/2025/09/30/reflections-on-the-2025-review-process-from-the-program-committee-chairs/",
+      "https://proceedings.mlr.press/v28/",
+      "https://proceedings.mlr.press/v267/",
+      "https://media.icml.cc/Conferences/ICML2025/ICML2025_Fact_Sheet.pdf",
+      "https://iclr.cc/FAQ/Proceedings",
+      "https://media.iclr.cc/Conferences/ICLR2025/ICLR2025_Fact_Sheet.pdf",
+      "https://proceedings.iclr.cc/paper_files/paper/2025",
+      "https://openreview.net/venue?id=ICLR.cc",
+      "https://docs.openreview.net/getting-started/using-the-api",
+      "https://help.openalex.org/data/authorships/",
+      "https://www.crossref.org/documentation/retrieve-metadata/rest-api",
+      "https://csrankings.org/faq",
+      "https://blog.dblp.org/2026/09/21/institutions-as-first-class-citizens-introducing-affiliations-in-dblp/"
+    ]
+  }
+}
