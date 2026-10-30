@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>ECERankings: Electrical &amp; Computer Engineering Rankings</title>
   <meta name="description" content="A metrics-based ranking of institutions by publications in selective electrical and computer engineering journals and conferences, built on OpenAlex.">
   <link rel="icon" href="data:,">
@@ -36,8 +36,8 @@
       faculty rosters. <a href="methodology.html">How this is computed</a>.
     </p>
 
-    <form class="filters" id="filters" aria-label="Ranking filters" onsubmit="return false">
-      <div class="field">
+    <form class="filters" id="filters" aria-label="Ranking filters">
+      <div class="field field-region">
         <label for="region">Region</label>
         <select id="region" disabled></select>
       </div>
@@ -51,7 +51,7 @@
       </div>
       <div class="field field-grow">
         <label for="search">Find institution</label>
-        <input id="search" type="search" autocomplete="off" spellcheck="false" placeholder="Name contains…">
+        <input id="search" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search" placeholder="Name contains…">
       </div>
       <div class="field field-actions">
         <button type="button" id="export" disabled>Download CSV</button>
@@ -71,6 +71,7 @@
             <button type="button" class="link" data-select="none">none</button>
           </p>
           <div id="area-groups"><p class="muted">Loading areas…</p></div>
+          <button type="button" id="areas-done" class="areas-done">Done — view rankings</button>
         </details>
       </aside>
 
@@ -78,7 +79,8 @@
         <h2 id="results-heading" class="visually-hidden">Rankings</h2>
         <p id="status" class="status" role="status">Loading data…</p>
         <div id="error" class="error" role="alert" hidden></div>
-        <div class="table-scroll">
+        <p class="results-hint" id="results-hint">Select an institution to see counts and annual ranks.</p>
+        <div class="table-scroll" aria-describedby="results-hint">
           <table class="ranking" id="ranking-table">
             <caption class="visually-hidden">Institutions ranked by geometric-mean score across the selected areas. Use the institution name buttons to show per-area counts.</caption>
             <thead>
@@ -86,7 +88,7 @@
                 <th scope="col" class="num rank">#</th>
                 <th scope="col">Institution</th>
                 <th scope="col" class="num"><abbr title="Geometric mean of (1 + adjusted count) across the selected areas, minus one">Score</abbr></th>
-                <th scope="col" class="num"><abbr title="Adjusted count: each paper worth 1, split evenly among its authors">Adj. count</abbr></th>
+                <th scope="col" class="num opt"><abbr title="Adjusted count: each paper worth 1, split evenly among its authors">Adj. count</abbr></th>
                 <th scope="col" class="num opt"><abbr title="Distinct papers with at least one author at this institution">Papers</abbr></th>
               </tr>
             </thead>
