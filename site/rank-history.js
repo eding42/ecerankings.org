@@ -3,12 +3,17 @@
 export function rankResults(results, {
   idForResult = result => result.id,
   scoreForResult = result => result.score,
+  rankForResult,
   tieTolerance = 0.0001
 } = {}) {
   const ranks = new Map();
   let rank = 1;
   let previousScore;
   results.forEach((result, index) => {
+    if (rankForResult) {
+      ranks.set(idForResult(result), rankForResult(result));
+      return;
+    }
     const score = scoreForResult(result);
     if (index === 0 || tieTolerance === null || Math.abs(score - previousScore) > tieTolerance) {
       rank = index + 1;

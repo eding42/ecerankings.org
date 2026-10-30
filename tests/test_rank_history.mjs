@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import vm from 'node:vm';
 import * as history from '../site/rank-history.js';
+import * as ranking from '../site/rank.js';
 
 const mainSource = readFileSync(new URL('../site/main.js', import.meta.url), 'utf8');
 const legacySource = readFileSync(new URL('../site/index.old.html', import.meta.url), 'utf8')
@@ -23,22 +24,26 @@ const institutions = { a: { name: 'A', country: 'US' }, b: { name: 'B', country:
 
 function currentApp() {
   const context = vm.createContext({
-    ...history, console, setTimeout, clearTimeout,
-    document: { addEventListener() {} }
+    ...history, ...ranking, console, setTimeout, clearTimeout,
+    document: { readyState: 'loading', addEventListener() {} }
   });
-  vm.runInContext(mainSource.replace(/^import .*;$/m, ''), context);
-  const state = vm.runInContext('STATE', context);
+  vm.runInContext(mainSource.replace(/^import [\s\S]*? from '[^']+';$/gm, ''), context);
+  const state = vm.runInContext('app', context);
   Object.assign(state, {
-    dataCache: new Map(Object.entries(rows)), selectedAreas: new Set(Object.keys(rows)),
-    startYear: 2020, endYear: 2023, institutions
+    data: new Map(Object.entries(rows)),
+    sel: { from: 2020, to: 2023, areas: Object.keys(rows), region: 'world' },
+    institutions
   });
-  return { context, state, compute: context.computeRankings };
+  const compute = (from = state.sel.from, to = state.sel.to) => ranking.computeRankings(
+    { ...state.sel, from, to }, state.data, institutions
+  );
+  return { context, state, compute };
 }
 
 function annual(app) {
   return history.computeAnnualRanks({
-    startYear: app.state.startYear, endYear: app.state.endYear,
-    rankingsForYear: year => app.compute(year, year)
+    startYear: app.state.sel.from, endYear: app.state.sel.to,
+    rankingsForYear: year => app.compute(year, year), rankForResult: row => row.rank
   });
 }
 
@@ -46,10 +51,10 @@ test('annual scores retain the selected-area denominator, including zero areas',
   const app = currentApp();
   const result = app.compute(2020, 2020);
   assert.deepEqual(Array.from(result, row => row.id), ['c', 'a', 'b']);
-  assert.equal(result.find(row => row.id === 'a').score, Math.sqrt(5));
-  assert.equal(result.find(row => row.id === 'b').score, 2);
+  assert.ok(Math.abs(result.find(row => row.id === 'a').score - (Math.sqrt(5) - 1)) < 1e-12);
+  assert.equal(result.find(row => row.id === 'b').score, 1);
   // The range table still sums each area across all selected years.
-  assert.equal(app.compute().find(row => row.id === 'a').score, Math.sqrt(6 * 10));
+  assert.ok(Math.abs(app.compute().find(row => row.id === 'a').score - (Math.sqrt(6 * 10) - 1)) < 1e-12);
 });
 
 test('each year is ranked independently, with a gap for no output and table-consistent ties', () => {
@@ -61,19 +66,19 @@ test('each year is ranked independently, with a gap for no output and table-cons
 
 test('region and area selections change the annual comparison population and scores', () => {
   const app = currentApp();
-  app.state.region = 'us';
+  app.state.sel.region = 'US';
   assert.equal(history.institutionHistory(annual(app), 'a')[0].rank, 1);
-  app.state.selectedAreas = new Set(['control']);
+  app.state.sel.areas = ['control'];
   assert.equal(history.institutionHistory(annual(app), 'a')[0].rank, null);
   assert.equal(history.institutionHistory(annual(app), 'a')[1].rank, 1);
-  app.state.selectedAreas.clear();
+  app.state.sel.areas = [];
   assert.ok(history.institutionHistory(annual(app), 'a').every(point => point.rank === null));
 });
 
 test('annual ranks include institutions below the 150-row display limit', () => {
   const app = currentApp();
-  app.state.selectedAreas = new Set(['circuits']);
-  app.state.dataCache = new Map([['circuits', Array.from({ length: 200 }, (_, index) => ({
+  app.state.sel.areas = ['circuits'];
+  app.state.data = new Map([['circuits', Array.from({ length: 200 }, (_, index) => ({
     i: `i${index}`, y: 2020, a: 200 - index
   }))]]);
   assert.equal(annual(app)[0].ranks.get('i199'), 200);
@@ -139,20 +144,21 @@ test('legacy history respects country and venue-filtered rows without using name
   assert.ok(history.institutionHistory(history.computeAnnualRanks(options), 'a').every(point => point.rank === null));
 });
 
-test('filter updates invalidate annual ranks and an older fetch cannot overwrite newer results', async () => {
+test('expanded details render the trend first and cache against the displayed selection', () => {
   const app = currentApp();
-  let resolveFirst;
-  app.context.fetch = () => new Promise(resolve => { resolveFirst = resolve; });
-  app.state.elements.resultsCount = {};
-  vm.runInContext('renderTable = () => {}', app.context);
-  app.state.selectedAreas = new Set(['new-area']);
-  const older = app.context.updateRankings();
-  app.state.selectedAreas = new Set(['circuits']);
-  app.state.annualRanks = ['stale'];
-  await app.context.updateRankings();
-  assert.equal(app.state.annualRanks, null);
-  const latest = app.state.rankings;
-  resolveFirst({ ok: true, json: async () => [] });
-  await older;
-  assert.equal(app.state.rankings, latest);
+  app.state.result = { sel: { ...app.state.sel }, data: app.state.data, rows: app.compute(), annualRanks: null };
+  const school = app.state.result.rows.find(row => row.id === 'a');
+  const html = app.context.detailRow(school, 'test-detail');
+  assert.ok(html.indexOf('rank-trend') < html.indexOf('class="breakdown"'));
+  const cached = app.state.result.annualRanks;
+  assert.equal(history.institutionHistory(cached, 'a')[0].rank, 2);
+  // Controls can change during a fetch. Details must still describe the displayed result.
+  app.state.sel = { ...app.state.sel, from: 2022, to: 2022, region: 'US' };
+  app.context.detailRow(school, 'test-detail');
+  assert.equal(app.state.result.annualRanks, cached);
+  assert.equal(cached.length, 4);
+  // A completed update installs a new result and invalidates the old history.
+  app.state.result = { sel: app.state.sel, data: app.state.data, rows: app.compute(), annualRanks: null };
+  app.context.detailRow(app.state.result.rows[0], 'test-detail');
+  assert.equal(app.state.result.annualRanks.length, 1);
 });
