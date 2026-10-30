@@ -6,7 +6,7 @@ import {
   encodeState, decodeState, rankingsToCsv,
 } from './rank.js';
 import { computeAnnualRanks, institutionHistory, renderRankHistory } from './rank-history.js';
-import { renderComparison } from './comparison.js?v=compare-1';
+import { renderComparison } from './comparison.js?v=compare-2';
 
 const PAGE_SIZE = 100;
 const CURRENT_YEAR = new Date().getFullYear();
@@ -685,10 +685,10 @@ function renderTable() {
     const did = `detail-${r.id.replace(/\\W/g, '')}`;
     html += `<tr class="inst-row${open ? ' open' : ''}">` +
       `<td class="num rank">${r.tied ? `<span title="Tied">${r.rank}</span>` : r.rank}</td>` +
-      `<td class="name"><button type="button" class="inst" data-id="${esc(r.id)}" aria-expanded="${open}" aria-controls="${did}">` +
+      `<td class="name"><div class="inst-name-line"><span class="inst-name-main"><button type="button" class="inst" data-id="${esc(r.id)}" aria-expanded="${open}" aria-controls="${did}">` +
       `<span class="tri" aria-hidden="true">${open ? '▾' : '▸'}</span>${esc(r.name)}</button>` +
       (r.country ? ` <abbr class="cc" title="${esc(countryName(r.country))}">${esc(r.country)}</abbr>` : '') +
-      `</td>` +
+      `</span>${open ? comparisonAction(r) : ''}</div></td>` +
       `<td class="num score">${fmt2.format(r.score)}</td>` +
       `<td class="num opt">${fmt1.format(r.adjTotal)}</td>` +
       `<td class="num opt">${fmtInt.format(r.pubTotal)}</td></tr>`;
@@ -703,6 +703,14 @@ function renderTable() {
     $('show-more').textContent = `Show ${fmtInt.format(Math.min(PAGE_SIZE, left))} more`;
     $('show-all').textContent = `Show all ${fmtInt.format(rows.length)}`;
   }
+}
+
+function comparisonAction(row) {
+  const selected = app.compare.ids.includes(row.id);
+  const disabled = app.compare.ids.length === 2 && !selected;
+  const label = `${selected ? 'Remove' : 'Add'} ${row.name} ${selected ? 'from' : 'to'} comparison`;
+  const icon = selected ? '<path d="m3 7 3 3 5-6"/>' : '<rect x="2" y="5" width="7" height="7" rx="1"/><path d="M5 5V2h7v7H9"/>';
+  return `<button type="button" class="inst-compare${selected ? ' selected' : ''}" data-compare-id="${esc(row.id)}" aria-pressed="${selected}" aria-label="${esc(label)}" title="${disabled ? 'Remove a selected school before adding another' : esc(label)}"${disabled ? ' disabled' : ''}><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">${icon}</svg><span>${selected ? 'Added' : 'Compare'}</span></button>`;
 }
 
 function detailRow(r, did) {
@@ -730,7 +738,6 @@ function detailRow(r, did) {
     `<td class="num">${fmtInt.format(x.pubs)}</td></tr>`,
   ).join('');
   return `<tr class="detail" id="${did}"><td colspan="${columns}">` +
-    `<div class="detail-actions"><button type="button" data-compare-id="${esc(r.id)}"${app.compare.ids.length === 2 && !app.compare.ids.includes(r.id) ? ' disabled title="Remove a selected school before adding another"' : ''}>${app.compare.ids.includes(r.id) ? 'Remove from comparison' : 'Add to comparison'}</button></div>` +
     `${trend}` +
     `<dl class="institution-totals" aria-label="Institution totals">` +
     `<div><dt>Adjusted count</dt><dd>${fmt1.format(r.adjTotal)}</dd></div>` +
