@@ -323,8 +323,8 @@ def save_map(rows):
             w.writerow(row)
 
 
-def find_cached_years(venue_key):
-    venue_dir = os.path.join(CACHE_DIR, venue_key)
+def find_cached_years(venue_key, cache_dir=CACHE_DIR):
+    venue_dir = os.path.join(cache_dir, venue_key)
     if not os.path.isdir(venue_dir):
         return []
     return sorted(
@@ -333,12 +333,12 @@ def find_cached_years(venue_key):
     )
 
 
-def collect_raw_affiliations(venue_key, year=None):
+def collect_raw_affiliations(venue_key, year=None, cache_dir=CACHE_DIR):
     strings = {}
-    for y in find_cached_years(venue_key):
+    for y in find_cached_years(venue_key, cache_dir):
         if year is not None and y != year:
             continue
-        path = os.path.join(CACHE_DIR, venue_key, str(y), "works.jsonl")
+        path = os.path.join(cache_dir, venue_key, str(y), "works.jsonl")
         with open(path) as f:
             for line in f:
                 w = json.loads(line)
@@ -350,6 +350,8 @@ def collect_raw_affiliations(venue_key, year=None):
 
 def main():
     parser = argparse.ArgumentParser(description="Resolve Crossref affiliation strings to OpenAlex institutions (LOCAL).")
+    parser.add_argument("--cache-dir", default=CACHE_DIR,
+                        help="Raw cache tree to read (default: repository cache/)")
     parser.add_argument("--venue", action="append", default=[], help="Venue key (repeatable)")
     parser.add_argument("--all-cached", action="store_true", help="Every venue with cached works")
     parser.add_argument("--year", type=int, default=None, help="Restrict to one year")
@@ -359,7 +361,11 @@ def main():
 
     venues = args.venue
     if args.all_cached:
-        venues = sorted(d for d in os.listdir(CACHE_DIR) if os.path.isdir(os.path.join(CACHE_DIR, d))) if os.path.isdir(CACHE_DIR) else []
+        if os.path.isdir(args.cache_dir):
+            venues = sorted(d for d in os.listdir(args.cache_dir)
+                            if os.path.isdir(os.path.join(args.cache_dir, d)))
+        else:
+            venues = []
     if not venues:
         print("Specify --venue <key> or --all-cached", file=sys.stderr)
         sys.exit(1)
@@ -369,7 +375,7 @@ def main():
 
     all_strings = {}
     for v in venues:
-        for s, n in collect_raw_affiliations(v, args.year).items():
+        for s, n in collect_raw_affiliations(v, args.year, args.cache_dir).items():
             all_strings[s] = all_strings.get(s, 0) + n
 
     if not all_strings:
