@@ -570,9 +570,9 @@ function showAreaError(failed) {
   const names = failed.map((f) => `${esc(app.areaById.get(f.id)?.name || f.id)} <span class="muted">(${esc(f.r.reason?.message || 'unknown error')})</span>`);
   setStatus('Rankings unavailable.');
   $('error').innerHTML =
-    `<p><strong>Could not load data for ${failed.length === 1 ? 'one selected area' : `${failed.length} selected areas`}:</strong></p>` +\
-    `<ul>${names.map((n) => `<li>${n}</li>`).join('')}</ul>` +\
-    `<p>No ranking is shown, because leaving an area out would change every institution's score. ` +\
+    `<p><strong>Could not load data for ${failed.length === 1 ? 'one selected area' : `${failed.length} selected areas`}:</strong></p>` +
+    `<ul>${names.map((n) => `<li>${n}</li>`).join('')}</ul>` +
+    `<p>No ranking is shown, because leaving an area out would change every institution's score. ` +
     `<button type="button" id="retry">Try again</button></p>`;
   $('error').hidden = false;
   $('retry').addEventListener('click', () => update());
@@ -624,7 +624,7 @@ function renderTable() {
   const { sel, rows: all } = app.result;
   const rows = filteredRows();
   const visible = rows.slice(0, app.shown);
-  const years = sel.from === sel.to ? `${sel.from}` : `${sel.from}–${sel.to}`;\n
+  const years = sel.from === sel.to ? `${sel.from}` : `${sel.from}–${sel.to}`;
   let status;
   if (!all.length) status = `No institutions have credit for ${years} in ${regionLabel(sel.region)}.`;
   else if (app.query) status = `${fmtInt.format(rows.length)} of ${fmtInt.format(all.length)} ranked institutions match “${app.query}”.`;
