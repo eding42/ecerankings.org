@@ -4,6 +4,17 @@
 # Scratch scripts — not part of the project
 .tmp/
 
+# Local verification drafts and generated site packages
+ai_temp/
+dist/
+node_modules/
+
+# Harvest checkpoints and local source backups
+cache/**/.checkpoint
+cache/**/*.bak
+cache/**/*.pdf
+data/refresh/*.lock
+
 # Local backups
 data/*backup*.csv
 
