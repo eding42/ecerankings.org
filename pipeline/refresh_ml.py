@@ -24,6 +24,11 @@ from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
+if __package__:
+    from .workkey import norm_doi
+else:
+    from workkey import norm_doi
+
 ROOT = Path(__file__).resolve().parents[1]
 API = "https://api.openalex.org"
 MAILTO = "eding2019@gmail.com"
@@ -31,7 +36,6 @@ VENUES = ("icml", "iclr", "neurips")
 BATCH = 100
 MAX_LIST_CALLS = 350
 DEFAULT_MAX_LIST_CALLS = MAX_LIST_CALLS
-DOI_PREFIX = re.compile(r"^https?://(?:dx\.)?doi\.org/", re.I)
 TITLE_NOISE = re.compile(r"[^a-z0-9]+")
 
 
@@ -45,12 +49,6 @@ class ListBudgetExceeded(RefreshError):
 
 def utc_now():
     return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
-
-
-def norm_doi(value):
-    if not value:
-        return None
-    return DOI_PREFIX.sub("", str(value).strip()).lower() or None
 
 
 def norm_title(value):

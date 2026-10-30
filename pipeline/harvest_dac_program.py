@@ -10,14 +10,12 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
 import shutil
 import subprocess
-import sys
 import urllib.request
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 
 ROOT = Path(__file__).resolve().parents[1]
 PROGRAM_URL = "https://confcats-siteplex.s3.amazonaws.com/dac/images/dac-2026_program_july-22.pdf"

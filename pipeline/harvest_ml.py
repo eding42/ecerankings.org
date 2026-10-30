@@ -1,61 +1,12 @@
 #!/usr/bin/env python3
-"""Harvest ML proceedings (ICLR, ICML, NeurIPS) from publisher membership lists.
+"""Harvest publisher-defined ICLR, ICML, and NeurIPS proceedings into a staged cache.
 
-Usage:
-    python3 pipeline/harvest_ml.py --venue iclr --year 2025 --stage all
-    python3 pipeline/harvest_ml.py --venue iclr --year 2025 --stage discover
-    python3 pipeline/harvest_ml.py --venue iclr --year 2025 --stage all --offline
-    python3 pipeline/harvest_ml.py --venue iclr --year 2025 --stage reconcile-openreview
+Publisher bylines define the credit denominator. Affiliations require
+identity-checked OpenAlex works or the final publisher PDF; Semantic Scholar
+provides identifiers only. Every stage is resumable, and failing coverage or
+image-verification gates keep the edition staged. See docs/ml-pipeline.md.
 
-Replaces the Semantic Scholar venue-tag path (harvest_s2.py + refresh_ml.py),
-which had two separable defects -- see data/reports/ml-fix-plan-2026-10-29.md:
-
-  1. Membership. S2's venue tag is not the accepted-paper list: ICLR 2025 had
-     1,772 S2 rows against 3,703 official proceedings entries. Here the
-     publisher list (proceedings.iclr.cc, PMLR, proceedings.neurips.cc, or
-     OpenReview once authenticated) is the only thing that admits a paper.
-  2. Affiliations. S2 author-profile strings say where someone is now, not
-     where they were on this paper. Only paper-specific evidence is credited:
-     the OpenAlex work-author join for the paper's publisher DOI or its arXiv
-     twin. S2 contributes identifiers (arXiv ID) and nothing else.
-
-Why arXiv twins: ICLR and PMLR deposit no DOIs, and OpenAlex attributes these
-papers to arXiv rather than to the conference. 785 of the 788 "DOIs" in the old
-ICLR 2025 cache were already 10.48550/arXiv.* DataCite DOIs. NeurIPS has
-publisher DOIs (Curran, 10.52202/...), but OpenAlex carries no affiliations for
-the 2024 ones sampled, so the arXiv twin is the fallback there too. The
-publisher row stays canonical: an arXiv record never becomes a second corpus
-item and never sets the byline. The publisher byline defines N for the 1/N
-split; OpenAlex affiliations are copied only onto authors who align by name.
-
-Stages (each idempotent and resumable; everything is written under
---stage-root, never cache/):
-
-  membership  publisher list -> <venue>/<year>/membership.jsonl (all tracks)
-  discover    paper -> arXiv DOI / OpenAlex work via the legacy local S2 cache,
-              S2 bulk search, OpenAlex OR-batched title search, then the arXiv
-              API (S2 per-title match only with --s2-match). Append-only
-              discovery.jsonl.
-  enrich      OpenAlex by DOI, 100 per call (refresh_ml.OAClient). Append-only
-              openalex.jsonl; a failed request is retried, never a negative.
-  pdf         final publisher PDF -> first-page text (kept) -> per-author
-              affiliations via pdf_affiliations.py. 4 parallel downloads; the
-              PDF itself is deleted unless the paper needs review. Stored text
-              is re-extracted whenever EXTRACTOR_VERSION changes, so extractor
-              fixes never need a re-download.
-  build       canonical works.jsonl (included tracks) + excluded-tracks.jsonl.
-              Per author slot: the final publisher PDF first (user decision
-              2026-10-30: the version of record, and an image check found
-              OpenAlex wrong in 38 of 45 disagreements), then OpenAlex where
-              the PDF has nothing; --prefer-openalex restores the fix plan's
-              original order. Every slot where the two disagree is recorded.
-  gates       coverage gates -> state.json and the refresh manifest. status is
-              "complete" only when every gate passes, so prepare_refresh.py
-              cannot pick up a failing edition.
-
-HTTP: per-host minimum interval, Retry-After honoured, exponential backoff, raw
-bodies cached under <stage-root>/raw so a re-run (or --offline) makes no
-requests. An OpenReview 403 challenge is fatal, never an empty result.
+Example: python3 pipeline/harvest_ml.py --venue iclr --year 2025 --stage all
 """
 from __future__ import annotations
 
@@ -665,38 +616,14 @@ class Edition:
         self.state = json.loads(self.state_path.read_text()) if self.state_path.exists() else {}
         self.pdf_dir = Path(stage_root) / "pdf" / venue / str(year)
         self.prefer_pdf = True
-
-    @property
-    def membership_path(self):
-        return self.dir / "membership.jsonl"
-
-    @property
-    def discovery_path(self):
-        return self.dir / "discovery.jsonl"
-
-    @property
-    def openalex_path(self):
-        return self.dir / "openalex.jsonl"
-
-    @property
-    def pdf_fetch_path(self):
-        return self.dir / "pdf-fetch.jsonl"
-
-    @property
-    def pdf_extract_path(self):
-        return self.dir / "pdf-extract.jsonl"
-
-    @property
-    def pdf_verify_path(self):
-        return self.dir / "pdf-verify.jsonl"
-
-    @property
-    def pdf_text_dir(self):
-        return self.dir / "pdf-text"
-
-    @property
-    def works_path(self):
-        return self.cache_dir / "works.jsonl"
+        self.membership_path = self.dir / "membership.jsonl"
+        self.discovery_path = self.dir / "discovery.jsonl"
+        self.openalex_path = self.dir / "openalex.jsonl"
+        self.pdf_fetch_path = self.dir / "pdf-fetch.jsonl"
+        self.pdf_extract_path = self.dir / "pdf-extract.jsonl"
+        self.pdf_verify_path = self.dir / "pdf-verify.jsonl"
+        self.pdf_text_dir = self.dir / "pdf-text"
+        self.works_path = self.cache_dir / "works.jsonl"
 
     def included(self):
         tracks = set(self.config["include_tracks"])
@@ -1569,15 +1496,14 @@ def main(argv=None):
                         help="Discard this stage's outputs (and invalidate later stages) before running")
     parser.add_argument("--offline", action="store_true", help="Use only cached HTTP responses")
     parser.add_argument("--pdf-workers", type=int, default=PDF_WORKERS,
-                        help="Parallel PDF downloads (4 reached ~8 PDFs/s on proceedings.iclr.cc, no throttling)")
+                        help="Parallel PDF downloads")
     parser.add_argument("--keep-pdfs", action="store_true", help="Keep every downloaded PDF, not just review-queue ones")
     parser.add_argument("--prefer-openalex", action="store_true",
-                        help="Credit OpenAlex over PDF affiliations where both exist (default: PDF first, decided 2026-10-30)")
+                        help="Prefer OpenAlex affiliations where both exist (default: publisher PDF first)")
     parser.add_argument("--env", type=Path, default=ROOT / ".env")
     verify = parser.add_argument_group(
         "image verification (verify-prep / verify-status / verify-apply)",
-        "The image reading itself is done by an agent through the verify-pdf-affiliations skill, "
-        "on the user's Claude Code subscription; this script only prepares batches and applies results.")
+        "Agents read images through the verify-pdf-affiliations skill; this script prepares and validates batches.")
     verify.add_argument("--verify-sample", type=int, default=pdf_verify.DEFAULT_SAMPLE,
                         help="High-confidence papers sampled to measure extractor accuracy")
     verify.add_argument("--verify-batch", type=int, default=pdf_verify.DEFAULT_BATCH, help="Images per subagent")

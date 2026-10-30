@@ -7,9 +7,14 @@ Crossref container/DOI scope, enriches Crossref records by DOI when affordable,
 and only publishes complete validated edition files into --output.
 """
 from __future__ import annotations
-import argparse, hashlib, html, json, os, re, sys, tempfile, time, urllib.error, urllib.parse, urllib.request
+import argparse, hashlib, html, json, os, re, tempfile, time, urllib.error, urllib.parse, urllib.request
 from collections import Counter
 from pathlib import Path
+
+if __package__:
+    from .workkey import norm_doi
+else:
+    from workkey import norm_doi
 
 ROOT = Path(__file__).resolve().parents[1]
 STAGING_ROOT = ROOT/'.tmp/refresh-2026-10-28/conferences'
@@ -18,15 +23,8 @@ API_CR = 'https://api.crossref.org'
 MAILTO = 'eding2019@gmail.com'
 OA_LIMIT_DEFAULT = 3000
 BATCH = 100
-DOI_PREFIX = re.compile(r'^https?://(?:dx\.)?doi\.org/', re.I)
 
 class RefreshError(RuntimeError): pass
-
-
-def norm_doi(value):
-    if not value: return None
-    d = DOI_PREFIX.sub('', str(value).strip()).lower()
-    return d or None
 
 
 def decode_crossref_text(value):
@@ -506,45 +504,6 @@ def decode_crossref_work(work):
             author.setdefault('provider_raw_affiliations',raw)
             author['raw_affiliations']=decoded_raw; stats['affiliation_strings']+=sum(a!=b for a,b in zip(raw,decoded_raw))
     return stats
-
-
-def crossref_decode_provenance(works):
-    stats=Counter()
-    for work in works:
-        if work.get('provider_raw_title') is not None: stats['titles']+=1
-        for author in work.get('authorships') or []:
-            if author.get('provider_raw_author_name') is not None: stats['author_names']+=1
-            if author.get('provider_raw_author_id') is not None: stats['author_ids']+=1
-            provider=author.get('provider_raw_affiliations')
-            if provider is not None:
-                current=author.get('raw_affiliations') or []
-                stats['affiliation_strings']+=sum(a!=b for a,b in zip(provider,current))
-    return stats
-
-
-def postprocess_completed_crossref_manifest(manifest_path, cache_root=None):
-    """Decode existing completed Crossref cache entries and checkpoint each hash."""
-    mp=Path(manifest_path); report=json.loads(mp.read_text()); root=Path(cache_root or STAGING_ROOT/'cache').resolve()
-    aggregate=Counter(); files=0; records=0
-    for row in report.get('results',[]):
-        if row.get('status')!='complete' or row.get('provider')!='crossref' or not row.get('path'):
-            continue
-        path=Path(row['path']).resolve()
-        if not path.is_relative_to(root): continue
-        works=read_works(path)
-        if not works: continue
-        stats=Counter()
-        for work in works: stats.update(decode_crossref_work(work))
-        if sum(stats.values()): write_atomic(path,works)
-        row['checksum_sha256']=checksum(path)
-        provenance=crossref_decode_provenance(works)
-        row['crossref_entity_decode']=dict(provenance)
-        aggregate.update(provenance); files+=1; records+=len(works)
-        report['crossref_decode_postpass']={'files_processed':files,'works_processed':records,'changes':dict(aggregate)}
-        tmp=mp.with_suffix(mp.suffix+'.tmp'); tmp.write_text(json.dumps(report,indent=2)+'\n'); os.replace(tmp,mp)
-    report['crossref_decode_postpass']={'files_processed':files,'works_processed':records,'changes':dict(aggregate)}
-    tmp=mp.with_suffix(mp.suffix+'.tmp'); tmp.write_text(json.dumps(report,indent=2)+'\n'); os.replace(tmp,mp)
-    return report['crossref_decode_postpass']
 
 
 def write_atomic(path, works):

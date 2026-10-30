@@ -11,9 +11,7 @@ Run: python3 pipeline/fix_campus_clusters.py          # report only
 """
 import argparse
 import csv
-import json
 import re
-from collections import defaultdict
 
 # ── Cluster definitions ────────────────────────────────────────────
 # Each cluster: (system_prefix, [(campus_keywords, expected_id, expected_name), ...])

@@ -1,4 +1,6 @@
 import json
+import contextlib
+import io
 import os
 import subprocess
 import sys
@@ -33,6 +35,18 @@ class RefreshTests(unittest.TestCase):
                                 env=env, text=True, capture_output=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('--out-cache', result.stdout)
+
+    def test_dry_run_clips_years_to_compact_source_metadata(self):
+        metadata = os.path.join(self.tmp.name, 'first-years.json')
+        with open(metadata, 'w') as handle:
+            json.dump({'j': 2024}, handle)
+        output = io.StringIO()
+        registry = {'areas': {'a': {'venues': [self.venue]}}}
+        with mock.patch.object(r, 'SOURCE_FIRST_YEARS', metadata), \
+             mock.patch.object(r, 'get_registry', return_value=registry), \
+             contextlib.redirect_stdout(output):
+            self.assertEqual(r.main(['--venue', 'j', '--year-range', '2023', '2025', '--dry-run']), 0)
+        self.assertEqual(json.loads(output.getvalue())['venue_years'], 2)
 
     def test_concurrent_writers_cannot_share_cache_or_manifest(self):
         manifest = os.path.join(self.tmp.name, 'manifest.json')

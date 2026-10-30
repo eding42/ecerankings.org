@@ -1,21 +1,9 @@
 #!/usr/bin/env python3
-"""Image verification of PDF-extracted affiliations: the mechanical stages.
+"""Prepare, inspect, and validate image-verification batches for PDF affiliations.
 
-The `verify-pdf-affiliations` skill is the only way verification runs. The
-agent the user is talking to is the entry point: it asks the user which
-subagent model to use and how much to run, fans batches out to the
-`pdf-affiliation-verifier` subagent (.claude/agents/), and writes the result
-files. It runs on the user's Claude Code subscription, with no API key and no
-headless processes. This module does only what must be deterministic:
-
-  prep     choose papers (review / conflict / sample), render each author
-           block to PNG (page top to the Abstract heading, located with
-           pdftotext -bbox-layout) plus a full-page context image, write
-           batches named by content hash
-  status   pending batches with their task kinds, for the skill to show the
-           user before asking
-  apply    validate every result (one per task, byline-aligned, known
-           verdicts) and write pdf-verify.jsonl for build and gates
+Agents read images through the verify-pdf-affiliations skill. This module
+selects review/conflict/sample tasks, renders source pages, and validates
+byline-aligned results before producing evidence for the build and gates.
 """
 from __future__ import annotations
 

@@ -1,11 +1,9 @@
-import importlib.util
 import unittest
 from unittest.mock import patch
 import json
 from pathlib import Path
 
-SPEC=importlib.util.spec_from_file_location('refresh_conferences',Path(__file__).parents[1]/'pipeline/refresh_conferences.py')
-rc=importlib.util.module_from_spec(SPEC); SPEC.loader.exec_module(rc)
+from pipeline import refresh_conferences as rc
 
 
 class RefreshConferencesTests(unittest.TestCase):
