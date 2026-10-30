@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-"""Extract ICML, NeurIPS, and ICLR papers + author affiliations from a local Semantic Scholar
-Datasets snapshot (s2-datasets/papers/*.gz + s2-datasets/authors/*.gz) and
-write cache/<venue_key>/<year>/works.jsonl in the same envelope used by
-harvest_crossref.py.
+"""Stage ML discovery candidates from a local Semantic Scholar snapshot.
 
-ICML, NeurIPS, and ICLR have no reliable OpenAlex/Crossref harvest paths, 
-so this is a one-off bulk alternative: the S2 "papers" dataset has no per-venue filter, 
-so we stream all 60 shards and match on exact venue strings. 
+Venue tags are discovery hints, not authoritative proceedings membership.
+Candidates go to .tmp/s2-discovery/<venue>/<year>/candidates.jsonl, outside the
+ranking cache. Author-profile affiliations are retained only for audit and
+never populate paper-specific raw_affiliations or institutions.
 
 Usage:
     python3 pipeline/harvest_s2.py
@@ -98,6 +96,7 @@ def pass2_load_affiliations(author_ids_needed):
     return affils
 
 def write_cache(papers, affils):
+    """Stage discovery candidates; retain the legacy function name for callers."""
     # Group by venue_key -> year -> papers
     by_venue_year = {}
     for p in papers:
@@ -112,9 +111,9 @@ def write_cache(papers, affils):
     for venue_key, by_year in by_venue_year.items():
         print(f"\nWriting {venue_key}...")
         for year, year_papers in sorted(by_year.items()):
-            year_dir = os.path.join(REPO_ROOT, "cache", venue_key, str(year))
+            year_dir = os.path.join(REPO_ROOT, ".tmp", "s2-discovery", venue_key, str(year))
             os.makedirs(year_dir, exist_ok=True)
-            out_path = os.path.join(year_dir, "works.jsonl")
+            out_path = os.path.join(year_dir, "candidates.jsonl")
             with open(out_path, "w") as f:
                 for p in year_papers:
                     authorships = []
@@ -126,7 +125,8 @@ def write_cache(papers, affils):
                                 "author_id": f"s2:{aid}" if aid else None,
                                 "author_name": a.get("name"),
                                 "institutions": [],
-                                "raw_affiliations": raw,
+                                "raw_affiliations": [],
+                                "s2_profile_affiliations_audit_only": raw,
                             }
                         )
                     envelope = {
@@ -147,10 +147,10 @@ def main():
     papers, author_ids_needed = pass1_find_ml_papers()
     print(f"\nFound {len(papers)} ML papers, {len(author_ids_needed)} distinct authors\n")
 
-    print("Pass 2: resolving author affiliations...")
+    print("Pass 2: loading author-profile affiliations for audit only...")
     affils = pass2_load_affiliations(author_ids_needed)
 
-    print("\nWriting cache/<venue_key>/<year>/works.jsonl...")
+    print("\nWriting .tmp/s2-discovery/<venue_key>/<year>/candidates.jsonl...")
     write_cache(papers, affils)
 
 if __name__ == "__main__":
