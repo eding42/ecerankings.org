@@ -1,0 +1,346 @@
+{
+  "title": "Institution data refresh audit",
+  "audit_date": "2026-10-28",
+  "scope": [
+    "Read-only audit of current pipeline logic, curated affiliation mappings, institution aliases, local OpenAlex snapshot, and checked-in aggregate/site metadata.",
+    "No normalizers were run. No files outside this report and JSON proposal were changed."
+  ],
+  "method": {
+    "pipeline_files_reviewed": ["pipeline/aggregate.py", "pipeline/build_institutions.py"],
+    "repository_instructions": "No repository-local AGENTS.md or SKILL.md was found.",
+    "work_cache_policy": "Inspected file signatures before parsing. 767 of 775 cache/**/works.jsonl files are Git LFS pointer stubs; only 8 contain materialized data. Cache contents were not used as publication data.",
+    "source_hierarchy": "data/institutions.json is treated as the local authoritative OpenAlex snapshot for exact OpenAlex ID/name/type/country comparisons. Official institutional websites were used for live name and location verification. A live OpenAlex API singleton response was not available through the browser tool for most proposed ID corrections; exact replacement OpenAlex IDs therefore come from the local snapshot and should be rechecked against live OpenAlex/ROR before applying."
+  },
+  "corpus_integrity": {
+    "aggregate": {
+      "file": "site/data/inst-area-year.csv",
+      "rows": 137781,
+      "unique_institution_ids": 8894,
+      "areas": 20,
+      "year_range": [1981, 2026],
+      "adjusted_credit_total": 383422.28,
+      "duplicate_institution_area_year_rows": 0
+    },
+    "site_metadata": {
+      "file": "site/data/institutions.json",
+      "records": 8893,
+      "blank_names": 0,
+      "blank_countries": 609,
+      "aggregate_ids_absent_from_metadata": 8,
+      "aggregate_ids_absent_from_metadata_adjusted_credit": 5.4,
+      "aggregate_ids_with_blank_country_including_absent_metadata": 617,
+      "blank_country_adjusted_credit_including_absent_metadata": 567.82,
+      "blank_country_share_of_adjusted_credit_percent": 0.148,
+      "metadata_records_not_referenced_by_aggregate": 7
+    },
+    "snapshot_comparison": {
+      "snapshot_file": "data/institutions.json",
+      "snapshot_by_id_records": 54160,
+      "aggregate_ids_absent_from_snapshot": 600,
+      "credit_on_ids_absent_from_snapshot": 447.36,
+      "same_id_site_vs_snapshot_country_disagreements_when_both_nonblank": 0,
+      "comparable_ids_with_nonblank_countries": 8153,
+      "site_metadata_name_vs_snapshot_display_name_different_ids": 12,
+      "affiliation_map_name_vs_snapshot_display_name_different_ids": 51,
+      "affiliation_map_rows_with_blank_institution_name": 7133,
+      "blank_name_rows_by_status": {"manual": 1317, "unmatched": 5816},
+      "blank_name_rows_with_institution_id": 0,
+      "aggregate_rows_with_blank_institution_name": 0,
+      "snapshot_records_with_blank_display_name": 0,
+      "note": "A matching country on the same ID does not establish that the affiliation-map institution_name is correctly attached to that ID. Eight severe identity conflicts are itemized below; several other name differences are spelling, canonical-name, or old-name variants."
+    },
+    "affiliation_map": {
+      "file": "data/affiliation-map.csv",
+      "rows": 116940,
+      "status_counts": {"auto": 91233, "manual": 9187, "review": 10704, "unmatched": 5816},
+      "auto_or_manual_rows_comparable_to_snapshot": 97348,
+      "country_code_mismatch_rows_vs_snapshot": 12,
+      "country_code_mismatch_unique_ids": 8,
+      "country_mismatch_detail": [
+        {"ids": ["https://openalex.org/I150229711", "https://openalex.org/I50632499", "https://openalex.org/I158842170", "https://openalex.org/I82880672", "https://openalex.org/I9842412", "https://openalex.org/I20231570"], "rows": 10, "map_code": "ME", "snapshot_country": "CN", "interpretation": "Likely confusion of Ministry of Education with a country code; verify and change these curated map country fields to CN."},
+        {"ids": ["https://openalex.org/I4210159266"], "rows": 1, "map_code": "GB", "snapshot_country": "US", "name": "Mitsubishi Electric (United States)", "interpretation": "The raw affiliation contains MERL, Cambridge, MA, USA; row country code appears wrong."},
+        {"ids": ["https://openalex.org/I45129253"], "rows": 1, "map_code": "AU", "snapshot_country": "GB", "name": "University College London", "interpretation": "Country code appears wrong for this institution."}
+      ],
+      "map_type_mismatch_rows_vs_snapshot": 237,
+      "map_type_mismatch_unique_ids": 76,
+      "severe_manual_identity_conflicts": {
+        "unique_destination_ids": 12,
+        "manual_map_rows": 63,
+        "map_type_disagrees_with_snapshot_for_ids": 8,
+        "mapped_institution_country_conflicts_with_current_id_country": 8,
+        "aggregate_credit_at_destination_ids": 4702.1419,
+        "attributable_credit_from_these_map_rows": null,
+        "summary": "The manually assigned raw affiliation/name conflicts with the organization represented by its OpenAlex ID. The cache files needed to isolate the credit attributable to individual map rows are LFS pointers. The destination IDs' aggregate totals are reported only as context and must not be read as affected credit."
+      }
+    },
+    "alias_audit": {
+      "file": "data/institution-aliases.csv",
+      "rows": 69,
+      "unique_duplicate_ids": 69,
+      "duplicate_source_ids": 0,
+      "unique_canonical_ids": 63,
+      "canonical_targets_used_by_multiple_rows": 3,
+      "excess_rows_to_repeated_targets": 6,
+      "cycles": [],
+      "chains": [],
+      "duplicate_and_canonical_ids_present_in_snapshot": {"duplicate_ids": 9, "canonical_ids": 69},
+      "canonical_name_or_country_conflicts_with_snapshot": 0,
+      "declared_credit_moved_total": 1010.1,
+      "duplicate_source_ids_present_in_current_aggregate": 0,
+      "bare_duplicate_id_rows": [
+        {"before": "I4210150387", "recommended_form": "https://openalex.org/I4210150387", "canonical_id": "https://openalex.org/I4210116924"},
+        {"before": "I129467270", "recommended_form": "https://openalex.org/I129467270", "canonical_id": "https://openalex.org/I32021983"},
+        {"before": "I84892839", "recommended_form": "https://openalex.org/I84892839", "canonical_id": "https://openalex.org/I44504214"},
+        {"before": "I38189715", "recommended_form": "https://openalex.org/I38189715", "canonical_id": "https://openalex.org/I124055696"}
+      ],
+      "repeated_canonical_targets": [
+        {"canonical_id": "https://openalex.org/I4577782", "canonical_name": "Technische Universität Berlin", "rows": 2, "declared_credit_moved": 42.5},
+        {"canonical_id": "https://openalex.org/I3131982239", "canonical_name": "Institut Catholique d'Arts et Métiers", "rows": 2, "declared_credit_moved": 1.0},
+        {"canonical_id": "https://openalex.org/I129862065", "canonical_name": "Government Medical College", "rows": 5, "declared_credit_moved": 1.2, "review_note": "Generic name plus same country is insufficient evidence that five Government Medical College records are the same campus. Keep these five edges provisional until exact ROR/OpenAlex records or addresses establish identity."}
+      ],
+      "runtime_behavior": "aggregate.py performs a single exact-string alias lookup. The four bare source IDs will not match fully-qualified source IDs in works. No current aggregate row uses any duplicate source ID, so the current output does not quantify impact of these four formatting cases.",
+      "country_conflict_note": "All 69 alias country fields agree with the local snapshot country for their canonical target. The 60 duplicate source IDs absent from the local snapshot cannot be independently country-checked from this snapshot."
+    },
+    "heuristic_country_errors": {
+      "verified_source_conflicts": 3,
+      "adjusted_credit": 2.83334,
+      "cases": [
+        {"id": "https://openalex.org/I83783590", "name": "École Polytechnique Fédérale de Lausanne", "current_country": "FR", "proposed_country": "CH", "map_country": "CH", "adjusted_credit": 1.3, "cause": "The ordered France keyword 'polytechnique' matches this Swiss school."},
+        {"id": "https://openalex.org/I4405261251", "name": "The Hong Kong University of Science and Technology (Guangzhou)", "current_country": "HK", "proposed_country": "CN", "map_country": "CN", "adjusted_credit": 0.86667, "cause": "The HK heuristic matches 'HKUST' even when the specific institution is the Guangzhou campus."},
+        {"id": "I4210162871", "name": "New York University Abu Dhabi", "current_country": "US", "proposed_country": "AE", "map_country": "AE", "adjusted_credit": 0.66667, "cause": "The US heuristic matches 'New York' in the branch-campus name."}
+      ],
+      "definition": "A country error was counted when the currently built site metadata country disagreed with both a mapped country for that same OpenAlex ID and a live official institutional source."
+    },
+    "cache_inspection": {"files": 775, "lfs_pointer_files": 767, "materialized_files": 8}
+  },
+  "proposals": [
+    {
+      "id": "map-id-iit-patna",
+      "change_type": "replace_wrong_institution_id",
+      "scope": {"file": "data/affiliation-map.csv", "current_id": "https://openalex.org/I4210138036", "matching_manual_rows": 16},
+      "before": {"institution_id": "https://openalex.org/I4210138036", "institution_name": "Indian Institute of Technology Patna", "institution_type": "education", "country_code": "IL", "snapshot_identity": "Al-Makassed Islamic Charitable Society Hospital", "snapshot_type": "healthcare", "snapshot_country": "IL"},
+      "after": {"institution_id": "https://openalex.org/I132153292", "institution_name": "Indian Institute of Technology Patna", "institution_type": "education", "country_code": "IN"},
+      "impact": {"current_aggregate_adjusted_credit": 10.94166, "why_it_matters": "Sixteen manual Crossref affiliation rows credit IIT Patna to a hospital ID in Israel."},
+      "evidence": [{"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I4210138036", "supports": "Current ID denotes Al-Makassed hospital in IL."}, {"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I132153292", "supports": "Target ID denotes IIT Patna, type education, country IN."}, {"kind": "live_official_institution", "url": "https://www.iitp.ac.in/visit/find-us", "supports": "Official IIT Patna campus and visit information."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Official university identity was verified; target OpenAlex ID crosswalk is from the local snapshot and should be checked against live OpenAlex/ROR before applying."}
+    },
+    {
+      "id": "map-id-iit-mandi",
+      "change_type": "replace_wrong_institution_id",
+      "scope": {"file": "data/affiliation-map.csv", "current_id": "https://openalex.org/I4210111082", "matching_manual_rows": 12},
+      "before": {"institution_id": "https://openalex.org/I4210111082", "institution_name": "Indian Institute of Technology Mandi", "institution_type": "education", "country_code": "US", "snapshot_identity": "Lifelong Vision Foundation", "snapshot_type": "nonprofit", "snapshot_country": "US"},
+      "after": {"institution_id": "https://openalex.org/I9579091", "institution_name": "Indian Institute of Technology Mandi", "institution_type": "education", "country_code": "IN"},
+      "impact": {"current_aggregate_adjusted_credit": 9.64286, "why_it_matters": "Twelve manual affiliation rows credit IIT Mandi to a US nonprofit ID."},
+      "evidence": [{"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I4210111082", "supports": "Current ID denotes Lifelong Vision Foundation in US."}, {"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I9579091", "supports": "Target ID denotes IIT Mandi in IN."}, {"kind": "live_official_institution", "url": "https://iitmandi.ac.in/institute/rti", "supports": "Official IIT Mandi organization name and Kamand, Himachal Pradesh address."}, {"kind": "live_openalex", "url": "https://openalex.org/institutions/I9579091", "supports": "OpenAlex live record for IIT Mandi; record surfaced by web search."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Official IIT Mandi source and OpenAlex live page confirm institution identity; replacement ID is also in the local snapshot."}
+    },
+    {
+      "id": "map-id-iit-tirupati",
+      "change_type": "replace_wrong_institution_id",
+      "scope": {"file": "data/affiliation-map.csv", "current_id": "https://openalex.org/I4210116869", "matching_manual_rows": 4},
+      "before": {"institution_id": "https://openalex.org/I4210116869", "institution_name": "Indian Institute of Technology Tirupati", "institution_type": "education", "country_code": "CN", "snapshot_identity": "Affiliated Hospital of Qingdao University", "snapshot_type": "healthcare", "snapshot_country": "CN"},
+      "after": {"institution_id": "https://openalex.org/I4210109292", "institution_name": "Indian Institute of Technology Tirupati", "institution_type": "education", "country_code": "IN"},
+      "impact": {"current_aggregate_adjusted_credit": 3.53333, "why_it_matters": "Four manual affiliation rows credit IIT Tirupati to a Chinese hospital ID."},
+      "evidence": [{"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I4210116869", "supports": "Current ID denotes Affiliated Hospital of Qingdao University."}, {"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I4210109292", "supports": "Target ID denotes IIT Tirupati in IN."}, {"kind": "live_official_institution", "url": "https://www.iittp.ac.in/contact-iit", "supports": "Official IIT Tirupati campus address in Andhra Pradesh, India."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Official university name and location verified; target OpenAlex ID crosswalk is local-snapshot evidence and needs live OpenAlex/ROR confirmation."}
+    },
+    {
+      "id": "map-id-iit-indore",
+      "change_type": "replace_wrong_institution_id",
+      "scope": {"file": "data/affiliation-map.csv", "current_id": "https://openalex.org/I4210137438", "matching_manual_rows": 6},
+      "before": {"institution_id": "https://openalex.org/I4210137438", "institution_name": "Indian Institute of Technology Indore", "institution_type": "facility", "country_code": "RU", "snapshot_identity": "Karelian State Pedagogical Academy", "snapshot_type": "education", "snapshot_country": "RU"},
+      "after": {"institution_id": "https://openalex.org/I64295750", "institution_name": "Indian Institute of Technology Indore", "institution_type": "education", "country_code": "IN"},
+      "impact": {"current_aggregate_adjusted_credit": 3.03571, "why_it_matters": "Six manual affiliation rows credit IIT Indore to an unrelated Russian institution."},
+      "evidence": [{"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I4210137438", "supports": "Current ID denotes Karelian State Pedagogical Academy in RU."}, {"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I64295750", "supports": "Target ID denotes IIT Indore in IN."}, {"kind": "live_official_institution", "url": "https://www.iiti.ac.in/", "supports": "Official IIT Indore identity and campus address in Indore, India."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Official university name and location verified; target OpenAlex ID crosswalk is local-snapshot evidence and needs live OpenAlex/ROR confirmation."}
+    },
+    {
+      "id": "map-id-iit-palakkad",
+      "change_type": "replace_wrong_institution_id",
+      "scope": {"file": "data/affiliation-map.csv", "current_id": "https://openalex.org/I4210118363", "matching_manual_rows": 9},
+      "before": {"institution_id": "https://openalex.org/I4210118363", "institution_name": "Indian Institute of Technology Palakkad", "institution_type": "facility", "country_code": "KR", "snapshot_identity": "Pharmicell (South Korea)", "snapshot_type": "company", "snapshot_country": "KR"},
+      "after": {"institution_id": "https://openalex.org/I4210113248", "institution_name": "Indian Institute of Technology Palakkad", "institution_type": "facility", "country_code": "IN"},
+      "impact": {"current_aggregate_adjusted_credit": 2.80953, "why_it_matters": "Nine manual affiliation rows credit IIT Palakkad to a South Korean company ID. Target snapshot type is facility; confirm the current OpenAlex type before replacing the map's type."},
+      "evidence": [{"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I4210118363", "supports": "Current ID denotes Pharmicell in KR."}, {"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I4210113248", "supports": "Target ID denotes IIT Palakkad in IN; local snapshot classifies it as facility."}, {"kind": "live_official_institution", "url": "https://iitpkd.ac.in/contact-us", "supports": "Official IIT Palakkad campus address in Kerala, India."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Official university name and location verified; target OpenAlex ID crosswalk is local-snapshot evidence and needs live OpenAlex/ROR confirmation."}
+    },
+    {
+      "id": "map-id-iit-goa",
+      "change_type": "replace_wrong_institution_id",
+      "scope": {"file": "data/affiliation-map.csv", "current_id": "https://openalex.org/I4210122508", "matching_manual_rows": 2},
+      "before": {"institution_id": "https://openalex.org/I4210122508", "institution_name": "Indian Institute of Technology Goa", "institution_type": "education", "country_code": "US", "snapshot_identity": "Huntington Hospital", "snapshot_type": "healthcare", "snapshot_country": "US"},
+      "after": {"institution_id": "https://openalex.org/I4210112052", "institution_name": "Indian Institute of Technology Goa", "institution_type": "education", "country_code": "IN"},
+      "impact": {"current_aggregate_adjusted_credit": 1.33333, "why_it_matters": "Two manual affiliation rows credit IIT Goa to a US hospital ID."},
+      "evidence": [{"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I4210122508", "supports": "Current ID denotes Huntington Hospital in US."}, {"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I4210112052", "supports": "Target ID denotes IIT Goa in IN."}, {"kind": "live_official_institution", "url": "https://iitgoa.ac.in/contact/", "supports": "Official IIT Goa name and Ponda, Goa address in India."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Official university name and location verified; target OpenAlex ID crosswalk is local-snapshot evidence and needs live OpenAlex/ROR confirmation."}
+    },
+    {
+      "id": "map-id-nyu-tandon",
+      "change_type": "replace_wrong_institution_id",
+      "scope": {"file": "data/affiliation-map.csv", "current_id": "https://openalex.org/I63966007", "matching_manual_rows": 2, "raw_affiliation_prefix": "Tandon School of Engineering ... New York University"},
+      "before": {"institution_id": "https://openalex.org/I63966007", "institution_name": "New York University", "institution_type": "education", "country_code": "US", "snapshot_identity": "Massachusetts Institute of Technology", "snapshot_type": "education", "snapshot_country": "US"},
+      "after": {"institution_id": "https://openalex.org/I57206974", "institution_name": "New York University", "institution_type": "education", "country_code": "US"},
+      "impact": {"current_destination_aggregate_adjusted_credit": 3958.3, "attributable_credit_from_these_rows": null, "why_it_matters": "Two manual New York University Tandon strings point to MIT's ID. The total MIT ID credit is not the credit attributable to these two fallback strings."},
+      "evidence": [{"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I63966007", "supports": "Current ID denotes MIT."}, {"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I57206974", "supports": "Target ID denotes New York University."}, {"kind": "live_official_institution", "url": "https://engineering.nyu.edu/about/visit-nyu-tandon", "supports": "Official NYU page identifies Tandon and its Brooklyn campus."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Official NYU source verifies the institution named by the raw strings; target OpenAlex ID crosswalk comes from the local snapshot and should be checked live before applying."}
+    },
+    {
+      "id": "map-id-nctu-nycu",
+      "change_type": "replace_wrong_institution_id",
+      "scope": {"file": "data/affiliation-map.csv", "current_id": "https://openalex.org/I114027177", "matching_manual_rows": 2, "raw_affiliations": ["NCTU, Taiwan", "NCTU,Taiwan"]},
+      "before": {"institution_id": "https://openalex.org/I114027177", "institution_name": "National Yang Ming Chiao Tung University", "institution_type": "education", "country_code": "US", "snapshot_identity": "University of North Carolina at Chapel Hill", "snapshot_type": "education", "snapshot_country": "US"},
+      "after": {"institution_id": "https://openalex.org/I148366613", "institution_name": "National Yang Ming Chiao Tung University", "institution_type": "education", "country_code": "TW"},
+      "impact": {"current_destination_aggregate_adjusted_credit": 711.02, "attributable_credit_from_these_rows": null, "why_it_matters": "Two Taiwan NCTU strings point to UNC's ID. The destination's total aggregate credit is not the credit attributable to these two fallback strings."},
+      "evidence": [{"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I114027177", "supports": "Current ID denotes UNC Chapel Hill."}, {"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I148366613", "supports": "Target ID denotes National Yang Ming Chiao Tung University."}, {"kind": "live_official_institution", "url": "https://www.nycu.edu.tw/nycu/en/", "supports": "NYCU states it was formed in 2021 by merging National Chiao Tung University and National Yang-Ming University."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Official NYCU history verifies the NCTU name lineage; target OpenAlex ID crosswalk comes from the local snapshot and should be checked live before applying."}
+    },
+    {
+      "id": "map-review-hhs-misassignments",
+      "change_type": "downgrade_conflicting_manual_rows_for_review",
+      "scope": {"file": "data/affiliation-map.csv", "current_id": "https://openalex.org/I1299022934", "matching_manual_rows": 7},
+      "before": {"institution_id": "https://openalex.org/I1299022934", "institution_name": "Intel (United States)", "institution_type": "company", "country_code": "US", "snapshot_identity": "United States Department of Health and Human Services", "snapshot_type": "government", "snapshot_country": "US", "raw_affiliation_entities": ["OMRON Corporation", "Xiamen University", "Xi'an Jiaotong University", "Shenzhen Institute of Advanced Technology", "Ministry of Industry and Information Technology / Xi'an", "Technical University of Munich", "Music and Audio Research Group"]},
+      "after": {"status": "review", "institution_id": "", "institution_name": "", "institution_type": "", "country_code": ""},
+      "impact": {"attributable_credit_from_these_rows": null, "why_it_matters": "Seven unrelated raw strings were manually assigned to a US federal health department. Their map type is company, so aggregate.py currently excludes them from education credit; correct identity resolution could recover valid education affiliations among them."},
+      "evidence": [{"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I1299022934", "supports": "Current ID is United States Department of Health and Human Services, type government."}, {"kind": "local_affiliation_map", "url": "data/affiliation-map.csv", "supports": "Seven exact manual strings name OMRON, Xiamen University, Xi'an Jiaotong University, Shenzhen Institute of Advanced Technology, TUM, and other unrelated entities."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "The contradiction between exact raw strings and the assigned ID is clear from local sources; proposed replacement identities require per-row live verification. This is a review recommendation, not an institutional merge."}
+    },
+    {
+      "id": "map-review-huawei-lab",
+      "change_type": "downgrade_conflicting_manual_row_for_review",
+      "scope": {"file": "data/affiliation-map.csv", "current_id": "https://openalex.org/I2250653659", "matching_manual_rows": 1, "raw_affiliation": "Huawei Future Network Theory Lab"},
+      "before": {"institution_id": "https://openalex.org/I2250653659", "institution_name": "Huawei (China)", "institution_type": "company", "country_code": "CN", "snapshot_identity": "Tencent (China)", "snapshot_type": "company", "snapshot_country": "CN"},
+      "after": {"status": "review", "institution_id": "", "institution_name": "", "institution_type": "", "country_code": ""},
+      "impact": {"attributable_credit_from_this_row": null, "why_it_matters": "The manual row assigns a Huawei lab to Tencent. The map type is company, so this row is excluded from education credit today."},
+      "evidence": [{"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I2250653659", "supports": "Current ID denotes Tencent (China)."}, {"kind": "live_official_institution", "url": "https://www.huawei.com/en/news/2015/12/huawei%20fellow", "supports": "Huawei's official site identifies the Future Network Theory Lab as Huawei's lab."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Live Huawei source confirms the lab identity; exact replacement institution ID is intentionally unresolved until per-row OpenAlex/ROR lookup."}
+    },
+    {
+      "id": "map-id-ista",
+      "change_type": "replace_wrong_institution_id",
+      "scope": {"file": "data/affiliation-map.csv", "current_id": "https://openalex.org/I4210096019", "matching_manual_rows": 1},
+      "before": {"institution_id": "https://openalex.org/I4210096019", "institution_name": "Institute of Science and Technology Austria", "institution_type": "education", "country_code": "GB", "snapshot_identity": "Plymouth City Council", "snapshot_type": "government", "snapshot_country": "GB"},
+      "after": {"institution_id": "https://openalex.org/I157556583", "institution_name": "Institute of Science and Technology Austria", "institution_type": "education", "country_code": "AT"},
+      "impact": {"current_aggregate_adjusted_credit": 0.5, "why_it_matters": "The exact raw affiliation 'ISTAustria' is assigned to a UK council ID."},
+      "evidence": [{"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I4210096019", "supports": "Current ID denotes Plymouth City Council in GB."}, {"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I157556583", "supports": "Target ID denotes Institute of Science and Technology Austria in AT."}, {"kind": "live_official_institution", "url": "https://www.ist.ac.at/en/imprint/", "supports": "ISTA legal identity and Klosterneuburg, Austria address."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Official institute identity and location verified; target OpenAlex ID crosswalk is local-snapshot evidence and needs live OpenAlex/ROR confirmation."}
+    },
+    {
+      "id": "map-id-wroclaw-tech",
+      "change_type": "replace_wrong_institution_id",
+      "scope": {"file": "data/affiliation-map.csv", "current_id": "https://openalex.org/I305801656", "matching_manual_rows": 1},
+      "before": {"institution_id": "https://openalex.org/I305801656", "institution_name": "Wrocław University of Science and Technology", "institution_type": "education", "country_code": "PL", "snapshot_identity": "Wroclaw University of Economics and Business", "snapshot_type": "education", "snapshot_country": "PL"},
+      "after": {"institution_id": "https://openalex.org/I11923345", "institution_name": "Wrocław University of Science and Technology", "institution_type": "education", "country_code": "PL"},
+      "impact": {"current_aggregate_adjusted_credit": 1.03056, "why_it_matters": "Two separate Wrocław universities share a city and country; this is an identity error even though the country code is correct."},
+      "evidence": [{"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I305801656", "supports": "Current ID denotes Wroclaw University of Economics and Business."}, {"kind": "local_authoritative_snapshot", "url": "data/institutions.json#/by_id/https://openalex.org/I11923345", "supports": "Target ID denotes Wrocław University of Science and Technology."}, {"kind": "live_official_institution", "url": "https://pwr.edu.pl/en/university/about-us/administration/rector-and-vicerectors", "supports": "Official Wrocław University of Science and Technology identity and Wrocław address."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Official university identity and location verified; target OpenAlex ID crosswalk is local-snapshot evidence and needs live OpenAlex/ROR confirmation."}
+    },
+    {
+      "id": "country-epfl",
+      "change_type": "correct_heuristic_country",
+      "scope": {"file": "site/data/institutions.json", "institution_id": "https://openalex.org/I83783590"},
+      "before": {"name": "École Polytechnique Fédérale de Lausanne", "country": "FR"},
+      "after": {"name": "École Polytechnique Fédérale de Lausanne", "country": "CH"},
+      "impact": {"current_aggregate_adjusted_credit": 1.3},
+      "evidence": [{"kind": "local_affiliation_map", "url": "data/affiliation-map.csv", "supports": "Two mapped rows for this exact ID carry CH."}, {"kind": "live_official_institution", "url": "https://www.epfl.ch/about/contact-en/", "supports": "EPFL gives its official address as CH-1015 Lausanne."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Official address confirms CH; local OpenAlex snapshot does not contain this ID."}
+    },
+    {
+      "id": "country-hkust-guangzhou",
+      "change_type": "correct_heuristic_country",
+      "scope": {"file": "site/data/institutions.json", "institution_id": "https://openalex.org/I4405261251"},
+      "before": {"name": "The Hong Kong University of Science and Technology (Guangzhou)", "country": "HK"},
+      "after": {"name": "The Hong Kong University of Science and Technology (Guangzhou)", "country": "CN"},
+      "impact": {"current_aggregate_adjusted_credit": 0.86667},
+      "evidence": [{"kind": "local_affiliation_map", "url": "data/affiliation-map.csv", "supports": "Two mapped rows for this exact ID carry CN and specify Guangzhou/Nansha."}, {"kind": "live_openalex", "url": "https://openalex.org/institutions/I4405261251", "supports": "OpenAlex institution page identifies the Guangzhou institution and its homepage."}, {"kind": "live_official_institution", "url": "https://www.hkust-gz.edu.cn/about/?variant=zh-cn", "supports": "Official site locates its campus in Nansha, Guangzhou, Guangdong, China."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Live OpenAlex identity and official campus location confirm CN; local snapshot does not contain this ID."}
+    },
+    {
+      "id": "country-nyu-abu-dhabi",
+      "change_type": "correct_heuristic_country",
+      "scope": {"file": "site/data/institutions.json", "institution_id": "I4210162871"},
+      "before": {"name": "New York University Abu Dhabi", "country": "US"},
+      "after": {"name": "New York University Abu Dhabi", "country": "AE"},
+      "impact": {"current_aggregate_adjusted_credit": 0.66667},
+      "evidence": [{"kind": "local_affiliation_map", "url": "data/affiliation-map.csv", "supports": "The exact bare ID is mapped from 'NYUAD,Div. of Eng,UAE' with country AE."}, {"kind": "live_official_institution", "url": "https://nyuad.nyu.edu/en/visit.html", "supports": "Official NYUAD visit page gives campus address in Abu Dhabi, United Arab Emirates."}, {"kind": "live_openalex_related_identity", "url": "https://openalex.org/funders/F4320313203", "supports": "OpenAlex currently lists NYU Abu Dhabi with country AE; this is a funder record, not proof of the institution ID."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Official NYUAD address confirms AE. The exact institution ID format is bare rather than URL-qualified and should be normalized only after checking consumers."}
+    },
+    {
+      "id": "country-max-planck-multidisciplinary",
+      "change_type": "fill_blank_country",
+      "scope": {"file": "site/data/institutions.json", "institution_id": "https://openalex.org/I4387154714"},
+      "before": {"name": "Max Planck Institute for Multidisciplinary Sciences", "country": ""},
+      "after": {"name": "Max Planck Institute for Multidisciplinary Sciences", "country": "DE"},
+      "impact": {"current_aggregate_adjusted_credit": 64.76},
+      "evidence": [{"kind": "live_official_institution", "url": "https://www.mpg.de/17216639/multidisciplinary-sciences", "supports": "Max Planck Society lists the institute's Göttingen address."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Live official source used because this ID is absent from the local snapshot."}
+    },
+    {
+      "id": "country-snt-luxembourg",
+      "change_type": "fill_blank_country",
+      "scope": {"file": "site/data/institutions.json", "institution_id": "https://openalex.org/I4405259781"},
+      "before": {"name": "Interdisciplinary Centre for Security, Reliability and Trust", "country": ""},
+      "after": {"name": "Interdisciplinary Centre for Security, Reliability and Trust", "country": "LU"},
+      "impact": {"current_aggregate_adjusted_credit": 44.78},
+      "evidence": [{"kind": "live_official_institution", "url": "https://www.uni.lu/snt-en/", "supports": "University of Luxembourg's official SnT page describes it as its interdisciplinary centre and places its research and partners in Luxembourg."}, {"kind": "live_official_institution", "url": "https://www.uni.lu/en/about/organisation/centres/", "supports": "University of Luxembourg lists the Interdisciplinary Centre for Security, Reliability and Trust."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Official University of Luxembourg sources used because this ID is absent from the local snapshot. This proposes country metadata only and does not propose merging the centre into the university."}
+    },
+    {
+      "id": "country-great-bay-university",
+      "change_type": "fill_blank_country",
+      "scope": {"file": "site/data/institutions.json", "institution_id": "https://openalex.org/I4396570619"},
+      "before": {"name": "Great Bay University", "country": ""},
+      "after": {"name": "Great Bay University", "country": "CN"},
+      "impact": {"current_aggregate_adjusted_credit": 21.19},
+      "evidence": [{"kind": "live_official_institution", "url": "https://www.gbu.edu.cn/about_us.html", "supports": "Official Great Bay University site says it is located in Dongguan, Guangdong, China."}, {"kind": "live_official_institution", "url": "https://www.gbu.edu.cn/tzgg2_details/16.html", "supports": "Official 2026 admissions notice gives its Dongguan, China address."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Live official source used because this ID is absent from the local snapshot."}
+    },
+    {
+      "id": "country-eastern-institute-technology-ningbo",
+      "change_type": "fill_blank_country",
+      "scope": {"file": "site/data/institutions.json", "institution_id": "https://openalex.org/I4394709157"},
+      "before": {"name": "Eastern Institute of Technology, Ningbo", "country": ""},
+      "after": {"name": "Eastern Institute of Technology, Ningbo", "country": "CN"},
+      "impact": {"current_aggregate_adjusted_credit": 18.01},
+      "evidence": [{"kind": "live_official_institution", "url": "https://www.eitech.edu.cn/en/", "supports": "Official institute page gives its address in Ningbo, Zhejiang, China."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Live official source used because this ID is absent from the local snapshot."}
+    },
+    {
+      "id": "country-nkust",
+      "change_type": "fill_blank_country",
+      "scope": {"file": "site/data/institutions.json", "institution_id": "https://openalex.org/I4387154394"},
+      "before": {"name": "National Kaohsiung University of Science and Technology", "country": ""},
+      "after": {"name": "National Kaohsiung University of Science and Technology", "country": "TW"},
+      "impact": {"current_aggregate_adjusted_credit": 17.59},
+      "evidence": [{"kind": "live_official_registry", "url": "https://udb.moe.edu.tw/ulist/Institution?id=000021FB5443", "supports": "Taiwan Ministry of Education institution record names NKUST and gives its Kaohsiung campuses."}, {"kind": "live_official_institution", "url": "https://www.nkust.edu.tw/p/404-1000-104452.php", "supports": "Official NKUST site lists its campus locations in Kaohsiung."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Official national education registry and university site used because this ID is absent from the local snapshot."}
+    },
+    {
+      "id": "country-cornell-tech",
+      "change_type": "fill_blank_country",
+      "scope": {"file": "site/data/institutions.json", "institution_id": "https://openalex.org/I4405261073"},
+      "before": {"name": "Cornell Tech", "country": ""},
+      "after": {"name": "Cornell Tech", "country": "US"},
+      "impact": {"current_aggregate_adjusted_credit": 17.57},
+      "evidence": [{"kind": "live_official_institution", "url": "https://tech.cornell.edu/visit-us/", "supports": "Cornell Tech gives its campus address as 2 West Loop Road, New York, NY, United States."}],
+      "verification": {"confidence": "high", "local_snapshot_alone": false, "live_scope": "Live official Cornell Tech source used because this ID is absent from the local snapshot."}
+    }
+  ],
+  "coverage_gaps": {
+    "aggregate_ids_absent_from_site_metadata": [
+      {"id": "https://openalex.org/I161592783", "reported_name": "American University of Rome", "adjusted_credit": 3.5},
+      {"id": "https://openalex.org/I4403386682", "reported_name": "CUNEF Universidad", "adjusted_credit": 0.5},
+      {"id": "https://openalex.org/I86381314", "reported_name": "Vikram University", "adjusted_credit": 0.46},
+      {"id": "https://openalex.org/I41661162", "reported_name": "Fukuyama University", "adjusted_credit": 0.38},
+      {"id": "https://openalex.org/I181635417", "reported_name": "Shinawatra University", "adjusted_credit": 0.31},
+      {"id": "https://openalex.org/I4210137468", "reported_name": "XIM University", "adjusted_credit": 0.2},
+      {"id": "https://openalex.org/I4389425506", "reported_name": "Mahatma Gandhi Central University", "adjusted_credit": 0.03},
+      {"id": "https://openalex.org/I4210150186", "reported_name": "National Education Institute of the Republic of Slovenia", "adjusted_credit": 0.02}
+    ],
+    "limitations": [
+      "The checked-in aggregate is a derived snapshot; 767 of 775 work-cache files are LFS pointers in this checkout, so the underlying works and current raw affiliation resolutions could not be independently reconstructed.",
+      "No normalizer or aggregation command was run because the user warned that normalizers can overwrite manual decisions and the parent owns integration.",
+      "The OpenAlex institution snapshot is local and may lag live records; it supports identity and country comparisons only for IDs it contains.",
+      "Country on a campus/subunit record is a geography label, not a proposal to merge the campus into its parent university. No historical author affiliation is inferred from current institutional metadata."
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-10-29T00:45:32.447589+00:00",
+  "manifest_sha256": "d9d45a911fe912d1de36f85ee06631cb300d08fe41c39239638b32412a46ce6f",
+  "registry_sha256": "54f929c8fd5e7220451d86c277616620779b2d3b35fed1bece4334733fc592d6",
+  "status_counts": {
+    "complete": 232,
+    "blocked": 1
+  },
+  "accepted_works": 135074,
+  "accepted_files": 232,
+  "provider_files": {
+    "crossref_files": 212,
+    "openalex_files": 20
+  },
+  "publisher_supplements_in_native_files": 1,
+  "checks": [
+    "complete registry plan inventory",
+    "all accepted file hashes and counts",
+    "edition and publisher issued years",
+    "unique normalized DOI or work ID within editions",
+    "registered publisher DOI prefixes and explicit sets",
+    "provider identity, with exact independent publisher proof for mixed-source supplements",
+    "byline and raw affiliation structure",
+    "large native byline hydration"
+  ],
+  "errors": [],
+  "status": "passed"
+}

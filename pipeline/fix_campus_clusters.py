@@ -6,8 +6,10 @@ Approach:
 3. Scan affiliation-map.csv for raw strings mentioning the prefix + a specific campus keyword
 4. Fix any row mapped to the wrong campus member
 
-Run: python3 .tmp/fix_campus_clusters.py
+Run: python3 pipeline/fix_campus_clusters.py          # report only
+     python3 pipeline/fix_campus_clusters.py --apply  # write reviewed fixes
 """
+import argparse
 import csv
 import json
 import re
@@ -151,9 +153,14 @@ CLUSTERS = [
 
 # ── Load data ──────────────────────────────────────────────────────
 
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--apply', action='store_true', help='Write proposed campus corrections')
+args = parser.parse_args()
+
 with open('data/affiliation-map.csv') as f:
-    rows = list(csv.DictReader(f))
-    fieldnames = csv.DictReader(open('data/affiliation-map.csv')).fieldnames
+    reader = csv.DictReader(f)
+    rows = list(reader)
+    fieldnames = reader.fieldnames
 
 # ── Fix ────────────────────────────────────────────────────────────
 
@@ -216,11 +223,13 @@ for r in rows:
 
 print(f"\nFixed: {fixed_count}")
 
-if fixed_count > 0:
+if fixed_count > 0 and args.apply:
     with open('data/affiliation-map.csv', 'w', newline='') as f:
         w = csv.DictWriter(f, fieldnames=fieldnames)
         w.writeheader()
         w.writerows(rows)
     print("Written to data/affiliation-map.csv")
+elif fixed_count > 0:
+    print('Report only; use --apply after reviewing the proposed fixes.')
 else:
     print("No changes needed.")

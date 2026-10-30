@@ -1,0 +1,51 @@
+{
+  "checked_at": "2026-10-28T23:28:23.690711+00:00",
+  "source": "https://api.openalex.org/institutions/I4210123456",
+  "target_metadata": {
+    "id": "https://openalex.org/I4210123456",
+    "display_name": "QuantaSpec (United States)",
+    "type": "company",
+    "country_code": "US",
+    "lineage": [
+      "https://openalex.org/I4210123456"
+    ],
+    "ror": "https://ror.org/039f14703",
+    "display_name_alternatives": [
+      "QuantaSpec (United States)"
+    ],
+    "display_name_acronyms": []
+  },
+  "map_before_sha256": "c56fcb5df634f5176890f7b3170183544b688d06ef476a864525ee7d342dd9f9",
+  "map_after_sha256": "a7e2fb4c297eb093c9f622c6d4aa4c4a9d748c8ad04d5f3586e6f2870ac55823",
+  "row_count": 116940,
+  "applied_rows": 1,
+  "changes": [
+    {
+      "before": {
+        "raw_affiliation": "Moscow Center for Advanced Studies",
+        "status": "manual",
+        "institution_id": "https://openalex.org/I4210123456",
+        "institution_name": "Moscow Center for Advanced Studies",
+        "institution_type": "education",
+        "country_code": "RU",
+        "lineage": "https://openalex.org/I4210162964",
+        "score": "0.806",
+        "matched_via": "Moscow Center for Advanced Studies",
+        "candidate": "Moscow Center for Advanced Studies"
+      },
+      "after": {
+        "raw_affiliation": "Moscow Center for Advanced Studies",
+        "status": "review",
+        "institution_id": "",
+        "institution_name": "",
+        "institution_type": "",
+        "country_code": "",
+        "lineage": "",
+        "score": "0.806",
+        "matched_via": "Moscow Center for Advanced Studies",
+        "candidate": "Moscow Center for Advanced Studies"
+      },
+      "reason": "The exact assigned ID is QuantaSpec, a US company, not the named Moscow organization. The separate legacy lineage points to Moscow City University but does not verify a relationship to this raw affiliation; no replacement is guessed."
+    }
+  ]
+}

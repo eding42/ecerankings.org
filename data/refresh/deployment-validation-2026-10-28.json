@@ -1,0 +1,220 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-29T00:57:18.203714+00:00",
+  "base_url": "https://ecerankings.pages.dev",
+  "artifact_count": 32,
+  "artifacts": [
+    {
+      "path": "404.html",
+      "status": 200,
+      "sha256": "fd4c99389b648a3e93de6a01b7491924f65866b23e0c07e420d8ef55b97a9e23",
+      "bytes": 708
+    },
+    {
+      "path": "coverage.html",
+      "status": 200,
+      "sha256": "5ad2d7a53b6ea6fcab166b2d34b43b0d096c1851d875bf92999332ac29d26a0b",
+      "bytes": 3539
+    },
+    {
+      "path": "coverage.js",
+      "status": 200,
+      "sha256": "e28c970d02c3038bfa9d90cc02480aca7b0cc27d5350e80200de600c69e3e714",
+      "bytes": 3421
+    },
+    {
+      "path": "data/architecture.json",
+      "status": 200,
+      "sha256": "7b2adf08f20ea4e1efea3ec74c330b522b8c7bc8c479ff0d27e8d0e4a311db07",
+      "bytes": 169382
+    },
+    {
+      "path": "data/areas.json",
+      "status": 200,
+      "sha256": "54f929c8fd5e7220451d86c277616620779b2d3b35fed1bece4334733fc592d6",
+      "bytes": 136963
+    },
+    {
+      "path": "data/biomed.json",
+      "status": 200,
+      "sha256": "57df40cf1019b517dc4e70428f5615a9088815f5889ee6f784206885d3bf8b93",
+      "bytes": 385273
+    },
+    {
+      "path": "data/circuits.json",
+      "status": 200,
+      "sha256": "fbc1a71be9fb6073ac0d086271e784b20e072ad3cef6997bd1670d20a091dc7f",
+      "bytes": 190909
+    },
+    {
+      "path": "data/comms.json",
+      "status": 200,
+      "sha256": "480c6abde4e15a2b3900249d220b8965b7839ca4e22e4e574f4f100793be6124",
+      "bytes": 728458
+    },
+    {
+      "path": "data/control.json",
+      "status": 200,
+      "sha256": "619a05c7c502cbbe9a1b958c68872a68c7cba7b6e9f9855a0982e8191caae9a3",
+      "bytes": 813060
+    },
+    {
+      "path": "data/devices.json",
+      "status": 200,
+      "sha256": "63357cbeda66629b7eece6a178fbfe6619573773e196d317ebd3f020bb1a966a",
+      "bytes": 651361
+    },
+    {
+      "path": "data/eda.json",
+      "status": 200,
+      "sha256": "47852237be171a8f27a690d9e7b8969af8f6527210c51cfb9efe879042795b53",
+      "bytes": 396476
+    },
+    {
+      "path": "data/em_rf.json",
+      "status": 200,
+      "sha256": "5215002ccb797721fd9ddd0bd4b88873a668d3e179a5a3f0183dc57e1c16767d",
+      "bytes": 701406
+    },
+    {
+      "path": "data/embedded.json",
+      "status": 200,
+      "sha256": "6f88c8b6ed2272a215152cccf236d005b5a7ca9f1dba884034a2825b39ddfa90",
+      "bytes": 222727
+    },
+    {
+      "path": "data/flagship.json",
+      "status": 200,
+      "sha256": "aa3099b7cfed36849fdea818981ad7ae3ab020334d237036aac8a338622f9113",
+      "bytes": 3739941
+    },
+    {
+      "path": "data/image.json",
+      "status": 200,
+      "sha256": "a5c4b78658b2501256ce31dae8681c75f7557c6968fbce52a1e35cc6eea4189c",
+      "bytes": 813371
+    },
+    {
+      "path": "data/inftheory.json",
+      "status": 200,
+      "sha256": "0c4b3557ecf1047192fce36e3b4a6c74fd41ff28d9319bd0a4474cccf65d7c66",
+      "bytes": 460058
+    },
+    {
+      "path": "data/institutions.json",
+      "status": 200,
+      "sha256": "2e1f99b759da6563304f18ba362fbb6c5b7501ce379ea1769f79cda871961e3e",
+      "bytes": 788628
+    },
+    {
+      "path": "data/manifest.json",
+      "status": 200,
+      "sha256": "123bd9343220755dda42de9be6ce2f425cbc7c4eae14b739aa4cedea3b543361",
+      "bytes": 345314
+    },
+    {
+      "path": "data/ml.json",
+      "status": 200,
+      "sha256": "575a16c2cc1fd7febfd01c8080b6731f7a606d9116d9fa9ea521713e2f766380",
+      "bytes": 279850
+    },
+    {
+      "path": "data/networking.json",
+      "status": 200,
+      "sha256": "82d20e3892fc3ce62d02f7cff9677c3b0a18b093a57886aaac0a1a98ca074fe0",
+      "bytes": 405054
+    },
+    {
+      "path": "data/photonics.json",
+      "status": 200,
+      "sha256": "4052e708a862259fa5e0b3fb5d0927adfff49e5592d12cccbc0cbbbc976a2812",
+      "bytes": 976597
+    },
+    {
+      "path": "data/power.json",
+      "status": 200,
+      "sha256": "bd9aac6fb76897cf17b7db4e547c7a3cbb4db3623efc240d5af53fc78f91ce4c",
+      "bytes": 500207
+    },
+    {
+      "path": "data/powerelec.json",
+      "status": 200,
+      "sha256": "1910e582b78cb325e2905b1b1679c9f92332049908b52908e7f5eda030948839",
+      "bytes": 806237
+    },
+    {
+      "path": "data/quantum.json",
+      "status": 200,
+      "sha256": "d5d2d72d3f8861de70095ed9a933a7b599584cd176033c3d61e0f5353d441304",
+      "bytes": 328422
+    },
+    {
+      "path": "data/robotics.json",
+      "status": 200,
+      "sha256": "5bf0633e8bd88b2d2f9cc1d2b0e2ad4cd5bafe0da91a49e548b647ff1fca34fa",
+      "bytes": 747686
+    },
+    {
+      "path": "data/sigproc.json",
+      "status": 200,
+      "sha256": "d85570508d9e19314dc209e264a74227c4fd421f7e6ac4c9b85ffdb144aac4ac",
+      "bytes": 886468
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "aa8fd2c85d11f718b51158fde840f896ea4e43877b00b857fd5bb53dbcedb4c7",
+      "bytes": 5351
+    },
+    {
+      "path": "main.js",
+      "status": 200,
+      "sha256": "04afd3c712f6a3c8b3d5c84926e88cd833fcaf0a91d546817f0f107df49916ec",
+      "bytes": 19550
+    },
+    {
+      "path": "methodology.html",
+      "status": 200,
+      "sha256": "71d42ddb627f50b67d1cd69dcdfdd7ca2f01d8ec16c8a186f944f21397ac955e",
+      "bytes": 10083
+    },
+    {
+      "path": "methodology.js",
+      "status": 200,
+      "sha256": "004ac15603df59b2fbc237c5ac1d5d34b5dfa038461b334b38d32615d1bb7236",
+      "bytes": 1533
+    },
+    {
+      "path": "rank.js",
+      "status": 200,
+      "sha256": "f10f5dfbbfcbdf7e056104eb1a72ac14f73f7336e1b8913dd3bc25c2601d40b4",
+      "bytes": 8153
+    },
+    {
+      "path": "styles.css",
+      "status": 200,
+      "sha256": "e0a49fb27232c48c9c28dbb724581ebb02f5193692afd8a0325d875aded57405",
+      "bytes": 9248
+    }
+  ],
+  "homepage_matches_package": true,
+  "not_found_checks": [
+    {
+      "path": "release-check-no-such-page",
+      "status": 404
+    },
+    {
+      "path": ".env",
+      "status": 404
+    },
+    {
+      "path": "pipeline/aggregate.py",
+      "status": 404
+    },
+    {
+      "path": "data/author-info.csv",
+      "status": 404
+    }
+  ],
+  "release_manifest_sha256": "123bd9343220755dda42de9be6ce2f425cbc7c4eae14b739aa4cedea3b543361"
+}

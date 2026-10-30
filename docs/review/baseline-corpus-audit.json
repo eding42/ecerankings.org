@@ -1,0 +1,1049 @@
+{
+  "total_works": 595446,
+  "by_venue": {
+    "asplos": {
+      "works": 1150,
+      "authors": 6606,
+      "zeroauthors": 2,
+      "signal": 6606,
+      "native": 0,
+      "edu": 0,
+      "missingdoi": 0
+    },
+    "automatica": {
+      "works": 5758,
+      "authors": 17852,
+      "zeroauthors": 5,
+      "signal": 17166,
+      "native": 17166,
+      "edu": 16383,
+      "missingdoi": 28
+    },
+    "cdc": {
+      "works": 9447,
+      "authors": 29097,
+      "zeroauthors": 54,
+      "signal": 28668,
+      "native": 16082,
+      "edu": 14675,
+      "missingdoi": 0
+    },
+    "cleo": {
+      "works": 18941,
+      "authors": 115350,
+      "zeroauthors": 1,
+      "signal": 102705,
+      "native": 102281,
+      "edu": 82882,
+      "missingdoi": 36
+    },
+    "cvpr": {
+      "works": 16927,
+      "authors": 87483,
+      "zeroauthors": 87,
+      "signal": 85987,
+      "native": 31775,
+      "edu": 23544,
+      "missingdoi": 0,
+      "exact100": 1
+    },
+    "dac": {
+      "works": 3215,
+      "authors": 14959,
+      "zeroauthors": 27,
+      "signal": 14522,
+      "native": 6133,
+      "edu": 5009,
+      "missingdoi": 0
+    },
+    "ecce": {
+      "works": 9795,
+      "authors": 40389,
+      "zeroauthors": 72,
+      "signal": 40096,
+      "native": 25312,
+      "edu": 22251,
+      "missingdoi": 0
+    },
+    "edl": {
+      "works": 5794,
+      "authors": 37559,
+      "zeroauthors": 555,
+      "signal": 35651,
+      "native": 35651,
+      "edu": 29272,
+      "missingdoi": 123
+    },
+    "emsoft": {
+      "works": 178,
+      "authors": 612,
+      "zeroauthors": 20,
+      "signal": 609,
+      "native": 118,
+      "edu": 98,
+      "missingdoi": 0
+    },
+    "hpca": {
+      "works": 969,
+      "authors": 4930,
+      "zeroauthors": 113,
+      "signal": 4895,
+      "native": 1604,
+      "edu": 1219,
+      "missingdoi": 0
+    },
+    "icassp": {
+      "works": 24625,
+      "authors": 104784,
+      "zeroauthors": 84,
+      "signal": 103937,
+      "native": 35708,
+      "edu": 27268,
+      "missingdoi": 0
+    },
+    "iccad": {
+      "works": 1681,
+      "authors": 8169,
+      "zeroauthors": 29,
+      "signal": 8037,
+      "native": 2209,
+      "edu": 1896,
+      "missingdoi": 0
+    },
+    "iccv": {
+      "works": 8203,
+      "authors": 42973,
+      "zeroauthors": 41,
+      "signal": 42254,
+      "native": 14272,
+      "edu": 10665,
+      "missingdoi": 0
+    },
+    "iclr": {
+      "works": 11848,
+      "authors": 58858,
+      "zeroauthors": 19,
+      "signal": 5657,
+      "native": 0,
+      "edu": 0,
+      "missingdoi": 6633
+    },
+    "icml": {
+      "works": 16929,
+      "authors": 70462,
+      "zeroauthors": 32,
+      "missingdoi": 9988,
+      "signal": 5722,
+      "native": 0,
+      "edu": 0
+    },
+    "icra": {
+      "works": 10536,
+      "authors": 47002,
+      "zeroauthors": 44,
+      "signal": 46394,
+      "native": 19776,
+      "edu": 16637,
+      "missingdoi": 0
+    },
+    "iedm": {
+      "works": 2437,
+      "authors": 27504,
+      "zeroauthors": 31,
+      "signal": 27083,
+      "native": 13083,
+      "edu": 5552,
+      "missingdoi": 0,
+      "exact100": 1
+    },
+    "ims": {
+      "works": 3637,
+      "authors": 15976,
+      "zeroauthors": 84,
+      "signal": 15889,
+      "native": 10370,
+      "edu": 7712,
+      "missingdoi": 0
+    },
+    "infocom": {
+      "works": 3360,
+      "authors": 15229,
+      "zeroauthors": 55,
+      "signal": 15191,
+      "native": 6437,
+      "edu": 5776,
+      "missingdoi": 0
+    },
+    "isca": {
+      "works": 769,
+      "authors": 4820,
+      "zeroauthors": 47,
+      "signal": 4805,
+      "native": 605,
+      "edu": 425,
+      "missingdoi": 0
+    },
+    "isit": {
+      "works": 3923,
+      "authors": 11344,
+      "zeroauthors": 48,
+      "signal": 11204,
+      "native": 1583,
+      "edu": 1453,
+      "missingdoi": 0
+    },
+    "isscc": {
+      "works": 2700,
+      "authors": 19165,
+      "zeroauthors": 420,
+      "signal": 18982,
+      "native": 10873,
+      "edu": 4768,
+      "missingdoi": 0
+    },
+    "jestpe": {
+      "works": 4700,
+      "authors": 21414,
+      "zeroauthors": 89,
+      "signal": 20002,
+      "native": 20002,
+      "edu": 18614,
+      "missingdoi": 60
+    },
+    "jlt": {
+      "works": 9991,
+      "authors": 53565,
+      "zeroauthors": 1512,
+      "signal": 53412,
+      "native": 25163,
+      "edu": 19058,
+      "missingdoi": 0
+    },
+    "jsac": {
+      "works": 3195,
+      "authors": 14011,
+      "zeroauthors": 315,
+      "signal": 13295,
+      "native": 13295,
+      "edu": 11868,
+      "missingdoi": 117
+    },
+    "jssc": {
+      "works": 3925,
+      "authors": 22990,
+      "zeroauthors": 312,
+      "signal": 21183,
+      "native": 21183,
+      "edu": 15124,
+      "missingdoi": 96
+    },
+    "jstsp": {
+      "works": 1373,
+      "authors": 5524,
+      "zeroauthors": 157,
+      "signal": 5199,
+      "native": 5199,
+      "edu": 4522,
+      "missingdoi": 30
+    },
+    "light-sa": {
+      "works": 2623,
+      "authors": 19436,
+      "zeroauthors": 0,
+      "signal": 19287,
+      "native": 19287,
+      "edu": 16641,
+      "missingdoi": 0
+    },
+    "micro": {
+      "works": 933,
+      "authors": 4993,
+      "zeroauthors": 58,
+      "signal": 4971,
+      "native": 1009,
+      "edu": 826,
+      "missingdoi": 0
+    },
+    "nat-comms": {
+      "works": 73478,
+      "authors": 863124,
+      "zeroauthors": 103,
+      "signal": 846589,
+      "native": 846589,
+      "edu": 650699,
+      "missingdoi": 34,
+      "exact100": 345
+    },
+    "nat-electronics": {
+      "works": 1670,
+      "authors": 10300,
+      "zeroauthors": 157,
+      "signal": 9716,
+      "native": 9716,
+      "edu": 8164,
+      "missingdoi": 4
+    },
+    "nat-photonics": {
+      "works": 2404,
+      "authors": 15436,
+      "zeroauthors": 71,
+      "signal": 14738,
+      "native": 14738,
+      "edu": 11724,
+      "missingdoi": 9,
+      "exact100": 3
+    },
+    "nat-phys": {
+      "works": 3846,
+      "authors": 25696,
+      "zeroauthors": 207,
+      "signal": 24988,
+      "native": 24988,
+      "edu": 18530,
+      "missingdoi": 20,
+      "exact100": 38
+    },
+    "nature": {
+      "works": 40568,
+      "authors": 249324,
+      "zeroauthors": 6606,
+      "signal": 228785,
+      "native": 228785,
+      "edu": 155997,
+      "missingdoi": 218,
+      "exact100": 321
+    },
+    "neurips": {
+      "works": 29368,
+      "authors": 128935,
+      "zeroauthors": 43,
+      "signal": 10130,
+      "native": 0,
+      "edu": 0,
+      "missingdoi": 15167
+    },
+    "npjqi": {
+      "works": 1340,
+      "authors": 8396,
+      "zeroauthors": 0,
+      "signal": 8204,
+      "native": 8204,
+      "edu": 6418,
+      "missingdoi": 0
+    },
+    "optica": {
+      "works": 2371,
+      "authors": 16981,
+      "zeroauthors": 0,
+      "signal": 11784,
+      "native": 7660,
+      "edu": 5645,
+      "missingdoi": 0
+    },
+    "pnas": {
+      "works": 40350,
+      "authors": 306960,
+      "zeroauthors": 2034,
+      "signal": 295750,
+      "native": 295750,
+      "edu": 239173,
+      "missingdoi": 0,
+      "exact100": 59
+    },
+    "prl": {
+      "works": 26282,
+      "authors": 257062,
+      "zeroauthors": 2,
+      "signal": 243580,
+      "native": 243580,
+      "edu": 186816,
+      "exact100": 912,
+      "missingdoi": 249
+    },
+    "prx": {
+      "works": 2533,
+      "authors": 19030,
+      "zeroauthors": 0,
+      "signal": 17879,
+      "native": 17879,
+      "edu": 14382,
+      "exact100": 13,
+      "missingdoi": 19
+    },
+    "prxquantum": {
+      "works": 1456,
+      "authors": 8073,
+      "zeroauthors": 0,
+      "signal": 7619,
+      "native": 7619,
+      "edu": 6020,
+      "missingdoi": 0
+    },
+    "qst": {
+      "works": 1458,
+      "authors": 7276,
+      "zeroauthors": 1,
+      "signal": 6773,
+      "native": 6773,
+      "edu": 5274,
+      "missingdoi": 0
+    },
+    "ral": {
+      "works": 10852,
+      "authors": 50140,
+      "zeroauthors": 33,
+      "signal": 48709,
+      "native": 48709,
+      "edu": 42355,
+      "missingdoi": 0
+    },
+    "rtas": {
+      "works": 502,
+      "authors": 1759,
+      "zeroauthors": 94,
+      "signal": 1756,
+      "native": 920,
+      "edu": 791,
+      "missingdoi": 0
+    },
+    "rtss": {
+      "works": 607,
+      "authors": 2027,
+      "zeroauthors": 110,
+      "signal": 2021,
+      "native": 636,
+      "edu": 586,
+      "missingdoi": 0
+    },
+    "sci-adv": {
+      "works": 17437,
+      "authors": 175126,
+      "zeroauthors": 138,
+      "signal": 173739,
+      "native": 173739,
+      "edu": 134711,
+      "missingdoi": 13,
+      "exact100": 17
+    },
+    "science": {
+      "works": 35382,
+      "authors": 163290,
+      "zeroauthors": 1225,
+      "signal": 129067,
+      "native": 129067,
+      "edu": 90739,
+      "missingdoi": 141,
+      "exact100": 128
+    },
+    "scirobotics": {
+      "works": 948,
+      "authors": 5498,
+      "zeroauthors": 7,
+      "signal": 5461,
+      "native": 5461,
+      "edu": 4369,
+      "missingdoi": 0
+    },
+    "sigcomm": {
+      "works": 537,
+      "authors": 3903,
+      "zeroauthors": 0,
+      "signal": 3903,
+      "native": 0,
+      "edu": 0,
+      "missingdoi": 0
+    },
+    "tac": {
+      "works": 7018,
+      "authors": 20487,
+      "zeroauthors": 322,
+      "signal": 19598,
+      "native": 19598,
+      "edu": 18559,
+      "missingdoi": 137
+    },
+    "tap": {
+      "works": 11096,
+      "authors": 44430,
+      "zeroauthors": 686,
+      "signal": 42707,
+      "native": 42707,
+      "edu": 39139,
+      "missingdoi": 131
+    },
+    "tbme": {
+      "works": 4016,
+      "authors": 22318,
+      "zeroauthors": 368,
+      "signal": 20899,
+      "native": 20899,
+      "edu": 17303,
+      "missingdoi": 65
+    },
+    "tcad": {
+      "works": 3725,
+      "authors": 17857,
+      "zeroauthors": 87,
+      "signal": 16959,
+      "native": 16959,
+      "edu": 15047,
+      "missingdoi": 75
+    },
+    "tcom": {
+      "works": 6902,
+      "authors": 27129,
+      "zeroauthors": 372,
+      "signal": 26429,
+      "native": 26429,
+      "edu": 24699,
+      "missingdoi": 80
+    },
+    "tecs": {
+      "works": 1310,
+      "authors": 5651,
+      "zeroauthors": 0,
+      "signal": 5426,
+      "native": 5426,
+      "edu": 4877,
+      "missingdoi": 10
+    },
+    "ted": {
+      "works": 10610,
+      "authors": 64737,
+      "zeroauthors": 407,
+      "signal": 61241,
+      "native": 61241,
+      "edu": 49549,
+      "missingdoi": 228
+    },
+    "tip": {
+      "works": 6079,
+      "authors": 27308,
+      "zeroauthors": 200,
+      "signal": 26601,
+      "native": 26601,
+      "edu": 23510,
+      "missingdoi": 0
+    },
+    "tit": {
+      "works": 5311,
+      "authors": 14734,
+      "zeroauthors": 85,
+      "signal": 13983,
+      "native": 13983,
+      "edu": 12893,
+      "missingdoi": 180
+    },
+    "tmtt": {
+      "works": 6450,
+      "authors": 29670,
+      "zeroauthors": 287,
+      "signal": 28194,
+      "native": 28194,
+      "edu": 24400,
+      "missingdoi": 99
+    },
+    "ton": {
+      "works": 2626,
+      "authors": 12717,
+      "zeroauthors": 7,
+      "signal": 12017,
+      "native": 12017,
+      "edu": 10817,
+      "missingdoi": 76
+    },
+    "tpami": {
+      "works": 5716,
+      "authors": 27762,
+      "zeroauthors": 254,
+      "signal": 26501,
+      "native": 26501,
+      "edu": 22762,
+      "missingdoi": 45
+    },
+    "tpel": {
+      "works": 13143,
+      "authors": 60156,
+      "zeroauthors": 423,
+      "signal": 56279,
+      "native": 56279,
+      "edu": 52435,
+      "missingdoi": 347
+    },
+    "tpwrs": {
+      "works": 5560,
+      "authors": 21508,
+      "zeroauthors": 194,
+      "signal": 20053,
+      "native": 20053,
+      "edu": 18000,
+      "missingdoi": 162
+    },
+    "tro": {
+      "works": 2215,
+      "authors": 8974,
+      "zeroauthors": 165,
+      "signal": 8692,
+      "native": 8692,
+      "edu": 7601,
+      "missingdoi": 16
+    },
+    "tsg": {
+      "works": 4968,
+      "authors": 20766,
+      "zeroauthors": 147,
+      "signal": 19565,
+      "native": 19565,
+      "edu": 17838,
+      "missingdoi": 147
+    },
+    "tsp": {
+      "works": 4735,
+      "authors": 15202,
+      "zeroauthors": 258,
+      "signal": 14501,
+      "native": 14501,
+      "edu": 13494,
+      "missingdoi": 142
+    },
+    "twc": {
+      "works": 8385,
+      "authors": 34873,
+      "zeroauthors": 283,
+      "signal": 33678,
+      "native": 33678,
+      "edu": 31333,
+      "missingdoi": 202
+    },
+    "vlsi-circuits": {
+      "works": 986,
+      "authors": 10864,
+      "zeroauthors": 30,
+      "signal": 10777,
+      "native": 2212,
+      "edu": 916,
+      "missingdoi": 0
+    },
+    "vlsi-tech": {
+      "works": 1644,
+      "authors": 13332,
+      "zeroauthors": 46,
+      "signal": 9932,
+      "native": 9159,
+      "edu": 2174,
+      "missingdoi": 1056
+    }
+  },
+  "out_of_bucket": [
+    {
+      "venue": "dac",
+      "bucket_year": 2001,
+      "publication_year": 2002,
+      "works": 152
+    },
+    {
+      "venue": "dac",
+      "bucket_year": 2003,
+      "publication_year": 2004,
+      "works": 179
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 2006,
+      "works": 68
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 2011,
+      "works": 140
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1997,
+      "works": 74
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 2009,
+      "works": 53
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 2013,
+      "works": 56
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1987,
+      "works": 96
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1989,
+      "works": 6
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1982,
+      "works": 92
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1993,
+      "works": 17
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1983,
+      "works": 86
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1985,
+      "works": 101
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1986,
+      "works": 79
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1984,
+      "works": 72
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1981,
+      "works": 81
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1988,
+      "works": 6
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 2004,
+      "works": 2
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 2000,
+      "works": 2
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 2005,
+      "works": 3
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1996,
+      "works": 1
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 2014,
+      "works": 6
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 2010,
+      "works": 3
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 2016,
+      "works": 1
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 2007,
+      "works": 3
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 2008,
+      "works": 2
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 2012,
+      "works": 6
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1998,
+      "works": 1
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1999,
+      "works": 1
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 2003,
+      "works": 1
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1995,
+      "works": 1
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1990,
+      "works": 1
+    },
+    {
+      "venue": "vlsi-tech",
+      "bucket_year": 2021,
+      "publication_year": 1992,
+      "works": 1
+    }
+  ],
+  "within_file_duplicate_identities": [
+    {
+      "venue": "automatica",
+      "year": 2026,
+      "works": 11
+    },
+    {
+      "venue": "edl",
+      "year": 2026,
+      "works": 1
+    },
+    {
+      "venue": "icml",
+      "year": 1994,
+      "works": 1
+    },
+    {
+      "venue": "icml",
+      "year": 2004,
+      "works": 1
+    },
+    {
+      "venue": "jsac",
+      "year": 2026,
+      "works": 2
+    },
+    {
+      "venue": "jssc",
+      "year": 2026,
+      "works": 1
+    },
+    {
+      "venue": "jstsp",
+      "year": 2026,
+      "works": 1
+    },
+    {
+      "venue": "light-sa",
+      "year": 2026,
+      "works": 15
+    },
+    {
+      "venue": "nat-comms",
+      "year": 2025,
+      "works": 4
+    },
+    {
+      "venue": "nat-electronics",
+      "year": 2026,
+      "works": 6
+    },
+    {
+      "venue": "nat-photonics",
+      "year": 2026,
+      "works": 3
+    },
+    {
+      "venue": "npjqi",
+      "year": 2025,
+      "works": 2
+    },
+    {
+      "venue": "npjqi",
+      "year": 2026,
+      "works": 23
+    },
+    {
+      "venue": "prl",
+      "year": 2025,
+      "works": 19
+    },
+    {
+      "venue": "prx",
+      "year": 2025,
+      "works": 4
+    },
+    {
+      "venue": "prxquantum",
+      "year": 2025,
+      "works": 2
+    },
+    {
+      "venue": "prxquantum",
+      "year": 2026,
+      "works": 53
+    },
+    {
+      "venue": "qst",
+      "year": 2025,
+      "works": 2
+    },
+    {
+      "venue": "qst",
+      "year": 2026,
+      "works": 29
+    },
+    {
+      "venue": "ral",
+      "year": 2026,
+      "works": 21
+    },
+    {
+      "venue": "tac",
+      "year": 2025,
+      "works": 1
+    },
+    {
+      "venue": "tac",
+      "year": 2026,
+      "works": 8
+    },
+    {
+      "venue": "tap",
+      "year": 2026,
+      "works": 4
+    },
+    {
+      "venue": "tbme",
+      "year": 2026,
+      "works": 1
+    },
+    {
+      "venue": "tcad",
+      "year": 2026,
+      "works": 3
+    },
+    {
+      "venue": "tcom",
+      "year": 2026,
+      "works": 10
+    },
+    {
+      "venue": "ted",
+      "year": 2026,
+      "works": 1
+    },
+    {
+      "venue": "tip",
+      "year": 2026,
+      "works": 3
+    },
+    {
+      "venue": "tit",
+      "year": 2025,
+      "works": 3
+    },
+    {
+      "venue": "tit",
+      "year": 2026,
+      "works": 13
+    },
+    {
+      "venue": "ton",
+      "year": 2025,
+      "works": 1
+    },
+    {
+      "venue": "ton",
+      "year": 2026,
+      "works": 1
+    },
+    {
+      "venue": "tpami",
+      "year": 2025,
+      "works": 2
+    },
+    {
+      "venue": "tpami",
+      "year": 2026,
+      "works": 15
+    },
+    {
+      "venue": "tpel",
+      "year": 2026,
+      "works": 1
+    },
+    {
+      "venue": "tpwrs",
+      "year": 2025,
+      "works": 1
+    },
+    {
+      "venue": "tpwrs",
+      "year": 2026,
+      "works": 2
+    },
+    {
+      "venue": "tro",
+      "year": 2025,
+      "works": 2
+    },
+    {
+      "venue": "tro",
+      "year": 2026,
+      "works": 8
+    },
+    {
+      "venue": "tsg",
+      "year": 2025,
+      "works": 1
+    },
+    {
+      "venue": "tsp",
+      "year": 2026,
+      "works": 5
+    },
+    {
+      "venue": "twc",
+      "year": 2026,
+      "works": 7
+    }
+  ]
+}

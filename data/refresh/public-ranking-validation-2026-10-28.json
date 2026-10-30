@@ -1,0 +1,221 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-29T00:51:49.948171+00:00",
+  "release_manifest_sha256": "123bd9343220755dda42de9be6ce2f425cbc7c4eae14b739aa4cedea3b543361",
+  "aggregate_csv_sha256": "cd19c186bb91a9184be6fe9059c4075d652a97eff8031844a96dd1f137fcfcb6",
+  "method": "Independent Python calculation from CSV compared with site/rank.js over release JSON; all institution IDs, competition ranks, scores, adjusted totals and paper counts checked.",
+  "cases": [
+    {
+      "case": {
+        "name": "default-world",
+        "areas": [
+          "circuits",
+          "architecture",
+          "eda",
+          "embedded",
+          "sigproc",
+          "image",
+          "comms",
+          "networking",
+          "inftheory",
+          "control",
+          "robotics",
+          "powerelec",
+          "power",
+          "devices",
+          "photonics",
+          "em_rf",
+          "biomed",
+          "quantum"
+        ],
+        "region": "world",
+        "from": 2016,
+        "to": 2025
+      },
+      "institutions_checked": 5138,
+      "USC": {
+        "id": "https://openalex.org/I1174212",
+        "name": "University of Southern California",
+        "rank": 39,
+        "score": 29.69870716161337,
+        "adjTotal": 973.74411,
+        "pubTotal": 1703
+      }
+    },
+    {
+      "case": {
+        "name": "default-US",
+        "areas": [
+          "circuits",
+          "architecture",
+          "eda",
+          "embedded",
+          "sigproc",
+          "image",
+          "comms",
+          "networking",
+          "inftheory",
+          "control",
+          "robotics",
+          "powerelec",
+          "power",
+          "devices",
+          "photonics",
+          "em_rf",
+          "biomed",
+          "quantum"
+        ],
+        "region": "US",
+        "from": 2016,
+        "to": 2025
+      },
+      "institutions_checked": 785,
+      "USC": {
+        "id": "https://openalex.org/I1174212",
+        "name": "University of Southern California",
+        "rank": 13,
+        "score": 29.69870716161337,
+        "adjTotal": 973.74411,
+        "pubTotal": 1703
+      }
+    },
+    {
+      "case": {
+        "name": "robotics-world",
+        "areas": [
+          "robotics"
+        ],
+        "region": "world",
+        "from": 2016,
+        "to": 2025
+      },
+      "institutions_checked": 1794,
+      "USC": {
+        "id": "https://openalex.org/I1174212",
+        "name": "University of Southern California",
+        "rank": 36,
+        "score": 116.60119999999999,
+        "adjTotal": 116.6012,
+        "pubTotal": 199
+      }
+    },
+    {
+      "case": {
+        "name": "robotics-US",
+        "areas": [
+          "robotics"
+        ],
+        "region": "US",
+        "from": 2016,
+        "to": 2025
+      },
+      "institutions_checked": 347,
+      "USC": {
+        "id": "https://openalex.org/I1174212",
+        "name": "University of Southern California",
+        "rank": 13,
+        "score": 116.60119999999999,
+        "adjTotal": 116.6012,
+        "pubTotal": 199
+      }
+    },
+    {
+      "case": {
+        "name": "ML-world",
+        "areas": [
+          "ml"
+        ],
+        "region": "world",
+        "from": 2016,
+        "to": 2025
+      },
+      "institutions_checked": 918,
+      "USC": {
+        "id": "https://openalex.org/I1174212",
+        "name": "University of Southern California",
+        "rank": 42,
+        "score": 33.88177,
+        "adjTotal": 33.88177,
+        "pubTotal": 71
+      }
+    },
+    {
+      "case": {
+        "name": "all-areas-world",
+        "areas": [
+          "circuits",
+          "architecture",
+          "eda",
+          "embedded",
+          "sigproc",
+          "image",
+          "comms",
+          "networking",
+          "inftheory",
+          "control",
+          "robotics",
+          "powerelec",
+          "power",
+          "devices",
+          "photonics",
+          "em_rf",
+          "ml",
+          "biomed",
+          "quantum",
+          "flagship"
+        ],
+        "region": "world",
+        "from": 2016,
+        "to": 2025
+      },
+      "institutions_checked": 8193,
+      "USC": {
+        "id": "https://openalex.org/I1174212",
+        "name": "University of Southern California",
+        "rank": 36,
+        "score": 34.41917127421619,
+        "adjTotal": 1478.69745,
+        "pubTotal": 3246
+      }
+    },
+    {
+      "case": {
+        "name": "all-years-and-areas",
+        "areas": [
+          "circuits",
+          "architecture",
+          "eda",
+          "embedded",
+          "sigproc",
+          "image",
+          "comms",
+          "networking",
+          "inftheory",
+          "control",
+          "robotics",
+          "powerelec",
+          "power",
+          "devices",
+          "photonics",
+          "em_rf",
+          "ml",
+          "biomed",
+          "quantum",
+          "flagship"
+        ],
+        "region": "world",
+        "from": 1981,
+        "to": 2026
+      },
+      "institutions_checked": 8564,
+      "USC": {
+        "id": "https://openalex.org/I1174212",
+        "name": "University of Southern California",
+        "rank": 38,
+        "score": 36.91506170362868,
+        "adjTotal": 1610.5402200000003,
+        "pubTotal": 3545
+      }
+    }
+  ]
+}
