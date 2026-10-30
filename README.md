@@ -114,6 +114,10 @@ python3 pipeline/build_institutions.py
 python3 pipeline/verify.py --all
 ```
 
+For the full refresh-and-publish procedure — including the validated release
+path, stop conditions, commit rules, and the Cloudflare deploy step — see
+[docs/refresh-runbook.md](docs/refresh-runbook.md).
+
 Each script's docstring documents the full option set. Harvests are cached
 under `cache/<venue>/<year>/`; re-runs and backfills are idempotent. The
 backfill checkpoints per batch to `cache/.backfill-checkpoint.jsonl`, so an
