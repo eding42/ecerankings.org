@@ -1,0 +1,7 @@
+/* Eding shared identity, version 0.1.0. Projects retain their own layouts. */
+:root {
+  --eding-link: #28558a;
+  --eding-focus: #b15b22;
+  --eding-spacing: 1rem;
+}
+.eding-project-link:focus-visible { outline: 2px solid var(--eding-focus); outline-offset: 3px; }

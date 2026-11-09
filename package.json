@@ -1,0 +1,16 @@
+{
+  "name": "ecerankings",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/frontend/*.test.mjs",
+    "build": "python3 pipeline/sync_shared.py && python3 pipeline/package_site.py",
+    "deploy:check": "npm run build",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name ecerankings --branch main --commit-dirty=true",
+    "check": "npm test"
+  },
+  "devDependencies": {
+    "wrangler": "4.154.0"
+  }
+}

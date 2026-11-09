@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Methodology · ECERankings</title>
+  <meta name="description" content="How ECERankings counts papers, credits institutions, and computes scores, and the known limits of the data.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="eding-shared.css">
+  <script type="module" src="methodology.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <p class="site-title"><a href="./">ECERankings</a></p>
+      <nav aria-label="Site"><a class="eding-project-link" href="https://eding.dev/">Eding</a>
+        <a href="./">Rankings</a>
+        <a href="methodology.html" aria-current="page">Methodology</a>
+        <a href="coverage.html">Data coverage</a>
+        <a href="https://github.com/eding42/ecerankings.org">Source</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap prose">
+    <h1>Methodology</h1>
+    <p class="lede">
+      ECERankings counts publications in a fixed list of selective electrical
+      and computer engineering journals and conferences, credits each paper to
+      the institutions its authors listed on it, and combines the per-area
+      totals with a geometric mean. It follows
+      <a href="https://csrankings.org/">CSRankings</a> in spirit, but uses
+      journals as well as conferences and takes data from OpenAlex instead of
+      DBLP.
+    </p>
+
+    <p class="toc">
+      <a href="#what-is-ranked">What is ranked</a> ·
+      <a href="#credit">How credit is assigned</a> ·
+      <a href="#score">The score</a> ·
+      <a href="#years">Years</a> ·
+      <a href="#caveats">Data caveats</a> ·
+      <a href="#venues">Venue list</a> ·
+      <a href="#source">Source and data</a>
+    </p>
+
+    <h2 id="what-is-ranked">What is ranked</h2>
+    <ul>
+      <li><strong>Institutions, not departments.</strong> Any author at an
+        institution who publishes in a listed venue counts, whether they sit in
+        ECE, computer science, physics, medicine, or a research institute.
+        The ranking does not know which department an author belongs to.</li>
+      <li><strong>Not a faculty roster.</strong> There is no list of faculty
+        behind these numbers, and the site makes no claim about who is
+        employed where today. Papers by students, postdocs, and visitors count
+        the same as papers by faculty.</li>
+      <li><strong>Education institutions.</strong> Credit uses affiliations
+        classified as <em>education</em> by the provider or a curated mapping.
+        A paper co-written with an industry lab gives the university only its
+        authors' share. Classification errors and documented exceptions remain
+        possible; see <a href="coverage.html">data coverage</a>.</li>
+      <li><strong>Publications only.</strong> No citations, funding, awards,
+        or reputation surveys are used.</li>
+    </ul>
+
+    <h2 id="credit">How credit is assigned</h2>
+    <p>
+      <strong>Institution at time of publication.</strong> Each paper is
+      credited to the institution an author listed <em>on that paper</em>. A
+      researcher who moves does not take earlier papers along: work done at
+      one university stays with it. This differs from CSRankings, which
+      credits a faculty member's whole career to their current institution.
+      The two answer different questions; this site measures output produced
+      under an institution's name at the time it happened.
+    </p>
+    <p>
+      <strong>Adjusted count.</strong> Every paper is worth 1, split evenly
+      among all of its N authors, so each author carries 1/N. An
+      institution's adjusted count is the sum of its authors' shares. Shares
+      belonging to authors with no university affiliation are dropped, not
+      redistributed. An author who lists two universities on one paper has
+      their 1/N split evenly between them.
+    </p>
+    <p>
+      <strong>Papers</strong> counts papers with at least one credited author at
+      the institution, without the 1/N split. Counts are summed across venues
+      and years; a paper recorded in more than one qualifying venue can appear
+      more than once. This column is shown for context and does not enter the score.
+    </p>
+
+    <h2 id="score">The score</h2>
+    <p>
+      For each selected area <var>i</var>, let <var>s<sub>i</sub></var> be the
+      institution's adjusted count in that area over the chosen years. With
+      <var>n</var> selected areas, the score is the geometric mean of
+      (1 + <var>s<sub>i</sub></var>), minus one:
+    </p>
+    <p class="formula">score = (∏<sub>i=1..n</sub> (1 + s<sub>i</sub>))<sup>1/n</sup> − 1 = exp( mean( log(1 + s<sub>i</sub>) ) ) − 1</p>
+    <ul>
+      <li><strong>Areas with no papers still count.</strong> <var>n</var> is
+        the number of areas selected, including areas where the institution has
+        zero output. A zero area contributes log(1) = 0 to the mean and pulls
+        the score down, so breadth across areas is rewarded and dominance of a
+        single area is damped.</li>
+      <li><strong>Changing the area selection changes every score</strong>,
+        because <var>n</var> changes. Scores are only comparable within one
+        selection of areas, years, and region.</li>
+      <li><strong>Ties.</strong> Institutions with equal scores share a rank;
+        the listing order within a tie is alphabetical.</li>
+      <li><strong>Region</strong> filters the list after scoring, using the
+        institution's recorded country, with documented metadata corrections.
+        Institutions with no
+        recorded country appear only under World.</li>
+    </ul>
+
+    <h2 id="years">Years</h2>
+    <ul>
+      <li>The year range is inclusive. Journal papers use their publication
+        year; conference papers use the verified proceedings edition year
+        where the venue registry specifies it. Documented provider year-label
+        errors are corrected against the edition and DOI evidence.
+        The selectable range is derived from the loaded data files.</li>
+      <li>The default range ends at the latest <em>complete</em> calendar year.
+        The current year is labelled <em>partial</em>: papers are still being
+        published and indexed, so including it lowers counts relative to full
+        years.</li>
+      <li>Even complete years can be incomplete for a particular venue.
+        Conference proceedings are sometimes indexed months after the event,
+        and coverage of older years varies by venue (most areas start at
+        2016). A complete calendar year is not a promise that every venue in
+        it has been fully collected.</li>
+    </ul>
+
+    <h2 id="caveats">Data caveats</h2>
+    <ul>
+      <li><strong>Affiliations come from OpenAlex</strong>, which resolves the
+        free-text affiliation on each paper to an institution record. These
+        resolutions are not always right; for example, some papers listing
+        "University of Pennsylvania" are attributed to California University of
+        Pennsylvania. Where OpenAlex has no resolved institution, the project
+        uses its own curated mapping of affiliation strings.</li>
+      <li><strong>Venue membership.</strong> OpenAlex does not link many IEEE
+        conference papers to their conference. For those, Crossref supplies
+        the list of papers in each proceedings volume and OpenAlex supplies the
+        affiliations, joined by DOI. Papers without a DOI match or without
+        affiliations are missed.</li>
+      <li><strong>Non-research items</strong> such as editorials, errata, and
+        letters are excluded by type, and a curated list removes columns and
+        other items OpenAlex labels as articles. Some may remain.</li>
+      <li><strong>Institution identity.</strong> Campuses and sub-units are
+        credited as OpenAlex records them, without rolling them up to a parent.
+        Curated aliases merge verified duplicate records of the same university.
+        A shared name or country alone does not establish that two records are
+        the same institution.</li>
+      <li><strong>Machine Learning is off by default.</strong> Proceedings coverage
+        and paper-specific affiliations are incomplete for NeurIPS, ICML and ICLR,
+        because source records often do not identify the accepted proceedings
+        or provide a paper-specific affiliation. DOI matches recover some
+        historical affiliations; current author-profile affiliations are
+        withheld. Selecting this area compares an incomplete subset.</li>
+      <li><strong>Interdisciplinary Flagship is off by default.</strong> It
+        holds general-science journals (Nature, Science, PNAS, …) whose papers
+        are mostly outside ECE.</li>
+    </ul>
+
+    <h2 id="venues">Venue list</h2>
+    <p>
+      Areas and venues come from the project's registry,
+      <code>data/areas.json</code>. Areas marked <em>off by default</em> can
+      still be selected on the rankings page.
+    </p>
+    <div id="venue-list"><p class="muted">Loading venue list…</p></div>
+
+    <h2 id="source">Source and data</h2>
+    <p>
+      All code, the venue registry, and the aggregated data files are in
+      <a href="https://github.com/eding42/ecerankings.org">github.com/eding42/ecerankings.org</a>.
+      The rankings page loads one file per area,
+      <code>data/&lt;area&gt;.json</code>, with rows of institution, year,
+      paper count, and adjusted count; the
+      <a href="./">Download CSV</a> button on the rankings page exports the
+      current table with per-area adjusted counts. Corrections to affiliations
+      or venues are welcome as GitHub issues.
+    </p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>
+        Publication and affiliation data from <a href="https://openalex.org/">OpenAlex</a>
+        and <a href="https://www.crossref.org/">Crossref</a>.
+        Code and data: <a href="https://github.com/eding42/ecerankings.org">github.com/eding42/ecerankings.org</a>.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

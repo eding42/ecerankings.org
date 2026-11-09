@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "projects": [
+    {"id":"scribe","name":"Scribe","url":"https://scribe.eding.dev/","description":"Local-first meeting transcription.","repository":"https://github.com/eding42/eding.dev","status":"published"},
+    {"id":"ecerankings","name":"ECERankings","url":"https://ecerankings.pages.dev/","preferred_url":"https://ecerankings.eding.dev/","description":"Publication-based electrical and computer engineering rankings.","repository":"https://github.com/eding42/ecerankings.org","status":"published; custom domain pending verification"}
+  ]
+}

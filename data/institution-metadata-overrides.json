@@ -1,0 +1,156 @@
+{
+  "https://openalex.org/I4405261251": {
+    "name": "The Hong Kong University of Science and Technology (Guangzhou)",
+    "country": "CN",
+    "reason": "OpenAlex country HK conflicts with the live exact-ID record and official Guangzhou campus location.",
+    "evidence": [
+      {
+        "source": "OpenAlex exact-ID record",
+        "url": "https://openalex.org/institutions/I4405261251",
+        "fields": {
+          "display_name": "The Hong Kong University of Science and Technology (Guangzhou)",
+          "country_code": "CN",
+          "type": "education",
+          "ror": "https://ror.org/050h0vm43"
+        }
+      },
+      {
+        "source": "official institution or national registry",
+        "url": "https://www.hkust-gz.edu.cn/about/?variant=zh-cn"
+      }
+    ],
+    "checked_at": "2026-10-28T11:32:57.324448+00:00"
+  },
+  "https://openalex.org/I4387154714": {
+    "name": "Max Planck Institute for Multidisciplinary Sciences",
+    "country": "DE",
+    "reason": "Provider metadata has no country; the live exact-ID record and official Göttingen address establish Germany.",
+    "evidence": [
+      {
+        "source": "OpenAlex exact-ID record",
+        "url": "https://openalex.org/institutions/I4387154714",
+        "fields": {
+          "display_name": "Max Planck Institute for Multidisciplinary Sciences",
+          "country_code": "DE",
+          "type": "education",
+          "ror": "https://ror.org/03av75f26"
+        }
+      },
+      {
+        "source": "official institution or national registry",
+        "url": "https://www.mpg.de/17216639/multidisciplinary-sciences"
+      }
+    ],
+    "checked_at": "2026-10-28T11:32:57.324448+00:00"
+  },
+  "https://openalex.org/I4405259781": {
+    "name": "Interdisciplinary Centre for Security, Reliability and Trust",
+    "country": "LU",
+    "reason": "Provider metadata has no country; the live exact-ID record and University of Luxembourg sources establish Luxembourg.",
+    "evidence": [
+      {
+        "source": "OpenAlex exact-ID record",
+        "url": "https://openalex.org/institutions/I4405259781",
+        "fields": {
+          "display_name": "Interdisciplinary Centre for Security, Reliability and Trust",
+          "country_code": "LU",
+          "type": "education",
+          "ror": "https://ror.org/02qav7c04"
+        }
+      },
+      {
+        "source": "official institution or national registry",
+        "url": "https://www.uni.lu/snt-en/"
+      }
+    ],
+    "checked_at": "2026-10-28T11:32:57.324448+00:00"
+  },
+  "https://openalex.org/I4396570619": {
+    "name": "Great Bay University",
+    "country": "CN",
+    "reason": "Provider metadata has no country; the live exact-ID record and official Dongguan location establish China.",
+    "evidence": [
+      {
+        "source": "OpenAlex exact-ID record",
+        "url": "https://openalex.org/institutions/I4396570619",
+        "fields": {
+          "display_name": "Great Bay University",
+          "country_code": "CN",
+          "type": "education",
+          "ror": "https://ror.org/01hdgge16"
+        }
+      },
+      {
+        "source": "official institution or national registry",
+        "url": "https://www.gbu.edu.cn/about_us.html"
+      }
+    ],
+    "checked_at": "2026-10-28T11:32:57.324448+00:00"
+  },
+  "https://openalex.org/I4394709157": {
+    "name": "Eastern Institute of Technology, Ningbo",
+    "country": "CN",
+    "reason": "Provider metadata has no country; the live exact-ID record and official Ningbo address establish China.",
+    "evidence": [
+      {
+        "source": "OpenAlex exact-ID record",
+        "url": "https://openalex.org/institutions/I4394709157",
+        "fields": {
+          "display_name": "Eastern Institute of Technology, Ningbo",
+          "country_code": "CN",
+          "type": "education",
+          "ror": "https://ror.org/036mbz113"
+        }
+      },
+      {
+        "source": "official institution or national registry",
+        "url": "https://www.eitech.edu.cn/en/"
+      }
+    ],
+    "checked_at": "2026-10-28T11:32:57.324448+00:00"
+  },
+  "https://openalex.org/I4387154394": {
+    "name": "National Kaohsiung University of Science and Technology",
+    "country": "TW",
+    "reason": "Provider metadata has no country; the live exact-ID record and Taiwan Ministry of Education registry establish Taiwan.",
+    "evidence": [
+      {
+        "source": "OpenAlex exact-ID record",
+        "url": "https://openalex.org/institutions/I4387154394",
+        "fields": {
+          "display_name": "National Kaohsiung University of Science and Technology",
+          "country_code": "TW",
+          "type": "education",
+          "ror": "https://ror.org/00hfj7g70"
+        }
+      },
+      {
+        "source": "official institution or national registry",
+        "url": "https://udb.moe.edu.tw/ulist/Institution?id=000021FB5443"
+      }
+    ],
+    "checked_at": "2026-10-28T11:32:57.324448+00:00"
+  },
+  "https://openalex.org/I4405261073": {
+    "name": "Cornell Tech",
+    "country": "US",
+    "reason": "Provider metadata has no country; the live exact-ID record and official New York campus address establish the United States.",
+    "evidence": [
+      {
+        "source": "OpenAlex exact-ID record",
+        "url": "https://openalex.org/institutions/I4405261073",
+        "fields": {
+          "display_name": "Cornell Tech",
+          "country_code": "US",
+          "type": "education",
+          "ror": "https://ror.org/04qscbg47"
+        }
+      },
+      {
+        "source": "official institution or national registry",
+        "url": "https://tech.cornell.edu/visit-us/"
+      }
+    ],
+    "checked_at": "2026-10-28T11:32:57.324448+00:00"
+  }
+}

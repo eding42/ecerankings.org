@@ -1,0 +1,18 @@
+raw_affiliation,expect,why,absent_ok
+University of California,not:I180670191,"Bare system name is ambiguous across ten campuses; it must not default to UCSF (CLAUDE.md known error, regressed as of 2026-10-30)",yes
+"Mitsubishi Electric Research Lab, Cambridge, MA, USA",not:I241749;noneducation,"MERL is a company in Cambridge MA; the city name matched University of Cambridge",yes
+"Control and Dynamical Systems Group, Mitsubishi Electric Research Laboratories",not:I241749;noneducation,"Same MERL city-name collision, department-prefixed form",yes
+MERL,noneducation,"MERL -> University of Cambridge was a documented map error",yes
+"Qualcomm Inc, San Diego, CA",noneducation,"City-name collision: Qualcomm is not a university in San Diego",yes
+"Qualcomm AI Research, San Diego",noneducation,"City-name collision: Qualcomm AI Research matched UC San Diego",yes
+Purdue University,id:I219193219,"Purdue flagship; Purdue Northwest is a different campus",yes
+PURDUE UNIVERSITY,id:I219193219,"Case variant must agree with 'Purdue University' (mapped to Purdue Northwest as of 2026-10-30)",yes
+Purdue university,id:I219193219,"Case variant must agree with 'Purdue University' (mapped to Purdue Northwest as of 2026-10-30)",yes
+"University of Maryland, College Park",id:I66946132,"Multi-campus confusion with UM Baltimore / Baltimore County (CLAUDE.md known error)",yes
+Rutgers University,id:I102322142,"OpenAlex has mapped this to 'Rutgers Sexual and Reproductive Health and Rights' (CLAUDE.md)",yes
+Northeastern University,not:I87182695,"Never Universidad del Noreste (MX); bare form is otherwise ambiguous US/CN",yes
+University of Pennsylvania,id:I79576946,"OpenAlex maps it to California University of Pennsylvania (CLAUDE.md)",yes
+MIT,id:I63966007,"Acronym collision: Manukau Institute of Technology also owns 'MIT'",yes
+University of Southern California,id:I1174212;not:I111979921,"USC flagship Los Angeles; must never be confused with Northwestern (I111979921)",no
+"Imperial College London, UK",id:I47508984;not:I2802000487,"Imperial College London must not map to Imperial Valley College (I2802000487)",no
+"King's College London, UK",id:I183935753;not:I78577930,"King's College London must not map to Columbia University (I78577930)",no

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data coverage — ECERankings</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="eding-shared.css">
+  <script type="module" src="coverage.js"></script>
+</head>
+<body>
+  <header class="site-header"><div class="wrap">
+    <p class="site-title"><a href="./">ECERankings</a></p>
+    <nav aria-label="Site"><a class="eding-project-link" href="https://eding.dev/">Eding</a><a href="./">Rankings</a><a href="methodology.html">Methodology</a><a href="coverage.html" aria-current="page">Data coverage</a></nav>
+  </div></header>
+  <main class="wrap prose">
+    <h1>Data coverage</h1>
+    <p class="lede">Publication indexing and affiliation information vary by venue and year. A successful API fetch establishes which records the source returned; it does not establish that every published paper was indexed.</p>
+    <p id="release-status" role="status">Loading release information…</p>
+    <div id="coverage-content" hidden>
+      <h2>Collection coverage by area</h2>
+      <p>“Refreshed” counts files with completed source queries or checked enrichment during this run. For Machine Learning, the existing proceedings list is retained and paper-specific affiliations are recovered where supported. “Retained” files use earlier source observations. Records include non-research items subsequently excluded from ranking. Affiliation signal means an author has an institution or raw affiliation string; it does not certify correct matching or education credit.</p>
+      <div class="table-scroll">
+        <table class="ranking"><thead><tr><th scope="col">Area</th><th scope="col" class="num">Refreshed files</th><th scope="col" class="num">Retained files</th><th scope="col" class="num">Records</th><th scope="col" class="num">Affiliation signal</th></tr></thead><tbody id="coverage-rows"></tbody></table>
+      </div>
+      <section id="collection-gaps" hidden>
+        <h2>Scopes without a complete fresh observation</h2>
+        <p>These scopes have no accepted fresh source observation, including current-year editions whose exact proceedings source is unverified. Earlier cached observations are retained where available; a missing source observation is not evidence of zero publications.</p>
+        <div class="table-scroll"><table class="ranking"><thead><tr><th scope="col">Venue</th><th scope="col">Year</th><th scope="col">Collection result</th></tr></thead><tbody id="gap-rows"></tbody></table></div>
+      </section>
+      <h2>Limits</h2>
+      <ul>
+        <li>The current calendar year is partial. Earlier years can also have incomplete indexing or affiliation data.</li>
+        <li>Machine Learning remains off by default. Proceedings membership and coverage are not fully verified. Paper-specific affiliations are used where recoverable; author-profile affiliations are withheld from historical credit.</li>
+        <li>Institution identity, branch-campus classification and duplicate provider records remain sources of uncertainty. Corrections are recorded separately from source observations.</li>
+        <li>Institutions with unresolved geography remain in World results and are omitted from country and region filters.</li>
+      </ul>
+      <p><a href="data/manifest.json">Download the release manifest</a> for file hashes, validation results and the complete venue-year inventory. <a href="https://github.com/eding42/ecerankings.org">Project source</a> is maintained on GitHub.</p>
+    </div>
+  </main>
+</body>
+</html>
