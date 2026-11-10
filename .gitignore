@@ -8,6 +8,7 @@
 ai_temp/
 dist/
 node_modules/
+.wrangler/
 
 # Harvest checkpoints and local source backups
 cache/**/.checkpoint
