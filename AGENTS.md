@@ -72,7 +72,10 @@ Claude Code sessions that prefer the Claude filename. Edit `AGENTS.md`, not
 - `collect-venue-data` — resolve/verify/harvest venues for an area
 - `adjudicate-affiliations` — LLM adjudication of ambiguous affiliation strings
 - `verify-data` — post-pipeline quality checks (harvest, normalize, aggregate)
+- `verify-pdf-affiliations` — check PDF-extracted author affiliations against rendered page images
 - `refresh-data` — end-to-end refresh, validation, promotion, and publish
+- `clean-copy` — cut interface copy that shouldn't exist (captions restating labels, defensive hedging, bug scar tissue)
+- `find-implicit-state-machines` — audit codebases for emergent boolean clusters, nullable fields, and unmodeled state transitions
 
 ## Data-collection sessions
 
