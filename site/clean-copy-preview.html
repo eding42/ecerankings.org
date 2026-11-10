@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ECERankings — Clean Copy Preview</title>
+<style>
+  :root {
+    --text: #1f2328;
+    --muted: #59636e;
+    --faint: #8c959f;
+    --link: #1a56a8;
+    --rule: #d8dee4;
+    --rule-strong: #8c959f;
+    --stripe: #f6f8fa;
+    --hover: #eef3fa;
+    --compare-left: #1a56a8;
+    --compare-right: #a75b29;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px;
+    font-family: var(--font);
+    font-size: 14px;
+    color: var(--text);
+    background: #f6f8fa;
+    line-height: 1.5;
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 22px;
+    margin: 0 0 4px;
+  }
+  .subhead {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--link);
+  }
+  .pill-change {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: #eef3fa;
+    color: var(--link);
+    font-weight: 600;
+  }
+  /* Rankings Layout */
+  .layout-grid {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 24px;
+  }
+  .area-group-title {
+    font-size: 12px;
+    font-weight: 600;
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--rule);
+    margin: 12px 0 6px;
+  }
+  .area-row {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  .area-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin: 2px 0 4px 18px;
+    line-height: 1.35;
+  }
+  .badge-cut {
+    display: inline-block;
+    background: #ffebe9;
+    color: #cf222e;
+    font-size: 10px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    margin-left: 4px;
+    font-family: monospace;
+    text-decoration: line-through;
+  }
+  .ranking-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+    font-size: 13px;
+  }
+  .ranking-table th {
+    padding: 6px 8px;
+    border-bottom: 2px solid var(--rule-strong);
+    text-align: left;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .ranking-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: baseline;
+  }
+  .ranking-table .num { text-align: right; }
+  .ranking-table tr.inst-row:hover { background: var(--hover); }
+  .inst-btn {
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    color: var(--text);
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .inst-btn:hover { color: var(--link); text-decoration: underline; }
+  .compare-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 7px;
+    font-size: 11px;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: var(--stripe);
+    color: var(--link);
+    cursor: pointer;
+    margin-left: 8px;
+  }
+  .rank-trend-box {
+    display: inline-block;
+    padding: 8px 12px;
+    background: var(--stripe);
+    border-radius: 4px;
+    margin: 6px 0;
+  }
+  /* Comparison View */
+  .compare-schools {
+    display: grid;
+    grid-template-columns: 1fr 30px 1fr;
+    gap: 16px;
+    align-items: center;
+    margin: 10px 0 16px;
+  }
+  .compare-school {
+    padding-bottom: 8px;
+    border-bottom: 3px solid var(--compare-left);
+  }
+  .compare-school-1 {
+    border-bottom-color: var(--compare-right);
+    text-align: right;
+  }
+  .compare-school h3 {
+    margin: 4px 0;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .compare-school-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .compare-time {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 12px 0 8px;
+  }
+  .btn {
+    padding: 4px 10px;
+    font-size: 12px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+  }
+  .btn-active {
+    background: var(--hover);
+    color: var(--link);
+    border-color: var(--link);
+    font-weight: 600;
+  }
+  .compare-explainer {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 4px 0 14px;
+  }
+  .compare-row {
+    display: grid;
+    grid-template-columns: 180px 45px 1fr 45px;
+    gap: 12px;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--stripe);
+  }
+  .bar-track {
+    position: relative;
+    height: 16px;
+    background: var(--stripe);
+    border-radius: 8px;
+  }
+  .bar-track::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--rule-strong);
+  }
+  .bar-fill-left {
+    position: absolute;
+    right: 50%;
+    top: 0;
+    bottom: 0;
+    background: var(--compare-left);
+    border-radius: 8px 0 0 8px;
+    opacity: 0.85;
+  }
+  .bar-fill-right {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    background: var(--compare-right);
+    border-radius: 0 8px 8px 0;
+    opacity: 0.85;
+  }
+  .empty-state {
+    padding: 28px;
+    text-align: center;
+    background: var(--stripe);
+    border-radius: 6px;
+    margin: 12px 0;
+  }
+  .empty-state h3 {
+    margin: 0 0 6px;
+    font-size: 15px;
+  }
+  .empty-state p {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .note-callout {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #fff8c5;
+    border-left: 3px solid #d4a72c;
+    font-size: 12px;
+    color: #4d3800;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>ECERankings — Clean Copy Visual Comparison</h1>
+  <div class="subhead">Interactive mock showing the interface after applying the <code>clean-copy</code> guidelines.</div>
+
+  <!-- SECTION 1 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">1. Rankings View</span>
+      <span class="pill-change">Cut redundant hints, stubs, and caption tutorial</span>
+    </div>
+
+    <div class="layout-grid">
+      <!-- Sidebar -->
+      <div style="border-right:1px solid var(--rule);padding-right:16px;">
+        <div style="font-weight:600;font-size:13px;margin-bottom:8px;">Research areas <span style="font-weight:normal;color:var(--muted);">(18 of 20)</span></div>
+        
+        <div class="area-group-title">Hardware</div>
+        <div class="area-row"><label><input type="checkbox" checked> Circuits & Systems</label></div>
+        <div class="area-row"><label><input type="checkbox" checked> Computer Architecture</label></div>
+
+        <div class="area-group-title">Interdisciplinary</div>
+        <div class="area-row">
+          <label><input type="checkbox"> Machine Learning</label>
+          <div class="area-note">
+            Proceedings membership, coverage and paper-specific affiliations are incompletely verified for NeurIPS, ICML and ICLR.
+          </div>
+        </div>
+        <div class="area-row">
+          <label><input type="checkbox"> Flagship Journals</label>
+          <div class="area-note">
+            General-science journals (Nature, Science, PNAS, …), not ECE-specific.
+          </div>
+        </div>
+
+        <div style="margin-top:14px;">
+          <button class="btn" style="width:100%;font-weight:600;">Done</button>
+        </div>
+      </div>
+
+      <!-- Table Area -->
+      <div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">
+          168 institutions · United States · 2016–2025.
+        </div>
+
+        <table class="ranking-table">
+          <thead>
+            <tr>
+              <th style="width:3em;">#</th>
+              <th>Institution</th>
+              <th class="num">Score</th>
+              <th class="num">Adj. count</th>
+              <th class="num">Papers</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="inst-row">
+              <td>1</td>
+              <td>
+                <button type="button" class="inst-btn">▾ UC Berkeley</button> <span style="color:var(--muted);font-size:11px;">US</span>
+                <button type="button" class="compare-btn">Compare</button>
+              </td>
+              <td class="num" style="font-weight:600;">14.28</td>
+              <td class="num">192.4</td>
+              <td class="num">412</td>
+            </tr>
+            <tr>
+              <td colspan="5" style="padding:10px 14px 14px;background:#fcfcfc;">
+                <div class="rank-trend-box">
+                  <div style="font-size:11px;color:var(--muted);margin-bottom:4px;font-weight:600;">Annual rank (2016–2025)</div>
+                  <svg width="240" height="46" viewBox="0 0 240 46">
+                    <path d="M12,14 L36,12 L60,10 L84,14 L108,10 L132,12 L156,10 L180,14 L204,10 L220,10" fill="none" stroke="var(--link)" stroke-width="1.6" stroke-linecap="round"/>
+                    <circle cx="220" cy="10" r="3.5" fill="var(--link)"/>
+                    <text x="228" y="14" font-size="11" fill="var(--text)" font-weight="700">#1</text>
+                    <text x="12" y="42" font-size="10" fill="var(--muted)">2016</text>
+                    <text x="210" y="42" font-size="10" fill="var(--muted)">2025</text>
+                  </svg>
+                </div>
+              </td>
+            </tr>
+            <tr class="inst-row">
+              <td>2</td>
+              <td>
+                <button type="button" class="inst-btn">▸ Stanford University</button> <span style="color:var(--muted);font-size:11px;">US</span>
+                <button type="button" class="compare-btn">Compare</button>
+              </td>
+              <td class="num" style="font-weight:600;">13.85</td>
+              <td class="num">184.1</td>
+              <td class="num">395</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="note-callout">
+          <strong>Copy removed here:</strong> The persistent hint <em>"Select an institution to see counts and annual ranks"</em> directly above the table was deleted. The drawer button changed from <em>"Done — view rankings"</em> to <em>"Done"</em>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">2. Head-to-Head Comparison</span>
+      <span class="pill-change">Cut tutorial sentences & redundant footnote</span>
+    </div>
+
+    <div class="compare-schools">
+      <div class="compare-school">
+        <span class="compare-school-label">United States</span>
+        <h3>UC Berkeley</h3>
+      </div>
+      <div style="text-align:center;color:var(--muted);font-weight:600;font-size:12px;">vs</div>
+      <div class="compare-school compare-school-1">
+        <span class="compare-school-label">United States</span>
+        <h3>Stanford University</h3>
+      </div>
+    </div>
+
+    <div class="compare-time">
+      <button class="btn btn-active">2016–2025 total</button>
+      <button class="btn">▶ Play years</button>
+      <span style="margin-left:auto;font-size:16px;font-weight:700;">2016–2025</span>
+    </div>
+
+    <p class="compare-explainer">Adjusted publication credit · 2016–2025.</p>
+
+    <div class="compare-row" style="font-weight:600;font-size:11px;color:var(--muted);border-bottom:1px solid var(--rule);padding-bottom:4px;">
+      <span>Research area</span>
+      <span style="color:var(--compare-left);text-align:right;">Berkeley</span>
+      <span style="text-align:center;">Equal share</span>
+      <span style="color:var(--compare-right);">Stanford</span>
+    </div>
+
+    <div class="compare-row">
+      <span>Circuits & Systems</span>
+      <span style="text-align:right;color:var(--compare-left);font-weight:600;">42.5</span>
+      <div class="bar-track">
+        <div class="bar-fill-left" style="width:28%;"></div>
+      </div>
+      <span style="color:var(--compare-right);">24.1</span>
+    </div>
+
+    <div class="compare-row">
+      <span>Computer Architecture</span>
+      <span style="text-align:right;color:var(--compare-left);">31.0</span>
+      <div class="bar-track">
+        <div class="bar-fill-right" style="width:18%;"></div>
+      </div>
+      <span style="color:var(--compare-right);font-weight:600;">38.2</span>
+    </div>
+
+    <div class="note-callout">
+      <strong>Copy removed here:</strong> Cut <em>"Each area is balanced at the center. Select one to explore its history"</em> from the explainer. Cut the bottom footnote: <em>"Select a year to update the comparison. Numbers show adjusted publication credit in the selected venues."</em>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">3. Blank Comparison State</span>
+      <span class="pill-change">Cut scar tissue & redundant control directions</span>
+    </div>
+
+    <div class="empty-state">
+      <h3>Choose two schools to compare</h3>
+      <p>Select institutions above or from rankings.</p>
+      <button class="btn" style="background:var(--link);color:#fff;border-color:var(--link);font-weight:600;">Browse rankings</button>
+    </div>
+
+    <div class="note-callout">
+      <strong>Copy removed here:</strong> Cut <em>"Choose schools above, or open an institution in Rankings and select 'Add to comparison'"</em> (the button text is "Compare", not "Add to comparison").
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

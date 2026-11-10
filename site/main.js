@@ -14,8 +14,8 @@ const CURRENT_YEAR = new Date().getFullYear();
 // Coverage caveats shown beside areas that are off by default. The registry's
 // default_on flag decides what is off; these strings only explain why.
 const AREA_NOTES = {
-  ml: 'Off by default: proceedings membership, coverage and paper-specific affiliations are incompletely verified for NeurIPS, ICML and ICLR.',
-  flagship: 'Off by default: general-science journals (Nature, Science, PNAS, …), not ECE-specific.',
+  ml: 'Proceedings membership, coverage and paper-specific affiliations are incompletely verified for NeurIPS, ICML and ICLR.',
+  flagship: 'General-science journals (Nature, Science, PNAS, …), not ECE-specific.',
 };
 
 const app = {
@@ -161,7 +161,7 @@ async function init() {
     app.institutions = inst || {};
     applyManifest(manifest);
   } catch (err) {
-    showFatal(`Could not load the site data (${err.message}). No rankings are shown.`);
+    showFatal(`Could not load site data (${err.message}).`);
     return;
   }
 
@@ -269,7 +269,7 @@ function renderAreaGroups() {
       ` <span class="group-actions"><button type="button" class="link" data-group="${gi}" data-on="1" aria-label="Select all ${esc(cluster)} areas">all</button>` +
       ` · <button type="button" class="link" data-group="${gi}" data-on="0" aria-label="Clear all ${esc(cluster)} areas">none</button></span></legend>`;
     for (const a of areas) {
-      const note = !a.defaultOn ? (AREA_NOTES[a.id] || 'Off by default.') : '';
+      const note = !a.defaultOn ? (AREA_NOTES[a.id] || '') : '';
       const noteId = note ? ` aria-describedby="note-${esc(a.id)}"` : '';
       const venues = a.venues || [];
       const isOpen = app.openVenues.has(a.id);
@@ -619,8 +619,7 @@ function showAreaError(failed) {
   $('error').innerHTML =
     `<p><strong>Could not load data for ${failed.length === 1 ? 'one selected area' : `${failed.length} selected areas`}:</strong></p>` +
     `<ul>${names.map((n) => `<li>${n}</li>`).join('')}</ul>` +
-    `<p>No ranking is shown, because leaving an area out would change every institution's score. ` +
-    `<button type="button" id="retry">Try again</button></p>`;
+    `<p><button type="button" id="retry">Try again</button></p>`;
   $('error').hidden = false;
   $('retry').addEventListener('click', () => update());
 }
@@ -637,17 +636,8 @@ function renderNotices(sel) {
   if (isPartialYear(sel.to)) {
     const partial = [];
     for (let y = Math.max(sel.from, app.latestComplete + 1); y <= sel.to; y++) partial.push(y);
-    out.push(`<p><strong>Partial year.</strong> ${partial.join(', ')} ${partial.length > 1 ? 'are' : 'is'} not complete: ` +
-      `recent papers and citations are still being indexed by OpenAlex, and rankings for incomplete years will fluctuate.</p>`);
-  }
-  const offDefaultActive = sel.areas.filter((id) => !app.areaById.get(id)?.defaultOn);
-  if (offDefaultActive.length) {
-    const names = offDefaultActive.map((id) => esc(app.areaById.get(id)?.name || id));
-    out.push(`<p><strong>Preliminary coverage.</strong> ${names.join(', ')} ${names.length > 1 ? 'are' : 'is'} enabled. ` +
-      `See each research area's note for verification status.</p>`);
-  }
-  if (sel.disabledVenues && sel.disabledVenues.length > 0) {
-    out.push(`<p><strong>Filtered venues.</strong> Some individual conferences or journals have been deselected.</p>`);
+    out.push(`<p><strong>Partial year.</strong> ${partial.join(', ')} ${partial.length > 1 ? 'are' : 'is'} still in progress; ` +
+      `recent papers are still being indexed.</p>`);
   }
   $('notices').innerHTML = out.join('');
 }
@@ -895,7 +885,7 @@ function updateComparison(preserveControls = false) {
     + (names.length && !active ? names.length === 2 ? '<button type="button" class="link" data-open-comparison>Compare these schools →</button>' : '<span>Add one more school from the rankings.</span>' : '');
   const panel = $('comparison-view');
   if (!app.result) {
-    panel.innerHTML = '<p class="muted">Select research areas and load their data to compare schools.</p>';
+    panel.innerHTML = '<p class="muted">Select at least one research area to compare institutions.</p>';
     return;
   }
   const { sel } = app.result;

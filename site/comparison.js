@@ -51,7 +51,7 @@ export function renderComparison({ result, ids, institutions, areaById, year = n
   }).join('<span class="compare-versus" aria-hidden="true">vs</span>');
   let html = `<div class="compare-schools">${pickers}</div>`;
   if (ids.length < 2 || !ids[0] || !ids[1]) {
-    return html + `<div class="compare-empty"><h3>Choose two schools to compare</h3><p>Choose schools above, or open an institution in Rankings and select “Add to comparison.”</p><button type="button" data-browse-schools>Browse rankings</button></div>`;
+    return html + `<div class="compare-empty"><h3>Choose two schools to compare</h3><p>Select institutions above or from rankings.</p><button type="button" data-browse-schools>Browse rankings</button></div>`;
   }
   const rows = compareSchools(result.data, result.sel.areas, ids, result.sel.from, result.sel.to);
   const ordered = [...rows].sort((a, b) => (b.left + b.right) - (a.left + a.right));
@@ -62,7 +62,7 @@ export function renderComparison({ result, ids, institutions, areaById, year = n
   const range = from === to ? `${from}` : `${from}–${to}`;
   html += `<div class="compare-time"><button type="button" class="compare-period${currentYear === null ? ' active' : ''}" data-whole-period aria-pressed="${currentYear === null}">${range} total</button>
     <button type="button" class="compare-play" data-play-years aria-pressed="${playing}"${from === to ? ' disabled' : ''}>${playing ? 'Pause' : '▶ Play years'}</button><label class="visually-hidden" for="compare-year">Single year</label><input type="range" id="compare-year" min="${from}" max="${to}" value="${currentYear ?? to}"${from === to ? ' disabled' : ''} aria-label="Comparison year"><output for="compare-year">${currentYear ?? range}</output></div>
-    <p class="compare-explainer">Adjusted publication credit · ${currentYear ?? range}. Each area is balanced at the center. Select one to explore its history.</p>
+    <p class="compare-explainer">Adjusted publication credit · ${currentYear ?? range}.</p>
     <div class="compare-column-labels"><span>Research area</span><span class="compare-side-labels"><span>${esc(names[0])}</span><span class="compare-even">Equal share</span><span>${esc(names[1])}</span></span></div>
     <div class="compare-area-list">`;
   const visible = showAll ? ordered : ordered.slice(0, 8);
@@ -75,8 +75,7 @@ export function renderComparison({ result, ids, institutions, areaById, year = n
   const name = areaById.get(selectedArea.id)?.name || selectedArea.id;
   html += `<section class="compare-history" aria-label="${esc(name)} comparison over time"><div class="compare-history-heading"><div><span class="compare-eyebrow">Year by year</span><h3>${esc(name)}</h3></div><span>${range}</span></div>
     <p class="compare-history-key"><span>← ${esc(names[0])}</span><span>Equal share</span><span>${esc(names[1])} →</span></p>
-    <div class="compare-history-years">${historyPlot(selectedArea.years, currentYear, width, names)}</div>
-    <p class="compare-footnote">Select a year to update the comparison. Numbers show adjusted publication credit in the selected venues.</p></section>`;
+    <div class="compare-history-years">${historyPlot(selectedArea.years, currentYear, width, names)}</div></section>`;
   return html;
 }
 

@@ -72,7 +72,7 @@
             <button type="button" class="link" data-select="none">none</button>
           </p>
           <div id="area-groups"><p class="muted">Loading areas…</p></div>
-          <button type="button" id="areas-done" class="areas-done">Done — view rankings</button>
+          <button type="button" id="areas-done" class="areas-done">Done</button>
         </details>
       </aside>
 
@@ -87,10 +87,9 @@
         <div id="error" class="error" role="alert" hidden></div>
         <div id="comparison-view" class="compare-panel" aria-label="Compare institutions" hidden></div>
         <div id="ranking-view">
-        <p class="results-hint" id="results-hint">Select an institution to see counts and annual ranks.</p>
-        <div class="table-scroll" aria-describedby="results-hint">
+        <div class="table-scroll">
           <table class="ranking" id="ranking-table">
-            <caption class="visually-hidden">Institutions ranked by geometric-mean score across the selected areas. Use the institution name buttons to show per-area counts.</caption>
+            <caption class="visually-hidden">Institutions ranked by geometric-mean score across the selected areas.</caption>
             <thead>
               <tr>
                 <th scope="col" class="num rank">#</th>

@@ -66,7 +66,7 @@ test('empty and one-school views guide users back to institution actions', () =>
   for (const ids of [[], ['A']]) {
     const html = C.renderComparison({ result, ids, institutions, areaById });
     assert.match(html, /Choose two schools/);
-    assert.match(html, /Add to comparison/);
+    assert.match(html, /from rankings/);
     assert.doesNotMatch(html, /compare-area-list/);
   }
 });
