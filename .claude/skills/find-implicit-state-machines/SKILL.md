@@ -1,0 +1,1 @@
+../../../.agents/skills/find-implicit-state-machines/SKILL.md
