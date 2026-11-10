@@ -6,7 +6,7 @@ import {
   encodeState, decodeState, rankingsToCsv,
 } from './rank.js';
 import { computeAnnualRanks, institutionHistory, renderRankHistory } from './rank-history.js';
-import { renderComparison } from './comparison.js?v=compare-2';
+import { renderComparison } from './comparison.js?v=clean-copy';
 
 const PAGE_SIZE = 100;
 const CURRENT_YEAR = new Date().getFullYear();
