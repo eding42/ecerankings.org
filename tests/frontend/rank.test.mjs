@@ -111,6 +111,30 @@ test('untrusted URL years cannot create an unbounded option list', () => {
   assert.equal(value.to, 2025);
 });
 
+test('search finds abbreviations and word starts before loose substrings, keeping rank order', () => {
+  const rows = [
+    { name: 'Smith College' }, { name: 'Massachusetts Institute of Technology' },
+    { name: 'University of California San Diego' }, { name: 'Stanford University' }, { name: 'Pakistan Institute' },
+  ];
+  const names = (q) => R.searchRows(rows, q).map((r) => r.name);
+  assert.deepEqual(names('mit'), ['Massachusetts Institute of Technology']);
+  assert.deepEqual(names('ucsd'), ['University of California San Diego']);
+  assert.deepEqual(names('stan'), ['Stanford University']);
+  assert.deepEqual(names('ith'), ['Smith College']);
+  assert.deepEqual(names('zzz'), []);
+  assert.equal(R.searchRows(rows, '  ').length, rows.length);
+});
+
+test('areaRanks ranks each area by adjusted count among ranked rows, with ties sharing a rank', () => {
+  const perArea = (x, y) => [{ area: 'x', adj: x }, { area: 'y', adj: y }];
+  const ranks = R.areaRanks([
+    { id: 'a', perArea: perArea(5, 0) }, { id: 'b', perArea: perArea(9, 1) }, { id: 'c', perArea: perArea(5, 2) },
+  ]);
+  assert.deepEqual([...ranks.get('x')], [['b', 1], ['a', 2], ['c', 2]]);
+  assert.deepEqual([...ranks.get('y')], [['c', 1], ['b', 2]]);
+  assert.equal(R.areaRanks([]).size, 0);
+});
+
 test('yearExtent spans loaded rows', () => {
   assert.deepEqual(R.yearExtent(data), { min: 2020, max: 2026 });
   assert.equal(R.yearExtent(new Map()), null);

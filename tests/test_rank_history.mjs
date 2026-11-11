@@ -6,8 +6,6 @@ import * as history from '../site/rank-history.js';
 import * as ranking from '../site/rank.js';
 
 const mainSource = readFileSync(new URL('../site/main.js', import.meta.url), 'utf8');
-const legacySource = readFileSync(new URL('../site/index.old.html', import.meta.url), 'utf8')
-  .match(/<script>([\s\S]*?)<\/script>/)[1];
 const rows = {
   circuits: [
     { i: 'a', y: 2020, a: 4 }, { i: 'b', y: 2020, a: 1 }, { i: 'c', y: 2020, a: 9 },
@@ -119,29 +117,6 @@ test('missing years break the line, and point labels and text ranks remain avail
   assert.match(html, /<dt>2021<\/dt><dd>Not ranked/);
   assert.match(html, /&lt;School &amp; Co&gt;/);
   assert.doesNotMatch(html, /<School/);
-});
-
-test('legacy history respects country and venue-filtered rows without using name search', () => {
-  const context = vm.createContext({ console, document: {} });
-  // Initialization fetches are irrelevant to this calculation test.
-  vm.runInContext(legacySource.replace(/\(async function init\(\) \{[\s\S]*?\}\)\(\);/, ''), context);
-  context.fixtureRows = Object.entries(rows).flatMap(([area, data]) => data.map(row => ({ ...row, area })));
-  context.fixtureMeta = institutions;
-  vm.runInContext(`
-    INST_AREA_YEAR = fixtureRows;
-    INSTITUTIONS_META = fixtureMeta;
-    selectedAreas = new Set(['circuits', 'control']);
-    selectedCountry = 'US';
-  `, context);
-  const options = {
-    startYear: 2020, endYear: 2023, tieTolerance: null,
-    idForResult: row => row.institution_id,
-    rankingsForYear: year => context.computeRankings(year, year)
-  };
-  assert.equal(history.institutionHistory(history.computeAnnualRanks(options), 'a')[0].rank, 1);
-  // A venue selection replaces the current rows; no separate data source is used for history.
-  vm.runInContext("INST_AREA_YEAR = fixtureRows.filter(row => row.i === 'b')", context);
-  assert.ok(history.institutionHistory(history.computeAnnualRanks(options), 'a').every(point => point.rank === null));
 });
 
 test('expanded details render the trend first and cache against the displayed selection', () => {

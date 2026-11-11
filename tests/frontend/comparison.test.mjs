@@ -16,44 +16,47 @@ const selection = { from: 2020, to: 2022, areas: ['quantum', 'control'], region:
 const result = { sel: selection, data, rows: Object.entries(institutions).map(([id, meta]) => ({ id, name: meta.name })) };
 const areaById = new Map([['quantum', { name: 'Quantum' }], ['control', { name: 'Control' }]]);
 
-test('comparison totals add yearly credit, respect the inclusive range and selected pair', () => {
+test('comparison totals add yearly credit per school, respecting the inclusive range', () => {
   const [row] = C.compareSchools(data, ['quantum'], ['A', 'B'], 2020, 2022);
-  assert.equal(row.left, 5);
-  assert.equal(row.right, 7);
-  assert.equal(row.leftPapers, 8);
-  assert.equal(row.rightPapers, 10);
-  assert.equal(row.years.length, 3);
-  assert.equal(row.balance, 1 / 6);
-  assert.deepEqual(row.years.map(y => [y.left, y.right]), [[3, 1], [0, 0], [2, 6]]);
+  assert.deepEqual(row.values, [5, 7]);
+  assert.deepEqual(row.papers, [8, 10]);
+  assert.equal(row.total, 12);
+  assert.deepEqual(row.years.map(y => y.values), [[3, 1], [0, 0], [2, 6]]);
 });
 
-test('balance distinguishes no counted output from a tie, and mirrors swapped schools', () => {
-  assert.equal(C.creditBalance(0, 0), null);
-  assert.equal(C.creditBalance(4, 4), 0);
-  assert.equal(C.creditBalance(3, 1), -.5);
-  assert.equal(C.creditBalance(1, 3), .5);
-  assert.equal(C.creditBalance(5, 0), -1);
-  assert.equal(C.creditBalance(0, 5), 1);
-  const original = C.compareSchools(data, ['quantum'], ['A', 'B'], 2020, 2022)[0];
+test('comparison takes up to four schools in slot order, and swapping order mirrors values', () => {
+  const [row] = C.compareSchools(data, ['quantum'], ['C', 'B', 'A'], 2020, 2022);
+  assert.deepEqual(row.values, [100, 7, 5]);
   const swapped = C.compareSchools(data, ['quantum'], ['B', 'A'], 2020, 2022)[0];
-  assert.equal(original.left, swapped.right);
-  assert.equal(original.balance, -swapped.balance);
+  assert.deepEqual(swapped.values, [7, 5]);
+  assert.equal(C.MAX_SCHOOLS, 4);
 });
 
 test('comparison follows area and venue-filtered data, with no hidden fallback to full areas', () => {
   const filtered = new Map([['quantum', [{ i: 'B', y: 2020, a: .25, p: 1 }]]]);
   const [row] = C.compareSchools(filtered, ['quantum'], ['A', 'B'], 2020, 2020);
-  assert.equal(row.left, 0);
-  assert.equal(row.right, .25);
+  assert.deepEqual(row.values, [0, .25]);
   assert.equal(row.years.length, 1);
-  assert.equal(row.balance, 1);
   assert.deepEqual(C.compareSchools(data, [], ['A', 'B'], 2020, 2022), []);
+});
+
+test('three schools render a three-way share bar, a value column and a line each', () => {
+  const html = C.renderComparison({ result, ids: ['A', 'B', 'C'], institutions, areaById, area: 'quantum', width: 600 });
+  const quantum = html.match(/data-compare-area="quantum"[\s\S]*?<\/button>/)[0];
+  assert.equal((quantum.match(/class="compare-seg/g) || []).length, 3);
+  assert.equal((quantum.match(/class="compare-value/g) || []).length, 3);
+  assert.doesNotMatch(quantum, / pair/);
+  assert.equal((html.match(/class="compare-history-line"/g) || []).length, 3);
+  assert.match(html, /Add school/);
+  const four = C.renderComparison({ result, ids: ['A', 'B', 'C', 'D'], institutions: { ...institutions, D: { name: 'Delta' } }, areaById });
+  assert.doesNotMatch(four, /Add school/);
 });
 
 test('single-year view changes displayed values while the full yearly history stays available', () => {
   const html = C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById, area: 'quantum', year: 2022 });
-  assert.match(html, /Adjusted publication credit · 2022/);
+  assert.match(html, /<output for="compare-year">2022<\/output>/);
   assert.match(html, /&lt;Alpha &amp; Co&gt; 2.0, Beta 6.0/);
+  assert.match(html, / pair/);
   assert.match(html, /data-compare-year="2020"/);
   assert.match(html, /data-compare-year="2022"/);
   assert.match(html, /compare-no-output/);
@@ -62,11 +65,11 @@ test('single-year view changes displayed values while the full yearly history st
   assert.doesNotMatch(html, /<Alpha/);
 });
 
-test('empty and one-school views guide users back to institution actions', () => {
+test('empty and one-school views show only the institution pickers', () => {
   for (const ids of [[], ['A']]) {
     const html = C.renderComparison({ result, ids, institutions, areaById });
-    assert.match(html, /Choose two schools/);
-    assert.match(html, /from rankings/);
+    assert.match(html, /Add school/);
+    assert.match(html, /class="compare-search-input"/);
     assert.doesNotMatch(html, /compare-area-list/);
   }
 });
@@ -82,17 +85,16 @@ function appContext(keepHashWriter = false) {
   return { context, state };
 }
 
-test('institution actions pin at most two distinct schools and allow removing either', () => {
+test('institution actions pin at most four distinct schools and allow removing any', () => {
   const { context, state } = appContext();
-  context.toggleComparisonSchool('A');
+  state.institutions = { ...institutions, D: { name: 'Delta' }, E: { name: 'Epsilon' } };
+  for (const id of ['A', 'B', 'C', 'D', 'E']) context.toggleComparisonSchool(id);
+  assert.deepEqual(Array.from(state.compare.ids), ['A', 'B', 'C', 'D']);
   context.toggleComparisonSchool('B');
-  context.toggleComparisonSchool('C');
-  assert.deepEqual(Array.from(state.compare.ids), ['A', 'B']);
-  context.toggleComparisonSchool('A');
-  context.toggleComparisonSchool('C');
-  assert.deepEqual(Array.from(state.compare.ids), ['B', 'C']);
+  context.toggleComparisonSchool('E');
+  assert.deepEqual(Array.from(state.compare.ids), ['A', 'C', 'D', 'E']);
   context.toggleComparisonSchool('unknown');
-  assert.deepEqual(Array.from(state.compare.ids), ['B', 'C']);
+  assert.deepEqual(Array.from(state.compare.ids), ['A', 'C', 'D', 'E']);
 });
 
 test('renderComparison renders search input instead of a long select dropdown', () => {
@@ -114,8 +116,10 @@ test('selectComparisonSchool assigns, swaps, and clears school sides', () => {
   assert.deepEqual(Array.from(state.compare.ids), ['A', 'B']);
   context.selectComparisonSchool(0, 'B');
   assert.deepEqual(Array.from(state.compare.ids), ['B', 'A']);
+  context.selectComparisonSchool(2, 'C');
+  assert.deepEqual(Array.from(state.compare.ids), ['B', 'A', 'C']);
   context.selectComparisonSchool(1, null);
-  assert.deepEqual(Array.from(state.compare.ids), ['B']);
+  assert.deepEqual(Array.from(state.compare.ids), ['B', 'C']);
 });
 
 test('shared comparison state validates school IDs, years and areas on reload', () => {
@@ -123,10 +127,13 @@ test('shared comparison state validates school IDs, years and areas on reload', 
   const a = 'https://openalex.org/I1', b = 'https://openalex.org/I2';
   state.institutions = { [a]: { name: 'A' }, [b]: { name: 'B' } };
   state.sel = selection;
-  context.location = { hash: '#compare=I1,I1,I2,unknown&view=compare&compare-area=quantum&compare-year=2021' };
+  context.location = { hash: '#compare=I1,I1,I2,unknown&open=I2,bogus&view=compare&compare-area=quantum&compare-year=2021' };
   context.URLSearchParams = URLSearchParams;
   context.readComparisonHash();
   assert.deepEqual(Array.from(state.compare.ids), [a, b]);
+  context.readOpenHash();
+  assert.deepEqual([...state.expanded], [b]);
+  assert.equal(state.revealOpen, true);
   assert.equal(state.compare.mode, 'compare');
   assert.equal(state.compare.year, 2021);
   assert.equal(state.compare.area, 'quantum');
@@ -159,7 +166,8 @@ test('comparison URLs preserve filters and both schools while default rankings U
   context.history = { replaceState: (a, b, url) => { written = url; } };
   context.writeHash(selection);
   assert.equal(state.lastHash, '');
-  state.compare.ids = ['https://openalex.org/I1', 'https://openalex.org/I2'];
+  state.compare.ids = ['https://openalex.org/I1', 'https://openalex.org/I2', 'https://openalex.org/I3'];
+  state.expanded = new Set(['https://openalex.org/I9']);
   state.compare.mode = 'compare';
   state.compare.year = 2021;
   context.encodeState = () => '#areas=quantum&disabled_venues=quantum%3Aone';
@@ -167,7 +175,8 @@ test('comparison URLs preserve filters and both schools while default rankings U
   const params = new URLSearchParams(written.split('#')[1]);
   assert.equal(params.get('areas'), 'quantum');
   assert.equal(params.get('disabled_venues'), 'quantum:one');
-  assert.equal(params.get('compare'), 'I1,I2');
+  assert.equal(params.get('compare'), 'I1,I2,I3');
+  assert.equal(params.get('open'), 'I9');
   assert.equal(params.get('view'), 'compare');
   assert.equal(params.get('compare-year'), '2021');
 });
@@ -192,42 +201,40 @@ test('year playback advances, wraps within the selected range, and stops cleanly
   assert.equal(state.compare.playTimer, null);
 });
 
-test('the yearly plot connects valid dots and leaves a gap for years without output', () => {
+test('the yearly plot draws one line per school across every year, zero years included', () => {
   const html = C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById, area: 'quantum', width: 390 });
-  const path = html.match(/class="compare-history-line" d="([^"]*)"/)[1];
-  assert.equal((path.match(/M/g) || []).length, 2);
-  assert.doesNotMatch(path, /L/);
-  assert.match(html, /compare-history-dot/);
-  assert.match(html, /No output/);
+  const paths = [...html.matchAll(/class="compare-history-line" d="([^"]*)"/g)].map(match => match[1]);
+  assert.equal(paths.length, 2);
+  for (const path of paths) assert.equal(path.split(' ').length, 3);
+  assert.equal((html.match(/class="compare-history-dot"/g) || []).length, 6);
   assert.match(html, /data-play-years/);
   assert.doesNotMatch(html, /NaN|Infinity/);
 });
 
-test('renderComparison shows reset action when schools are chosen', () => {
-  const empty = C.renderComparison({ result, ids: [], institutions, areaById });
-  assert.doesNotMatch(empty, /data-reset-comparison/);
-  const one = C.renderComparison({ result, ids: ['A'], institutions, areaById });
-  assert.match(one, /data-reset-comparison/);
-  const two = C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById });
-  assert.match(two, /data-reset-comparison/);
-  assert.match(two, /Reset comparison/);
+test('Reset appears only once a year or a non-default area is chosen', () => {
+  const visibleReset = html => /data-reset-comparison>/.test(html);
+  assert.doesNotMatch(C.renderComparison({ result, ids: ['A'], institutions, areaById }), /data-reset-comparison/);
+  // The largest area (quantum) is the default, so choosing it is not a change.
+  assert.equal(visibleReset(C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById })), false);
+  assert.equal(visibleReset(C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById, area: 'quantum' })), false);
+  assert.equal(visibleReset(C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById, area: 'control' })), true);
+  assert.equal(visibleReset(C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById, year: 2021 })), true);
 });
 
-test('resetComparison clears comparison IDs, year, area, and stops playback', () => {
+test('Reset returns to all years and the default area but keeps the chosen schools', () => {
   const { context, state } = appContext();
   state.compare.ids = ['A', 'B'];
   state.compare.year = 2021;
   state.compare.area = 'quantum';
   state.compare.playing = true;
   state.compare.playTimer = 123;
-  let focusCalled = false;
-  context.document.getElementById = id => id === 'compare-search-0' ? { focus() { focusCalled = true; } } : null;
   context.resetComparison();
-  assert.deepEqual(Array.from(state.compare.ids), []);
+  assert.deepEqual(Array.from(state.compare.ids), ['A', 'B']);
   assert.equal(state.compare.year, null);
   assert.equal(state.compare.area, null);
   assert.equal(state.compare.playing, false);
   assert.equal(state.compare.playTimer, null);
-  assert.equal(focusCalled, true);
+  context.clearComparison();
+  assert.deepEqual(Array.from(state.compare.ids), []);
 });
 
