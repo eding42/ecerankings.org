@@ -6,7 +6,7 @@ import {
   encodeState, decodeState, rankingsToCsv,
 } from './rank.js';
 import { computeAnnualRanks, institutionHistory, renderRankHistory } from './rank-history.js';
-import { renderComparison } from './comparison.js?v=clean-copy';
+import { renderComparison } from './comparison.js?v=school-search';
 
 const PAGE_SIZE = 100;
 const CURRENT_YEAR = new Date().getFullYear();
@@ -40,7 +40,7 @@ const app = {
   compare: { ids: [], mode: 'rankings', year: null, area: null, showAll: false, playing: false, playTimer: null },
 };
 
-const $ = (id) => document.getElementById(id);
+const $ = (id) => (document.getElementById ? document.getElementById(id) : null);
 const fmt1 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const fmt2 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const fmtInt = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
@@ -770,6 +770,159 @@ function toggleComparisonSchool(id) {
   writeHash(app.sel);
 }
 
+function selectComparisonSchool(side, id) {
+  if (!id) {
+    app.compare.ids.splice(side, 1);
+  } else {
+    const other = side === 0 ? 1 : 0;
+    if (app.compare.ids[other] === id) {
+      app.compare.ids[other] = app.compare.ids[side];
+    }
+    app.compare.ids[side] = id;
+    app.compare.ids = app.compare.ids.filter(Boolean);
+  }
+  renderTable();
+  updateComparison();
+  writeHash(app.sel);
+  $(`compare-school-toggle-${side}`)?.focus();
+}
+
+const COMPARISON_ACRONYMS = {
+  mit: 'massachusetts institute of technology',
+  cmu: 'carnegie mellon university',
+  uiuc: 'university of illinois urbana-champaign',
+  ucb: 'university of california, berkeley',
+  ucla: 'university of california, los angeles',
+  ucsd: 'university of california, san diego',
+  ucsb: 'university of california, santa barbara',
+  uci: 'university of california, irvine',
+  ucd: 'university of california, davis',
+  ucsc: 'university of california, santa cruz',
+  ucr: 'university of california, riverside',
+  usc: 'university of southern california',
+  nyu: 'new york university',
+  gatech: 'georgia institute of technology',
+  gt: 'georgia institute of technology',
+  vt: 'virginia tech',
+  tamu: 'texas a&m university',
+  utaustin: 'university of texas at austin',
+  ut: 'university of texas at austin',
+  eth: 'eth zurich',
+  epfl: 'école polytechnique fédérale de lausanne',
+  nus: 'national university of singapore',
+  ntu: 'nanyang technological university',
+  uw: 'university of washington',
+  umich: 'university of michigan',
+  unc: 'university of north carolina at chapel hill',
+  upenn: 'university of pennsylvania',
+  penn: 'university of pennsylvania',
+  purdue: 'purdue university',
+  stanford: 'stanford university',
+  harvard: 'harvard university',
+  princeton: 'princeton university',
+  caltech: 'caltech',
+  columbia: 'columbia university',
+  cornell: 'cornell university',
+  yale: 'yale university',
+  tsinghua: 'tsinghua university',
+  pku: 'peking university',
+  zju: 'zhejiang university',
+  sjtu: 'shanghai jiao tong university',
+  fudan: 'fudan university',
+  ustc: 'university of science and technology of china',
+  hku: 'university of hong kong',
+  cuhk: 'chinese university of hong kong',
+  hkust: 'hong kong university of science and technology',
+  oxford: 'university of oxford',
+  cambridge: 'university of cambridge',
+  imperial: 'imperial college london',
+  ucl: 'university college london',
+  tum: 'technical university of munich',
+  snu: 'seoul national university',
+  kaist: 'kaist',
+  postech: 'postech',
+};
+
+function renderComparisonSearchResults(side, query) {
+  const container = $(`compare-results-${side}`);
+  if (!container || !app.result) return;
+  const q = (query || '').trim().toLowerCase();
+  const alias = COMPARISON_ACRONYMS[q];
+  const rows = app.result.rows || [];
+  const currentId = app.compare.ids[side];
+
+  let candidates = [];
+  if (!q) {
+    candidates = rows.slice(0, 10).map(r => ({
+      id: r.id,
+      name: r.name,
+      country: app.institutions[r.id]?.country || '',
+      score: 0,
+    }));
+  } else {
+    const seen = new Set();
+    for (let rIdx = 0; rIdx < rows.length; rIdx++) {
+      const r = rows[rIdx];
+      const name = r.name;
+      const lower = name.toLowerCase();
+      const initials = (name.match(/\b[A-Z]/g) || []).join('').toLowerCase();
+      let matchScore = -1;
+      if (alias && lower.includes(alias)) matchScore = 0;
+      else if (initials === q) matchScore = 0;
+      else if (lower.startsWith(q) || lower.includes(' ' + q) || lower.includes(', ' + q)) matchScore = 1;
+      else if (initials.startsWith(q)) matchScore = 2;
+      else if (lower.includes(q)) matchScore = 3;
+
+      if (matchScore !== -1) {
+        seen.add(r.id);
+        candidates.push({
+          id: r.id,
+          name,
+          country: app.institutions[r.id]?.country || '',
+          score: matchScore * 10000 + rIdx,
+        });
+      }
+    }
+    if (candidates.length < 10) {
+      for (const [id, meta] of Object.entries(app.institutions)) {
+        if (seen.has(id)) continue;
+        const name = meta.name || '';
+        const lower = name.toLowerCase();
+        const initials = (name.match(/\b[A-Z]/g) || []).join('').toLowerCase();
+        let matchScore = -1;
+        if (alias && lower.includes(alias)) matchScore = 0;
+        else if (initials === q) matchScore = 0;
+        else if (lower.startsWith(q) || lower.includes(' ' + q) || lower.includes(', ' + q)) matchScore = 1;
+        else if (initials.startsWith(q)) matchScore = 2;
+        else if (lower.includes(q)) matchScore = 3;
+
+        if (matchScore !== -1) {
+          seen.add(id);
+          candidates.push({
+            id,
+            name,
+            country: meta.country || '',
+            score: 100000 + matchScore * 1000,
+          });
+          if (candidates.length >= 25) break;
+        }
+      }
+    }
+    candidates.sort((a, b) => a.score - b.score);
+    candidates = candidates.slice(0, 15);
+  }
+
+  if (!candidates.length) {
+    container.innerHTML = `<div class="compare-search-empty">No institutions match “${esc(query)}”</div>`;
+    return;
+  }
+
+  container.innerHTML = candidates.map(c => {
+    const isCur = c.id === currentId;
+    return `<button type="button" class="compare-search-item${isCur ? ' selected' : ''}" data-school-side="${side}" data-select-school="${esc(c.id)}" role="option" aria-selected="${isCur}"><span class="compare-search-name">${esc(c.name)}</span>${c.country ? `<span class="compare-search-country">${esc(c.country)}</span>` : ''}</button>`;
+  }).join('');
+}
+
 function bindComparisonEvents() {
   $('view-rankings').addEventListener('click', () => setComparisonMode('rankings'));
   $('view-compare').addEventListener('click', () => setComparisonMode('compare'));
@@ -779,31 +932,32 @@ function bindComparisonEvents() {
     if (e.target.closest('[data-open-comparison]')) setComparisonMode('compare');
   });
   const panel = $('comparison-view');
-  panel.addEventListener('change', e => {
-    if (!e.target.matches('[data-school-side]')) return;
-    const side = Number(e.target.dataset.schoolSide), id = e.target.value;
-    if (!id) app.compare.ids.splice(side, 1);
-    else {
-      const other = side === 0 ? 1 : 0;
-      if (app.compare.ids[other] === id) {
-        app.compare.ids[other] = app.compare.ids[side];
-      }
-      app.compare.ids[side] = id;
-      app.compare.ids = app.compare.ids.filter(Boolean);
-    }
-    renderTable();
-    updateComparison();
-    writeHash(app.sel);
-    $(`compare-school-toggle-${side}`)?.focus();
-  });
   panel.addEventListener('input', e => {
+    if (e.target.matches('.compare-search-input')) {
+      const side = Number(e.target.dataset.schoolSide);
+      renderComparisonSearchResults(side, e.target.value);
+      return;
+    }
     if (e.target.id !== 'compare-year') return;
     stopComparisonPlayback();
     app.compare.year = Number(e.target.value);
     updateComparison(true);
     writeHash(app.sel);
   });
+  panel.addEventListener('focusin', e => {
+    if (e.target.matches('.compare-search-input')) {
+      const side = Number(e.target.dataset.schoolSide);
+      renderComparisonSearchResults(side, e.target.value);
+    }
+  });
   panel.addEventListener('click', e => {
+    const item = e.target.closest('[data-select-school]');
+    if (item) {
+      const side = Number(item.dataset.schoolSide);
+      const id = item.dataset.selectSchool;
+      selectComparisonSchool(side, id);
+      return;
+    }
     if (e.target.closest('[data-play-years]')) {
       if (app.compare.playing) stopComparisonPlayback();
       else startComparisonPlayback();
@@ -831,12 +985,60 @@ function bindComparisonEvents() {
     panel.querySelector(selector)?.focus({ preventScroll: true });
   });
   panel.addEventListener('keydown', e => {
+    if (e.target.matches('.compare-search-input')) {
+      const side = Number(e.target.dataset.schoolSide);
+      const list = $(`compare-results-${side}`);
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        list?.querySelector('.compare-search-item')?.focus();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const first = list?.querySelector('.compare-search-item');
+        if (first) selectComparisonSchool(side, first.dataset.selectSchool);
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        const details = e.target.closest('details');
+        if (details) details.open = false;
+        $(`compare-school-toggle-${side}`)?.focus();
+      }
+      return;
+    }
+    if (e.target.matches('.compare-search-item')) {
+      const side = Number(e.target.dataset.schoolSide);
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const next = e.target.nextElementSibling;
+        if (next?.matches('.compare-search-item')) next.focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prev = e.target.previousElementSibling;
+        if (prev?.matches('.compare-search-item')) prev.focus();
+        else $(`compare-search-${side}`)?.focus();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        const details = e.target.closest('details');
+        if (details) details.open = false;
+        $(`compare-school-toggle-${side}`)?.focus();
+      }
+      return;
+    }
     const point = e.target.closest('[data-compare-year]');
     if (point && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault();
       point.dispatchEvent(new Event('click', { bubbles: true }));
     }
   });
+  panel.addEventListener('toggle', e => {
+    if (e.target.matches('.compare-school-edit') && e.target.open) {
+      const input = e.target.querySelector('.compare-search-input');
+      if (input) {
+        input.value = '';
+        const side = Number(input.dataset.schoolSide);
+        renderComparisonSearchResults(side, '');
+        setTimeout(() => input.focus(), 30);
+      }
+    }
+  }, true);
   document.addEventListener('visibilitychange', () => { if (document.hidden) stopComparisonPlayback(); });
   let lastWidth = 0;
   if (typeof ResizeObserver !== 'undefined') new ResizeObserver(entries => {

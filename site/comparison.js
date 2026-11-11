@@ -32,20 +32,26 @@ function esc(value) {
 const fmt = new Intl.NumberFormat('en-US', { maximumFractionDigits: 1, minimumFractionDigits: 1 });
 
 export function renderComparison({ result, ids, institutions, areaById, year = null, area = null, showAll = false, playing = false, width = 640 }) {
-  const candidates = new Map(result.rows.map(row => [row.id, row.name]));
-  for (const id of ids) candidates.set(id, institutions[id]?.name || id);
   const names = ids.map(id => institutions[id]?.name || id);
-  const options = [...candidates].sort((a, b) => a[1].localeCompare(b[1], 'en'));
   const pickers = [0, 1].map(side => {
     const id = ids[side];
     const name = id ? institutions[id]?.name || id : 'Choose an institution';
     const country = id ? institutions[id]?.country || '' : '';
+    const disabled = side === 1 && !ids[0];
+    const initialList = result.rows.slice(0, 8).map(row => {
+      const c = institutions[row.id]?.country || '';
+      const isCur = row.id === id;
+      return `<button type="button" class="compare-search-item${isCur ? ' selected' : ''}" data-school-side="${side}" data-select-school="${esc(row.id)}" role="option" aria-selected="${isCur}"><span class="compare-search-name">${esc(row.name)}</span>${c ? `<span class="compare-search-country">${esc(c)}</span>` : ''}</button>`;
+    }).join('');
     return `<div class="compare-school compare-school-${side}">
       <span class="compare-school-label"><i class="compare-swatch" aria-hidden="true"></i>${country ? esc(country) : 'Institution'}</span>
       <h3>${esc(name)}</h3>
       <div class="compare-school-actions"><details class="compare-school-edit"${id ? '' : ' open'}>
         <summary id="compare-school-toggle-${side}">${id ? 'Change school' : 'Choose school'}</summary>
-        <select id="compare-school-${side}" aria-label="${side === 0 ? 'Left' : 'Right'} school" data-school-side="${side}"${side === 1 && !ids[0] ? ' disabled' : ''}><option value="">Choose an institution…</option>${options.map(([key, label]) => `<option value="${esc(key)}"${id === key ? ' selected' : ''}>${esc(label)}</option>`).join('')}</select>
+        <div class="compare-school-search">
+          <input type="search" class="compare-search-input" id="compare-search-${side}" data-school-side="${side}" placeholder="Search institutions…" autocomplete="off" spellcheck="false" aria-label="${side === 0 ? 'Left' : 'Right'} institution search"${disabled ? ' disabled' : ''}>
+          <div class="compare-search-results" id="compare-results-${side}" role="listbox" aria-label="Matching institutions">${initialList}</div>
+        </div>
       </details>${id ? `<button type="button" class="link compare-remove" data-remove-school="${esc(id)}" aria-label="Remove ${esc(name)}">Remove</button>` : ''}</div>
     </div>`;
   }).join('<span class="compare-versus" aria-hidden="true">vs</span>');

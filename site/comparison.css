@@ -27,7 +27,18 @@ button.inst-compare:disabled { color:var(--faint); }
 .compare-school-1 .compare-school-actions { justify-content:flex-end; }
 .compare-school-edit { position:relative; }
 .compare-school-edit summary { color:var(--link); cursor:pointer; font-size:11px; }
-.compare-school-edit select { display:block; min-width:0; max-width:240px; margin-top:8px; font-size:12px; }
+.compare-school-search { position:relative; margin-top:8px; width:100%; min-width:200px; max-width:280px; text-align:left; }
+.compare-school-1 .compare-school-search { margin-left:auto; }
+.compare-search-input { width:100%; height:32px; padding:4px 8px; font-size:12px; border:1px solid var(--rule-strong); border-radius:4px; background:#fff; color:var(--text); box-sizing:border-box; }
+.compare-search-input:focus { outline:none; border-color:var(--link); box-shadow:0 0 0 1px var(--link); }
+.compare-search-input:disabled { opacity:.6; cursor:not-allowed; background:var(--stripe); }
+.compare-search-results { margin-top:4px; max-height:210px; overflow-y:auto; background:#fff; border:1px solid var(--rule-strong); border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,.08); list-style:none; padding:2px 0; }
+.compare-search-item { display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%; padding:6px 10px; border:0; background:none; border-radius:0; text-align:left; font-size:12px; line-height:1.35; color:var(--text); cursor:pointer; box-sizing:border-box; }
+.compare-search-item:hover, .compare-search-item:focus { background:var(--hover); color:var(--link); outline:none; }
+.compare-search-item.selected { font-weight:600; color:var(--link); background:var(--hover); }
+.compare-search-name { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.compare-search-country { font-size:10px; font-weight:500; color:var(--muted); flex-shrink:0; }
+.compare-search-empty { padding:8px 10px; font-size:12px; color:var(--muted); text-align:center; }
 .compare-remove { font-size:11px!important; color:var(--muted)!important; }
 .compare-versus { font-size:11px; color:var(--faint); align-self:center; text-align:center; }
 .compare-time { display:grid; grid-template-columns:auto auto minmax(60px,1fr) auto; gap:12px; align-items:center; }
@@ -95,7 +106,9 @@ button.inst-compare:disabled { color:var(--faint); }
  button.inst-compare { min-height:44px; min-width:44px; }
  .compare-schools { gap:10px; grid-template-columns:minmax(0,1fr) 12px minmax(0,1fr); }
  .compare-school h3 { font-size:17px; min-height:3.75em; }
- .compare-school-edit select { width:100%; max-width:100%; height:44px; font-size:16px; }
+ .compare-school-search { min-width:0; max-width:100%; }
+ .compare-search-input { height:44px; font-size:16px; }
+ .compare-search-item { min-height:40px; padding:8px 10px; font-size:13px; }
  .compare-school-edit summary { display:flex; align-items:center; min-height:44px; }
  .compare-time { grid-template-columns:auto auto minmax(60px,1fr); gap:9px; }
  .compare-time output { grid-column:1/-1; grid-row:1; text-align:left; font-size:22px; margin-bottom:3px; }

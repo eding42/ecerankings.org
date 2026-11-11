@@ -95,6 +95,29 @@ test('institution actions pin at most two distinct schools and allow removing ei
   assert.deepEqual(Array.from(state.compare.ids), ['B', 'C']);
 });
 
+test('renderComparison renders search input instead of a long select dropdown', () => {
+  const html = C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById });
+  assert.match(html, /class="compare-search-input"/);
+  assert.match(html, /id="compare-search-0"/);
+  assert.match(html, /id="compare-search-1"/);
+  assert.match(html, /id="compare-results-0"/);
+  assert.match(html, /id="compare-results-1"/);
+  assert.match(html, /placeholder="Search institutions…"/);
+  assert.doesNotMatch(html, /<select/);
+});
+
+test('selectComparisonSchool assigns, swaps, and clears school sides', () => {
+  const { context, state } = appContext();
+  context.selectComparisonSchool(0, 'A');
+  assert.deepEqual(Array.from(state.compare.ids), ['A']);
+  context.selectComparisonSchool(1, 'B');
+  assert.deepEqual(Array.from(state.compare.ids), ['A', 'B']);
+  context.selectComparisonSchool(0, 'B');
+  assert.deepEqual(Array.from(state.compare.ids), ['B', 'A']);
+  context.selectComparisonSchool(1, null);
+  assert.deepEqual(Array.from(state.compare.ids), ['B']);
+});
+
 test('shared comparison state validates school IDs, years and areas on reload', () => {
   const { context, state } = appContext();
   const a = 'https://openalex.org/I1', b = 'https://openalex.org/I2';
