@@ -202,3 +202,32 @@ test('the yearly plot connects valid dots and leaves a gap for years without out
   assert.match(html, /data-play-years/);
   assert.doesNotMatch(html, /NaN|Infinity/);
 });
+
+test('renderComparison shows reset action when schools are chosen', () => {
+  const empty = C.renderComparison({ result, ids: [], institutions, areaById });
+  assert.doesNotMatch(empty, /data-reset-comparison/);
+  const one = C.renderComparison({ result, ids: ['A'], institutions, areaById });
+  assert.match(one, /data-reset-comparison/);
+  const two = C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById });
+  assert.match(two, /data-reset-comparison/);
+  assert.match(two, /Reset comparison/);
+});
+
+test('resetComparison clears comparison IDs, year, area, and stops playback', () => {
+  const { context, state } = appContext();
+  state.compare.ids = ['A', 'B'];
+  state.compare.year = 2021;
+  state.compare.area = 'quantum';
+  state.compare.playing = true;
+  state.compare.playTimer = 123;
+  let focusCalled = false;
+  context.document.getElementById = id => id === 'compare-search-0' ? { focus() { focusCalled = true; } } : null;
+  context.resetComparison();
+  assert.deepEqual(Array.from(state.compare.ids), []);
+  assert.equal(state.compare.year, null);
+  assert.equal(state.compare.area, null);
+  assert.equal(state.compare.playing, false);
+  assert.equal(state.compare.playTimer, null);
+  assert.equal(focusCalled, true);
+});
+

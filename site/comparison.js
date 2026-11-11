@@ -55,9 +55,14 @@ export function renderComparison({ result, ids, institutions, areaById, year = n
       </details>${id ? `<button type="button" class="link compare-remove" data-remove-school="${esc(id)}" aria-label="Remove ${esc(name)}">Remove</button>` : ''}</div>
     </div>`;
   }).join('<span class="compare-versus" aria-hidden="true">vs</span>');
-  let html = `<div class="compare-schools">${pickers}</div>`;
+  const hasSelection = ids.some(Boolean);
+  const header = `<div class="compare-header">
+    <span class="compare-eyebrow">School comparison</span>
+    ${hasSelection ? '<button type="button" class="link compare-reset" data-reset-comparison>Reset comparison</button>' : ''}
+  </div>`;
+  let html = `${header}<div class="compare-schools">${pickers}</div>`;
   if (ids.length < 2 || !ids[0] || !ids[1]) {
-    return html + `<div class="compare-empty"><h3>Choose two schools to compare</h3><p>Select institutions above or from rankings.</p><button type="button" data-browse-schools>Browse rankings</button></div>`;
+    return html + `<div class="compare-empty"><h3>Choose two schools to compare</h3><p>Select institutions above or from rankings.</p><button type="button" data-browse-schools>Browse rankings</button>${hasSelection ? ' <button type="button" class="link compare-reset-inline" data-reset-comparison>Reset comparison</button>' : ''}</div>`;
   }
   const rows = compareSchools(result.data, result.sel.areas, ids, result.sel.from, result.sel.to);
   const ordered = [...rows].sort((a, b) => (b.left + b.right) - (a.left + a.right));

@@ -15,7 +15,12 @@ button.inst-compare:hover:not(:disabled) { background:none; color:var(--link); t
 button.inst-compare:disabled { color:var(--faint); }
 .compare-panel { --compare-left:var(--link); --compare-right:#a75b29; min-width:0; }
 .compare-panel[aria-busy="true"] { opacity:.5; pointer-events:none; }
-.compare-schools { display:grid; grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr); align-items:start; gap:18px; margin:18px 0 24px; }
+.compare-header { display:flex; justify-content:space-between; align-items:center; margin:0 0 10px; }
+.compare-header .compare-eyebrow { margin-bottom:0; }
+.compare-reset { font-size:11px!important; color:var(--muted)!important; cursor:pointer; }
+.compare-reset:hover { color:var(--text)!important; text-decoration:underline; }
+.compare-reset-inline { margin-left:12px; font-size:12px!important; color:var(--muted)!important; }
+.compare-schools { display:grid; grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr); align-items:start; gap:18px; margin:14px 0 24px; }
 .compare-school { min-width:0; border-bottom:3px solid var(--compare-left); padding-bottom:14px; }
 .compare-school-1 { border-bottom-color:var(--compare-right); text-align:right; }
 .compare-school-label { display:flex; align-items:center; gap:7px; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.09em; color:var(--muted); }

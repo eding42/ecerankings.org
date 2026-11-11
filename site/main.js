@@ -6,7 +6,7 @@ import {
   encodeState, decodeState, rankingsToCsv,
 } from './rank.js';
 import { computeAnnualRanks, institutionHistory, renderRankHistory } from './rank-history.js';
-import { renderComparison } from './comparison.js?v=school-search';
+import { renderComparison } from './comparison.js?v=compare-reset';
 
 const PAGE_SIZE = 100;
 const CURRENT_YEAR = new Date().getFullYear();
@@ -787,6 +787,17 @@ function selectComparisonSchool(side, id) {
   $(`compare-school-toggle-${side}`)?.focus();
 }
 
+function resetComparison() {
+  stopComparisonPlayback();
+  app.compare.ids = [];
+  app.compare.year = null;
+  app.compare.area = null;
+  renderTable();
+  updateComparison();
+  writeHash(app.sel);
+  $('compare-search-0')?.focus();
+}
+
 const COMPARISON_ACRONYMS = {
   mit: 'massachusetts institute of technology',
   cmu: 'carnegie mellon university',
@@ -930,6 +941,7 @@ function bindComparisonEvents() {
     const remove = e.target.closest('[data-remove-school]');
     if (remove) toggleComparisonSchool(remove.dataset.removeSchool);
     if (e.target.closest('[data-open-comparison]')) setComparisonMode('compare');
+    if (e.target.closest('[data-reset-comparison]')) resetComparison();
   });
   const panel = $('comparison-view');
   panel.addEventListener('input', e => {
@@ -951,6 +963,8 @@ function bindComparisonEvents() {
     }
   });
   panel.addEventListener('click', e => {
+    const reset = e.target.closest('[data-reset-comparison]');
+    if (reset) { resetComparison(); return; }
     const item = e.target.closest('[data-select-school]');
     if (item) {
       const side = Number(item.dataset.schoolSide);
@@ -1084,7 +1098,7 @@ function updateComparison(preserveControls = false) {
   const names = app.compare.ids.map(id => app.institutions[id]?.name || id);
   $('comparison-tray').hidden = active;
   $('comparison-tray').innerHTML = names.map((name, i) => `<span class="compare-chip">${esc(name)}<button type="button" data-remove-school="${esc(app.compare.ids[i])}" aria-label="Remove ${esc(name)} from comparison">×</button></span>`).join('')
-    + (names.length && !active ? names.length === 2 ? '<button type="button" class="link" data-open-comparison>Compare these schools →</button>' : '<span>Add one more school from the rankings.</span>' : '');
+    + (names.length && !active ? (names.length === 2 ? '<button type="button" class="link" data-open-comparison>Compare these schools →</button>' : '<span>Add one more school from the rankings.</span>') + ' <button type="button" class="link" data-reset-comparison>Reset</button>' : '');
   const panel = $('comparison-view');
   if (!app.result) {
     panel.innerHTML = '<p class="muted">Select at least one research area to compare institutions.</p>';
