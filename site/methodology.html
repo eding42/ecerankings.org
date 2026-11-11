@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Methodology · ECERankings</title>
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141619" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css?v=compare4">
+  <link rel="stylesheet" href="eding-shared.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <p class="site-title"><a href="./">ECERankings</a></p>
+      <nav aria-label="Site"><a class="eding-project-link" href="https://eding.dev/">Eding</a>
+        <a href="./">Rankings</a>
+        <a href="methodology.html" aria-current="page">Methodology</a>
+        <a href="coverage.html">Data coverage</a>
+        <a href="https://github.com/eding42/ecerankings.org">Source</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap prose">
+    <h1>Methodology</h1>
+
+    <h2>Credit</h2>
+    <p>Each paper is worth 1, split evenly among its authors. An author's share goes to the institutions they listed on that paper, split evenly if there are several. The sum is an institution's adjusted count.</p>
+
+    <h2>Score</h2>
+    <p>The geometric mean of adjusted counts across the selected areas:</p>
+    <p class="formula">score = (∏ (1 + count<sub>i</sub>))<sup>1/n</sup> − 1</p>
+    <p>An area with no papers still counts toward <i>n</i>.</p>
+
+    <h2>Scope</h2>
+    <p>Whole institutions, not departments or faculty rosters. Editorials and other non-research items are excluded. The venues counted are listed under <a href="coverage.html">Data coverage</a>.</p>
+
+    <h2>Data</h2>
+    <p>Papers and affiliations come from <a href="https://openalex.org/">OpenAlex</a>, with venue membership from <a href="https://www.crossref.org/">Crossref</a>. Modeled on <a href="https://csrankings.org/">CSRankings</a>.</p>
+  </main>
+</body>
+</html>

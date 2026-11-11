@@ -47,11 +47,41 @@ export function isValidRegion(region) {
   return region === 'world' || region in REGION_SETS || /^[A-Z]{2}$/.test(region);
 }
 
+// Short labels for the area list. The registry keeps the full names, which
+// the Data coverage page shows.
+const AREA_LABELS = {
+  eda: 'Design Automation',
+  embedded: 'Embedded Systems',
+  image: 'Image & Vision',
+  control: 'Control',
+  power: 'Power Systems',
+  devices: 'Devices',
+  photonics: 'Photonics',
+  em_rf: 'Antennas & RF',
+  biomed: 'Biomedical',
+  quantum: 'Quantum',
+  flagship: 'Flagship Journals',
+};
+
+// "… Conference on Robotics and Automation (ICRA)" -> "ICRA";
+// "IEEE Transactions on Robotics" -> "IEEE Trans. Robotics".
+export function shortVenueName(display) {
+  const acronym = /\(([^()]+)\)\s*$/.exec(display);
+  if (acronym) return acronym[1];
+  return display
+    .replace(/^Symposium on /, '')
+    .replace(/ \/ .*$/, '')
+    .replace(/Transactions on /, 'Trans. ')
+    .replace(/Journal o[fn] /, 'J. ')
+    .replace(/(?:Emerging and )?Selected (Topics|Areas) in /, 'Sel. $1 ')
+    .replace(/ of Integrated Circuits and Systems$/, '');
+}
+
 // Area registry in file order. registry = parsed data/areas.json.
 export function listAreas(registry) {
   return Object.entries(registry.areas).map(([id, a]) => ({
     id,
-    name: a.name,
+    name: AREA_LABELS[id] || a.name,
     cluster: a.cluster || 'Other',
     defaultOn: a.default_on === true,
     venues: a.venues || [],
@@ -142,6 +172,102 @@ export function computeRankings(sel, dataByArea, institutions) {
     prev = r;
   });
   return out;
+}
+
+// Competition rank of each institution within each area, by adjusted count,
+// among the ranked (region-filtered) rows. Map<areaId, Map<instId, rank>>.
+export function areaRanks(rows) {
+  const out = new Map();
+  if (!rows.length) return out;
+  rows[0].perArea.forEach(({ area }, j) => {
+    const ranked = rows.filter((r) => r.perArea[j].adj > 0)
+      .sort((x, y) => y.perArea[j].adj - x.perArea[j].adj);
+    const ranks = new Map();
+    let prev = null;
+    ranked.forEach((r, idx) => {
+      const rank = prev && Math.abs(prev.adj - r.perArea[j].adj) <= 1e-9 ? prev.rank : idx + 1;
+      ranks.set(r.id, rank);
+      prev = { adj: r.perArea[j].adj, rank };
+    });
+    out.set(area, ranks);
+  });
+  return out;
+}
+
+// Common abbreviations people type for institutions.
+const ALIASES = {
+  mit: 'massachusetts institute of technology',
+  cmu: 'carnegie mellon university',
+  uiuc: 'university of illinois urbana-champaign',
+  ucb: 'university of california, berkeley',
+  berkeley: 'university of california, berkeley',
+  ucla: 'university of california, los angeles',
+  ucsd: 'university of california san diego',
+  ucsb: 'university of california, santa barbara',
+  uci: 'university of california, irvine',
+  ucd: 'university of california, davis',
+  ucsc: 'university of california, santa cruz',
+  ucr: 'university of california, riverside',
+  usc: 'university of southern california',
+  nyu: 'new york university',
+  gatech: 'georgia institute of technology',
+  gt: 'georgia institute of technology',
+  vt: 'virginia tech',
+  tamu: 'texas a&m university',
+  utaustin: 'university of texas at austin',
+  ut: 'university of texas at austin',
+  umd: 'university of maryland, college park',
+  umich: 'university of michigan',
+  uw: 'university of washington',
+  unc: 'university of north carolina at chapel hill',
+  upenn: 'university of pennsylvania',
+  penn: 'university of pennsylvania',
+  psu: 'pennsylvania state university',
+  asu: 'arizona state university',
+  osu: 'ohio state university',
+  caltech: 'california institute of technology',
+  eth: 'eth zurich',
+  epfl: 'école polytechnique fédérale de lausanne',
+  nus: 'national university of singapore',
+  ntu: 'nanyang technological university',
+  pku: 'peking university',
+  zju: 'zhejiang university',
+  sjtu: 'shanghai jiao tong university',
+  ustc: 'university of science and technology of china',
+  hku: 'university of hong kong',
+  cuhk: 'chinese university of hong kong',
+  hkust: 'hong kong university of science and technology',
+  ucl: 'university college london',
+  tum: 'technical university of munich',
+  snu: 'seoul national university',
+  kaist: 'korea advanced institute of science and technology',
+};
+
+// How well a name matches a typed query, best first: 0 known abbreviation,
+// 1 exact initials, 2 a word starts with it, 3 initials start with it,
+// 4 substring, -1 no match.
+export function matchScore(name, query) {
+  const q = query.trim().toLowerCase();
+  if (!q) return 0;
+  const lower = name.toLowerCase();
+  const alias = ALIASES[q];
+  if (alias && lower.includes(alias)) return 0;
+  const initials = (name.match(/\b[A-Z]/g) || []).join('').toLowerCase();
+  if (initials === q) return 1;
+  if (lower.startsWith(q) || lower.includes(` ${q}`)) return 2;
+  if (q.length > 1 && initials.startsWith(q)) return 3;
+  return lower.includes(q) ? 4 : -1;
+}
+
+// Rows matching a query, in their original order. A known abbreviation shows
+// only that institution; otherwise close matches hide loose substring hits,
+// so "mit" finds MIT and "stan" finds Stanford without every "Pakistan".
+export function searchRows(rows, query, nameOf = (r) => r.name) {
+  if (!query.trim()) return rows;
+  const scored = rows.map((r) => [r, matchScore(nameOf(r), query)]).filter(([, m]) => m >= 0);
+  const best = Math.min(...scored.map(([, m]) => m));
+  const keep = best === 0 ? 0 : best <= 3 ? 3 : 4;
+  return scored.filter(([, m]) => m <= keep).map(([r]) => r);
 }
 
 // Year extent across loaded area rows.

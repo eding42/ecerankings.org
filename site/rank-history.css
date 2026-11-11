@@ -2,7 +2,7 @@
   --trend-text: var(--text, var(--text-main));
   --trend-muted: var(--text-secondary, var(--muted, var(--text-muted)));
   --trend-accent: var(--primary, var(--link, var(--accent-primary)));
-  --trend-surface: var(--surface, #fff);
+  --trend-surface: var(--bg, #fff);
   --trend-border: var(--border, var(--rule, var(--glass-border)));
   width: 260px;
   max-width: 100%;

@@ -4,13 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>ECERankings: Electrical &amp; Computer Engineering Rankings</title>
-  <meta name="description" content="A metrics-based ranking of institutions by publications in selective electrical and computer engineering journals and conferences, built on OpenAlex.">
-  <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="styles.css?v=compare-reset">
-  <link rel="stylesheet" href="rank-history.css?v=compare-reset">
-  <link rel="stylesheet" href="comparison.css?v=compare-reset">
+  <meta name="description" content="Institutions ranked by papers in selective electrical and computer engineering journals and conferences.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141619" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ECERankings">
+  <meta property="og:title" content="ECERankings: Electrical &amp; Computer Engineering Rankings">
+  <meta property="og:description" content="Institutions ranked by papers in selective ECE journals and conferences.">
+  <meta property="og:url" content="https://ecerankings.eding.dev/">
+  <meta property="og:image" content="https://ecerankings.eding.dev/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ECERankings: Electrical &amp; Computer Engineering Rankings">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="styles.css?v=compare4">
+  <link rel="stylesheet" href="rank-history.css?v=compare4">
+  <link rel="stylesheet" href="comparison.css?v=compare4">
   <link rel="stylesheet" href="eding-shared.css">
-  <script type="module" src="main.js?v=compare-reset"></script>
+  <script type="module" src="main.js?v=compare4"></script>
 </head>
 <body>
   <a class="skip" href="#rankings">Skip to rankings</a>
@@ -29,13 +43,8 @@
 
   <main class="wrap">
     <h1>Electrical &amp; Computer Engineering Rankings</h1>
-    <p class="lede">
-      A metrics-based ranking of institutions by publications in selective
-      electrical and computer engineering journals and conferences. Each paper
-      is credited to the institutions its authors listed on that paper, split
-      evenly among authors. It ranks institutions, not ECE departments or
-      faculty rosters. <a href="methodology.html">How this is computed</a>.
-    </p>
+    <p class="lede">Institutions ranked by papers in selective ECE journals and conferences.</p>
+    <p class="stamp" id="data-stamp"></p>
 
     <form class="filters" id="filters" aria-label="Ranking filters">
       <div class="field field-region">
@@ -58,8 +67,6 @@
         <button type="button" id="export" disabled>Download CSV</button>
       </div>
     </form>
-
-    <div id="notices" class="notices" aria-live="polite"></div>
 
     <div class="layout">
       <aside class="areas" aria-labelledby="areas-heading">
@@ -113,14 +120,8 @@
 
   <footer class="site-footer">
     <div class="wrap">
-      <p>
-        Publication and affiliation data from <a href="https://openalex.org/">OpenAlex</a>,
-        with venue membership from <a href="https://www.crossref.org/">Crossref</a> where OpenAlex lacks it.
-        Code and data: <a href="https://github.com/eding42/ecerankings.org">github.com/eding42/ecerankings.org</a>.
-        Modeled on <a href="https://csrankings.org/">CSRankings</a>.
-        <span id="data-stamp"></span>
-      </p>
-      <noscript><p>The ranking table needs JavaScript. The underlying data is in the repository.</p></noscript>
+      <p>Data from <a href="https://openalex.org/">OpenAlex</a> and <a href="https://www.crossref.org/">Crossref</a></p>
+      <noscript><p>The ranking table needs JavaScript.</p></noscript>
     </div>
   </footer>
 </body>

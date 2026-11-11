@@ -3,19 +3,20 @@
 
 import {
   REGIONS, listAreas, defaultAreaIds, computeRankings, yearExtent,
-  encodeState, decodeState, rankingsToCsv,
-} from './rank.js';
+  encodeState, decodeState, rankingsToCsv, shortVenueName, areaRanks, searchRows,
+} from './rank.js?v=compare4';
 import { computeAnnualRanks, institutionHistory, renderRankHistory } from './rank-history.js';
-import { renderComparison } from './comparison.js?v=compare-reset';
+import { renderComparison } from './comparison.js?v=compare4';
 
 const PAGE_SIZE = 100;
+const COMPARE_MAX = 4;
+const shortId = (id) => id.replace('https://openalex.org/', '');
+const fullId = (id) => (id.startsWith('https://openalex.org/') ? id : `https://openalex.org/${id}`);
 const CURRENT_YEAR = new Date().getFullYear();
 
-// Coverage caveats shown beside areas that are off by default. The registry's
-// default_on flag decides what is off; these strings only explain why.
+// Caveat shown beside an area that is off by default.
 const AREA_NOTES = {
-  ml: 'Proceedings membership, coverage and paper-specific affiliations are incompletely verified for NeurIPS, ICML and ICLR.',
-  flagship: 'General-science journals (Nature, Science, PNAS, …), not ECE-specific.',
+  ml: 'Coverage not fully verified.',
 };
 
 const app = {
@@ -37,6 +38,7 @@ const app = {
   expanded: new Set(),
   openVenues: new Set(), // set of area ids with open venue dropdown
   lastHash: null,
+  revealOpen: false,  // scroll to linked expanded rows once their data loads
   compare: { ids: [], mode: 'rankings', year: null, area: null, showAll: false, playing: false, playTimer: null },
 };
 
@@ -176,6 +178,7 @@ async function init() {
   };
   app.sel = readHash();
   readComparisonHash();
+  readOpenHash();
 
   renderRegionOptions();
   renderAreaGroups();
@@ -192,7 +195,10 @@ function applyManifest(m) {
   const stamp = [m.generated_at, m.generated, m.built_at].find(
     (v) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}/.test(v),
   );
-  if (stamp) $('data-stamp').textContent = `Data files built ${stamp.slice(0, 10)}.`;
+  if (stamp) {
+    const date = new Date(`${stamp.slice(0, 10)}T00:00:00Z`);
+    $('data-stamp').textContent = `Updated ${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}`;
+  }
 }
 
 function readHash() {
@@ -201,10 +207,11 @@ function readHash() {
 
 function writeHash(sel) {
   const params = new URLSearchParams(encodeState(sel, app.defaults).replace(/^#/, ''));
-  if (app.compare.ids.length) params.set('compare', app.compare.ids.map(id => id.replace('https://openalex.org/', '')).join(','));
+  if (app.expanded.size) params.set('open', [...app.expanded].map(shortId).join(','));
+  if (app.compare.ids.length) params.set('compare', app.compare.ids.map(shortId).join(','));
   if (app.compare.mode === 'compare') params.set('view', 'compare');
-  if (app.compare.ids.length === 2 && app.compare.area) params.set('compare-area', app.compare.area);
-  if (app.compare.ids.length === 2 && app.compare.year !== null) params.set('compare-year', String(app.compare.year));
+  if (app.compare.ids.length >= 2 && app.compare.area) params.set('compare-area', app.compare.area);
+  if (app.compare.ids.length >= 2 && app.compare.year !== null) params.set('compare-year', String(app.compare.year));
   const hash = params.size ? `#${params.toString().replace(/%2C/g, ',')}` : '';
   app.lastHash = hash;
   if (hash !== location.hash || location.href.endsWith('#')) {
@@ -290,14 +297,13 @@ function renderAreaGroups() {
       if (venues.length > 0 && isOpen) {
         html += `<ul class="area-venues-list" id="${vListId}">` +
           venues.map((v) => {
-            const label = v.display || v.key || '';
-            const kind = v.kind ? `<span class="venue-badge">${esc(v.kind)}</span>` : '';
+            const full = v.display || v.key || '';
             const isChecked = !disabled.has(`${a.id}:${v.key}`);
             return `<li class="venue-row">` +
               `<input type="checkbox" id="venue-${esc(a.id)}-${esc(v.key)}" ` +
               `data-area="${esc(a.id)}" data-venue="${esc(v.key)}"` +
               `${isChecked ? ' checked' : ''}>` +
-              `<label for="venue-${esc(a.id)}-${esc(v.key)}">${kind}<span>${esc(label)}</span></label>` +
+              `<label for="venue-${esc(a.id)}-${esc(v.key)}" title="${esc(full)}">${esc(shortVenueName(full))}</label>` +
               `</li>`;
           }).join('') +
           `</ul>`;
@@ -503,6 +509,7 @@ function bindStaticEvents() {
     const id = b.dataset.id;
     if (app.expanded.has(id)) app.expanded.delete(id); else app.expanded.add(id);
     renderTable();
+    writeHash(app.result ? app.result.sel : app.sel);
     const again = $('ranking-body').querySelector(`button.inst[data-id="${CSS.escape(id)}"]`);
     if (again) again.focus();
   });
@@ -511,6 +518,7 @@ function bindStaticEvents() {
     if (!app.defaults || location.hash === app.lastHash) return;
     app.sel = readHash();
     readComparisonHash();
+    readOpenHash();
     syncControls();
     if ([...$('region').options].every((o) => o.value !== app.sel.region)) renderRegionOptions();
     $('region').value = app.sel.region;
@@ -545,7 +553,6 @@ async function update() {
   };
   const run = ++app.runId;
   writeHash(sel);
-  renderNotices(sel);
   const countEl = $('area-count');
   if (countEl) countEl.textContent = `${sel.areas.length} of ${app.areas.length}`;
   hideError();
@@ -553,13 +560,13 @@ async function update() {
   if (sel.areas.length === 0) {
     app.result = null;
     setBusy(false);
-    setStatus('Select at least one research area to rank institutions.');
+    setStatus('Select a research area.');
     clearTable();
     updateComparison();
     return;
   }
 
-  setStatus('Loading research area data…');
+  setStatus('Loading…');
   setBusy(true);
 
   const settled = await Promise.allSettled(sel.areas.map((id) => loadAreaData(id, sel)));
@@ -591,9 +598,15 @@ async function update() {
   const rows = computeRankings(sel, activeData, app.institutions);
   app.result = { sel, rows, data: activeData, annualRanks: null };
   app.shown = PAGE_SIZE;
+  revealOpenRows();
   renderTable();
   updateComparison();
   writeHash(sel);
+  if (app.revealOpen) {
+    app.revealOpen = false;
+    const first = document.querySelector?.('tr.detail');
+    first?.previousElementSibling?.scrollIntoView({ block: 'center' });
+  }
 }
 
 function setBusy(on) {
@@ -631,29 +644,12 @@ function showFatal(message) {
   $('area-groups').innerHTML = '<p class="muted">Areas unavailable.</p>';
 }
 
-function renderNotices(sel) {
-  const out = [];
-  if (isPartialYear(sel.to)) {
-    const partial = [];
-    for (let y = Math.max(sel.from, app.latestComplete + 1); y <= sel.to; y++) partial.push(y);
-    out.push(`<p><strong>Partial year.</strong> ${partial.join(', ')} ${partial.length > 1 ? 'are' : 'is'} still in progress; ` +
-      `recent papers are still being indexed.</p>`);
-  }
-  $('notices').innerHTML = out.join('');
-}
-
 // ---- Table -----------------------------------------------------------------
 
 function filteredRows() {
   if (!app.result) return [];
   const q = app.query;
-  return q ? app.result.rows.filter((r) => r.name.toLowerCase().includes(q)) : app.result.rows;
-}
-
-function regionLabel(region) {
-  if (region === 'world') return 'World';
-  const r = REGIONS.find((x) => x.id === region);
-  return r ? r.label : countryName(region);
+  return searchRows(app.result.rows, q);
 }
 
 function renderTable() {
@@ -661,12 +657,10 @@ function renderTable() {
   const { sel, rows: all } = app.result;
   const rows = filteredRows();
   const visible = rows.slice(0, app.shown);
-  const years = sel.from === sel.to ? `${sel.from}` : `${sel.from}–${sel.to}`;
   let status;
-  if (!all.length) status = `No institutions have credit for ${years} in ${regionLabel(sel.region)}.`;
-  else if (app.query) status = `${fmtInt.format(rows.length)} of ${fmtInt.format(all.length)} ranked institutions match “${app.query}”.`;
-  else status = `${fmtInt.format(all.length)} institutions · ${regionLabel(sel.region)} · ${years}.`;
-  if (visible.length < rows.length) status += ` Showing the first ${fmtInt.format(visible.length)}.`;
+  if (!all.length) status = 'No institutions with credit.';
+  else if (app.query) status = `${fmtInt.format(rows.length)} of ${fmtInt.format(all.length)} institutions`;
+  else status = `${fmtInt.format(all.length)} institutions`;
   setStatus(status);
 
   let html = '';
@@ -697,10 +691,10 @@ function renderTable() {
 
 function comparisonAction(row) {
   const selected = app.compare.ids.includes(row.id);
-  const disabled = app.compare.ids.length === 2 && !selected;
+  const disabled = app.compare.ids.length >= COMPARE_MAX && !selected;
   const label = `${selected ? 'Remove' : 'Add'} ${row.name} ${selected ? 'from' : 'to'} comparison`;
   const icon = selected ? '<path d="m3 7 3 3 5-6"/>' : '<rect x="2" y="5" width="7" height="7" rx="1"/><path d="M5 5V2h7v7H9"/>';
-  return `<button type="button" class="inst-compare${selected ? ' selected' : ''}" data-compare-id="${esc(row.id)}" aria-pressed="${selected}" aria-label="${esc(label)}" title="${disabled ? 'Remove a selected school before adding another' : esc(label)}"${disabled ? ' disabled' : ''}><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">${icon}</svg><span>${selected ? 'Added' : 'Compare'}</span></button>`;
+  return `<button type="button" class="inst-compare${selected ? ' selected' : ''}" data-compare-id="${esc(row.id)}" aria-pressed="${selected}" aria-label="${esc(label)}" title="${disabled ? `Compare holds ${COMPARE_MAX} schools` : esc(label)}"${disabled ? ' disabled' : ''}><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">${icon}</svg><span>${selected ? 'Added' : 'Compare'}</span></button>`;
 }
 
 function detailRow(r, did) {
@@ -718,12 +712,14 @@ function detailRow(r, did) {
   const trend = renderRankHistory(
     institutionHistory(result.annualRanks, r.id), r.name, 'selected areas, venues and region'
   );
+  if (!result.areaRanks) result.areaRanks = areaRanks(result.rows);
   const items = r.perArea
-    .map((x, idx) => ({ ...x, idx, name: app.areaById.get(x.area)?.name || x.area }))
+    .map((x, idx) => ({ ...x, idx, rank: result.areaRanks.get(x.area)?.get(r.id), name: app.areaById.get(x.area)?.name || x.area }))
     .sort((a, b) => b.adj - a.adj || a.idx - b.idx);
   const body = items.map((x) =>
     `<tr class="${x.adj === 0 ? 'zero' : ''}">` +
     `<td>${esc(x.name)}</td>` +
+    `<td class="num">${x.rank ? `#${fmtInt.format(x.rank)}` : '—'}</td>` +
     `<td class="num">${fmt1.format(x.adj)}</td>` +
     `<td class="num">${fmtInt.format(x.pubs)}</td></tr>`,
   ).join('');
@@ -733,7 +729,7 @@ function detailRow(r, did) {
     `<div><dt>Adjusted count</dt><dd>${fmt1.format(r.adjTotal)}</dd></div>` +
     `<div><dt>Papers</dt><dd>${fmtInt.format(r.pubTotal)}</dd></div></dl>` +
     `<table class="breakdown"><caption>Credit by research area</caption>` +
-    `<thead><tr><th scope="col">Area</th><th scope="col" class="num">Adj. count</th><th scope="col" class="num">Papers</th></tr></thead>` +
+    `<thead><tr><th scope="col">Area</th><th scope="col" class="num">Rank</th><th scope="col" class="num">Adj. count</th><th scope="col" class="num">Papers</th></tr></thead>` +
     `<tbody>${body}</tbody></table></td></tr>`;
 }
 
@@ -742,13 +738,28 @@ function detailRow(r, did) {
 function readComparisonHash() {
   const params = new URLSearchParams(location.hash.replace(/^#/, ''));
   const ids = (params.get('compare') || '').split(',').filter(Boolean)
-    .map(id => id.startsWith('https://openalex.org/') ? id : `https://openalex.org/${id}`)
-    .filter(id => Object.hasOwn(app.institutions, id));
-  app.compare.ids = [...new Set(ids)].slice(0, 2);
+    .map(fullId).filter(id => Object.hasOwn(app.institutions, id));
+  app.compare.ids = [...new Set(ids)].slice(0, COMPARE_MAX);
   app.compare.mode = params.get('view') === 'compare' ? 'compare' : 'rankings';
   const year = Number(params.get('compare-year'));
   app.compare.year = params.has('compare-year') && Number.isInteger(year) && year >= app.sel.from && year <= app.sel.to ? year : null;
   app.compare.area = app.sel.areas.includes(params.get('compare-area')) ? params.get('compare-area') : null;
+}
+
+function readOpenHash() {
+  const params = new URLSearchParams(location.hash.replace(/^#/, ''));
+  const ids = (params.get('open') || '').split(',').filter(Boolean)
+    .map(fullId).filter(id => Object.hasOwn(app.institutions, id));
+  app.expanded = new Set(ids);
+  app.revealOpen = ids.length > 0;
+}
+
+// A shared link may open a school beyond the first page; show enough rows.
+function revealOpenRows() {
+  if (!app.revealOpen || !app.result) return;
+  const rows = filteredRows();
+  const last = Math.max(-1, ...rows.map((r, i) => (app.expanded.has(r.id) ? i : -1)));
+  if (last >= 0) app.shown = Math.max(PAGE_SIZE, Math.ceil((last + 1) / PAGE_SIZE) * PAGE_SIZE);
 }
 
 function setComparisonMode(mode) {
@@ -764,30 +775,38 @@ function toggleComparisonSchool(id) {
   const ids = app.compare.ids;
   const index = ids.indexOf(id);
   if (index >= 0) ids.splice(index, 1);
-  else if (ids.length < 2 && Object.hasOwn(app.institutions, id)) ids.push(id);
+  else if (ids.length < COMPARE_MAX && Object.hasOwn(app.institutions, id)) ids.push(id);
   renderTable();
   updateComparison();
   writeHash(app.sel);
 }
 
-function selectComparisonSchool(side, id) {
-  if (!id) {
-    app.compare.ids.splice(side, 1);
-  } else {
-    const other = side === 0 ? 1 : 0;
-    if (app.compare.ids[other] === id) {
-      app.compare.ids[other] = app.compare.ids[side];
-    }
-    app.compare.ids[side] = id;
-    app.compare.ids = app.compare.ids.filter(Boolean);
+function selectComparisonSchool(slot, id) {
+  const ids = app.compare.ids;
+  if (!id) ids.splice(slot, 1);
+  else {
+    const existing = ids.indexOf(id);
+    if (existing >= 0 && slot < ids.length) { ids[existing] = ids[slot]; ids[slot] = id; }
+    else if (existing < 0 && slot < ids.length) ids[slot] = id;
+    else if (existing < 0 && ids.length < COMPARE_MAX) ids.push(id);
   }
   renderTable();
   updateComparison();
   writeHash(app.sel);
-  $(`compare-school-toggle-${side}`)?.focus();
+  $(`compare-school-toggle-${Math.min(slot, ids.length - 1)}`)?.focus();
 }
 
+// Back to the whole period and the largest area; the chosen schools stay.
 function resetComparison() {
+  stopComparisonPlayback();
+  app.compare.year = null;
+  app.compare.area = null;
+  updateComparison();
+  writeHash(app.sel);
+  document.querySelector?.('[data-whole-period]')?.focus({ preventScroll: true });
+}
+
+function clearComparison() {
   stopComparisonPlayback();
   app.compare.ids = [];
   app.compare.year = null;
@@ -795,142 +814,27 @@ function resetComparison() {
   renderTable();
   updateComparison();
   writeHash(app.sel);
-  $('compare-search-0')?.focus();
 }
 
-const COMPARISON_ACRONYMS = {
-  mit: 'massachusetts institute of technology',
-  cmu: 'carnegie mellon university',
-  uiuc: 'university of illinois urbana-champaign',
-  ucb: 'university of california, berkeley',
-  ucla: 'university of california, los angeles',
-  ucsd: 'university of california, san diego',
-  ucsb: 'university of california, santa barbara',
-  uci: 'university of california, irvine',
-  ucd: 'university of california, davis',
-  ucsc: 'university of california, santa cruz',
-  ucr: 'university of california, riverside',
-  usc: 'university of southern california',
-  nyu: 'new york university',
-  gatech: 'georgia institute of technology',
-  gt: 'georgia institute of technology',
-  vt: 'virginia tech',
-  tamu: 'texas a&m university',
-  utaustin: 'university of texas at austin',
-  ut: 'university of texas at austin',
-  eth: 'eth zurich',
-  epfl: 'école polytechnique fédérale de lausanne',
-  nus: 'national university of singapore',
-  ntu: 'nanyang technological university',
-  uw: 'university of washington',
-  umich: 'university of michigan',
-  unc: 'university of north carolina at chapel hill',
-  upenn: 'university of pennsylvania',
-  penn: 'university of pennsylvania',
-  purdue: 'purdue university',
-  stanford: 'stanford university',
-  harvard: 'harvard university',
-  princeton: 'princeton university',
-  caltech: 'caltech',
-  columbia: 'columbia university',
-  cornell: 'cornell university',
-  yale: 'yale university',
-  tsinghua: 'tsinghua university',
-  pku: 'peking university',
-  zju: 'zhejiang university',
-  sjtu: 'shanghai jiao tong university',
-  fudan: 'fudan university',
-  ustc: 'university of science and technology of china',
-  hku: 'university of hong kong',
-  cuhk: 'chinese university of hong kong',
-  hkust: 'hong kong university of science and technology',
-  oxford: 'university of oxford',
-  cambridge: 'university of cambridge',
-  imperial: 'imperial college london',
-  ucl: 'university college london',
-  tum: 'technical university of munich',
-  snu: 'seoul national university',
-  kaist: 'kaist',
-  postech: 'postech',
-};
-
-function renderComparisonSearchResults(side, query) {
-  const container = $(`compare-results-${side}`);
+function renderComparisonSearchResults(slot, query) {
+  const container = $(`compare-results-${slot}`);
   if (!container || !app.result) return;
-  const q = (query || '').trim().toLowerCase();
-  const alias = COMPARISON_ACRONYMS[q];
-  const rows = app.result.rows || [];
-  const currentId = app.compare.ids[side];
-
-  let candidates = [];
-  if (!q) {
-    candidates = rows.slice(0, 10).map(r => ({
-      id: r.id,
-      name: r.name,
-      country: app.institutions[r.id]?.country || '',
-      score: 0,
-    }));
-  } else {
-    const seen = new Set();
-    for (let rIdx = 0; rIdx < rows.length; rIdx++) {
-      const r = rows[rIdx];
-      const name = r.name;
-      const lower = name.toLowerCase();
-      const initials = (name.match(/\b[A-Z]/g) || []).join('').toLowerCase();
-      let matchScore = -1;
-      if (alias && lower.includes(alias)) matchScore = 0;
-      else if (initials === q) matchScore = 0;
-      else if (lower.startsWith(q) || lower.includes(' ' + q) || lower.includes(', ' + q)) matchScore = 1;
-      else if (initials.startsWith(q)) matchScore = 2;
-      else if (lower.includes(q)) matchScore = 3;
-
-      if (matchScore !== -1) {
-        seen.add(r.id);
-        candidates.push({
-          id: r.id,
-          name,
-          country: app.institutions[r.id]?.country || '',
-          score: matchScore * 10000 + rIdx,
-        });
-      }
-    }
-    if (candidates.length < 10) {
-      for (const [id, meta] of Object.entries(app.institutions)) {
-        if (seen.has(id)) continue;
-        const name = meta.name || '';
-        const lower = name.toLowerCase();
-        const initials = (name.match(/\b[A-Z]/g) || []).join('').toLowerCase();
-        let matchScore = -1;
-        if (alias && lower.includes(alias)) matchScore = 0;
-        else if (initials === q) matchScore = 0;
-        else if (lower.startsWith(q) || lower.includes(' ' + q) || lower.includes(', ' + q)) matchScore = 1;
-        else if (initials.startsWith(q)) matchScore = 2;
-        else if (lower.includes(q)) matchScore = 3;
-
-        if (matchScore !== -1) {
-          seen.add(id);
-          candidates.push({
-            id,
-            name,
-            country: meta.country || '',
-            score: 100000 + matchScore * 1000,
-          });
-          if (candidates.length >= 25) break;
-        }
-      }
-    }
-    candidates.sort((a, b) => a.score - b.score);
-    candidates = candidates.slice(0, 15);
+  const currentId = app.compare.ids[slot];
+  const ranked = app.result.rows.map(r => ({ id: r.id, name: r.name }));
+  let candidates = searchRows(ranked, query || '').slice(0, query?.trim() ? 15 : 10);
+  if (query?.trim() && candidates.length < 10) {
+    // Institutions outside the current selection can still be compared.
+    const seen = new Set(ranked.map(r => r.id));
+    const rest = Object.entries(app.institutions).filter(([id]) => !seen.has(id)).map(([id, meta]) => ({ id, name: meta.name || id }));
+    candidates = candidates.concat(searchRows(rest, query).slice(0, 15 - candidates.length));
   }
-
   if (!candidates.length) {
     container.innerHTML = `<div class="compare-search-empty">No institutions match “${esc(query)}”</div>`;
     return;
   }
-
   container.innerHTML = candidates.map(c => {
-    const isCur = c.id === currentId;
-    return `<button type="button" class="compare-search-item${isCur ? ' selected' : ''}" data-school-side="${side}" data-select-school="${esc(c.id)}" role="option" aria-selected="${isCur}"><span class="compare-search-name">${esc(c.name)}</span>${c.country ? `<span class="compare-search-country">${esc(c.country)}</span>` : ''}</button>`;
+    const isCur = c.id === currentId, country = app.institutions[c.id]?.country || '';
+    return `<button type="button" class="compare-search-item${isCur ? ' selected' : ''}" data-school-side="${slot}" data-select-school="${esc(c.id)}" role="option" aria-selected="${isCur}"><span class="compare-search-name">${esc(c.name)}</span>${country ? `<span class="compare-search-country">${esc(country)}</span>` : ''}</button>`;
   }).join('');
 }
 
@@ -941,7 +845,7 @@ function bindComparisonEvents() {
     const remove = e.target.closest('[data-remove-school]');
     if (remove) toggleComparisonSchool(remove.dataset.removeSchool);
     if (e.target.closest('[data-open-comparison]')) setComparisonMode('compare');
-    if (e.target.closest('[data-reset-comparison]')) resetComparison();
+    if (e.target.closest('[data-clear-comparison]')) clearComparison();
   });
   const panel = $('comparison-view');
   panel.addEventListener('input', e => {
@@ -985,7 +889,6 @@ function bindComparisonEvents() {
     }
     const remove = e.target.closest('[data-remove-school]');
     if (remove) { toggleComparisonSchool(remove.dataset.removeSchool); return; }
-    if (e.target.closest('[data-browse-schools]')) { setComparisonMode('rankings'); return; }
     const area = e.target.closest('[data-compare-area]');
     const year = e.target.closest('[data-compare-year]');
     if (area) app.compare.area = area.dataset.compareArea;
@@ -1013,7 +916,8 @@ function bindComparisonEvents() {
         e.preventDefault();
         const details = e.target.closest('details');
         if (details) details.open = false;
-        $(`compare-school-toggle-${side}`)?.focus();
+        const toggle = $(`compare-school-toggle-${side}`);
+        if (toggle) toggle.focus(); else document.activeElement?.blur();
       }
       return;
     }
@@ -1032,7 +936,8 @@ function bindComparisonEvents() {
         e.preventDefault();
         const details = e.target.closest('details');
         if (details) details.open = false;
-        $(`compare-school-toggle-${side}`)?.focus();
+        const toggle = $(`compare-school-toggle-${side}`);
+        if (toggle) toggle.focus(); else document.activeElement?.blur();
       }
       return;
     }
@@ -1069,7 +974,7 @@ function stopComparisonPlayback() {
   app.compare.playTimer = null;
   app.compare.playing = false;
   const button = document.querySelector?.('[data-play-years]');
-  if (button) { button.textContent = '▶ Play years'; button.setAttribute('aria-pressed', 'false'); }
+  if (button) { button.textContent = '▶ Play'; button.setAttribute('aria-pressed', 'false'); }
 }
 
 function startComparisonPlayback() {
@@ -1098,65 +1003,48 @@ function updateComparison(preserveControls = false) {
   const names = app.compare.ids.map(id => app.institutions[id]?.name || id);
   $('comparison-tray').hidden = active;
   $('comparison-tray').innerHTML = names.map((name, i) => `<span class="compare-chip">${esc(name)}<button type="button" data-remove-school="${esc(app.compare.ids[i])}" aria-label="Remove ${esc(name)} from comparison">×</button></span>`).join('')
-    + (names.length && !active ? (names.length === 2 ? '<button type="button" class="link" data-open-comparison>Compare these schools →</button>' : '<span>Add one more school from the rankings.</span>') + ' <button type="button" class="link" data-reset-comparison>Reset</button>' : '');
+    + (names.length && !active ? (names.length >= 2 ? '<button type="button" class="link" data-open-comparison>Compare →</button> ' : '') + '<button type="button" class="link" data-clear-comparison>Clear</button>' : '');
   const panel = $('comparison-view');
   if (!app.result) {
-    panel.innerHTML = '<p class="muted">Select at least one research area to compare institutions.</p>';
+    panel.innerHTML = '';
     return;
   }
   const { sel } = app.result;
   if (app.compare.year !== null && (app.compare.year < sel.from || app.compare.year > sel.to)) app.compare.year = null;
-  if (!sel.areas.includes(app.compare.area)) app.compare.area = sel.areas[0] || null;
-  const previous = new Map([...panel.querySelectorAll('[data-compare-area], [data-compare-year]')].map(row => {
-    const track = row.querySelector('.compare-track');
-    return [row.dataset.compareArea || row.dataset.compareYear, track?.getAttribute('style')];
-  }));
-  const oldDots = new Map([...panel.querySelectorAll('[data-compare-year]')].map(row => [row.dataset.compareYear, row.querySelector('.compare-history-dot')?.getAttribute('cx')]));
-  const oldLine = panel.querySelector('.compare-history-line')?.getAttribute('d');
+  if (app.compare.area && !sel.areas.includes(app.compare.area)) app.compare.area = null;
+  const segments = row => [...row.querySelectorAll('.compare-seg')].map(seg => seg.style.flexGrow);
+  const previous = new Map([...panel.querySelectorAll('[data-compare-area]')].map(row => [row.dataset.compareArea, segments(row)]));
   const html = renderComparison({ result: app.result, ids: app.compare.ids, institutions: app.institutions,
     areaById: app.areaById, year: app.compare.year, area: app.compare.area, showAll: app.compare.showAll,
     playing: app.compare.playing, width: Math.max(300, panel.clientWidth || 640) });
-  if (preserveControls && panel.querySelector('.compare-area-list')) {
+  if (preserveControls && panel.querySelector('.compare-areas')) {
     // Keep the range input alive while dragging so it retains pointer capture.
     const template = document.createElement('template');
     template.innerHTML = html;
-    for (const selector of ['.compare-area-list', '.compare-history', '.compare-explainer']) {
+    for (const selector of ['.compare-areas', '.compare-history']) {
       panel.querySelector(selector).replaceWith(template.content.querySelector(selector));
     }
-    const more = panel.querySelector('[data-show-areas]'), nextMore = template.content.querySelector('[data-show-areas]');
-    if (more && nextMore) more.replaceWith(nextMore);
     panel.querySelector('.compare-time output').textContent = app.compare.year ?? (sel.from === sel.to ? String(sel.from) : `${sel.from}–${sel.to}`);
     panel.querySelector('#compare-year').value = app.compare.year ?? sel.to;
+    panel.querySelector('[data-reset-comparison]').hidden = template.content.querySelector('[data-reset-comparison]').hidden;
     const total = panel.querySelector('[data-whole-period]');
     total.setAttribute('aria-pressed', String(app.compare.year === null));
     total.classList.toggle('active', app.compare.year === null);
     const play = panel.querySelector('[data-play-years]');
-    play.textContent = app.compare.playing ? 'Pause' : '▶ Play years';
+    play.textContent = app.compare.playing ? 'Pause' : '▶ Play';
     play.setAttribute('aria-pressed', String(app.compare.playing));
   } else panel.innerHTML = html;
-  if (active) setStatus(`Comparing ${names.length} schools · ${sel.from}–${sel.to} · ${sel.areas.length} selected areas.`);
+  if (active) setStatus('');
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  for (const row of panel.querySelectorAll('[data-compare-area], [data-compare-year]')) {
-    const old = previous.get(row.dataset.compareArea || row.dataset.compareYear);
-    if (!old) continue;
-    const style = document.createElement('span').style;
-    style.cssText = old;
-    const track = row.querySelector('.compare-track');
-    if (!track) continue;
-    const before = name => style.getPropertyValue(name);
-    const after = name => track.style.getPropertyValue(name);
-    const fill = track.querySelector('.compare-fill'), knot = track.querySelector('.compare-knot');
-    if (!fill.animate) continue;
-    fill.animate([{ left: before('--pull-start'), width: before('--pull-width') }, { left: after('--pull-start'), width: after('--pull-width') }], { duration: 420, easing: 'cubic-bezier(.22,.8,.2,1)' });
-    knot.animate([{ left: `calc(${before('--pull-position')} - 5px)` }, { left: `calc(${after('--pull-position')} - 5px)` }], { duration: 420, easing: 'cubic-bezier(.22,.8,.2,1)' });
-  }
-  for (const row of panel.querySelectorAll('[data-compare-year]')) {
-    const dot = row.querySelector('.compare-history-dot'), before = oldDots.get(row.dataset.compareYear);
-    if (dot?.animate && before) dot.animate([{ cx: `${before}px` }, { cx: `${dot.getAttribute('cx')}px` }], { duration: 420, easing: 'cubic-bezier(.22,.8,.2,1)' });
-  }
-  const line = panel.querySelector('.compare-history-line');
-  if (line?.animate && oldLine && CSS.supports('d', `path("${oldLine}")`)) {
-    line.animate([{ d: `path("${oldLine}")` }, { d: `path("${line.getAttribute('d')}")` }], { duration: 420, easing: 'cubic-bezier(.22,.8,.2,1)' });
+  for (const row of panel.querySelectorAll('[data-compare-area]')) {
+    const before = previous.get(row.dataset.compareArea);
+    if (!before) continue;
+    row.querySelectorAll('.compare-seg').forEach((seg, k) => {
+      const after = seg.style.flexGrow;
+      if (seg.animate && before[k] !== undefined && before[k] !== after) {
+        seg.animate([{ flexGrow: before[k] }, { flexGrow: after }], { duration: 420, easing: 'cubic-bezier(.22,.8,.2,1)' });
+      }
+    });
   }
 }
 
