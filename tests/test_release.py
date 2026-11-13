@@ -49,6 +49,27 @@ class ReleaseTests(unittest.TestCase):
             package(site, out)
         self.assertEqual((out / 'index.html').read_text(), 'previous release')
 
+    def test_packager_refuses_a_ranking_prerendered_from_other_data(self):
+        site, out = self.path / 'site', self.path / 'public'
+        (site / 'data').mkdir(parents=True)
+        files = {'areas.json': json.dumps(self.registry), 'institutions.json': '{}', 'a.json': '[]', 'a/journal.json': '[]'}
+        (site / 'data/a').mkdir()
+        for name, text in files.items():
+            (site / 'data' / name).write_text(text)
+        for name in ['index.html', '404.html', 'methodology.html', 'coverage.html', 'styles.css', 'main.js',
+                     'rank.js', 'rank-history.js', 'rank-history.css', 'comparison.js', 'comparison.css', 'year-strip.js', 'year-strip.css', 'coverage.js', 'favicon.svg', 'apple-touch-icon.png', 'og.png', '_headers', 'robots.txt', 'sitemap.xml']:
+            (site / name).write_text('fixture')
+        manifest = site / 'data/manifest.json'
+        manifest.write_text(json.dumps({'validation': {'status': 'passed'}, 'artifacts': {
+            name: {'sha256': hashlib.sha256(text.encode()).hexdigest()} for name, text in files.items()}}))
+        (site / 'index.html').write_text(f'<tbody id="ranking-body" data-prerender="{"0" * 64}">')
+        with self.assertRaisesRegex(ValueError, 'out of date'):
+            package(site, out)
+        digest = hashlib.sha256(manifest.read_bytes()).hexdigest()
+        (site / 'index.html').write_text(f'<tbody id="ranking-body" data-prerender="{digest}">')
+        package(site, out)
+        self.assertTrue((out / 'index.html').is_file())
+
     def test_lfs_promotion_keeps_a_cache_that_can_be_aggregated(self):
         source = self.path / 'source.jsonl'
         work = {'doi': '10.1/example', 'title': 'A paper', 'publication_year': 2025, 'type': 'article',

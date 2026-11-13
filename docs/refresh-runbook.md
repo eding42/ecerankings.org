@@ -114,10 +114,13 @@ the PR. Commit, push, and merge only at their authorized levels.
 For an approved Cloudflare publication, package the accepted public files:
 
 ```sh
+node pipeline/prerender_site.mjs
 python3 pipeline/package_site.py --out dist
 npx wrangler pages deploy dist --project-name ecerankings --branch main
 ```
 
+`prerender_site.mjs` writes the default ranking into `site/index.html`; commit the
+result with the data. The packager refuses an `index.html` built from other data.
 The packager requires the release manifest and matching public-asset hashes;
 it excludes CSVs, raw cache data, and LFS pointers, and enforces the 25 MiB asset
 limit. Code-only publications still need a valid existing dataset. A Git-connected

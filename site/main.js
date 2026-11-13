@@ -180,6 +180,8 @@ async function init() {
     disabledVenues: [],
   };
   app.sel = readHash();
+  // index.html ships with the default ranking; drop it for any other selection.
+  if (encodeState(app.sel, app.defaults)) $('ranking-body').innerHTML = '';
   readComparisonHash();
   readOpenHash();
 
