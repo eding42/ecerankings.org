@@ -13,6 +13,30 @@ import subprocess
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MAX_ASSET = 25 * 1024 * 1024
 PACKAGE_MARKER = '.ecerankings-package'
+# Sister sites linked from the header. Their manifests carry no artifact hashes,
+# so they get the structural checks only.
+SISTER_SITES = ['biology', 'earth-space']
+SISTER_SUFFIXES = {'.html', '.css', '.js', '.json', '.svg', '.png'}
+
+
+def sister_files(site):
+    found = []
+    for name in SISTER_SITES:
+        root = site / name
+        if not (root / 'index.html').is_file() or not (root / 'data/manifest.json').is_file():
+            raise ValueError(f'Missing sister site: {name}')
+        for source in sorted(root.rglob('*')):
+            if source.is_symlink():
+                raise ValueError(f'Symlink in sister site: {source.relative_to(site)}')
+            if not source.is_file():
+                continue
+            relative = source.relative_to(site).as_posix()
+            if source.suffix not in SISTER_SUFFIXES:
+                raise ValueError(f'Unexpected file in sister site: {relative}')
+            if source.suffix == '.json':
+                json.loads(source.read_text())
+            found.append(relative)
+    return found
 
 
 def package(site, output):
@@ -30,6 +54,7 @@ def package(site, output):
             vpath = f'data/{area}/{vkey}.json'
             if (site / vpath).is_file():
                 public.append(vpath)
+    public += sister_files(site)
     institutions = json.loads((site / 'data/institutions.json').read_text())
     manifest = json.loads((site / 'data/manifest.json').read_text())
     if manifest.get('validation', {}).get('status') != 'passed':
@@ -43,6 +68,8 @@ def package(site, output):
             raise ValueError(f'Asset exceeds Cloudflare 25 MiB limit: {relative}')
         if source.read_bytes()[:50].startswith(b'version https://git-lfs.github.com/spec/v1'):
             raise ValueError(f'Unmaterialized Git LFS pointer: {relative}')
+        if relative.split('/')[0] in SISTER_SITES:
+            continue
         if relative.startswith('data/') and relative != 'data/manifest.json':
             expected = artifacts.get(relative.removeprefix('data/'), {}).get('sha256')
             actual = hashlib.sha256(source.read_bytes()).hexdigest()

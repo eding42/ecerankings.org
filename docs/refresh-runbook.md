@@ -122,7 +122,8 @@ npx wrangler pages deploy dist --project-name ecerankings --branch main
 `prerender_site.mjs` writes the default ranking into `site/index.html`; commit the
 result with the data. The packager refuses an `index.html` built from other data.
 The packager requires the release manifest and matching public-asset hashes;
-it excludes CSVs, raw cache data, and LFS pointers, and enforces the 25 MiB asset
+it excludes CSVs, raw cache data, and LFS pointers, copies the `biology/` and
+`earth-space/` sister sites with structural checks only (their manifests carry no hashes), and enforces the 25 MiB asset
 limit. Code-only publications still need a valid existing dataset. A Git-connected
 Pages project may deploy on a `main` push; confirm that configuration before pushing.
 Rollback with the previous Pages deployment or a reviewed Git revert. Do not
