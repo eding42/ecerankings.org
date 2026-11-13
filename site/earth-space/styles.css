@@ -148,6 +148,7 @@ select, input[type="search"] {
 }
 select { min-width: 92px; }
 #region { min-width: 210px; max-width: 260px; }
+#inst-type { min-width: 170px; max-width: 210px; }
 input[type="search"] { width: 100%; }
 
 button {
@@ -270,6 +271,19 @@ button.inst {
 button.inst:hover { background: none; color: var(--link); }
 .tri { display: inline-block; width: 1.1em; color: var(--faint); font-size: 12px; }
 .cc { margin-left: 4px; font-size: 12px; color: var(--faint); }
+.inst-type {
+  margin-left: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid var(--rule-strong);
+  color: var(--muted);
+  background: var(--stripe);
+  vertical-align: middle;
+}
 
 tr.detail > td { padding: 4px 8px 12px; background: var(--bg); }
 table.breakdown { border-collapse: collapse; font-size: 13px; min-width: 340px; margin-left: 1.1em; }
@@ -339,11 +353,11 @@ table.breakdown tr.zero { color: var(--faint); }
     display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px; padding: 14px 0;
   }
-  .field-region, .field-grow, .field-actions { grid-column: span 2; }
+  .field-region, .field-type, .field-grow, .field-actions { grid-column: span 2; }
   .field-grow { max-width: none; }
   .field-actions { margin-left: 0; }
   select, input[type="search"] { width: 100%; min-width: 0; max-width: 100%; height: 44px; font-size: 16px; }
-  #region { min-width: 0; max-width: none; }
+  #region, #inst-type { min-width: 0; max-width: none; }
   button { min-height: 44px; }
   .filters button { width: 100%; }
 
@@ -366,7 +380,9 @@ table.breakdown tr.zero { color: var(--faint); }
   }
   .ranking .score { padding-top: 20px; font-size: 14px; }
   .ranking td.rank { padding-top: 20px; }
-  .cc { display: inline-block; margin-left: 1.1em; }
+  .cc, .inst-type { display: inline-block; }
+  .cc { margin-left: 1.1em; }
+  .inst-type { margin-left: 4px; }
 
   tr.detail > td { padding: 12px 6px 16px; }
   tr.detail .rank-trend { margin-left: 0; }
