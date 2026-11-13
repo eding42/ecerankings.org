@@ -237,9 +237,9 @@ def package_site(target_dir):
         <select id="region" disabled></select>
       </div>
       <div class="field field-type">
-        <label for="inst-type">Sector</label>
+        <label for="inst-type">Institution type</label>
         <select id="inst-type" disabled>
-          <option value="all">All sectors</option>
+          <option value="all">All institutions</option>
           <option value="education">Universities</option>
           <option value="research">Research labs &amp; centers</option>
           <option value="facility">Observatories &amp; facilities</option>
