@@ -174,6 +174,66 @@ def string_weights(cache_dirs):
     return occ, share
 
 
+CANDIDATE_TYPES = {"education"}
+CANDIDATE_STOP = {"of", "the", "and", "de", "la", "le", "du", "des", "for", "in", "at", "on", "dept", "department",
+                  "school", "faculty", "college", "institute", "laboratory", "lab", "key", "state", "engineering",
+                  "science", "sciences", "technology", "research", "center", "centre", "division", "group"}
+
+
+def build_candidate_index(index):
+    """Postings for name forms of credit-type institutions.
+
+    name_forms[id] -> token sets of the display name and alternatives, stop words removed.
+    acronyms[id]   -> acronyms of 3 or more letters, matched case-sensitively as written.
+    """
+    postings = defaultdict(set)
+    name_forms, acronyms = {}, defaultdict(set)
+    acronym_ids = defaultdict(set)
+    for iid, inst in index.items():
+        if inst.get("type") not in CANDIDATE_TYPES:
+            continue
+        forms = []
+        for name in [inst["display_name"]] + list(inst.get("alternatives") or []):
+            tokens = frozenset(fold(name).split()) - CANDIDATE_STOP
+            if len(tokens) >= 2 or (len(tokens) == 1 and len(next(iter(tokens))) >= 6):
+                forms.append(tokens)
+                for token in tokens:
+                    postings[token].add(iid)
+        for acronym in inst.get("acronyms") or []:
+            if len(acronym) >= 3 and acronym.isupper():
+                acronym_ids[acronym].add(iid)
+        if forms:
+            name_forms[iid] = forms
+    return postings, name_forms, acronym_ids
+
+
+def candidates_for(raw, index, candidate_index, limit=5):
+    """Institutions of a credit type whose whole name appears in the string, best first.
+
+    A suggestion list for a reviewer, not a decision: it saves a model from
+    recalling OpenAlex ids, and is the only place an id may come from. A string
+    that names a company often matches nothing here, which is the right answer.
+    """
+    postings, name_forms, acronym_ids = candidate_index
+    query = set(fold(raw).split()) - CANDIDATE_STOP
+    pool = Counter()
+    for token in query:
+        ids = postings.get(token)
+        if ids and len(ids) <= 3000:
+            pool.update(ids)
+    scored = {}
+    for iid, _ in pool.most_common(400):
+        best = max((len(query & form) / len(form), len(query & form)) for form in name_forms[iid])
+        if best[0] >= 0.99:
+            scored[iid] = best
+    for word in set(re.findall(r"[A-Za-z]{3,}", raw)) - {"USA", "UAE", "PRC", "IEEE", "LLC", "INC", "LTD", "GmbH", "CAS"}:
+        for iid in acronym_ids.get(word, ()):
+            scored.setdefault(iid, (0.9, 1))
+    ranked = sorted(scored.items(), key=lambda kv: (-kv[1][0], -kv[1][1], kv[0]))
+    return [{"institution_id": iid, "name": index[iid]["display_name"], "country": index[iid].get("country_code") or "",
+             "type": index[iid]["type"], "coverage": round(best[0], 2)} for iid, best in ranked[:limit]]
+
+
 def cmd_queue(args):
     fieldnames, rows, _ = read_map()
     by_raw = {r["raw_affiliation"]: r for r in rows}
@@ -182,8 +242,26 @@ def cmd_queue(args):
         variants[fold(r["raw_affiliation"])].append(r)
     occ, share = string_weights(args.cache_dir or [str(CACHE_DIR)])
     pending = [] if args.only_unmapped else [r for r in rows if r["status"] in args.status]
+    flags = {}
+    if args.suspect:
+        # Accepted rows the string itself contradicts, minus the ones
+        # fix_country_mismatches.py can correct mechanically.
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from fix_country_mismatches import propose
+        _, companies, unresolved = propose(rows, load_index())
+        for raw, row, named, suggestion, reason in unresolved:
+            if reason == "evidence":
+                flags[raw] = ("no academic word and no trace of the institution's name in the string; "
+                              f"matched {row.get('matched_via') or 'a fragment'!r}")
+                continue
+            flags[raw] = ((f"string names {'/'.join(sorted(named))}, mapped institution is in {row['country_code']}"
+                           if named else f"string names no country, mapped institution is in {row['country_code']}")
+                          + (f"; same name: {suggestion}" if suggestion else ""))
+        for d in companies:
+            flags[d["raw_affiliation"]] = "company string with no academic unit, credited to a university"
+        pending = [by_raw[raw] for raw in flags]
     # New strings in the cache that the map has never seen.
-    for raw in occ:
+    for raw in ([] if args.suspect else occ):
         if raw not in by_raw:
             pending.append({"raw_affiliation": raw, "status": "unmapped", "institution_id": "",
                             "institution_name": "", "institution_type": "", "country_code": "",
@@ -191,6 +269,8 @@ def cmd_queue(args):
     pending.sort(key=lambda r: (-share.get(r["raw_affiliation"], 0.0), -occ.get(r["raw_affiliation"], 0), r["raw_affiliation"]))
     if args.limit:
         pending = pending[:args.limit]
+    index = load_index()
+    candidate_index = build_candidate_index(index)
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     batches = [pending[i:i + args.batch] for i in range(0, len(pending), args.batch)]
@@ -202,6 +282,8 @@ def cmd_queue(args):
                 "key": row_key(raw), "raw_affiliation": raw, "status": r["status"],
                 "current": {k: r.get(k, "") for k in ("institution_id", "institution_name", "institution_type", "country_code")},
                 "matched_via": r.get("matched_via", ""), "score": r.get("score", ""),
+                **({"flag": flags[raw]} if raw in flags else {}),
+                "candidates": candidates_for(raw, index, candidate_index),
                 "occurrences": occ.get(raw, 0), "credited_share": round(share.get(raw, 0.0), 4),
                 "variants": [{"raw_affiliation": v["raw_affiliation"], "status": v["status"],
                               "institution_name": v["institution_name"], "institution_type": v["institution_type"]}
@@ -387,6 +469,11 @@ def cmd_check(args):
             failures += 1
             print(f"  FAIL {trap['raw_affiliation'][:55]!r}: {message}  -- {trap['why']}")
     print(f"  {len(traps) - failures} pass, {failures} fail")
+    if not traps:
+        # With no traps this check cannot fail, which reads as a pass. The file
+        # went missing once (a working-tree reset) and four traps regressed unseen.
+        failures += 1
+        print(f"  FAIL no traps loaded; restore {TRAPS_CSV.name} before trusting this check")
 
     print("== variants of one string mapped to different institutions (at least one credited as education)")
     groups = defaultdict(list)
@@ -432,6 +519,23 @@ def cmd_check(args):
     for r in city[:args.show]:
         print(f"  [{r['status']}] {r['raw_affiliation'][:55]!r} -> {r['institution_name'][:35]}")
 
+    # The string's own country is evidence the matcher ignores: 'Southeast
+    # University, Nanjing, China' was credited to Southeast University (BD).
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from affiliation_evidence import country_contradiction
+    abroad = defaultdict(list)
+    for r in rows:
+        if r["status"] in ("auto", "manual") and r["institution_type"] == "education" and r["institution_id"]:
+            named = country_contradiction(r["raw_affiliation"], r.get("country_code", ""))
+            if named:
+                abroad[(r["institution_name"], r.get("country_code", ""))].append((r, named))
+    total = sum(len(g) for g in abroad.values())
+    print(f"== education credit where the string names a different country than the institution: {total}")
+    for (name, cc), group in sorted(abroad.items(), key=lambda kv: -len(kv[1]))[:args.show]:
+        r, named = group[0]
+        print(f"  {len(group):4d} rows -> {name[:40]} ({cc}); e.g. {r['raw_affiliation'][:55]!r} names {'/'.join(sorted(named))}")
+    print("  rank these by credit with: python3 pipeline/verify.py --phase 4")
+
     print("== also run (each prints proposals; --apply only after review):")
     print("  python3 pipeline/fix_acronym_collisions.py --report")
     print("  python3 pipeline/fix_name_mismatches.py --report")
@@ -449,6 +553,8 @@ def main(argv=None):
     q.add_argument("--cache-dir", action="append", help="Cache tree(s) to weight strings by (default: cache/)")
     q.add_argument("--only-unmapped", action="store_true", help="Only strings absent from the map")
     q.add_argument("--limit", type=int, default=None)
+    q.add_argument("--suspect", action="store_true",
+                   help="Queue accepted rows whose own string contradicts the mapping, instead of review rows")
     s = sub.add_parser("search")
     s.add_argument("query")
     s.add_argument("--limit", type=int, default=10)

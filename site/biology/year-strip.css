@@ -1,0 +1,80 @@
+/* Year strip: bars per year with a draggable band over the chosen years. */
+
+.ys {
+  --ys-height: 64px;
+  --ys-bar: var(--muted);
+  /* Overshoot-and-settle easing; the cubic-bezier is the fallback. */
+  --ys-spring: cubic-bezier(.34, 1.56, .64, 1);
+  position: relative; min-width: 0;
+}
+@supports (transition-timing-function: linear(0, 1)) {
+  .ys {
+    --ys-spring: linear(0, .009, .035 2.1%, .141 4.4%, .723 12.9%, .938 16.7%, 1.017, 1.077, 1.121,
+      1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, .991,
+      .977 51%, .974 53.8%, .975 57.1%, .997 69.8%, 1.003 76.9%, 1.004 83.8%, 1);
+  }
+}
+.ys[hidden] { display: none; }
+
+.ys-plot {
+  position: relative; height: var(--ys-height); display: flex; align-items: stretch;
+  border-bottom: 1px solid var(--rule-strong);
+  cursor: crosshair; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+  outline: none;
+}
+.ys-plot:focus-visible { outline: 2px solid var(--link); outline-offset: 6px; }
+
+.ys-col {
+  flex: 1 1 0; min-width: 0; position: relative; z-index: 1;
+  display: flex; justify-content: center; align-items: flex-end;
+  transition: opacity .18s;
+}
+.ys-col.out { opacity: .3; }
+.ys-bars { display: flex; align-items: flex-end; justify-content: center; gap: 2px; width: min(26px, 62%); height: 100%; }
+.ys-bars.multi { width: min(44px, 78%); }
+.ys-bars i {
+  flex: 1 1 0; min-width: 2px; height: 0; border-radius: 3px 3px 0 0;
+  background: var(--ys-bar);
+  transform-origin: bottom;
+}
+.ys-bars.multi i { background: var(--series); }
+.ys-col:hover i { filter: brightness(1.12); }
+/* An unfinished year: same bar, hatched. */
+.ys-col.partial i {
+  background-image: repeating-linear-gradient(135deg, transparent 0 3px, var(--bg) 3px 5px);
+}
+
+.ys-band {
+  position: absolute; top: -7px; bottom: 0; z-index: 0; pointer-events: none;
+  background: var(--hover);
+  border-left: 2px solid var(--text); border-right: 2px solid var(--text);
+  border-radius: 5px 5px 0 0;
+}
+.ys-band[hidden] { display: none; }
+
+.ys-tip {
+  position: absolute; bottom: calc(100% + 10px); z-index: 3; transform: translateX(-50%);
+  padding: 3px 8px; border: 1px solid var(--rule); border-radius: 4px;
+  background: var(--bg); color: var(--text); box-shadow: 0 2px 8px rgb(0 0 0 / .14);
+  font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; pointer-events: none;
+}
+.ys-tip[hidden] { display: none; }
+
+.ys-axis { position: relative; height: 22px; font-size: 11px; color: var(--faint); font-variant-numeric: tabular-nums; }
+.ys-axis span { position: absolute; top: 4px; transform: translateX(-50%); white-space: nowrap; transition: color .18s; }
+.ys-axis span.on { color: var(--text); font-weight: 600; }
+
+/* Main rankings page: sits under the filter bar. */
+.ys-main { margin: 18px 0 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .ys-band { transition: left .55s var(--ys-spring), width .55s var(--ys-spring), top .3s var(--ys-spring); }
+  /* While dragging the band keeps up with the pointer and sits lower, so it springs up on release. */
+  .ys.dragging .ys-band { transition-duration: .2s, .2s, .12s; top: -2px; }
+  .ys-bars i { transition: height .6s var(--ys-spring) calc(var(--i, 0) * 14ms), transform .3s var(--ys-spring); }
+  .ys.dragging .ys-col:not(.out) i { transform: scaleY(1.06); }
+}
+
+@media (pointer: coarse) {
+  .ys { --ys-height: 72px; }
+}

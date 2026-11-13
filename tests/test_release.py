@@ -39,7 +39,7 @@ class ReleaseTests(unittest.TestCase):
         (site / 'data/institutions.json').write_text('{}')
         (site / 'data/a.json').write_text('[]')
         for name in ['index.html', '404.html', 'methodology.html', 'coverage.html', 'styles.css', 'main.js',
-                     'rank.js', 'rank-history.js', 'rank-history.css', 'comparison.js', 'comparison.css', 'coverage.js', 'favicon.svg', 'apple-touch-icon.png', 'og.png', '_headers']:
+                     'rank.js', 'rank-history.js', 'rank-history.css', 'comparison.js', 'comparison.css', 'year-strip.js', 'year-strip.css', 'coverage.js', 'favicon.svg', 'apple-touch-icon.png', 'og.png', '_headers']:
             (site / name).write_text('fixture')
         (site / 'data/manifest.json').write_text(json.dumps({'validation': {'status': 'passed'}, 'artifacts': {}}))
         out.mkdir()

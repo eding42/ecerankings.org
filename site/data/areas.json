@@ -101,7 +101,8 @@
           "display": "Symposium on VLSI Circuits / VLSI Technology & Circuits",
           "kind": "conference",
           "openalex_ids": [
-            "S4363605407"
+            "S4363605407",
+            "S4393918263"
           ],
           "status": "verified",
           "expected_per_year": [
@@ -147,7 +148,9 @@
           "key": "isca",
           "display": "International Symposium on Computer Architecture (ISCA)",
           "kind": "conference",
-          "openalex_ids": [],
+          "openalex_ids": [
+            "S4393916863"
+          ],
           "status": "verified",
           "expected_per_year": [
             60,
@@ -210,9 +213,10 @@
               "container_title": "Proceedings of the 52nd Annual International Symposium on Computer Architecture"
             },
             "2026": {
-              "source": "none",
-              "count": 0,
-              "note": "53rd ISCA held 2026-06-27..2026-07-01, Raleigh NC; not yet registered in Crossref or OpenAlex as of 2026-07-22"
+              "source": "crossref",
+              "doi_prefix": "10.1109/isca66397.2026",
+              "count": 189,
+              "container_title": "2026 ACM/IEEE 53rd Annual International Symposium on Computer Architecture (ISCA)"
             }
           }
         },
@@ -220,7 +224,9 @@
           "key": "micro",
           "display": "IEEE/ACM International Symposium on Microarchitecture (MICRO)",
           "kind": "conference",
-          "openalex_ids": [],
+          "openalex_ids": [
+            "S4210171338"
+          ],
           "status": "verified",
           "expected_per_year": [
             60,
@@ -294,7 +300,9 @@
           "key": "hpca",
           "display": "IEEE International Symposium on High-Performance Computer Architecture (HPCA)",
           "kind": "conference",
-          "openalex_ids": [],
+          "openalex_ids": [
+            "S4210184388"
+          ],
           "status": "verified",
           "expected_per_year": [
             50,
@@ -375,7 +383,9 @@
           "key": "asplos",
           "display": "ASPLOS",
           "kind": "conference",
-          "openalex_ids": [],
+          "openalex_ids": [
+            "S7407086669"
+          ],
           "status": "verified",
           "expected_per_year": [
             60,
@@ -568,9 +578,10 @@
               "container_title": "2025 62nd ACM/IEEE Design Automation Conference (DAC)"
             },
             "2026": {
-              "source": "none",
-              "count": 0,
-              "note": "Not a gap: DAC 63 scheduled July 26-29, 2026, after collection cutoff."
+              "source": "crossref",
+              "doi_prefix": "10.1145/3770743",
+              "count": 594,
+              "container_title": "Proceedings of the 63rd ACM/IEEE Design Automation Conference"
             }
           }
         },
@@ -723,7 +734,9 @@
           "key": "rtss",
           "display": "IEEE Real-Time Systems Symposium (RTSS)",
           "kind": "conference",
-          "openalex_ids": [],
+          "openalex_ids": [
+            "S4210229300"
+          ],
           "status": "verified",
           "expected_per_year": [
             30,
@@ -797,7 +810,9 @@
           "key": "rtas",
           "display": "IEEE Real-Time and Embedded Technology and Applications Symposium (RTAS)",
           "kind": "conference",
-          "openalex_ids": [],
+          "openalex_ids": [
+            "S4210197441"
+          ],
           "status": "verified",
           "expected_per_year": [
             25,
@@ -877,7 +892,9 @@
           "key": "emsoft",
           "display": "International Conference on Embedded Software (EMSOFT)",
           "kind": "conference",
-          "openalex_ids": [],
+          "openalex_ids": [
+            "S7407088516"
+          ],
           "status": "verified",
           "expected_per_year": [
             15,
@@ -1436,7 +1453,9 @@
           "key": "sigcomm",
           "display": "ACM SIGCOMM",
           "kind": "conference",
-          "openalex_ids": [],
+          "openalex_ids": [
+            "S7407086014"
+          ],
           "status": "verified",
           "expected_per_year": [
             35,
@@ -1502,9 +1521,9 @@
             },
             "2026": {
               "source": "crossref",
-              "doi_prefix": null,
-              "count": 0,
-              "note": "not yet held as of 2026-07-22"
+              "doi_prefix": "10.1145/3789240",
+              "count": 200,
+              "container_title": "Proceedings of the ACM SIGCOMM 2026 Conference"
             }
           }
         }
@@ -1545,17 +1564,20 @@
           "years": {
             "2016": {
               "source": "crossref",
-              "doi_prefix": "10.1109/isit35645.2016",
+              "doi_prefix": "10.1109/isit.2016",
+              "count": 626,
               "container_title": "2016 IEEE International Symposium on Information Theory (ISIT)"
             },
             "2017": {
               "source": "crossref",
-              "doi_prefix": "10.1109/isit37237.2017",
+              "doi_prefix": "10.1109/isit.2017",
+              "count": 652,
               "container_title": "2017 IEEE International Symposium on Information Theory (ISIT)"
             },
             "2018": {
               "source": "crossref",
-              "doi_prefix": "10.1109/isit37940.2018",
+              "doi_prefix": "10.1109/isit.2018",
+              "count": 546,
               "container_title": "2018 IEEE International Symposium on Information Theory (ISIT)"
             },
             "2019": {
@@ -1704,8 +1726,9 @@
             },
             "2025": {
               "source": "crossref",
-              "doi_prefix": "10.1109/cdc63487.2025",
-              "count": 1015
+              "doi_prefix": "10.1109/cdc57313.2025",
+              "count": 1015,
+              "container_title": "2025 IEEE 64th Conference on Decision and Control (CDC)"
             }
           }
         }

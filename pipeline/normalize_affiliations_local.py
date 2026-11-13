@@ -19,6 +19,9 @@ import re
 import sys
 from difflib import SequenceMatcher
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from affiliation_evidence import build_name_index, guard_row  # noqa: E402
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHE_DIR = os.path.join(REPO_ROOT, "cache")
 MAP_CSV = os.path.join(REPO_ROOT, "data", "affiliation-map.csv")
@@ -184,6 +187,9 @@ def load_inst_db():
         return json.load(f)
 
 
+_NAME_INDEX = None
+
+
 def resolve_local(raw, db):
     """Resolve using local database with optimized matching."""
     best = {"score": 0.0, "inst": None, "via": None, "candidate": None}
@@ -300,8 +306,12 @@ def resolve_local(raw, db):
         "matched_via": best["via"] or "",
         "candidate": best["candidate"] or "",
     }
-    
-    return row
+    # A name match ignores what else the string says (its country, a company
+    # suffix). Hold the row to that evidence before it is accepted.
+    global _NAME_INDEX
+    if _NAME_INDEX is None:
+        _NAME_INDEX = build_name_index(by_id)
+    return guard_row(raw, row, by_id, _NAME_INDEX)
 
 
 def load_map():
@@ -348,6 +358,18 @@ def collect_raw_affiliations(venue_key, year=None, cache_dir=CACHE_DIR):
     return strings
 
 
+_SHARED_DB = None
+
+
+def _worker_init(db):
+    global _SHARED_DB
+    _SHARED_DB = db
+
+
+def _worker_resolve(raw):
+    return raw, resolve_local(raw, _SHARED_DB)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Resolve Crossref affiliation strings to OpenAlex institutions (LOCAL).")
     parser.add_argument("--cache-dir", default=CACHE_DIR,
@@ -357,6 +379,7 @@ def main():
     parser.add_argument("--year", type=int, default=None, help="Restrict to one year")
     parser.add_argument("--report-only", action="store_true", help="Don't resolve; just report map coverage")
     parser.add_argument("--verbose", action="store_true", help="Print each resolution")
+    parser.add_argument("--workers", type=int, default=os.cpu_count(), help="Number of worker processes")
     args = parser.parse_args()
 
     venues = args.venue
@@ -388,18 +411,28 @@ def main():
     if args.report_only:
         todo = []
 
-    resolved = 0
-    for i, s in enumerate(sorted(todo), 1):
-        mapping[s] = resolve_local(s, db)
-        resolved += 1
-        if resolved % 50 == 0:
-            print(f"  resolved {resolved}/{len(todo)}...")
-            save_map(mapping)
-        if args.verbose:
-            print(f"    [{mapping[s]['status']:9s}] {mapping[s]['score']} {s[:52]!r} -> {mapping[s]['institution_name'][:38]!r}")
-
     if todo:
-        save_map(mapping)
+        workers = args.workers or 1
+        if workers > 1:
+            import multiprocessing as mp
+            print(f"Resolving {len(todo)} strings using {workers} parallel CPU workers...")
+            with mp.Pool(workers, initializer=_worker_init, initargs=(db,)) as pool:
+                for i, (s, res) in enumerate(pool.imap_unordered(_worker_resolve, todo, chunksize=10), 1):
+                    mapping[s] = res
+                    if i % 250 == 0 or i == len(todo):
+                        print(f"  resolved {i}/{len(todo)}...")
+                        save_map(mapping)
+        else:
+            resolved = 0
+            for i, s in enumerate(sorted(todo), 1):
+                mapping[s] = resolve_local(s, db)
+                resolved += 1
+                if resolved % 50 == 0:
+                    print(f"  resolved {resolved}/{len(todo)}...")
+                    save_map(mapping)
+                if args.verbose:
+                    print(f"    [{mapping[s]['status']:9s}] {mapping[s]['score']} {s[:52]!r} -> {mapping[s]['institution_name'][:38]!r}")
+            save_map(mapping)
 
     # Coverage report
     by_status = {}

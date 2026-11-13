@@ -4,7 +4,9 @@ Run after harvest, normalization, or aggregation to catch pipeline bugs,
 data corruption, and affiliation mismatches before they reach the rankings.
 
 Usage:
-    python3 pipeline/verify.py --all                 # All three phases
+    python3 pipeline/verify.py --all                 # All four phases
+    python3 pipeline/verify.py --phase 4             # Global audit only (verify_global.py)
+    python3 pipeline/verify.py --phase 5             # Author integrity only (verify_authors.py)
     python3 pipeline/verify.py --phase 1             # Harvest integrity only
     python3 pipeline/verify.py --phase 3 --area architecture  # Single area
     python3 pipeline/verify.py --report              # Write report file
@@ -1224,21 +1226,23 @@ def write_report(all_flags, args, global_stats=None):
 
 
 def main():
-    global CACHE_DIR, SITE_DATA, COVERAGE_SNAPSHOT
+    global CACHE_DIR, SITE_DATA, COVERAGE_SNAPSHOT, AREAS_JSON
     parser = argparse.ArgumentParser(description="Verify ECE rankings pipeline data quality.")
-    parser.add_argument("--phase", type=int, choices=[1, 2, 3], default=None,
-                        help="Run a specific phase only (1=harvest, 2=normalize, 3=aggregate)")
-    parser.add_argument("--all", action="store_true", help="Run all three phases")
+    parser.add_argument("--phase", type=int, choices=[1, 2, 3, 4, 5], default=None,
+                        help="Run a specific phase only (1=harvest, 2=normalize, 3=aggregate, 4=global audit)")
+    parser.add_argument("--all", action="store_true", help="Run all four phases")
     parser.add_argument("--area", type=str, default=None,
                         help="Filter to a single area key (e.g. 'architecture') or 'all'")
     parser.add_argument("--report", action="store_true", help="Write report to data/reports/")
     parser.add_argument("--cache-dir", default=CACHE_DIR, help="Raw source tree to audit")
     parser.add_argument("--data-dir", default=SITE_DATA, help="Candidate aggregate directory to audit")
+    parser.add_argument("--areas-json", default=AREAS_JSON, help="Path to areas registry (default: data/areas.json)")
     parser.add_argument("--update-snapshots", action="store_true",
                         help="Explicitly accept clean validation snapshots; default checks are read-only")
     args = parser.parse_args()
     CACHE_DIR = os.path.realpath(args.cache_dir)
     SITE_DATA = os.path.realpath(args.data_dir)
+    AREAS_JSON = os.path.realpath(args.areas_json)
     COVERAGE_SNAPSHOT = os.path.join(SITE_DATA, '.coverage-snapshot.json')
 
     if not args.all and not args.phase:
@@ -1271,6 +1275,14 @@ def main():
         )
     if args.all or args.phase == 3:
         all_flags["Phase 3: Aggregate Integrity"] = phase3_aggregate(areas, args)
+    if args.all or args.phase == 4:
+        # Corpus-wide findings ranked by the credit they move; see verify_global.py.
+        import verify_global
+        all_flags["Phase 4: Global Audit"] = verify_global.run(areas, CACHE_DIR, SITE_DATA, args.area)
+    if args.all or args.phase == 5:
+        # Author lists: missing, truncated, repeated, group-named, garbled; see verify_authors.py.
+        import verify_authors
+        all_flags["Phase 5: Author Integrity"] = verify_authors.run(areas, CACHE_DIR, args.area)
 
     # Persist the new snapshot AFTER both phases have diffed against the
     # previous one, so this run's regression checks compare against the
@@ -1301,15 +1313,18 @@ def main():
     print(f"\nTOTAL: {total['critical']} critical, {total['high']} high, "
           f"{total['medium']} medium, {total['low']} low")
 
+    # The global audit is the short, credit-ranked list; show it before the
+    # per-venue-year findings so it is not buried under them.
+    ordered = sorted(all_flags.items(), key=lambda kv: not kv[0].startswith(("Phase 4", "Phase 5")))
     if total["critical"]:
         print("\n🔴 CRITICAL:")
-        for phase_name, flags in all_flags.items():
+        for phase_name, flags in ordered:
             for item in flags.get("critical", []):
                 print(f"  {item}")
 
     if total["high"]:
         print("\n🟠 HIGH:")
-        for phase_name, flags in all_flags.items():
+        for phase_name, flags in ordered:
             for item in flags.get("high", []):
                 print(f"  {item}")
 
