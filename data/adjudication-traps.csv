@@ -1,0 +1,71 @@
+raw_affiliation,expect,why,absent_ok
+University of California,not:I180670191,"Bare system name is ambiguous across ten campuses; it must not default to UCSF (CLAUDE.md known error, regressed as of 2026-10-30)",yes
+"Mitsubishi Electric Research Lab, Cambridge, MA, USA",not:I241749;noneducation,MERL is a company in Cambridge MA; the city name matched University of Cambridge,yes
+"Control and Dynamical Systems Group, Mitsubishi Electric Research Laboratories",not:I241749;noneducation,"Same MERL city-name collision, department-prefixed form",yes
+MERL,noneducation,MERL -> University of Cambridge was a documented map error,yes
+"Qualcomm Inc, San Diego, CA",noneducation,City-name collision: Qualcomm is not a university in San Diego,yes
+"Qualcomm AI Research, San Diego",noneducation,City-name collision: Qualcomm AI Research matched UC San Diego,yes
+Purdue University,id:I219193219,Purdue flagship; Purdue Northwest is a different campus,yes
+PURDUE UNIVERSITY,id:I219193219,Case variant must agree with 'Purdue University' (mapped to Purdue Northwest as of 2026-10-30),yes
+Purdue university,id:I219193219,Case variant must agree with 'Purdue University' (mapped to Purdue Northwest as of 2026-10-30),yes
+"University of Maryland, College Park",id:I66946132,Multi-campus confusion with UM Baltimore / Baltimore County (CLAUDE.md known error),yes
+Rutgers University,id:I102322142,OpenAlex has mapped this to 'Rutgers Sexual and Reproductive Health and Rights' (CLAUDE.md),yes
+Northeastern University,not:I87182695,Never Universidad del Noreste (MX); bare form is otherwise ambiguous US/CN,yes
+University of Pennsylvania,id:I79576946,OpenAlex maps it to California University of Pennsylvania (CLAUDE.md),yes
+MIT,id:I63966007,Acronym collision: Manukau Institute of Technology also owns 'MIT',yes
+University of Southern California,id:I1174212;not:I111979921,USC flagship Los Angeles; must never be confused with Northwestern (I111979921),no
+"Imperial College London, UK",id:I47508984;not:I2802000487,Imperial College London must not map to Imperial Valley College (I2802000487),no
+"King's College London, UK",id:I183935753;not:I78577930,King's College London must not map to Columbia University (I78577930),no
+"Southeast University,Nanjing,China",id:I76569877,"String names CN; Southeast University (BD) is a different institution with the same or a similar name (audit 2026-11-12, ~21 credits)",yes
+"Southeast University, Nanjing, Jiangsu, China",id:I76569877,"String names CN; Southeast University (BD) is a different institution with the same or a similar name (audit 2026-11-12, ~20 credits)",yes
+"Southeast University,China",id:I76569877,"String names CN; Southeast University (BD) is a different institution with the same or a similar name (audit 2026-11-12, ~14 credits)",yes
+Korea University,id:I197347611,"String names KR; Korea University (JP) is a different institution with the same or a similar name (audit 2026-11-12, ~58 credits)",yes
+"Korea University,Seoul,Korea",id:I197347611,"String names KR; Korea University (JP) is a different institution with the same or a similar name (audit 2026-11-12, ~11 credits)",yes
+"Korea University,School of Electrical Engineering,Seoul,Korea",id:I197347611,"String names KR; Korea University (JP) is a different institution with the same or a similar name (audit 2026-11-12, ~6 credits)",yes
+"College of Information Science and Engineering, Northeastern University, Shenyang, China",id:I9224756,"String names CN; Northeastern University (US) is a different institution with the same or a similar name (audit 2026-11-12, ~24 credits)",yes
+"Northeastern University,China",id:I9224756,"String names CN; Northeastern University (US) is a different institution with the same or a similar name (audit 2026-11-12, ~13 credits)",yes
+"Northeastern University,School of Computer Science and Engineering,Shenyang,China",id:I9224756,"String names CN; Northeastern University (US) is a different institution with the same or a similar name (audit 2026-11-12, ~12 credits)",yes
+"Northwestern University,Evanston,IL,USA",id:I111979921,"String names US; Northwestern University (PH) is a different institution with the same or a similar name (audit 2026-11-12, ~5 credits)",yes
+"Northwestern University, Evanston, IL, USA",id:I111979921,"String names US; Northwestern University (PH) is a different institution with the same or a similar name (audit 2026-11-12, ~3 credits)",yes
+"Northwestern University,Evanston,USA",id:I111979921,"String names US; Northwestern University (PH) is a different institution with the same or a similar name (audit 2026-11-12, ~3 credits)",yes
+"Optical Networks Group, Department of Electronic and Electrical Engineering, University College London, London, U.K.",id:I45129253,"String names GB; UCL Australia (AU) is a different institution with the same or a similar name (audit 2026-11-12, ~11 credits)",yes
+"Department of Electronic and Electrical Engineering, University College London, London, U.K.",id:I45129253,"String names GB; UCL Australia (AU) is a different institution with the same or a similar name (audit 2026-11-12, ~7 credits)",yes
+"University College London, London, United Kingdom",id:I45129253,"String names GB; UCL Australia (AU) is a different institution with the same or a similar name (audit 2026-11-12, ~3 credits)",yes
+"Guangdong Provincial Key Laboratory of Optical Fiber Sensing and Communications, Institute of Photonics Technology, Jinan University, Guangzhou, China",id:I159948400,"String names CN; Jinan University (LB) is a different institution with the same or a similar name (audit 2026-11-12, ~10 credits)",yes
+"Institute of Photonics Technology, Jinan University, Guangzhou, China",id:I159948400,"String names CN; Jinan University (LB) is a different institution with the same or a similar name (audit 2026-11-12, ~4 credits)",yes
+"Department of Electronic Engineering, College of Information Science and Technology, Jinan University, Guangzhou, China",id:I159948400,"String names CN; Jinan University (LB) is a different institution with the same or a similar name (audit 2026-11-12, ~4 credits)",yes
+"Imperial College,Department of Electrical and Electronic Engineering,London,UK",id:I47508984,"String names GB; Imperial Valley College (US) is a different institution with the same or a similar name (audit 2026-11-12, ~11 credits)",yes
+"Imperial College,Department of Computing,London,UK",id:I47508984,"String names GB; Imperial Valley College (US) is a different institution with the same or a similar name (audit 2026-11-12, ~5 credits)",yes
+"Imperial College,Department of Electrical and Electronic Engineering,London,United Kingdom",id:I47508984,"String names GB; Imperial Valley College (US) is a different institution with the same or a similar name (audit 2026-11-12, ~2 credits)",yes
+"York University,Dept. of Electrical Engineering and Computer Science,Toronto,Canada",id:I192455969,"String names CA; York University (US) is a different institution with the same or a similar name (audit 2026-11-12, ~7 credits)",yes
+"York University,Canada",id:I192455969,"String names CA; York University (US) is a different institution with the same or a similar name (audit 2026-11-12, ~4 credits)",yes
+"York University,Toronto,Canada",id:I192455969,"String names CA; York University (US) is a different institution with the same or a similar name (audit 2026-11-12, ~3 credits)",yes
+"University of Georgia,Intelligent Vision and Sensing Lab,USA",id:I165733156,"String names US; University of Georgia (GE) is a different institution with the same or a similar name (audit 2026-11-12, ~3 credits)",yes
+"University of Georgia, Athens, Georgia, United States of America",id:I165733156,"String names US; University of Georgia (GE) is a different institution with the same or a similar name (audit 2026-11-12, ~1 credits)",yes
+"University of Georgia,School of Electrical and Computer Engineering,Athens,GA,USA,30602",id:I165733156,"String names US; University of Georgia (GE) is a different institution with the same or a similar name (audit 2026-11-12, ~1 credits)",yes
+"Academia Sinica,Institute of Information Science,Taiwan",not:I4210147455,"String names TW; it must not resolve to Institute of Information Science (SI) (audit 2026-11-12, ~6 credits)",yes
+"Beijing Jiaotong University,Institute of Information Science,Beijing,China",not:I4210147455,"String names CN; it must not resolve to Institute of Information Science (SI) (audit 2026-11-12, ~5 credits)",yes
+"Academia Sinica,Institute of Information Science,Taipei,Taiwan",not:I4210147455,"String names TW; it must not resolve to Institute of Information Science (SI) (audit 2026-11-12, ~3 credits)",yes
+"University of Technology,Sydney,Australia",not:I4210134318,"String names AU; it must not resolve to University of Technology (RU) (audit 2026-11-12, ~2 credits)",yes
+"University of Technology,Department of Engineering,Nuremberg,Germany",not:I4210134318,"String names DE; it must not resolve to University of Technology (RU) (audit 2026-11-12, ~1 credits)",yes
+"University of Technology,Robotics Institute,Sydney,Australia",not:I4210134318,"String names AU; it must not resolve to University of Technology (RU) (audit 2026-11-12, ~1 credits)",yes
+"Western University,Department of Electrical & Computer Engineering,London,ON,Canada",not:I3130874397,"String names CA; it must not resolve to Western Caspian University (AZ) (audit 2026-11-12, ~3 credits)",yes
+"Western University,Department of Electrical and Computer Engineering,London,Canada,N6A 5B9",not:I3130874397,"String names CA; it must not resolve to Western Caspian University (AZ) (audit 2026-11-12, ~2 credits)",yes
+"Western University,Department of Electrical & Computer Engineering,London,Canada",not:I3130874397,"String names CA; it must not resolve to Western Caspian University (AZ) (audit 2026-11-12, ~2 credits)",yes
+"Chang’an University,School of Information Engineering,Xi’an,China,710064",not:I4210100281,"String names CN; it must not resolve to Jangan University (KR) (audit 2026-11-12, ~4 credits)",yes
+"Chang’an University,School of Information Engineering,Xi’an,China",not:I4210100281,"String names CN; it must not resolve to Jangan University (KR) (audit 2026-11-12, ~3 credits)",yes
+"Chang’an University,China",not:I4210100281,"String names CN; it must not resolve to Jangan University (KR) (audit 2026-11-12, ~2 credits)",yes
+"Sony Semiconductor Solutions Corporation,Kanagawa,Japan",not:I41802502;noneducation,"Company string; a city or short token matched Kanagawa University (audit 2026-11-12, ~5 credits)",yes
+"Sony Semiconductor Solutions Corp.,Kanagawa,Japan",not:I41802502;noneducation,"Company string; a city or short token matched Kanagawa University (audit 2026-11-12, ~4 credits)",yes
+Lunit Inc.,not:I22716506;noneducation,"Company string; a city or short token matched Lanzhou University of Technology (audit 2026-11-12, ~4 credits)",yes
+"Logitech Europe S.A.,Lausanne,Switzerland",not:I5124864;noneducation,"Company string; a city or short token matched École Polytechnique Fédérale de Lausanne (audit 2026-11-12, ~3 credits)",yes
+"Dolby Germany GmbH,Nürnberg,Germany",not:I4210100612;noneducation,"Company string; a city or short token matched Georg Simon Ohm University of Applied Sciences Nuremberg (audit 2026-11-12, ~2 credits)",yes
+"Google LLC,San Francisco,USA",not:I71838634;noneducation,"Company string; a city or short token matched San Francisco State University (audit 2026-11-12, ~1 credits)",yes
+"MediaTek Inc.,San Jose,CA,USA",not:I51504820;noneducation,"Company string; a city or short token matched San Jose State University (audit 2026-11-12, ~1 credits)",yes
+"Samsung Semiconductor Inc.,San Jose,CA,USA",not:I51504820;noneducation,"Company string; a city or short token matched San Jose State University (audit 2026-11-12, ~1 credits)",yes
+"R&D, SK hynix Inc,Revolutionary Technology Center (RTC),Korea",not:I2800447701;noneducation,"Company string; a city or short token matched Renton Technical College (audit 2026-11-12, ~1 credits)",yes
+"iZotope, Inc.,Cambridge,MA",not:I241749;noneducation,"Company string; a city or short token matched University of Cambridge (audit 2026-11-12, ~1 credits)",yes
+"Unique Technical Service, LLC, Stony Brook, NY",not:I59553526;noneducation,"Company string; a city or short token matched Stony Brook University (audit 2026-11-12, ~1 credits)",yes
+"Systems and Processes Engineering Corporation,Austin,TX,USA",not:I86519309;noneducation,"Company string; a city or short token matched The University of Texas at Austin (audit 2026-11-12, ~1 credits)",yes
+"Synopsys, Inc.,Aachen,Germany",not:I99977706;noneducation,"Company string; a city or short token matched FH Aachen (audit 2026-11-12, ~1 credits)",yes
+"Oppo Mobile Telecommunications Corp.,Palo Alto,CA,USA,94303",not:I1743320;noneducation,"Company string; a city or short token matched Palo Alto University (audit 2026-11-12, ~1 credits)",yes

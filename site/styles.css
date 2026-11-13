@@ -20,6 +20,8 @@
   --error-bg: #fdf1f1;
   --error-rule: #d1242f;
   /* Comparison series, in slot order. Validated for colour-vision deficiency. */
+  --up: #1a7f37;
+  --down: #c4262e;
   --series-1: #1a56a8;
   --series-2: #a75b29;
   --series-3: #14946a;
@@ -46,6 +48,8 @@
     --button-hover: #292e34;
     --error-bg: #2b1719;
     --error-rule: #f0545c;
+    --up: #3fb950;
+    --down: #f0545c;
     --series-1: #3987e5;
     --series-2: #c46a2e;
     --series-3: #199e70;
@@ -96,8 +100,16 @@ abbr[title] { text-decoration: none; cursor: help; }
   display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
   gap: 4px 24px; padding-top: 10px; padding-bottom: 10px;
 }
-.site-title { margin: 0; font-size: 17px; font-weight: 700; }
+.site-branding { display: flex; align-items: center; gap: 10px; }
+.site-title { margin: 0; font-size: 17px; font-weight: 700; line-height: 1; }
 .site-title a { color: var(--text); }
+.site-brand-tab {
+  font-size: 12px; font-weight: 500; color: var(--muted);
+  text-decoration: none; padding: 3px 9px; border-radius: 12px;
+  border: 1px solid var(--rule); background: var(--field);
+  transition: all 0.15s ease; line-height: 1.2;
+}
+.site-brand-tab:hover { color: var(--text); border-color: var(--rule-strong); text-decoration: none; }
 .site-header nav { display: flex; flex-wrap: wrap; gap: 0 20px; font-size: 14px; }
 .site-header nav a[aria-current="page"] { color: var(--text); font-weight: 600; }
 
@@ -242,6 +254,14 @@ table.ranking.stale tbody { opacity: 0.45; }
 .ranking th.num { text-align: right; }
 .ranking .rank { width: 3.5em; color: var(--muted); }
 .ranking .score { font-weight: 600; }
+.ranking .trend-cell { width: 124px; }
+.trend { display: inline-flex; align-items: center; justify-content: flex-end; gap: 6px; vertical-align: middle; cursor: default; }
+.trend svg { display: block; overflow: visible; }
+.trend path { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+.trend circle { fill: var(--text); }
+.trend-delta { min-width: 3.2em; text-align: left; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--muted); }
+.trend-delta.up { color: var(--up); }
+.trend-delta.down { color: var(--down); }
 
 button.inst {
   padding: 0; border: 0; background: none; text-align: left; font-size: 15px;
@@ -308,9 +328,8 @@ table.breakdown tr.zero { color: var(--faint); }
     padding-left: max(16px, env(safe-area-inset-left));
     padding-right: max(16px, env(safe-area-inset-right));
   }
-  .site-header .wrap { gap: 0; padding-top: 8px; padding-bottom: 4px; }
-  .site-title { width: 100%; }
-  .site-title a { display: inline-flex; align-items: center; min-height: 44px; }
+  .site-branding { width: 100%; display: flex; align-items: baseline; gap: 12px; }
+  .site-title a, .site-brand-tab { display: inline-flex; align-items: center; min-height: 44px; }
   .site-header nav { width: 100%; gap: 0 12px; font-size: 13px; }
   .site-header nav a { display: inline-flex; align-items: center; min-height: 44px; }
   h1 { font-size: 24px; margin-top: 20px; }

@@ -19,7 +19,7 @@ You decide. `pipeline/adjudication.py` does the mechanics, so the same input pro
 - **`search`:** the local OpenAlex institution index; no API spend.
 - **`apply`:** validates each decision. Name, type and country are filled from the index, never from your text. Evidence is required, and an earlier adjudication is never silently replaced. Accepted decisions are appended to the ledger `data/affiliation-decisions.jsonl`.
 - **`replay`:** restores adjudicated rows after a normalizer or fix script overwrote them.
-- **`check`:** pure QA. It reports trap regressions, case variants that disagree, type contradictions, false acronyms, and city-name collisions.
+- **`check`:** pure QA. It reports trap regressions, case variants that disagree, type contradictions, false acronyms, city-name collisions, and strings that name a different country than the institution they are mapped to. It fails when no traps are loaded.
 
 **Never hand-edit adjudicated rows in the CSV.** A hand edit has no evidence, does not survive a normalizer rerun, and cannot be replayed.
 
@@ -117,12 +117,31 @@ Fix or drop every rejected decision; don't force them through. `--override` repl
 
 ```bash
 python3 pipeline/adjudication.py check          # traps must not regress (exit 0 when all pass)
+python3 pipeline/verify.py --phase 4            # the same errors ranked by the credit they move
+python3 pipeline/fix_country_mismatches.py      # proposals for strings that contradict their mapping
 python3 pipeline/fix_acronym_collisions.py --report
 python3 pipeline/fix_name_mismatches.py --report
 python3 pipeline/fix_campus_clusters.py
 ```
 
 The `fix_*` scripts propose. Review their output, then either run them with `--apply`, or turn individual proposals into ledger decisions so they replay.
+
+`fix_country_mismatches.py` never edits the map. It writes decision files under `.tmp/adjudication/evidence-fixes/` for `apply`:
+- `country-corrections.json`: the string names country X and exactly one same-named education institution is in X. Mechanical. Skim it, dry-run it, apply it.
+- `company-noneducation.json`: a company string credited to a university. The rule is a pattern, so read it before applying.
+- `needs-adjudication.csv`: a country contradiction with no single same-named institution (for example "…, Cambridge, MA, USA" mapped to the University of Cambridge), plus every contradicted row that is already `manual`. This file is a listing; the batches come from the queue below.
+
+Everything that is not mechanical goes through the normal batch workflow:
+
+```bash
+python3 pipeline/adjudication.py queue --suspect --out .tmp/adjudication/suspect-<date> --batch 20
+```
+
+`--suspect` queues the accepted rows the string contradicts (the needs-adjudication rows and the company rows), highest credit first. Each row carries a `flag` saying what is wrong, and the same-named institution in the named country when there is one. These are short, self-contained decisions, so a cheaper subagent model is fine for them; the user picks the model.
+
+`apply` refuses rows that are already `manual` without `--override`. Pass it only for a decisions file that re-decides those rows one by one with evidence, never for a bulk file.
+
+Both normalizers call the same evidence guard (`pipeline/affiliation_evidence.py`) on new strings, so a fresh match that contradicts the string's country is switched to the same-named institution there or demoted to `review`, and a company string is demoted to `review`. Existing rows are not re-evaluated by a normalizer rerun; the script above is how they get repaired.
 
 **When you find a new class of error, add a trap row** to `data/adjudication-traps.csv`. The format is `raw_affiliation, expect, why, absent_ok`, where `expect` is one of:
 - `id:I…`

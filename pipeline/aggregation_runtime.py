@@ -58,10 +58,10 @@ def _fingerprint(value):
                                      allow_nan=False).encode()).hexdigest()
 
 
-def _initialize(v2a, year, affiliation_map, excluded, aliases, cache_dir, venue_exclusions):
+def _initialize(v2a, year, affiliation_map, excluded, aliases, cache_dir, venue_exclusions, credit_types=None):
     from aggregate import process_venues
     _state.kernel = process_venues
-    _state.arguments = (v2a, year, affiliation_map, excluded, aliases, cache_dir, venue_exclusions)
+    _state.arguments = (v2a, year, affiliation_map, excluded, aliases, cache_dir, venue_exclusions, credit_types)
 
 
 def _encode(result):
@@ -227,7 +227,7 @@ def store_tables(cache, fingerprint, output, metrics):
 
 
 def aggregate_venues(venues, v2a, year, affiliation_map, excluded, aliases, cache_dir,
-                     venue_exclusions, *, workers=None, executor='auto', sequential=False,
+                     venue_exclusions, credit_types=None, *, workers=None, executor='auto', sequential=False,
                      aggregation_cache_dir=None, report=None, output=None):
     """Yield one verified venue result at a time, in canonical reduction order."""
     start = time.perf_counter()
@@ -257,10 +257,11 @@ def aggregate_venues(venues, v2a, year, affiliation_map, excluded, aliases, cach
                            'runtime': sys.version, 'year': year, 'v2a': v2a,
                            'affiliation_map': affiliation_map, 'aliases': aliases,
                            'excluded': sorted(excluded),
+                           'credit_types': sorted(credit_types or []),
                            'venue_exclusions': {v: sorted(keys) for v, keys in venue_exclusions.items()}})
     report.update(executor=backend, workers=n_workers, cache_hits=0, cache_misses=0, venues=[],
                   runtime={'version': sys.version, 'gil_disabled': gil_disabled()})
-    arguments = (v2a, year, affiliation_map, excluded, aliases, str(cache_dir), venue_exclusions)
+    arguments = (v2a, year, affiliation_map, excluded, aliases, str(cache_dir), venue_exclusions, credit_types)
     _initialize(*arguments)
     with tempfile.TemporaryDirectory(prefix='ecerankings-aggregation-') as temporary:
         destination = Path(aggregation_cache_dir) if aggregation_cache_dir else Path(temporary)

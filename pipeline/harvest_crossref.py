@@ -272,18 +272,50 @@ def harvest_year(venue_key, venue_display, year, entry, dry_run=False, venue_kin
     checkpoint_path = os.path.join(year_dir, ".checkpoint")
     source_key = f"crossref:{filter_str}" + (f"|query:{query_term}" if need_fuzzy else "")
 
-    if os.path.exists(checkpoint_path):
-        with open(checkpoint_path) as f:
-            state = json.load(f)
-        if state.get("source_key") == source_key and state.get("done"):
-            print(f"  [{venue_key}/{year}] already complete ({state.get('count','?')} works). Skipping.")
-            return
-
     cursor = "*"
+    resuming = False
+    restarted = False
     written = 0
     dropped = 0
     page = 0
-    with open(out_path, "w") as out:
+    seen_dois = set()
+
+    if os.path.exists(checkpoint_path):
+        with open(checkpoint_path) as f:
+            state = json.load(f)
+        if state.get("source_key") == source_key:
+            if state.get("done"):
+                print(f"  [{venue_key}/{year}] already complete ({state.get('count','?')} works). Skipping.")
+                return
+            # Resume the same Crossref cursor instead of restarting at "*".
+            # Old checkpoints have no cursor; fall back to a full re-fetch,
+            # with the DOI dedupe below keeping the appended file duplicate-free.
+            cursor = state.get("cursor") or "*"
+            resuming = True
+            print(f"  [{venue_key}/{year}] resuming from checkpoint.")
+
+    if resuming:
+        # The count must describe works.jsonl, not just this run's pages.
+        if os.path.exists(out_path):
+            with open(out_path) as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    written += 1
+                    try:
+                        doi = (json.loads(line).get("doi") or "").lower()
+                    except (ValueError, AttributeError):
+                        continue
+                    if doi:
+                        seen_dois.add(doi)
+        else:
+            # Checkpoint without its data file: restart the edition.
+            resuming = False
+            cursor = "*"
+        print(f"  [{venue_key}/{year}] {written} works already written.")
+
+    with open(out_path, "a" if resuming else "w") as out:
         while cursor:
             get_params = {
                 "filter": filter_str,
@@ -293,7 +325,16 @@ def harvest_year(venue_key, venue_display, year, entry, dry_run=False, venue_kin
             }
             if need_fuzzy:
                 get_params["query.container-title"] = query_term
-            data = api_get(get_params)
+            try:
+                data = api_get(get_params)
+            except urllib.error.HTTPError:
+                if cursor == "*" or restarted:
+                    raise
+                # A saved cursor can go stale; walk the result set again once,
+                # with the DOI dedupe keeping the appended file duplicate-free.
+                restarted = True
+                cursor = "*"
+                continue
             msg = data.get("message", {})
             items = msg.get("items", [])
             if not items:
@@ -306,17 +347,23 @@ def harvest_year(venue_key, venue_display, year, entry, dry_run=False, venue_kin
                 if not matches_prefix(doi, doi_prefix):
                     dropped += 1
                     continue
-                out.write(json.dumps(trim_work(item, year)) + "\n")
+                work = trim_work(item, year)
+                work_doi = (work.get("doi") or "").lower()
+                if work_doi and work_doi in seen_dois:
+                    continue
+                out.write(json.dumps(work) + "\n")
+                if work_doi:
+                    seen_dois.add(work_doi)
                 written += 1
             out.flush()
             page += 1
             cursor = msg.get("next-cursor")
             with open(checkpoint_path, "w") as cp:
-                json.dump({"source_key": source_key, "count": written, "done": False}, cp)
+                json.dump({"source_key": source_key, "cursor": cursor, "count": written, "done": False}, cp)
             time.sleep(0.3)
 
     with open(checkpoint_path, "w") as cp:
-        json.dump({"source_key": source_key, "count": written, "done": True}, cp)
+        json.dump({"source_key": source_key, "cursor": None, "count": written, "done": True}, cp)
 
     print(f"  [{venue_key}/{year}] done, {written} works written to {out_path}" + (f" ({dropped} dropped: DOI outside {doi_prefix})" if dropped else ""))
     if discovered:

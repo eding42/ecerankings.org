@@ -2,6 +2,22 @@
 // Rankings. Each school keeps its slot's series colour (--series-1 … -4).
 
 export const MAX_SCHOOLS = 4;
+// Row id for the sum over every selected area. Not a registry area id.
+export const ALL_AREAS = 'all';
+
+function sumAreas(rows, ids, from, to) {
+  const zeros = () => ids.map(() => 0);
+  const years = Array.from({ length: to - from + 1 }, (_, i) => ({ year: from + i, values: zeros(), papers: zeros() }));
+  const values = zeros(), papers = zeros();
+  for (const row of rows) {
+    row.values.forEach((v, k) => { values[k] += v; papers[k] += row.papers[k]; });
+    row.years.forEach((point, i) => point.values.forEach((v, k) => {
+      years[i].values[k] += v;
+      years[i].papers[k] += point.papers[k];
+    }));
+  }
+  return { id: ALL_AREAS, values, papers, total: values.reduce((a, b) => a + b, 0), years };
+}
 
 export function compareSchools(data, areaIds, ids, from, to) {
   const slot = new Map(ids.map((id, k) => [id, k]));
@@ -61,16 +77,23 @@ export function renderComparison({ result, ids, institutions, areaById, year = n
   const { from, to } = result.sel;
   const rows = compareSchools(result.data, result.sel.areas, ids, from, to);
   const ordered = [...rows].sort((a, b) => b.total - a.total);
-  const selectedArea = rows.find(row => row.id === area) || ordered[0];
-  if (!selectedArea) return html;
+  if (!rows.length) return html;
+  // With several areas the total leads the list and is the default selection.
+  const overall = rows.length > 1 ? sumAreas(rows, ids, from, to) : null;
+  const initial = overall || ordered[0];
+  const selectedArea = rows.find(row => row.id === area) || initial;
   const currentYear = year !== null && year >= from && year <= to ? year : null;
   const range = from === to ? `${from}` : `${from}–${to}`;
   html += `<div class="compare-time"><button type="button" class="compare-period${currentYear === null ? ' active' : ''}" data-whole-period aria-pressed="${currentYear === null}">All years</button>
-    <button type="button" class="compare-play" data-play-years aria-pressed="${playing}"${from === to ? ' disabled' : ''}>${playing ? 'Pause' : '▶ Play'}</button><input type="range" id="compare-year" min="${from}" max="${to}" value="${currentYear ?? to}"${from === to ? ' disabled' : ''} aria-label="Year"><output for="compare-year">${currentYear ?? range}</output><button type="button" class="link compare-reset" data-reset-comparison${currentYear === null && selectedArea === ordered[0] ? ' hidden' : ''}>Reset</button></div>`;
+    <button type="button" class="compare-play" data-play-years aria-pressed="${playing}"${from === to ? ' disabled' : ''}>${playing ? 'Pause' : '▶ Play'}</button><output for="compare-year">${currentYear ?? range}</output><button type="button" class="link compare-reset" data-reset-comparison${currentYear === null && selectedArea === initial ? ' hidden' : ''}>Reset</button>${from === to ? '' : '<div class="ys-compare" id="compare-year"></div>'}</div>`;
   const columns = `--values:repeat(${ids.length},var(--value-w))`;
   html += `<div class="compare-areas" style="${columns}"><div class="compare-head"><span>Adjusted count</span><span></span>${names.map((name, k) => `<span class="compare-key" style="${series(k)}" title="${esc(name)}"><i></i></span>`).join('')}</div><div class="compare-area-list">`;
   const visible = showAll ? ordered : ordered.slice(0, 8);
-  if (!visible.includes(selectedArea)) visible[visible.length - 1] = selectedArea;
+  if (selectedArea !== overall && !visible.includes(selectedArea)) visible[visible.length - 1] = selectedArea;
+  if (overall) {
+    const values = currentYear === null ? overall.values : overall.years[currentYear - from].values;
+    html += comparisonRow(ALL_AREAS, values, 'All areas', selectedArea === overall, names, ' compare-overall');
+  }
   for (const row of visible) {
     const values = currentYear === null ? row.values : row.years[currentYear - from].values;
     html += comparisonRow(row.id, values, areaById.get(row.id)?.name || row.id, row.id === selectedArea.id, names);
@@ -78,19 +101,19 @@ export function renderComparison({ result, ids, institutions, areaById, year = n
   html += '</div>';
   if (rows.length > 8) html += `<button type="button" class="link compare-show-areas" data-show-areas aria-expanded="${showAll}">${showAll ? 'Fewer areas' : `All ${rows.length} areas`} <span aria-hidden="true">${showAll ? '↑' : '↓'}</span></button>`;
   html += '</div>';
-  const name = areaById.get(selectedArea.id)?.name || selectedArea.id;
+  const name = selectedArea === overall ? 'All areas' : areaById.get(selectedArea.id)?.name || selectedArea.id;
   html += `<section class="compare-history" aria-label="${esc(name)} by year"><h3>${esc(name)} by year</h3>
     <div class="compare-history-years">${historyPlot(selectedArea.years, currentYear, width, names)}</div></section>`;
   return html;
 }
 
-function comparisonRow(id, values, name, selected, names) {
+function comparisonRow(id, values, name, selected, names, extra = '') {
   const total = values.reduce((a, b) => a + b, 0), max = Math.max(...values);
   const track = total > 0
     ? values.map((v, k) => `<i class="compare-seg${v > 0 ? '' : ' zero'}" style="flex-grow:${v.toFixed(4)};${series(k)}"></i>`).join('')
     : '<span>No output</span>';
   const title = `${name}: ${names.map((n, k) => `${n} ${fmt.format(values[k])}`).join(', ')}`;
-  return `<button type="button" class="compare-area${selected ? ' selected' : ''}" data-compare-area="${esc(id)}" aria-pressed="${selected}" title="${esc(title)}">
+  return `<button type="button" class="compare-area${extra}${selected ? ' selected' : ''}" data-compare-area="${esc(id)}" aria-pressed="${selected}" title="${esc(title)}">
     <span class="compare-area-name">${esc(name)}</span><span class="compare-track${total > 0 ? '' : ' compare-no-output'}${values.length === 2 ? ' pair' : ''}" aria-hidden="true">${track}</span>${values.map(v => `<span class="compare-value${v > 0 && v === max ? ' lead' : ''}">${fmt.format(v)}</span>`).join('')}</button>`;
 }
 

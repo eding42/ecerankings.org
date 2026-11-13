@@ -1,0 +1,486 @@
+{
+  "cell": {
+    "name": "Cell",
+    "id": "S110447773",
+    "issn": "0092-8674",
+    "year_counts": {
+      "2016": 988,
+      "2018": 676,
+      "2017": 666,
+      "2020": 640,
+      "2019": 597,
+      "2024": 591,
+      "2021": 513,
+      "2025": 497,
+      "2023": 449,
+      "2022": 430
+    },
+    "article_year_counts": {
+      "2016": 912,
+      "2018": 635,
+      "2017": 626,
+      "2020": 591,
+      "2019": 555,
+      "2024": 524,
+      "2025": 476,
+      "2021": 460,
+      "2023": 409,
+      "2022": 396
+    },
+    "types_2024": {
+      "https://openalex.org/types/article": 524,
+      "https://openalex.org/types/review": 49,
+      "https://openalex.org/types/editorial": 15,
+      "https://openalex.org/types/retraction": 2,
+      "https://openalex.org/types/erratum": 1
+    },
+    "domains_2024": {
+      "Life Sciences": 357,
+      "Health Sciences": 132,
+      "Social Sciences": 21,
+      "Physical Sciences": 14
+    },
+    "fields_2024": {
+      "Biochemistry, Genetics and Molecular Biology": 243,
+      "Medicine": 126,
+      "Neuroscience": 49,
+      "Immunology and Microbiology": 47,
+      "Agricultural and Biological Sciences": 16,
+      "Psychology": 7,
+      "Social Sciences": 7,
+      "Environmental Science": 6,
+      "Arts and Humanities": 5,
+      "Nursing": 4
+    },
+    "top_insts": [
+      {
+        "name": "Howard Hughes Medical Institute",
+        "count": 183
+      },
+      {
+        "name": "Harvard University",
+        "count": 182
+      },
+      {
+        "name": "Massachusetts Institute of Technology",
+        "count": 110
+      },
+      {
+        "name": "Stanford University",
+        "count": 110
+      },
+      {
+        "name": "Broad Institute",
+        "count": 88
+      },
+      {
+        "name": "Chinese Academy of Sciences",
+        "count": 87
+      },
+      {
+        "name": "University of California, San Francisco",
+        "count": 80
+      },
+      {
+        "name": "Stanford Medicine",
+        "count": 73
+      },
+      {
+        "name": "Massachusetts General Hospital",
+        "count": 59
+      },
+      {
+        "name": "University of Chinese Academy of Sciences",
+        "count": 59
+      },
+      {
+        "name": "University of Pennsylvania",
+        "count": 57
+      },
+      {
+        "name": "Yale University",
+        "count": 56
+      },
+      {
+        "name": "National Institutes of Health",
+        "count": 54
+      },
+      {
+        "name": "University of California San Diego",
+        "count": 50
+      },
+      {
+        "name": "University of Washington",
+        "count": 46
+      }
+    ],
+    "sample_work_coverage": 100.0,
+    "sample_slot_coverage": 97.49780509218613,
+    "sample_size": 100
+  },
+  "nature": {
+    "name": "Nature",
+    "id": "S137773608",
+    "issn": "0028-0836",
+    "year_counts": {
+      "2025": 4550,
+      "2024": 4384,
+      "2023": 4321,
+      "2022": 4108,
+      "2019": 3989,
+      "2018": 3982,
+      "2016": 3976,
+      "2017": 3760,
+      "2021": 3750,
+      "2020": 3646
+    },
+    "article_year_counts": {
+      "2025": 3413,
+      "2024": 3358,
+      "2023": 3285,
+      "2022": 3151,
+      "2021": 2916,
+      "2019": 2888,
+      "2018": 2858,
+      "2020": 2804,
+      "2016": 2543,
+      "2017": 2440
+    },
+    "types_2024": {
+      "https://openalex.org/types/article": 3358,
+      "https://openalex.org/types/other": 667,
+      "https://openalex.org/types/erratum": 140,
+      "https://openalex.org/types/editorial": 90,
+      "https://openalex.org/types/book-review": 82,
+      "https://openalex.org/types/review": 33,
+      "https://openalex.org/types/letter": 8,
+      "https://openalex.org/types/retraction": 5,
+      "https://openalex.org/types/conference-abstract": 1
+    },
+    "domains_2024": {
+      "Physical Sciences": 1238,
+      "Life Sciences": 971,
+      "Social Sciences": 745,
+      "Health Sciences": 393
+    },
+    "fields_2024": {
+      "Biochemistry, Genetics and Molecular Biology": 508,
+      "Social Sciences": 434,
+      "Medicine": 372,
+      "Physics and Astronomy": 308,
+      "Environmental Science": 253,
+      "Neuroscience": 200,
+      "Earth and Planetary Sciences": 176,
+      "Engineering": 170,
+      "Agricultural and Biological Sciences": 147,
+      "Computer Science": 134
+    },
+    "top_insts": [
+      {
+        "name": "Harvard University",
+        "count": 455
+      },
+      {
+        "name": "Centre National de la Recherche Scientifique",
+        "count": 351
+      },
+      {
+        "name": "Stanford University",
+        "count": 333
+      },
+      {
+        "name": "Chinese Academy of Sciences",
+        "count": 311
+      },
+      {
+        "name": "Howard Hughes Medical Institute",
+        "count": 306
+      },
+      {
+        "name": "Massachusetts Institute of Technology",
+        "count": 271
+      },
+      {
+        "name": "University of Cambridge",
+        "count": 267
+      },
+      {
+        "name": "University of Oxford",
+        "count": 239
+      },
+      {
+        "name": "University of California, Berkeley",
+        "count": 191
+      },
+      {
+        "name": "University College London",
+        "count": 178
+      },
+      {
+        "name": "Yale University",
+        "count": 165
+      },
+      {
+        "name": "Stanford Medicine",
+        "count": 159
+      },
+      {
+        "name": "Broad Institute",
+        "count": 155
+      },
+      {
+        "name": "Columbia University",
+        "count": 155
+      },
+      {
+        "name": "University of California, San Francisco",
+        "count": 154
+      }
+    ],
+    "sample_work_coverage": 100.0,
+    "sample_slot_coverage": 100.0,
+    "sample_size": 100
+  },
+  "science": {
+    "name": "Science",
+    "id": "S3880285",
+    "issn": "0036-8075",
+    "year_counts": {
+      "2017": 4884,
+      "2016": 4860,
+      "2018": 4769,
+      "2019": 4685,
+      "2020": 4634,
+      "2021": 3482,
+      "2022": 2056,
+      "2025": 2053,
+      "2024": 2044,
+      "2023": 1967
+    },
+    "article_year_counts": {
+      "2018": 3546,
+      "2016": 3461,
+      "2019": 3439,
+      "2020": 3380,
+      "2017": 3145,
+      "2021": 2518,
+      "2025": 1499,
+      "2024": 1488,
+      "2022": 1416,
+      "2023": 1400
+    },
+    "types_2024": {
+      "https://openalex.org/types/article": 1488,
+      "https://openalex.org/types/editorial": 371,
+      "https://openalex.org/types/book-review": 94,
+      "https://openalex.org/types/review": 36,
+      "https://openalex.org/types/erratum": 29,
+      "https://openalex.org/types/other": 14,
+      "https://openalex.org/types/letter": 8,
+      "https://openalex.org/types/retraction": 4
+    },
+    "domains_2024": {
+      "Physical Sciences": 576,
+      "Life Sciences": 405,
+      "Social Sciences": 229,
+      "Health Sciences": 160
+    },
+    "fields_2024": {
+      "Biochemistry, Genetics and Molecular Biology": 194,
+      "Environmental Science": 163,
+      "Social Sciences": 146,
+      "Medicine": 139,
+      "Physics and Astronomy": 101,
+      "Agricultural and Biological Sciences": 88,
+      "Earth and Planetary Sciences": 82,
+      "Neuroscience": 68,
+      "Engineering": 64,
+      "Materials Science": 64
+    },
+    "top_insts": [
+      {
+        "name": "Centre National de la Recherche Scientifique",
+        "count": 218
+      },
+      {
+        "name": "Harvard University",
+        "count": 206
+      },
+      {
+        "name": "Chinese Academy of Sciences",
+        "count": 205
+      },
+      {
+        "name": "Howard Hughes Medical Institute",
+        "count": 169
+      },
+      {
+        "name": "Stanford University",
+        "count": 150
+      },
+      {
+        "name": "Massachusetts Institute of Technology",
+        "count": 143
+      },
+      {
+        "name": "University of California, Berkeley",
+        "count": 143
+      },
+      {
+        "name": "University of Oxford",
+        "count": 105
+      },
+      {
+        "name": "Yale University",
+        "count": 103
+      },
+      {
+        "name": "University of Washington",
+        "count": 98
+      },
+      {
+        "name": "University of Cambridge",
+        "count": 96
+      },
+      {
+        "name": "University of Chinese Academy of Sciences",
+        "count": 96
+      },
+      {
+        "name": "University of California San Diego",
+        "count": 90
+      },
+      {
+        "name": "University of California, Los Angeles",
+        "count": 87
+      },
+      {
+        "name": "ETH Zurich",
+        "count": 84
+      }
+    ],
+    "sample_work_coverage": 100.0,
+    "sample_slot_coverage": 99.07508161044613,
+    "sample_size": 100
+  },
+  "pnas": {
+    "name": "Proceedings of the National Academy of Sciences (PNAS)",
+    "id": "S125754415",
+    "issn": "0027-8424",
+    "year_counts": {
+      "2025": 4367,
+      "2020": 4359,
+      "2021": 4194,
+      "2018": 4072,
+      "2019": 4044,
+      "2017": 4025,
+      "2024": 3952,
+      "2022": 3939,
+      "2016": 3890,
+      "2023": 3624
+    },
+    "article_year_counts": {
+      "2020": 3962,
+      "2025": 3850,
+      "2021": 3806,
+      "2018": 3734,
+      "2017": 3706,
+      "2019": 3678,
+      "2022": 3664,
+      "2024": 3608,
+      "2016": 3535,
+      "2023": 3384
+    },
+    "types_2024": {
+      "https://openalex.org/types/article": 3608,
+      "https://openalex.org/types/editorial": 145,
+      "https://openalex.org/types/erratum": 120,
+      "https://openalex.org/types/letter": 60,
+      "https://openalex.org/types/review": 15,
+      "https://openalex.org/types/retraction": 4
+    },
+    "domains_2024": {
+      "Life Sciences": 1722,
+      "Physical Sciences": 1076,
+      "Health Sciences": 446,
+      "Social Sciences": 316
+    },
+    "fields_2024": {
+      "Biochemistry, Genetics and Molecular Biology": 1002,
+      "Medicine": 429,
+      "Neuroscience": 337,
+      "Environmental Science": 231,
+      "Agricultural and Biological Sciences": 204,
+      "Earth and Planetary Sciences": 171,
+      "Social Sciences": 168,
+      "Immunology and Microbiology": 166,
+      "Physics and Astronomy": 166,
+      "Engineering": 162
+    },
+    "top_insts": [
+      {
+        "name": "Harvard University",
+        "count": 631
+      },
+      {
+        "name": "Centre National de la Recherche Scientifique",
+        "count": 526
+      },
+      {
+        "name": "Chinese Academy of Sciences",
+        "count": 508
+      },
+      {
+        "name": "Stanford University",
+        "count": 438
+      },
+      {
+        "name": "Howard Hughes Medical Institute",
+        "count": 352
+      },
+      {
+        "name": "Massachusetts Institute of Technology",
+        "count": 346
+      },
+      {
+        "name": "Yale University",
+        "count": 268
+      },
+      {
+        "name": "University of California, Berkeley",
+        "count": 264
+      },
+      {
+        "name": "University of Pennsylvania",
+        "count": 254
+      },
+      {
+        "name": "Princeton University",
+        "count": 248
+      },
+      {
+        "name": "University of Chinese Academy of Sciences",
+        "count": 240
+      },
+      {
+        "name": "University of California San Diego",
+        "count": 233
+      },
+      {
+        "name": "University of Washington",
+        "count": 224
+      },
+      {
+        "name": "National Institutes of Health",
+        "count": 219
+      },
+      {
+        "name": "Cornell University",
+        "count": 212
+      }
+    ],
+    "sample_work_coverage": 100.0,
+    "sample_slot_coverage": 100.0,
+    "sample_size": 100
+  }
+}

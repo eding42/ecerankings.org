@@ -11,9 +11,7 @@
     "https://openalex.org/I63966007",
     "https://openalex.org/I95457486",
     "https://openalex.org/I161318765",
-    "https://openalex.org/I76130692",
-    "https://openalex.org/I1286801614",
-    "https://openalex.org/I165779244"
+    "https://openalex.org/I76130692"
   ],
   "eda": [
     "https://openalex.org/I63966007",
@@ -24,7 +22,6 @@
   "embedded": [
     "https://openalex.org/I63966007",
     "https://openalex.org/I161318765",
-    "https://openalex.org/I155093810",
     "https://openalex.org/I114027177"
   ],
   "sigproc": [
@@ -75,15 +72,12 @@
     "https://openalex.org/I95457486"
   ],
   "powerelec": [
-    "https://openalex.org/I1313843922",
     "https://openalex.org/I76130692",
     "https://openalex.org/I205783295",
-    "https://openalex.org/I891191580",
-    "https://openalex.org/I47303974"
+    "https://openalex.org/I891191580"
   ],
   "power": [
     "https://openalex.org/I76130692",
-    "https://openalex.org/I1313843922",
     "https://openalex.org/I205783295",
     "https://openalex.org/I63966007",
     "https://openalex.org/I95457486"
@@ -92,8 +86,7 @@
     "https://openalex.org/I130701444",
     "https://openalex.org/I95457486",
     "https://openalex.org/I63966007",
-    "https://openalex.org/I161318765",
-    "https://openalex.org/I165779244"
+    "https://openalex.org/I161318765"
   ],
   "photonics": [
     "https://openalex.org/I63966007",

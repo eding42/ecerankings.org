@@ -45,8 +45,8 @@ button.inst-compare:disabled { color:var(--faint); }
 /* Time controls */
 .compare-time { display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; font-size:13px; }
 .compare-time button { font-size:13px; white-space:nowrap; }
-.compare-time input { flex:1 1 160px; min-width:0; margin:0; accent-color:var(--link); cursor:pointer; }
-.compare-time output { min-width:5.5em; text-align:right; font-size:15px; font-weight:600; font-variant-numeric:tabular-nums; }
+.compare-time .ys { flex:1 1 100%; order:9; margin-top:12px; --ys-height:52px; }
+.compare-time output { min-width:5.5em; margin-left:auto; text-align:right; font-size:15px; font-weight:600; font-variant-numeric:tabular-nums; }
 .compare-period { padding:4px 10px; background:none; }
 .compare-period.active { color:var(--link); border-color:var(--link); background:var(--hover); }
 .compare-play { padding:4px 0; background:none!important; border:0; color:var(--muted); min-width:4em; text-align:left; }
@@ -108,7 +108,6 @@ button.inst-compare:disabled { color:var(--faint); }
  .compare-search-item { min-height:44px; }
  .compare-school-edit summary, .compare-remove { display:inline-flex; align-items:center; min-height:44px; }
  .compare-time output { order:-1; flex:1 1 100%; text-align:left; }
- .compare-time input { flex-basis:100%; order:1; min-height:44px; }
  .compare-reset { margin-left:auto; }
  .compare-areas { --value-w:46px; }
  .compare-head, .compare-area { grid-template-columns:minmax(0,1fr) var(--values); column-gap:8px; }
@@ -123,3 +122,6 @@ button.inst-compare:disabled { color:var(--faint); }
  .compare-history-cross { transition:opacity .15s; }
  @keyframes compare-reveal { from { opacity:.4; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
 }
+
+/* Total over the selected areas, set apart from the per-area rows. */
+.compare-overall { font-weight:600; border-bottom:1px solid var(--rule-strong); }

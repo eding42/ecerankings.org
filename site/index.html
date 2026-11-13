@@ -35,17 +35,22 @@
      "includedInDataCatalog":{"@id":"https://ecerankings.eding.dev/#website"}}
   ]}
   </script>
-  <link rel="stylesheet" href="styles.css?v=compare4">
-  <link rel="stylesheet" href="rank-history.css?v=compare4">
-  <link rel="stylesheet" href="comparison.css?v=compare4">
-  <script type="module" src="main.js?v=compare4"></script>
+  <link rel="stylesheet" href="styles.css?v=compare5">
+  <link rel="stylesheet" href="rank-history.css?v=compare5">
+  <link rel="stylesheet" href="comparison.css?v=compare5">
+  <link rel="stylesheet" href="year-strip.css?v=compare5">
+  <script type="module" src="main.js?v=compare5"></script>
 </head>
 <body>
   <a class="skip" href="#rankings">Skip to rankings</a>
 
   <header class="site-header">
     <div class="wrap">
-      <p class="site-title"><a href="./">ECERankings</a></p>
+      <div class="site-branding">
+        <p class="site-title"><a href="./">ECERankings</a></p>
+        <a href="biology/" class="site-brand-tab">BiologyRankings</a>
+        <a href="earth-space/" class="site-brand-tab">EarthSpaceRankings</a>
+      </div>
       <nav aria-label="Site"><a class="eding-project-link" href="https://eding.dev/">Eding</a>
         <a href="./" aria-current="page">Rankings</a>
         <a href="methodology.html">Methodology</a>
@@ -81,6 +86,8 @@
         <button type="button" id="export" disabled>Download CSV</button>
       </div>
     </form>
+
+    <div id="year-strip" class="ys-main" hidden></div>
 
     <div class="layout">
       <aside class="areas" aria-labelledby="areas-heading">
@@ -118,6 +125,7 @@
                 <th scope="col" class="num"><abbr title="Geometric mean of (1 + adjusted count) across the selected areas, minus one">Score</abbr></th>
                 <th scope="col" class="num opt"><abbr title="Adjusted count: each paper worth 1, split evenly among its authors">Adj. count</abbr></th>
                 <th scope="col" class="num opt"><abbr title="Distinct papers with at least one author at this institution">Papers</abbr></th>
+                <th scope="col" class="num opt trend-cell"><abbr title="Rank in each year of the selected range, and places moved from the first year to the last">Trend</abbr></th>
               </tr>
             </thead>
             <tbody id="ranking-body"></tbody>
