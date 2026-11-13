@@ -7,7 +7,7 @@
 
 ## 1. Overview & Phased Implementation
 
-BiologyRankings (`site/biology/`, deployed at `biologyrankings.eding.dev`) provides an institutional ranking of biosciences and biomedical programs based on fractional author credit in selective peer-reviewed journals, mirroring `ecerankings.org` and `csrankings.org`.
+BiologyRankings (hosted at `https://ecerankings.org/biology/`, with optional standalone domain `biologyrankings.eding.dev` pending DNS routing) provides an institutional ranking of biosciences and biomedical programs based on fractional author credit in selective peer-reviewed journals, mirroring `ecerankings.org` and `csrankings.org`.
 
 | Phase | Scope | Status | Notes |
 | :--- | :--- | :---: | :--- |
