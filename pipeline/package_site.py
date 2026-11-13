@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import pathlib
+import re
 import shutil
 import tempfile
 import datetime
@@ -47,6 +48,9 @@ def package(site, output):
             actual = hashlib.sha256(source.read_bytes()).hexdigest()
             if not expected or expected != actual:
                 raise ValueError(f'Release manifest hash mismatch: {relative}')
+    prerendered = re.search(r'<tbody id="ranking-body" data-prerender="([0-9a-f]{64})">', (site / 'index.html').read_text())
+    if not prerendered or prerendered.group(1) != hashlib.sha256((site / 'data/manifest.json').read_bytes()).hexdigest():
+        raise ValueError('index.html ranking is out of date; run: node pipeline/prerender_site.mjs')
     for area in registry['areas']:
         rows = json.loads((site / f'data/{area}.json').read_text())
         if not isinstance(rows, list):
