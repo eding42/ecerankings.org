@@ -23,6 +23,12 @@ class ReleaseTests(unittest.TestCase):
         self.registry = {'areas': {'a': {'name': 'Area', 'default_on': True,
                                          'venues': [{'key': 'journal'}]}}}
 
+    def add_sister_sites(self, site):
+        for name in ('biology', 'earth-space'):
+            (site / name / 'data').mkdir(parents=True)
+            (site / name / 'index.html').write_text('fixture')
+            (site / name / 'data/manifest.json').write_text('{}')
+
     def test_packager_preserves_unrelated_existing_directory(self):
         out = self.path / 'unrelated'
         out.mkdir()
@@ -41,6 +47,7 @@ class ReleaseTests(unittest.TestCase):
         for name in ['index.html', '404.html', 'methodology.html', 'coverage.html', 'styles.css', 'main.js',
                      'rank.js', 'rank-history.js', 'rank-history.css', 'comparison.js', 'comparison.css', 'year-strip.js', 'year-strip.css', 'coverage.js', 'favicon.svg', 'apple-touch-icon.png', 'og.png', '_headers', 'robots.txt', 'sitemap.xml']:
             (site / name).write_text('fixture')
+        self.add_sister_sites(site)
         (site / 'data/manifest.json').write_text(json.dumps({'validation': {'status': 'passed'}, 'artifacts': {}}))
         out.mkdir()
         (out / PACKAGE_MARKER).write_text('generated')
@@ -59,6 +66,7 @@ class ReleaseTests(unittest.TestCase):
         for name in ['index.html', '404.html', 'methodology.html', 'coverage.html', 'styles.css', 'main.js',
                      'rank.js', 'rank-history.js', 'rank-history.css', 'comparison.js', 'comparison.css', 'year-strip.js', 'year-strip.css', 'coverage.js', 'favicon.svg', 'apple-touch-icon.png', 'og.png', '_headers', 'robots.txt', 'sitemap.xml']:
             (site / name).write_text('fixture')
+        self.add_sister_sites(site)
         manifest = site / 'data/manifest.json'
         manifest.write_text(json.dumps({'validation': {'status': 'passed'}, 'artifacts': {
             name: {'sha256': hashlib.sha256(text.encode()).hexdigest()} for name, text in files.items()}}))
@@ -69,6 +77,11 @@ class ReleaseTests(unittest.TestCase):
         (site / 'index.html').write_text(f'<tbody id="ranking-body" data-prerender="{digest}">')
         package(site, out)
         self.assertTrue((out / 'index.html').is_file())
+        self.assertTrue((out / 'biology/index.html').is_file())
+        self.assertTrue((out / 'earth-space/data/manifest.json').is_file())
+        (site / 'biology/data/raw.csv').write_text('x')
+        with self.assertRaisesRegex(ValueError, 'Unexpected file in sister site'):
+            package(site, out)
 
     def test_lfs_promotion_keeps_a_cache_that_can_be_aggregated(self):
         source = self.path / 'source.jsonl'
