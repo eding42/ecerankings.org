@@ -39,7 +39,8 @@ function rowHtml(r) {
     '</span></div></td>' +
     `<td class="num score">${fmt2.format(r.score)}</td>` +
     `<td class="num opt">${fmt1.format(r.adjTotal)}</td>` +
-    `<td class="num opt">${fmtInt.format(r.pubTotal)}</td></tr>`;
+    `<td class="num opt">${fmtInt.format(r.pubTotal)}</td>` +
+    '<td class="num opt trend-cell"></td></tr>'; // main.js fills the trend in once it has computed it
 }
 
 export async function render(siteDir = path.join(ROOT, 'site')) {

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>BioRankings: Elite Biosciences &amp; Biomedical Rankings</title>
+  <meta name="description" content="Institutions ranked by peer-reviewed research papers in elite biosciences journals: Cell, Nature, Science, and PNAS.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141619" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BioRankings">
+  <meta property="og:title" content="BioRankings: Elite Biosciences &amp; Biomedical Rankings">
+  <meta property="og:description" content="Institutions ranked by peer-reviewed research papers in elite biosciences journals: Cell, Nature, Science, and PNAS.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="styles.css?v=bio1">
+  <link rel="stylesheet" href="rank-history.css?v=bio1">
+  <link rel="stylesheet" href="comparison.css?v=bio1">
+  <link rel="stylesheet" href="year-strip.css?v=bio1">
+  <script type="module" src="main.js?v=bio1"></script>
+</head>
+<body>
+  <a class="skip" href="#rankings">Skip to rankings</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <div class="site-branding">
+        <a href="../" class="site-brand-tab">ECERankings</a>
+        <p class="site-title"><a href="./">BiologyRankings</a></p>
+        <a href="../earth-space/" class="site-brand-tab">EarthSpaceRankings</a>
+      </div>
+      <nav aria-label="Site">
+        <a class="eding-project-link" href="https://eding.dev/">Eding</a>
+        <a href="./" aria-current="page">Rankings</a>
+        <a href="https://github.com/eding42/ecerankings.org">Source</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1>Biosciences &amp; Biomedical Rankings</h1>
+    <p class="lede">Institutions ranked by peer-reviewed research in elite flagships (<strong>Cell</strong>, <strong>Nature</strong>, <strong>Science</strong>, <strong>PNAS</strong>) and 32 field-defining disciplinary journals across 12 life sciences subfields.</p>
+    <p class="stamp" id="data-stamp">Data harvested directly from OpenAlex with fractional author credit.</p>
+
+    <form class="filters" id="filters" aria-label="Ranking filters">
+      <div class="field field-region">
+        <label for="region">Region</label>
+        <select id="region" disabled></select>
+      </div>
+      <div class="field">
+        <label for="year-from">From</label>
+        <select id="year-from" disabled></select>
+      </div>
+      <div class="field">
+        <label for="year-to">To</label>
+        <select id="year-to" disabled></select>
+      </div>
+      <div class="field field-grow">
+        <label for="search">Find institution</label>
+        <input id="search" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search" placeholder="Name contains…">
+      </div>
+      <div class="field field-actions">
+        <button type="button" id="export" disabled>Download CSV</button>
+      </div>
+    </form>
+
+    <div id="year-strip" class="ys-main" hidden></div>
+
+    <div class="layout">
+      <aside class="areas" aria-labelledby="areas-heading">
+        <details id="areas-panel" open>
+          <summary><h2 id="areas-heading">Research areas <span id="area-count" class="muted"></span></h2></summary>
+          <p class="area-actions">
+            Select:
+            <button type="button" class="link" data-select="defaults">defaults</button> ·
+            <button type="button" class="link" data-select="all">all</button> ·
+            <button type="button" class="link" data-select="none">none</button>
+          </p>
+          <div id="area-groups"><p class="muted">Loading areas…</p></div>
+          <button type="button" id="areas-done" class="areas-done">Done</button>
+        </details>
+      </aside>
+
+      <section class="results" id="rankings" aria-labelledby="results-heading">
+        <h2 id="results-heading" class="visually-hidden">Rankings</h2>
+        <div class="view-switch" role="group" aria-label="View">
+          <button type="button" id="view-rankings" aria-pressed="true" aria-controls="ranking-view">Rankings</button>
+          <button type="button" id="view-compare" aria-pressed="false" aria-controls="comparison-view">Compare <span id="comparison-count"></span></button>
+        </div>
+        <div id="comparison-tray" class="compare-tray" aria-live="polite"></div>
+        <p id="status" class="status" role="status">Loading data…</p>
+        <div id="error" class="error" role="alert" hidden></div>
+        <div id="comparison-view" class="compare-panel" aria-label="Compare institutions" hidden></div>
+        <div id="ranking-view">
+        <div class="table-scroll">
+          <table class="ranking" id="ranking-table">
+            <caption class="visually-hidden">Institutions ranked by geometric-mean score across the selected areas.</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="num rank">#</th>
+                <th scope="col">Institution</th>
+                <th scope="col" class="num"><abbr title="Geometric mean of (1 + adjusted count) across the selected areas, minus one">Score</abbr></th>
+                <th scope="col" class="num opt"><abbr title="Adjusted count: each paper worth 1, split evenly among its authors">Adj. count</abbr></th>
+                <th scope="col" class="num opt"><abbr title="Distinct papers with at least one author at this institution">Papers</abbr></th>
+                <th scope="col" class="num opt trend-cell"><abbr title="Rank in each year of the selected range, and places moved from the first year to the last">Trend</abbr></th>
+              </tr>
+            </thead>
+            <tbody id="ranking-body"></tbody>
+          </table>
+        </div>
+        <p class="pager" id="pager" hidden>
+          <button type="button" id="show-more"></button>
+          <button type="button" id="show-all" class="link"></button>
+        </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Data from <a href="https://openalex.org/">OpenAlex</a></p>
+    </div>
+  </footer>
+</body>
+</html>

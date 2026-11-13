@@ -9,6 +9,9 @@ ai_temp/
 dist/
 node_modules/
 .wrangler/
+cache_biosciences/
+cache_staged/
+data/biosciences_aggregates/
 
 # Harvest checkpoints and local source backups
 cache/**/.checkpoint

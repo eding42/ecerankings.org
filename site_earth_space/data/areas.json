@@ -1,0 +1,442 @@
+{
+  "_comment": "Venue registry for Earth, Planetary, and Space Sciences (astronomy, planetary science, geosciences). Statuses: verified (passed OpenAlex source and checklist audit).",
+  "areas": {
+    "astronomy": {
+      "name": "Astronomy & Astrophysics",
+      "cluster": "Astronomy & Space",
+      "default_on": true,
+      "venues": [
+        {
+          "key": "apj",
+          "display": "The Astrophysical Journal",
+          "kind": "journal",
+          "openalex_ids": [
+            "S1980519"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            2500,
+            4500
+          ],
+          "notes": "AAS flagship. IOP Publishing. ISSN 0004-637X. Continuous coverage 2005-2025. 85-90% direct OpenAlex affiliation; top facilities include NASA GSFC, STScI, Caltech, CAS, CNRS."
+        },
+        {
+          "key": "aj",
+          "display": "The Astronomical Journal",
+          "kind": "journal",
+          "openalex_ids": [
+            "S100695177"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            400,
+            800
+          ],
+          "notes": "AAS core journal. IOP Publishing. ISSN 0004-6256. Continuous coverage 2005-2025. 98.1% direct affiliation coverage."
+        },
+        {
+          "key": "apjl",
+          "display": "The Astrophysical Journal Letters",
+          "kind": "journal",
+          "openalex_ids": [
+            "S4210175824"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            500,
+            1000
+          ],
+          "notes": "AAS rapid letters. IOP Publishing. ISSN 2041-8205. Independent e-ISSN from 2010; pre-2010 indexed under parent ApJ."
+        },
+        {
+          "key": "apjs",
+          "display": "The Astrophysical Journal Supplement Series",
+          "kind": "journal",
+          "openalex_ids": [
+            "S183686791"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            200,
+            350
+          ],
+          "notes": "AAS comprehensive catalogs and data releases. IOP Publishing. ISSN 0067-0049. Continuous 2005-2025 coverage."
+        },
+        {
+          "key": "mnras",
+          "display": "Monthly Notices of the Royal Astronomical Society",
+          "kind": "journal",
+          "openalex_ids": [
+            "S195663288"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            2000,
+            4200
+          ],
+          "notes": "Royal Astronomical Society / Oxford University Press. ISSN 0035-8711. Continuous 2005-2025. 99.5% direct affiliation coverage."
+        },
+        {
+          "key": "aa",
+          "display": "Astronomy & Astrophysics",
+          "kind": "journal",
+          "openalex_ids": [
+            "S205231332"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            1800,
+            4200
+          ],
+          "notes": "EDP Sciences / European Southern Observatory. ISSN 0004-6361. Continuous 2005-2025 coverage."
+        },
+        {
+          "key": "nat-astro",
+          "display": "Nature Astronomy",
+          "kind": "journal",
+          "openalex_ids": [
+            "S2764494557"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            250,
+            350
+          ],
+          "notes": "Nature Portfolio. ISSN 2397-3366. Founded 2017. Highly selective astronomy research, 99.2% affiliation coverage."
+        },
+        {
+          "key": "science-astro",
+          "display": "Science (Astronomy & Astrophysics)",
+          "kind": "journal",
+          "openalex_ids": [
+            "S3880285"
+          ],
+          "openalex_filter": "primary_topic.subfield.id:3103",
+          "status": "verified",
+          "expected_per_year": [
+            30,
+            180
+          ],
+          "notes": "AAAS flagship. Filtered to primary topic subfield 3103 (Astronomy and Astrophysics). Captures ~30-150 premier astronomy works/yr."
+        }
+      ]
+    },
+    "planetary": {
+      "name": "Planetary Science",
+      "cluster": "Earth & Planetary",
+      "default_on": true,
+      "venues": [
+        {
+          "key": "psj",
+          "display": "The Planetary Science Journal",
+          "kind": "journal",
+          "openalex_ids": [
+            "S4210170572"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            200,
+            350
+          ],
+          "notes": "AAS & Division for Planetary Sciences (DPS). IOP Publishing. ISSN 2632-3338. Founded 2020. Gold Open Access."
+        },
+        {
+          "key": "icarus",
+          "display": "Icarus",
+          "kind": "journal",
+          "openalex_ids": [
+            "S172501725"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            300,
+            500
+          ],
+          "notes": "AAS DPS affiliated / Elsevier. ISSN 0019-1035. Continuous 2005-2025. Top planetary science journal (97.3% affiliation coverage)."
+        },
+        {
+          "key": "epsl",
+          "display": "Earth and Planetary Science Letters",
+          "kind": "journal",
+          "openalex_ids": [
+            "S119230507"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            400,
+            650
+          ],
+          "notes": "Elsevier. ISSN 0012-821X. Continuous 2005-2025. High-impact letters in planetary processes and physical earth science."
+        },
+        {
+          "key": "jgr-planets",
+          "display": "JGR: Planets",
+          "kind": "journal",
+          "openalex_ids": [
+            "S4210222121"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            200,
+            400
+          ],
+          "notes": "AGU / Wiley. ISSN 2169-9097. Independent section source from 2013; parent JGR S207178839 for pre-2013."
+        },
+        {
+          "key": "ess",
+          "display": "Earth and Space Science",
+          "kind": "journal",
+          "openalex_ids": [
+            "S2764679394"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            250,
+            400
+          ],
+          "notes": "AGU / Wiley. ISSN 2333-5084. Founded 2014. Gold Open Access spanning earth, planetary, and space physics."
+        },
+        {
+          "key": "maps",
+          "display": "Meteoritics & Planetary Science",
+          "kind": "journal",
+          "openalex_ids": [
+            "S147556662"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            150,
+            250
+          ],
+          "notes": "Meteoritical Society / Wiley. ISSN 1086-9379. Continuous 2005-2025. Asteroids, planetary evolution, meteorite geochemistry."
+        },
+        {
+          "key": "ssr",
+          "display": "Space Science Reviews",
+          "kind": "journal",
+          "openalex_ids": [
+            "S10873449"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            70,
+            150
+          ],
+          "notes": "Springer. ISSN 0038-6308. Continuous 2005-2025. Syntheses and instrument/mission reports for space exploration."
+        },
+        {
+          "key": "areps",
+          "display": "Annual Review of Earth and Planetary Sciences",
+          "kind": "journal",
+          "openalex_ids": [
+            "S135981667"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            20,
+            35
+          ],
+          "notes": "Annual Reviews. ISSN 0084-6597. Continuous 2005-2025. Premier review journal."
+        }
+      ]
+    },
+    "geosciences": {
+      "name": "Geosciences",
+      "cluster": "Earth & Planetary",
+      "default_on": true,
+      "venues": [
+        {
+          "key": "nat-geo",
+          "display": "Nature Geoscience",
+          "kind": "journal",
+          "openalex_ids": [
+            "S48977010"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            200,
+            300
+          ],
+          "notes": "Nature Portfolio. ISSN 1752-0894. Founded 2008. Premier selective geoscience letters."
+        },
+        {
+          "key": "geology",
+          "display": "Geology",
+          "kind": "journal",
+          "openalex_ids": [
+            "S56162041"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            200,
+            350
+          ],
+          "notes": "Geological Society of America. ISSN 0091-7613. Continuous 2005-2025. Premier rapid geological research."
+        },
+        {
+          "key": "gsa-bulletin",
+          "display": "Geological Society of America Bulletin",
+          "kind": "journal",
+          "openalex_ids": [
+            "S3271665"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            150,
+            350
+          ],
+          "notes": "Geological Society of America. ISSN 0016-7606. Continuous 2005-2025. Definitive long-form geological treatises."
+        },
+        {
+          "key": "esr",
+          "display": "Earth-Science Reviews",
+          "kind": "journal",
+          "openalex_ids": [
+            "S40187045"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            200,
+            350
+          ],
+          "notes": "Elsevier. ISSN 0012-8252. Continuous 2005-2025. Top comprehensive earth science reviews."
+        },
+        {
+          "key": "geoscience-frontiers",
+          "display": "Geoscience Frontiers",
+          "kind": "journal",
+          "openalex_ids": [
+            "S2764860519"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            120,
+            200
+          ],
+          "notes": "China University of Geosciences / Elsevier. ISSN 1674-9871. Founded 2010. Open Access solid earth and environment."
+        },
+        {
+          "key": "precambrian-res",
+          "display": "Precambrian Research",
+          "kind": "journal",
+          "openalex_ids": [
+            "S1025118869"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            200,
+            400
+          ],
+          "notes": "Elsevier. ISSN 0301-9268. Continuous 2005-2025. Early Earth evolution, tectonics, geochronology."
+        },
+        {
+          "key": "jgr-solid-earth",
+          "display": "JGR: Solid Earth",
+          "kind": "journal",
+          "openalex_ids": [
+            "S4210228715"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            500,
+            800
+          ],
+          "notes": "AGU / Wiley. ISSN 2169-9313. Geophysics, petrology, seismology, and tectonophysics."
+        }
+      ]
+    },
+    "cryosphere_climate": {
+      "name": "Cryosphere & Climate Dynamics",
+      "cluster": "Earth & Planetary",
+      "default_on": true,
+      "venues": [
+        {
+          "key": "cryosphere",
+          "display": "The Cryosphere",
+          "kind": "journal",
+          "openalex_ids": [
+            "S169796457"
+          ],
+          "openalex_filter": "type:article",
+          "status": "verified",
+          "expected_per_year": [
+            250,
+            400
+          ],
+          "notes": "EGU / Copernicus. ISSN 1994-0416. Founded 2007. Interactive OA filtered to type:article to exclude peer-review threads."
+        },
+        {
+          "key": "solid-earth",
+          "display": "Solid Earth",
+          "kind": "journal",
+          "openalex_ids": [
+            "S203396075"
+          ],
+          "openalex_filter": "type:article",
+          "status": "verified",
+          "expected_per_year": [
+            60,
+            150
+          ],
+          "notes": "EGU / Copernicus. ISSN 1869-9529. Founded 2010. Filtered to type:article to exclude open review comments."
+        },
+        {
+          "key": "jglac",
+          "display": "Journal of Glaciology",
+          "kind": "journal",
+          "openalex_ids": [
+            "S140216511"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            80,
+            150
+          ],
+          "notes": "International Glaciological Society / Cambridge University Press. ISSN 0022-1430. Continuous 2005-2025."
+        },
+        {
+          "key": "qsr",
+          "display": "Quaternary Science Reviews",
+          "kind": "journal",
+          "openalex_ids": [
+            "S81424476"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            350,
+            550
+          ],
+          "notes": "Elsevier. ISSN 0277-3791. Continuous 2005-2025. Quaternary geology, paleoclimate, and geomorphology."
+        },
+        {
+          "key": "jgr-atmospheres",
+          "display": "JGR: Atmospheres",
+          "kind": "journal",
+          "openalex_ids": [
+            "S207178839"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            700,
+            1100
+          ],
+          "notes": "AGU / Wiley. ISSN 0148-0227. Atmospheric chemistry, climate, and physics."
+        },
+        {
+          "key": "jgr-oceans",
+          "display": "JGR: Oceans",
+          "kind": "journal",
+          "openalex_ids": [
+            "S4210200322"
+          ],
+          "status": "verified",
+          "expected_per_year": [
+            350,
+            600
+          ],
+          "notes": "AGU / Wiley. ISSN 2169-9275. Physical, chemical, and biological oceanography."
+        }
+      ]
+    }
+  }
+}

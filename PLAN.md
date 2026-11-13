@@ -315,3 +315,12 @@ ecerankings.org/
 2. Finish affiliation adjudication for Crossref-sourced years
    (pipeline/adjudicate_review.py + the adjudicate-affiliations skill).
 3. Phase 3: build the static frontend on top of site/data/*.csv.
+
+## Sister Sites: BiologyRankings (`biologyrankings.eding.dev`)
+
+A parallel academic rankings site for biological and biomedical sciences, hosted in `site/biology/` and linked via the top toolbar pill tab:
+- **Phase 1 (Live):** 4 elite multidisciplinary flagships (*Cell*, *Nature*, *Science*, *PNAS*) across 2016–2025.
+- **Phase 2 (Queued):** 28 verified core anchor venues across 10 basic science subfields (~36,000 papers).
+- **Phase 3 (Deferred):** Expanded clinical medicine and hospital specialty suites (JAMA, Lancet, NEJM suites) deferred to maintain basic life sciences parity.
+- **Full Specification:** See [`docs/biologyrankings-roadmap.md`](file:///home/eding/ecerankings.org/docs/biologyrankings-roadmap.md).
+

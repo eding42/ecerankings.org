@@ -2,11 +2,12 @@
 // Ranking math and URL state live in rank.js; this file owns fetching and DOM.
 
 import {
-  REGIONS, listAreas, defaultAreaIds, computeRankings, yearExtent,
+  REGIONS, listAreas, defaultAreaIds, computeRankings, yearExtent, regionMatches,
   encodeState, decodeState, rankingsToCsv, shortVenueName, areaRanks, searchRows,
-} from './rank.js?v=compare4';
+} from './rank.js?v=compare5';
 import { computeAnnualRanks, institutionHistory, renderRankHistory } from './rank-history.js';
-import { renderComparison } from './comparison.js?v=compare4';
+import { renderComparison, compareSchools, ALL_AREAS } from './comparison.js?v=compare5';
+import { createYearStrip, denseStart } from './year-strip.js?v=compare5';
 
 const PAGE_SIZE = 100;
 const COMPARE_MAX = 4;
@@ -40,6 +41,8 @@ const app = {
   lastHash: null,
   revealOpen: false,  // scroll to linked expanded rows once their data loads
   compare: { ids: [], mode: 'rankings', year: null, area: null, showAll: false, playing: false, playTimer: null },
+  yearStrip: null,    // main page strip, created on first use
+  compareStrip: null, // {el, strip} for the strip inside the comparison panel
 };
 
 const $ = (id) => (document.getElementById ? document.getElementById(id) : null);
@@ -373,8 +376,11 @@ function setAreas(ids) {
       }
     }
   }
-  app.sel.disabledVenues = [...disabled];
   app.sel.areas = app.areas.map((a) => a.id).filter((id) => on.has(id));
+  // Unchecked areas must not leave venue exclusions behind: they would leak
+  // into the URL hash for an area that is no longer selected.
+  const activeAreaSet = new Set(app.sel.areas);
+  app.sel.disabledVenues = [...disabled].filter((item) => activeAreaSet.has(item.split(':')[0]));
   syncControls();
   update();
 }
@@ -487,8 +493,8 @@ function bindStaticEvents() {
     app.shown = PAGE_SIZE;
     renderTable();
   });
-  $('show-more').addEventListener('click', () => { app.shown += PAGE_SIZE; renderTable(); });
-  $('show-all').addEventListener('click', () => { app.shown = Infinity; renderTable(); });
+  $('show-more')?.addEventListener('click', () => { app.shown += PAGE_SIZE; renderTable(); });
+  $('show-all')?.addEventListener('click', () => { app.shown = Infinity; renderTable(); });
   $('export').addEventListener('click', exportCsv);
   $('areas-done').addEventListener('click', () => {
     $('areas-panel').open = false;
@@ -538,7 +544,7 @@ function bindStaticEvents() {
   const compact = window.matchMedia('(max-width: 600px)');
   compact.addEventListener('change', () => {
     document.querySelectorAll('tr.detail > td').forEach((cell) => {
-      cell.colSpan = compact.matches ? 3 : 5;
+      cell.colSpan = compact.matches ? 3 : 6;
     });
   });
 }
@@ -564,6 +570,7 @@ async function update() {
     setBusy(false);
     setStatus('Select a research area.');
     clearTable();
+    hideYearStrip();
     updateComparison();
     return;
   }
@@ -571,44 +578,133 @@ async function update() {
   setStatus('Loading…');
   setBusy(true);
 
-  const settled = await Promise.allSettled(sel.areas.map((id) => loadAreaData(id, sel)));
-  if (run !== app.runId) return; // a newer selection superseded this run
+  try {
+    const settled = await Promise.allSettled(sel.areas.map((id) => loadAreaData(id, sel)));
+    // A newer selection owns the busy state from here on.
+    if (run !== app.runId) return;
 
-  setBusy(false);
-  const failed = sel.areas
-    .map((id, i) => ({ id, r: settled[i] }))
-    .filter((x) => x.r.status === 'rejected');
-  if (failed.length) {
-    app.result = null;
-    clearTable();
+    const failed = sel.areas
+      .map((id, i) => ({ id, r: settled[i] }))
+      .filter((x) => x.r.status === 'rejected');
+    if (failed.length) {
+      app.result = null;
+      clearTable();
+      hideYearStrip();
+      updateComparison();
+      showAreaError(failed);
+      return;
+    }
+
+    const activeData = new Map();
+    sel.areas.forEach((id, i) => {
+      activeData.set(id, settled[i].value);
+    });
+
+    const ext = yearExtent(activeData);
+    if (ext && (!app.extent || ext.min !== app.extent.min || ext.max !== app.extent.max)) {
+      app.extent = ext;
+      renderYearOptions();
+    }
+
+    const rows = computeRankings(sel, activeData, app.institutions);
+    app.result = { sel, rows, data: activeData, annualRanks: null };
+    app.shown = PAGE_SIZE;
+    renderYearStrip(sel, activeData);
+    revealOpenRows();
+    renderTable();
     updateComparison();
-    showAreaError(failed);
-    return;
+    writeHash(sel);
+    if (app.revealOpen) {
+      app.revealOpen = false;
+      const first = document.querySelector?.('tr.detail');
+      first?.previousElementSibling?.scrollIntoView({ block: 'center' });
+    }
+  } finally {
+    if (run === app.runId) setBusy(false);
   }
+}
 
-  const activeData = new Map();
-  sel.areas.forEach((id, i) => {
-    activeData.set(id, settled[i].value);
-  });
+// ---- Year strip ------------------------------------------------------------
 
-  const ext = yearExtent(activeData);
-  if (ext && (!app.extent || ext.min !== app.extent.min || ext.max !== app.extent.max)) {
-    app.extent = ext;
-    renderYearOptions();
+function hideYearStrip() {
+  const root = $('year-strip');
+  if (root) root.hidden = true;
+}
+
+// Bars are the adjusted count per year for the selected areas and region.
+function renderYearStrip(sel, data) {
+  const root = $('year-strip');
+  if (!root) return;
+  if (!app.yearStrip) {
+    app.yearStrip = createYearStrip(root, {
+      label: 'Publication years',
+      onPreview: (from, to) => {
+        $('year-from').value = String(from);
+        $('year-to').value = String(to);
+      },
+      onChange: (from, to) => {
+        app.sel.from = from;
+        app.sel.to = to;
+        syncControls();
+        update();
+      },
+    });
   }
-
-  const rows = computeRankings(sel, activeData, app.institutions);
-  app.result = { sel, rows, data: activeData, annualRanks: null };
-  app.shown = PAGE_SIZE;
-  revealOpenRows();
-  renderTable();
-  updateComparison();
-  writeHash(sel);
-  if (app.revealOpen) {
-    app.revealOpen = false;
-    const first = document.querySelector?.('tr.detail');
-    first?.previousElementSibling?.scrollIntoView({ block: 'center' });
+  const inRegion = new Map();
+  const totals = new Map();
+  for (const rows of data.values()) {
+    for (const r of rows) {
+      let ok = inRegion.get(r.i);
+      if (ok === undefined) {
+        ok = regionMatches(sel.region, app.institutions[r.i]?.country || '');
+        inRegion.set(r.i, ok);
+      }
+      if (ok) totals.set(r.y, (totals.get(r.y) || 0) + r.a);
+    }
   }
+  const first = denseStart(totals, sel.from);
+  const last = Math.max(sel.to, app.extent ? app.extent.max : sel.to);
+  const years = [];
+  for (let y = first; y <= last; y++) {
+    const total = totals.get(y) || 0;
+    years.push({
+      year: y, values: [total], partial: isPartialYear(y),
+      text: `${y} · adjusted count ${fmtInt.format(total)}${isPartialYear(y) ? ' · partial year' : ''}`,
+    });
+  }
+  root.hidden = false;
+  app.yearStrip.setData(years);
+  app.yearStrip.setRange(sel.from, sel.to);
+}
+
+// The comparison panel's strip picks one year inside the selected range.
+// Bars are each school's adjusted count over all selected areas.
+function syncCompareStrip(panel) {
+  const el = panel.querySelector('#compare-year');
+  if (!el) { app.compareStrip = null; return; }
+  const { sel, data } = app.result;
+  if (!app.compareStrip || app.compareStrip.el !== el) {
+    const setYear = (year) => {
+      stopComparisonPlayback();
+      app.compare.year = year;
+      updateComparison(true);
+    };
+    const strip = createYearStrip(el, {
+      mode: 'single',
+      label: 'Year',
+      onPreview: setYear,
+      onChange: (year) => { setYear(year); writeHash(app.sel); },
+    });
+    const areas = compareSchools(data, sel.areas, app.compare.ids, sel.from, sel.to);
+    const years = [];
+    for (let y = sel.from; y <= sel.to; y++) {
+      const values = app.compare.ids.map((_, k) => areas.reduce((sum, a) => sum + a.years[y - sel.from].values[k], 0));
+      years.push({ year: y, values, partial: isPartialYear(y), text: `${y} · all areas ${values.map((v) => fmt1.format(v)).join(' · ')}` });
+    }
+    strip.setData(years);
+    app.compareStrip = { el, strip };
+  }
+  app.compareStrip.strip.setRange(app.compare.year);
 }
 
 function setBusy(on) {
@@ -657,6 +753,7 @@ function filteredRows() {
 function renderTable() {
   if (!app.result) return;
   const { sel, rows: all } = app.result;
+  if (sel.from !== sel.to) scheduleTrends(app.result);
   const rows = filteredRows();
   const visible = rows.slice(0, app.shown);
   let status;
@@ -677,7 +774,8 @@ function renderTable() {
       `</span>${open ? comparisonAction(r) : ''}</div></td>` +
       `<td class="num score">${fmt2.format(r.score)}</td>` +
       `<td class="num opt">${fmt1.format(r.adjTotal)}</td>` +
-      `<td class="num opt">${fmtInt.format(r.pubTotal)}</td></tr>`;
+      `<td class="num opt">${fmtInt.format(r.pubTotal)}</td>` +
+      `<td class="num opt trend-cell">${trendCell(r, app.result)}</td></tr>`;
     if (open) html += detailRow(r, did);
   }
   $('ranking-body').innerHTML = html;
@@ -691,6 +789,63 @@ function renderTable() {
   }
 }
 
+// Rank in each year of the range, under the same areas, venues and region.
+function ensureAnnualRanks(result) {
+  if (result.annualRanks) return;
+  result.annualRanks = computeAnnualRanks({
+    startYear: result.sel.from, endYear: result.sel.to,
+    rankingsForYear: year => computeRankings(
+      { ...result.sel, from: year, to: year }, result.data, app.institutions
+    ),
+    rankForResult: row => row.rank,
+  });
+}
+
+// Yearly ranks take a pass over the data per year, so the table paints first
+// and the trend column fills in afterwards.
+function scheduleTrends(result) {
+  if (result.annualRanks || result.trendsPending) return;
+  result.trendsPending = true;
+  setTimeout(() => {
+    ensureAnnualRanks(result);
+    if (app.result === result) renderTable();
+  }, 0);
+}
+
+// Sparkline of yearly rank (up is better) and places moved, first year to last.
+// Unfinished years are left out: their ranks move as papers are indexed.
+function trendCell(r, result) {
+  if (!result.annualRanks) return '';
+  const history = institutionHistory(result.annualRanks, r.id).filter((h) => !isPartialYear(h.year));
+  const points = history.filter((h) => h.rank !== null);
+  if (history.length < 2 || points.length < 2) return '';
+  const ranks = points.map((h) => h.rank);
+  const best = Math.min(...ranks), worst = Math.max(...ranks);
+  const W = 64, H = 20, pad = 3;
+  const x = (year) => pad + ((year - history[0].year) / (history[history.length - 1].year - history[0].year)) * (W - 2 * pad);
+  const y = (rank) => (worst === best ? H / 2 : pad + ((rank - best) / (worst - best)) * (H - 2 * pad));
+  // Break the line across years with no credit instead of bridging them.
+  let d = '';
+  let pen = false;
+  for (const h of history) {
+    if (h.rank === null) { pen = false; continue; }
+    d += `${pen ? 'L' : 'M'}${x(h.year).toFixed(1)},${y(h.rank).toFixed(1)}`;
+    pen = true;
+  }
+  const first = history[0], last = history[history.length - 1];
+  const end = points[points.length - 1];
+  let delta = '';
+  if (first.rank !== null && last.rank !== null) {
+    const moved = first.rank - last.rank;
+    delta = moved === 0
+      ? '<span class="trend-delta">–</span>'
+      : `<span class="trend-delta ${moved > 0 ? 'up' : 'down'}">${moved > 0 ? '▲' : '▼'}${fmtInt.format(Math.abs(moved))}</span>`;
+  }
+  const label = `Rank by year: ${history.map((h) => `${h.year} ${h.rank === null ? 'unranked' : `#${h.rank}`}`).join(', ')}`;
+  return `<span class="trend" title="${esc(label)}"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">` +
+    `<path d="${d}"/><circle cx="${x(end.year).toFixed(1)}" cy="${y(end.rank).toFixed(1)}" r="2.5"/></svg>${delta}</span>`;
+}
+
 function comparisonAction(row) {
   const selected = app.compare.ids.includes(row.id);
   const disabled = app.compare.ids.length >= COMPARE_MAX && !selected;
@@ -700,17 +855,9 @@ function comparisonAction(row) {
 }
 
 function detailRow(r, did) {
-  const columns = typeof matchMedia === 'function' && matchMedia('(max-width: 600px)').matches ? 3 : 5;
+  const columns = typeof matchMedia === 'function' && matchMedia('(max-width: 600px)').matches ? 3 : 6;
   const result = app.result;
-  if (!result.annualRanks) {
-    result.annualRanks = computeAnnualRanks({
-      startYear: result.sel.from, endYear: result.sel.to,
-      rankingsForYear: year => computeRankings(
-        { ...result.sel, from: year, to: year }, result.data, app.institutions
-      ),
-      rankForResult: row => row.rank,
-    });
-  }
+  ensureAnnualRanks(result);
   const trend = renderRankHistory(
     institutionHistory(result.annualRanks, r.id), r.name, 'selected areas, venues and region'
   );
@@ -743,6 +890,7 @@ function readComparisonHash() {
     .map(fullId).filter(id => Object.hasOwn(app.institutions, id));
   app.compare.ids = [...new Set(ids)].slice(0, COMPARE_MAX);
   app.compare.mode = params.get('view') === 'compare' ? 'compare' : 'rankings';
+  if (app.compare.mode !== 'compare') stopComparisonPlayback();
   const year = Number(params.get('compare-year'));
   app.compare.year = params.has('compare-year') && Number.isInteger(year) && year >= app.sel.from && year <= app.sel.to ? year : null;
   app.compare.area = app.sel.areas.includes(params.get('compare-area')) ? params.get('compare-area') : null;
@@ -792,13 +940,14 @@ function selectComparisonSchool(slot, id) {
     else if (existing < 0 && slot < ids.length) ids[slot] = id;
     else if (existing < 0 && ids.length < COMPARE_MAX) ids.push(id);
   }
+  if (ids.length < 2) stopComparisonPlayback();
   renderTable();
   updateComparison();
   writeHash(app.sel);
   $(`compare-school-toggle-${Math.min(slot, ids.length - 1)}`)?.focus();
 }
 
-// Back to the whole period and the largest area; the chosen schools stay.
+// Back to the whole period and all areas; the chosen schools stay.
 function resetComparison() {
   stopComparisonPlayback();
   app.compare.year = null;
@@ -854,13 +1003,7 @@ function bindComparisonEvents() {
     if (e.target.matches('.compare-search-input')) {
       const side = Number(e.target.dataset.schoolSide);
       renderComparisonSearchResults(side, e.target.value);
-      return;
     }
-    if (e.target.id !== 'compare-year') return;
-    stopComparisonPlayback();
-    app.compare.year = Number(e.target.value);
-    updateComparison(true);
-    writeHash(app.sel);
   });
   panel.addEventListener('focusin', e => {
     if (e.target.matches('.compare-search-input')) {
@@ -893,7 +1036,7 @@ function bindComparisonEvents() {
     if (remove) { toggleComparisonSchool(remove.dataset.removeSchool); return; }
     const area = e.target.closest('[data-compare-area]');
     const year = e.target.closest('[data-compare-year]');
-    if (area) app.compare.area = area.dataset.compareArea;
+    if (area) app.compare.area = area.dataset.compareArea === ALL_AREAS ? null : area.dataset.compareArea;
     else if (year) { stopComparisonPlayback(); app.compare.year = Number(year.dataset.compareYear); }
     else if (e.target.closest('[data-whole-period]')) { stopComparisonPlayback(); app.compare.year = null; }
     else return;
@@ -980,10 +1123,10 @@ function stopComparisonPlayback() {
 }
 
 function startComparisonPlayback() {
-  if (!app.result || app.result.sel.from === app.result.sel.to) return;
+  if (!app.result || app.result.sel.from === app.result.sel.to || app.compare.ids.length < 2) return;
   app.compare.playing = true;
   const advance = () => {
-    if (!app.compare.playing || app.compare.mode !== 'compare' || !app.result) { stopComparisonPlayback(); return; }
+    if (!app.compare.playing || app.compare.mode !== 'compare' || !app.result || app.compare.ids.length < 2) { stopComparisonPlayback(); return; }
     const { from, to } = app.result.sel;
     app.compare.year = app.compare.year === null || app.compare.year >= to ? from : app.compare.year + 1;
     updateComparison(true);
@@ -994,6 +1137,7 @@ function startComparisonPlayback() {
 }
 
 function updateComparison(preserveControls = false) {
+  if (app.compare.ids.length < 2) stopComparisonPlayback();
   const active = app.compare.mode === 'compare';
   $('ranking-view').hidden = active;
   $('comparison-view').hidden = !active;
@@ -1020,14 +1164,13 @@ function updateComparison(preserveControls = false) {
     areaById: app.areaById, year: app.compare.year, area: app.compare.area, showAll: app.compare.showAll,
     playing: app.compare.playing, width: Math.max(300, panel.clientWidth || 640) });
   if (preserveControls && panel.querySelector('.compare-areas')) {
-    // Keep the range input alive while dragging so it retains pointer capture.
+    // Keep the year strip alive while dragging so it retains pointer capture.
     const template = document.createElement('template');
     template.innerHTML = html;
     for (const selector of ['.compare-areas', '.compare-history']) {
       panel.querySelector(selector).replaceWith(template.content.querySelector(selector));
     }
     panel.querySelector('.compare-time output').textContent = app.compare.year ?? (sel.from === sel.to ? String(sel.from) : `${sel.from}–${sel.to}`);
-    panel.querySelector('#compare-year').value = app.compare.year ?? sel.to;
     panel.querySelector('[data-reset-comparison]').hidden = template.content.querySelector('[data-reset-comparison]').hidden;
     const total = panel.querySelector('[data-whole-period]');
     total.setAttribute('aria-pressed', String(app.compare.year === null));
@@ -1036,6 +1179,7 @@ function updateComparison(preserveControls = false) {
     play.textContent = app.compare.playing ? 'Pause' : '▶ Play';
     play.setAttribute('aria-pressed', String(app.compare.playing));
   } else panel.innerHTML = html;
+  syncCompareStrip(panel);
   if (active) setStatus('');
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   for (const row of panel.querySelectorAll('[data-compare-area]')) {

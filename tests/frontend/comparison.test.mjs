@@ -189,6 +189,7 @@ test('year playback advances, wraps within the selected range, and stops cleanly
   state.result = result;
   state.sel = selection;
   state.compare.mode = 'compare';
+  state.compare.ids = ['A', 'B'];
   context.startComparisonPlayback();
   assert.equal(state.compare.year, 2020);
   assert.equal(state.compare.playing, true);
@@ -214,9 +215,9 @@ test('the yearly plot draws one line per school across every year, zero years in
 test('Reset appears only once a year or a non-default area is chosen', () => {
   const visibleReset = html => /data-reset-comparison>/.test(html);
   assert.doesNotMatch(C.renderComparison({ result, ids: ['A'], institutions, areaById }), /data-reset-comparison/);
-  // The largest area (quantum) is the default, so choosing it is not a change.
+  // All areas is the default, so choosing any single area is a change.
   assert.equal(visibleReset(C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById })), false);
-  assert.equal(visibleReset(C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById, area: 'quantum' })), false);
+  assert.equal(visibleReset(C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById, area: 'quantum' })), true);
   assert.equal(visibleReset(C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById, area: 'control' })), true);
   assert.equal(visibleReset(C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById, year: 2021 })), true);
 });
@@ -238,3 +239,31 @@ test('Reset returns to all years and the default area but keeps the chosen schoo
   assert.deepEqual(Array.from(state.compare.ids), []);
 });
 
+
+test('the year control is a strip mount point, absent when the range is a single year', async () => {
+  const html = C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById });
+  assert.match(html, /<div class="ys-compare" id="compare-year"><\/div>/);
+  assert.doesNotMatch(html, /type="range"/);
+  const oneYear = { ...result, sel: { ...result.sel, from: 2022, to: 2022 } };
+  assert.doesNotMatch(C.renderComparison({ result: oneYear, ids: ['A', 'B'], institutions, areaById }), /id="compare-year"/);
+  const { denseStart } = await import('../../site/year-strip.js');
+  const totals = new Map([[1981, 5], [2001, 150], [2016, 9000], [2025, 12000]]);
+  assert.equal(denseStart(totals, 2016), 2016);
+  assert.equal(denseStart(totals, 2005), 2005);
+  assert.equal(denseStart(new Map(), 2016), 2016);
+});
+
+test('an All areas row totals the selected areas, leads the list and is the default selection', () => {
+  const html = C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById });
+  const overall = html.match(/data-compare-area="all"[\s\S]*?<\/button>/)[0];
+  assert.match(overall, /All areas/);
+  assert.match(overall, />9\.0<[\s\S]*>11\.0</);
+  assert.ok(html.indexOf('data-compare-area="all"') < html.indexOf('data-compare-area="quantum"'));
+  assert.match(html, /class="compare-area compare-overall selected"/);
+  assert.match(html, /All areas by year/);
+  const year = C.renderComparison({ result, ids: ['A', 'B'], institutions, areaById, year: 2020 });
+  assert.match(year.match(/data-compare-area="all"[\s\S]*?<\/button>/)[0], />7\.0<[\s\S]*>5\.0</);
+  // One selected area is already the total.
+  const single = { ...result, sel: { ...selection, areas: ['quantum'] } };
+  assert.doesNotMatch(C.renderComparison({ result: single, ids: ['A', 'B'], institutions, areaById }), /data-compare-area="all"/);
+});

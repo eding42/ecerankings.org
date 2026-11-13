@@ -73,7 +73,7 @@ def find_venue(registry, venue_key):
     return None, None
 
 
-def api_get(path, params, api_key, retries=3):
+def api_get(path, params, api_key, retries=5):
     params = dict(params)
     params["mailto"] = MAILTO
     if api_key:
@@ -85,10 +85,14 @@ def api_get(path, params, api_key, retries=3):
         try:
             with urllib.request.urlopen(req, timeout=60) as r:
                 return json.loads(r.read())
-        except urllib.error.HTTPError as e:
-            if e.code in (429, 500, 502, 503, 504) and attempt < retries - 1:
-                retry_after = e.headers.get("Retry-After") if e.headers else None
-                time.sleep(float(retry_after) if retry_after else 2 ** attempt)
+        except (urllib.error.HTTPError, urllib.error.URLError, ConnectionResetError, TimeoutError, OSError) as e:
+            if attempt < retries - 1:
+                retry_after = getattr(e, "headers", {}).get("Retry-After") if hasattr(e, "headers") and e.headers else None
+                if isinstance(e, urllib.error.HTTPError) and e.code == 429:
+                    wait = max(5.0, float(retry_after) if retry_after else 5.0 * (2 ** attempt))
+                else:
+                    wait = float(retry_after) if retry_after else 2 ** attempt
+                time.sleep(wait)
                 continue
             raise
 
@@ -155,7 +159,9 @@ def resolve_year_sources(venue, year):
                 if e.get("source") == "openalex":
                     id_year_counts[e["id"]] = id_year_counts.get(e["id"], 0) + 1
             is_multi_year_source = id_year_counts.get(sid, 1) > 1
-            year_filter = year if (is_journal or is_multi_year_source) else None
+            norm_ids = [x.rsplit('/', 1)[-1] for x in venue.get("openalex_ids", [])]
+            is_series_source = sid in norm_ids or entry.get("filter_year")
+            year_filter = year if (is_journal or is_multi_year_source or is_series_source) else None
             return [sid], year_filter, "precise"
         return None, None, "crossref"
     # No per-year registry entry: fall back to filtering the venue's
@@ -164,61 +170,76 @@ def resolve_year_sources(venue, year):
     return ids, year, "filtered"
 
 
-def harvest_year(venue_key, year, source_ids, year_filter, api_key):
-    year_dir = os.path.join(CACHE_DIR, venue_key, str(year))
+def harvest_year(venue_key, year, source_ids, year_filter, api_key, cache_dir=None, extra_filter=None):
+    year_dir = os.path.join(cache_dir or CACHE_DIR, venue_key, str(year))
     os.makedirs(year_dir, exist_ok=True)
     out_path = os.path.join(year_dir, "works.jsonl")
     checkpoint_path = os.path.join(year_dir, ".checkpoint")
 
     source_key = "|".join(source_ids)
+    source_filter = "|".join(source_ids)
+    filter_str = f"primary_location.source.id:{source_filter},type:!paratext"
+    if extra_filter:
+        filter_str += f",{extra_filter}"
+    if year_filter:
+        filter_str += f",publication_year:{year_filter}"
+
     cursor = "*"
+    page = 1
     mode = "w"
+    total = 0
     if os.path.exists(checkpoint_path):
         with open(checkpoint_path) as f:
             state = json.load(f)
-        if state.get("source_key") == source_key:
+        filter_match = state.get("filter") is None or state.get("filter") == filter_str
+        if state.get("source_key") == source_key and filter_match:
             if state.get("done"):
                 print(f"  [{venue_key}/{year}] already complete ({state.get('count', '?')} works). Skipping.")
                 return
             cursor = state.get("cursor", "*")
+            page = state.get("page", 1) + 1 if "page" in state else 1
             mode = "a"
-            print(f"  [{venue_key}/{year}] resuming from checkpoint.")
+            # Appending to works.jsonl, so the checkpoint count must stay
+            # cumulative rather than restarting at this run's first page.
+            total = state.get("count", 0)
+            print(f"  [{venue_key}/{year}] resuming from checkpoint ({total} works already written).")
 
-    source_filter = "|".join(source_ids)
-    filter_str = f"primary_location.source.id:{source_filter},type:!paratext"
-    if year_filter:
-        filter_str += f",publication_year:{year_filter}"
-
-    total = 0
-    page = 0
+    has_more = True
     with open(out_path, mode) as out:
-        while cursor:
-            data = api_get(
-                "/works",
-                {
-                    # Excluding paratext (proceedings front matter, TOCs) rather than
-                    # allowlisting a type string: OpenAlex labels real papers differently
-                    # per venue kind (e.g. "article" for journals, "conference-paper" for
-                    # IEDM) so an allowlist silently drops venues that use another label.
-                    "filter": filter_str,
-                    "select": SELECT_FIELDS,
-                    "per-page": PER_PAGE,
-                    "cursor": cursor,
-                },
-                api_key,
-            )
+        while has_more:
+            params = {
+                "filter": filter_str,
+                "select": SELECT_FIELDS,
+                "per-page": PER_PAGE,
+            }
+            if api_key:
+                params["cursor"] = cursor
+            else:
+                params["page"] = page
+
+            data = api_get("/works", params, api_key)
             results = data.get("results", [])
             for w in results:
                 out.write(json.dumps(trim_work(w)) + "\n")
                 total += 1
             out.flush()
-            page += 1
-            cursor = data.get("meta", {}).get("next_cursor")
-            with open(checkpoint_path, "w") as cp:
-                json.dump({"source_key": source_key, "cursor": cursor, "count": total, "done": cursor is None}, cp)
-            if page % 5 == 0 or cursor is None:
-                print(f"  [{venue_key}/{year}] page {page}, {total} works so far...")
-            time.sleep(0.03)
+
+            meta = data.get("meta", {})
+            if api_key:
+                cursor = meta.get("next_cursor")
+                has_more = bool(cursor)
+                with open(checkpoint_path, "w") as cp:
+                    json.dump({"source_key": source_key, "filter": filter_str, "cursor": cursor, "count": total, "done": not has_more}, cp)
+            else:
+                total_meta = meta.get("count", 0)
+                has_more = len(results) == PER_PAGE and (page * PER_PAGE < total_meta)
+                with open(checkpoint_path, "w") as cp:
+                    json.dump({"source_key": source_key, "filter": filter_str, "page": page, "count": total, "done": not has_more}, cp)
+                page += 1
+
+            if page % 5 == 0 or not has_more:
+                print(f"  [{venue_key}/{year}] page {page - 1 if not api_key else page}, {total} works so far...")
+            time.sleep(0.15)
     print(f"  [{venue_key}/{year}] done, {total} works written to {out_path}")
 
 
@@ -229,6 +250,7 @@ def main():
     parser.add_argument("--year-range", nargs=2, type=int, metavar=("START", "END"),
                         help="Harvest every year from START to END inclusive (useful for journals without years{} entries)")
     parser.add_argument("--all-years", action="store_true", help="Harvest every year listed in the venue's years{} registry entry")
+    parser.add_argument("--cache-dir", default=None, help="Root cache directory to write to (defaults to cache/)")
     args = parser.parse_args()
 
     if not args.year and not args.all_years and not args.year_range:
@@ -243,6 +265,8 @@ def main():
     if venue is None:
         print(f"[{args.venue}] not found in data/areas.json", file=sys.stderr)
         sys.exit(1)
+
+    extra_filter = venue.get("openalex_filter")
 
     if args.all_years:
         years_map = venue.get("years", {})
@@ -268,7 +292,7 @@ def main():
         if not source_ids:
             print(f"  [{args.venue}/{year}] no openalex_ids registered, skipping.", file=sys.stderr)
             continue
-        harvest_year(args.venue, year, source_ids, year_filter, api_key)
+        harvest_year(args.venue, year, source_ids, year_filter, api_key, cache_dir=args.cache_dir, extra_filter=extra_filter)
 
 
 if __name__ == "__main__":

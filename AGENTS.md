@@ -25,7 +25,7 @@ Before starting specialized tasks, consult the corresponding skill. Each skill d
 | :--- | :--- | :--- | :--- |
 | **[`collect-venue-data`](.agents/skills/collect-venue-data/SKILL.md)** | Ingestion | Add or re-verify a venue or area; check source coverage | `data/areas.json`, OpenAlex/Crossref API |
 | **[`adjudicate-affiliations`](.agents/skills/adjudicate-affiliations/SKILL.md)** | Normalization | Resolve unmatched or ambiguous affiliations to OpenAlex IDs | `pipeline/adjudication.py`, `data/affiliation-map.csv` |
-| **[`verify-data`](.agents/skills/verify-data/SKILL.md)** | QA & Gates | Run deterministic checks after harvest, normalization, or refresh | `pipeline/verify.py`, trap checks, gate reports |
+| **[`verify-data`](.agents/skills/verify-data/SKILL.md)** | QA & Gates | Verify data end to end after any harvest, backfill, normalization, adjudication, or aggregation, and before promotion | `pipeline/verify.py` (phases 1-5), `dropped_credit.py`, seeded audits (`audit_map_sample.py`, `audit_bylines.py`, `check_stale_affiliations.py`) |
 | **[`verify-pdf-affiliations`](.agents/skills/verify-pdf-affiliations/SKILL.md)** | QA & Vision | Audit PDF-extracted author affiliations against rendered page images | `pipeline/harvest_ml.py`, checkpoint audits |
 | **[`refresh-data`](.agents/skills/refresh-data/SKILL.md)** | Operations | End-to-end rebuild, validation, promotion, and release deployment | `docs/refresh-runbook.md`, release packaging |
 | **[`clean-copy`](.agents/skills/clean-copy/SKILL.md)** | Frontend / UX | Review or edit user-facing copy; eliminate defensive stubs and noise | `site/`, labels, hints, empty states, toasts |
@@ -43,7 +43,8 @@ Before starting specialized tasks, consult the corresponding skill. Each skill d
 
 #### 3. `verify-data`
 * **Trigger:** Post-harvest, post-normalization, or pre-promotion validation.
-* **Checks:** Catches pipeline bugs, dropped credit, affiliation errors, and missing institution metadata (`pipeline/verify.py --all`) before rankings reach the public static build.
+* **Checks:** Catches pipeline bugs, dropped credit, wrong bylines (cut, repeated, group-named, garbled), affiliation errors, and missing institution metadata (`pipeline/verify.py --all`) before rankings reach the public static build.
+* **Random audits:** rules find only what someone imagined, so the skill also runs seeded, blind audits that measure the error rate of the affiliation map and of cached bylines. Use a fresh seed after every fix.
 
 #### 4. `verify-pdf-affiliations`
 * **Trigger:** After `pipeline/harvest_ml.py` PDF stage or whenever publisher PDFs need manual extraction verification.
@@ -75,6 +76,7 @@ Before starting specialized tasks, consult the corresponding skill. Each skill d
 * `data/excluded-works.csv` — Curated list of non-research items `aggregate.py` skips (editorials, columns, tributes). Keyed by `work_key` (`doi:<normalized>` or `vt:<venue>|<year>|<title>`).
 * `data/institution-aliases.csv` — Duplicate OpenAlex institution IDs folded onto canonical IDs. **Merges require matching name AND country.**
 * `data/affiliation-map.csv` — Maps raw Crossref author affiliation strings to OpenAlex institution IDs.
+* `data/adjudication-traps.csv` — Regression traps for the map: strings whose resolution was once wrong. `adjudication.py check` fails if one regresses, or if the file is missing.
 * `cache/` — Raw OpenAlex/Crossref responses. Managed via Git LFS.
 * `site/` — Static frontend assets (HTML, CSS, plain ES modules). Zero runtime dependencies.
 
@@ -96,6 +98,12 @@ harvest.py            (OpenAlex)   ─┐
 harvest_crossref.py   (Crossref)   ─┼→  cache/<venue>/<year>/works.jsonl
 harvest_s2.py         (S2, ICML)   ─┘      raw Works: authors, raw_affiliations,
                                            institutions (OpenAlex path only)
+
+refresh_openalex_affiliations.py     →  rewrites cache/*/works.jsonl in place
+    OpenAlex-native works harvested before OpenAlex had their affiliations never
+    heard about them. Re-fetches works whose authors ALL lack affiliations by
+    OpenAlex id; accepts a result only if the author list matches position by
+    position. Run after backfill; then normalize and adjudicate the new strings.
 
 backfill_openalex.py                 →  rewrites cache/*/works.jsonl in place
     Crossref/S2 works lack venue-independent affiliation data. Looks up DOIs
@@ -119,6 +127,12 @@ build_institutions.py                →  site/data/institutions.json
     Generates id → {name, country} metadata used for country/regional filtering.
 
 verify.py --all                      →  Console and data/reports/ validation report.
+    Phase 4 (verify_global.py) is the short list: corpus-wide findings ranked by
+    the credit they move, including dropped credit by reason (dropped_credit.py).
+    Phase 5 (verify_authors.py) checks bylines. Read both first.
+
+audit_map_sample.py / audit_bylines.py / check_stale_affiliations.py
+    Seeded random audits that measure the map's and the cache's error rates.
 ```
 
 ### Critical Pipeline Details

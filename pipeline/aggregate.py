@@ -179,8 +179,8 @@ def load_exclusions():
     return excluded
 
 
-def load_registry():
-    with open(AREAS_JSON) as f:
+def load_registry(path=None):
+    with open(path or AREAS_JSON) as f:
         return json.load(f)
 
 
@@ -269,12 +269,13 @@ def find_cached_years(venue_key, cache_dir=None):
 
 
 def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset(),
-                   aliases=None, cache_dir=None, venue_exclusions=None, *, prepared=False):
+                   aliases=None, cache_dir=None, venue_exclusions=None, credit_types=None, *, prepared=False):
     """Process a list of venue keys and return accumulated results.
 
     Returns: (inst_area_year, inst_venue_year, author_area_year_inst,
               inst_names, author_names, metrics, nested_institutions)
     """
+    active_credit_types = credit_types if credit_types is not None else CREDIT_TYPES
     aliases = (aliases or {}) if prepared else canonical_aliases(aliases or {})
     cache_dir = cache_dir or CACHE_DIR
     venue_exclusions = venue_exclusions or {}
@@ -347,12 +348,12 @@ def process_venues(venue_keys, v2a, year_filter, affil_map, excluded=frozenset()
                     for a in authorships:
                         total_authorship_pairs += 1
                         insts = a.get("institutions") or []
-                        edu_insts = [i for i in insts if i.get("type") in CREDIT_TYPES]
+                        edu_insts = [i for i in insts if i.get("type") in active_credit_types]
 
                         if not edu_insts and not insts:
                             raw = a.get("raw_affiliations") or []
                             resolved = resolve_raw_affiliations(raw, affil_map)
-                            edu_insts = [i for i in resolved if i.get("type") in CREDIT_TYPES]
+                            edu_insts = [i for i in resolved if i.get("type") in active_credit_types]
                             if edu_insts:
                                 crossref_resolved += 1
 
@@ -498,10 +499,19 @@ def main():
     parser.add_argument("--no-aggregation-cache", action='store_true', help="Recompute every venue")
     parser.add_argument("--stats", help="Write execution and cache measurements to a separate JSON log")
     parser.add_argument("--cache-dir", default=CACHE_DIR, help="Read an isolated cache tree")
+    parser.add_argument("--areas-json", default=AREAS_JSON, help="Path to areas registry (default: data/areas.json)")
+    parser.add_argument("--credit-types", default="education",
+                        help="Comma-separated institution types to credit (default: education)")
     parser.add_argument("--out", default=None, help="Output directory (required for scoped runs)")
     args = parser.parse_args()
     if args.workers is not None and args.workers < 1:
         parser.error('--workers must be positive')
+
+    if args.credit_types:
+        parsed_types = set(t.strip() for t in args.credit_types.split(",") if t.strip())
+        CREDIT_TYPES.clear()
+        CREDIT_TYPES.update(parsed_types)
+
     from aggregation_runtime import aggregate_venues, select_executor, store_tables
     if not args.sequential:
         try:
@@ -513,7 +523,7 @@ def main():
             args.out is None or output_dir == os.path.realpath(SITE_DATA_DIR)):
         parser.error("Scoped runs require --out pointing outside site/data")
 
-    registry = load_registry()
+    registry = load_registry(args.areas_json)
     v2a = venue_to_area(registry)
 
     venue_keys = sorted(set(args.venue if args.venue else (find_cached_venues(args.cache_dir) if args.all_cached else [])))
@@ -544,7 +554,7 @@ def main():
               f"({os.path.relpath(EXCLUDED_CSV, REPO_ROOT)})")
     report = {}
     results = aggregate_venues(venue_keys, v2a, args.year, affil_map, excluded, aliases,
-                              args.cache_dir, venue_exclusions, workers=args.workers,
+                              args.cache_dir, venue_exclusions, credit_types=CREDIT_TYPES, workers=args.workers,
                               executor=args.executor, sequential=args.sequential,
                               aggregation_cache_dir=None if args.no_aggregation_cache else args.aggregation_cache_dir,
                               report=report, output=output_dir)

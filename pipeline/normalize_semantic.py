@@ -23,6 +23,9 @@ import numpy as np
 import torch
 from sentence_transformers import SentenceTransformer
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from affiliation_evidence import build_name_index, guard_row  # noqa: E402
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHE_DIR = os.path.join(REPO_ROOT, "cache")
 MAP_CSV = os.path.join(REPO_ROOT, "data", "affiliation-map.csv")
@@ -369,6 +372,11 @@ def enrich_rows(rows, db):
                 row["institution_type"] = ""
         else:
             row["institution_id"] = ""
+    # A name match ignores what else the string says (its country, a company
+    # suffix). Hold each accepted row to that evidence.
+    name_index = build_name_index(db["by_id"])
+    for row in rows:
+        guard_row(row["raw_affiliation"], row, db["by_id"], name_index)
     return rows
 
 
