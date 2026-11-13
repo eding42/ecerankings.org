@@ -28,6 +28,9 @@ class ReleaseTests(unittest.TestCase):
             (site / name / 'data').mkdir(parents=True)
             (site / name / 'index.html').write_text('fixture')
             (site / name / 'data/manifest.json').write_text('{}')
+        (site / 'institution/example').mkdir(parents=True)
+        (site / 'institution/index.html').write_text('fixture')
+        (site / 'institution/example/index.html').write_text('fixture')
 
     def test_packager_preserves_unrelated_existing_directory(self):
         out = self.path / 'unrelated'
@@ -78,6 +81,7 @@ class ReleaseTests(unittest.TestCase):
         package(site, out)
         self.assertTrue((out / 'index.html').is_file())
         self.assertTrue((out / 'biology/index.html').is_file())
+        self.assertTrue((out / 'institution/example/index.html').is_file())
         self.assertTrue((out / 'earth-space/data/manifest.json').is_file())
         (site / 'biology/data/raw.csv').write_text('x')
         with self.assertRaisesRegex(ValueError, 'Unexpected file in sister site'):

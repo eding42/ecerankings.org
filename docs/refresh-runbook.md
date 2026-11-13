@@ -119,7 +119,8 @@ python3 pipeline/package_site.py --out dist
 npx wrangler pages deploy dist --project-name ecerankings --branch main
 ```
 
-`prerender_site.mjs` writes the default ranking into `site/index.html`; commit the
+`prerender_site.mjs` writes the default ranking into `site/index.html`, one page per
+ranked institution under `site/institution/`, and `site/sitemap.xml`; commit the
 result with the data. The packager refuses an `index.html` built from other data.
 The packager requires the release manifest and matching public-asset hashes;
 it excludes CSVs, raw cache data, and LFS pointers, copies the `biology/` and

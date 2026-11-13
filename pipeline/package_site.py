@@ -55,6 +55,11 @@ def package(site, output):
             if (site / vpath).is_file():
                 public.append(vpath)
     public += sister_files(site)
+    # Institution pages come from prerender_site.mjs, together with the ranking in index.html.
+    pages = sorted(p.relative_to(site).as_posix() for p in (site / 'institution').rglob('*') if p.is_file())
+    if 'institution/index.html' not in pages or any(not p.endswith('/index.html') for p in pages):
+        raise ValueError('institution/ is missing or holds unexpected files; run: node pipeline/prerender_site.mjs')
+    public += pages
     institutions = json.loads((site / 'data/institutions.json').read_text())
     manifest = json.loads((site / 'data/manifest.json').read_text())
     if manifest.get('validation', {}).get('status') != 'passed':
@@ -68,7 +73,7 @@ def package(site, output):
             raise ValueError(f'Asset exceeds Cloudflare 25 MiB limit: {relative}')
         if source.read_bytes()[:50].startswith(b'version https://git-lfs.github.com/spec/v1'):
             raise ValueError(f'Unmaterialized Git LFS pointer: {relative}')
-        if relative.split('/')[0] in SISTER_SITES:
+        if relative.split('/')[0] in SISTER_SITES + ['institution']:
             continue
         if relative.startswith('data/') and relative != 'data/manifest.json':
             expected = artifacts.get(relative.removeprefix('data/'), {}).get('sha256')
