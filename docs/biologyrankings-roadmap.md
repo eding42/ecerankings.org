@@ -1,6 +1,6 @@
 # BiologyRankings.eding.dev — Expansion Roadmap & Deferred Venues
 
-**Status:** Phase 1 Live | Phase 2 Staged | Phase 3 Deferred  
+**Status:** Phase 1 & 2 Live | Phase 3 Deferred  
 **Last Updated:** November 2026  
 
 ---
@@ -11,9 +11,9 @@ BiologyRankings (`site/biology/`, deployed at `biologyrankings.eding.dev`) provi
 
 | Phase | Scope | Status | Notes |
 | :--- | :--- | :---: | :--- |
-| **Phase 1** | **Elite Multidisciplinary Core (4 Venues)** | **LIVE** | *Cell*, *Nature*, *Science*, *PNAS* (2016–2025; 56,396 works). Parallel toolbar tab active on `ecerankings.org`. Botanical emerald palette. |
-| **Phase 2** | **Core Life Sciences & Bioengineering (28 Venues)** | **QUEUED** | Field-defining disciplinary anchors across the 10 basic science subfields (~36,000 papers). IDs pre-resolved in `data/core_bio_sources.json`. |
-| **Phase 3** | **Expanded Clinical & Specialty Catalog (50+ Venues)** | **DEFERRED** | Full JAMA, Lancet, NEJM clinical suites, public health series, and secondary open-access discovery cascades. Deferred to prevent hospital volume skew and maintain basic life sciences parity. |
+| **Phase 1** | **Elite Multidisciplinary Core (4 Venues)** | **LIVE** | *Cell*, *Nature*, *Science*, *PNAS* (2016–2025). Botanical emerald palette. |
+| **Phase 2** | **Core Life Sciences & Bioengineering (32 Venues)** | **LIVE** | Field-defining disciplinary anchors across 11 subfields + elite core (149,162 works across 36 total venues, 134,412 primary research articles after front-matter filtering). Full institutional rollups active. |
+| **Phase 3** | **Expanded Clinical & Specialty Catalog (50+ Venues)** | **DEFERRED** | Full JAMA, Lancet, NEJM clinical suites, public health series, and secondary open-access cascades. Deferred to prevent hospital clinical trial skew and preserve basic life sciences parity. |
 
 ---
 
