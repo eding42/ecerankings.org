@@ -92,6 +92,13 @@ export function defaultAreaIds(areas) {
   return areas.filter((a) => a.defaultOn).map((a) => a.id);
 }
 
+export function typeMatches(filter, instType) {
+  if (!filter || filter === 'all') return true;
+  if (filter === 'education') return !instType || instType === 'education';
+  if (filter === 'research') return Boolean(instType && instType !== 'education');
+  return instType === filter;
+}
+
 /**
  * Rank institutions.
  *
@@ -101,9 +108,9 @@ export function defaultAreaIds(areas) {
  * zero-count areas included in the mean. Institutions with no credit in any
  * selected area are omitted.
  *
- * @param {{from:number,to:number,region:string,areas:string[]}} sel
+ * @param {{from:number,to:number,region:string,type?:string,areas:string[]}} sel
  * @param {Map<string, Array<{i:string,n:string,y:number,p:number,a:number}>>} dataByArea
- * @param {Object<string,{name:string,country:string}>} institutions
+ * @param {Object<string,{name:string,country:string,type?:string}>} institutions
  */
 export function computeRankings(sel, dataByArea, institutions) {
   const areas = sel.areas;
@@ -130,6 +137,8 @@ export function computeRankings(sel, dataByArea, institutions) {
     const meta = institutions[s.id];
     const country = (meta && meta.country) || '';
     if (!regionMatches(sel.region, country)) continue;
+    const instType = (meta && meta.type) || '';
+    if (!typeMatches(sel.type, instType)) continue;
     let logSum = 0;
     let adjTotal = 0;
     let pubTotal = 0;
@@ -145,6 +154,7 @@ export function computeRankings(sel, dataByArea, institutions) {
       id: s.id,
       name: (meta && meta.name) || s.fallbackName || s.id,
       country,
+      type: instType,
       score: Math.expm1(logSum / k),
       adjTotal,
       pubTotal,
@@ -293,6 +303,8 @@ export function encodeState(sel, defaults) {
   if (sel.to !== defaults.to) p.set('to', String(sel.to));
   const defRegion = (defaults && defaults.region) || 'US';
   if (sel.region !== defRegion) p.set('region', sel.region);
+  const defType = (defaults && defaults.type) || 'all';
+  if (sel.type && sel.type !== defType) p.set('type', sel.type);
   const a = [...sel.areas].sort().join(',');
   if (a !== [...defaults.areas].sort().join(',')) p.set('areas', a || 'none');
   if (sel.disabledVenues && sel.disabledVenues.length > 0) {
@@ -313,6 +325,7 @@ export function decodeState(hash, defaults, knownAreaIds) {
     areas: [...defaults.areas],
     disabledVenues: [],
   };
+  if (defaults && defaults.type) sel.type = defaults.type;
   const from = parseInt(p.get('from'), 10);
   const to = parseInt(p.get('to'), 10);
   // Bound untrusted URL values before the UI creates a year option per year.
@@ -322,6 +335,10 @@ export function decodeState(hash, defaults, knownAreaIds) {
   if (sel.from > sel.to) [sel.from, sel.to] = [sel.to, sel.from];
   const region = p.get('region');
   if (region && isValidRegion(region)) sel.region = region;
+  const instType = p.get('type');
+  if (instType && ['all', 'education', 'research', 'facility', 'government', 'nonprofit'].includes(instType)) {
+    sel.type = instType;
+  }
   const areas = p.get('areas');
   if (areas === 'none') sel.areas = [];
   else if (areas) {

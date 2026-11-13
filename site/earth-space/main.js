@@ -20,6 +20,18 @@ const AREA_NOTES = {
   ml: 'Coverage not fully verified.',
 };
 
+const TYPE_LABELS = {
+  facility: { label: 'Facility', title: 'Research facility / observatory' },
+  government: { label: 'Gov', title: 'Government agency / survey' },
+  nonprofit: { label: 'Non-profit', title: 'Non-profit research institute' },
+};
+
+function instTypeBadge(type) {
+  if (!type || type === 'education') return '';
+  const meta = TYPE_LABELS[type] || { label: type, title: type };
+  return ` <abbr class="inst-type" title="${esc(meta.title)}">${esc(meta.label)}</abbr>`;
+}
+
 const app = {
   areas: [],          // [{id, name, cluster, defaultOn, venues}] in registry order
   areaById: new Map(),
@@ -176,10 +188,13 @@ async function init() {
     from: app.latestComplete - 9,
     to: app.latestComplete,
     region: 'US',
+    type: 'all',
     areas: defaultAreaIds(app.areas),
     disabledVenues: [],
   };
   app.sel = readHash();
+  // index.html ships with the default ranking; drop it for any other selection.
+  if (encodeState(app.sel, app.defaults)) $('ranking-body').innerHTML = '';
   readComparisonHash();
   readOpenHash();
 
@@ -187,7 +202,10 @@ async function init() {
   renderAreaGroups();
   renderYearOptions();
   syncControls();
-  ['region', 'year-from', 'year-to'].forEach((id) => { $(id).disabled = false; });
+  ['region', 'inst-type', 'year-from', 'year-to'].forEach((id) => {
+    const el = $(id);
+    if (el) el.disabled = false;
+  });
   update();
 }
 
@@ -325,6 +343,8 @@ function renderAreaGroups() {
 function syncControls() {
   const s = app.sel;
   $('region').value = s.region;
+  const typeEl = $('inst-type');
+  if (typeEl) typeEl.value = s.type || 'all';
   renderYearOptions();
   $('year-from').value = String(s.from);
   $('year-to').value = String(s.to);
@@ -418,6 +438,10 @@ function bindStaticEvents() {
   });
   $('region').addEventListener('change', (e) => {
     app.sel.region = e.target.value;
+    update();
+  });
+  $('inst-type')?.addEventListener('change', (e) => {
+    app.sel.type = e.target.value;
     update();
   });
   $('year-from').addEventListener('change', (e) => {
@@ -769,6 +793,7 @@ function renderTable() {
       `<td class="name"><div class="inst-name-line"><span class="inst-name-main"><button type="button" class="inst" data-id="${esc(r.id)}" aria-expanded="${open}" aria-controls="${did}">` +
       `<span class="tri" aria-hidden="true">${open ? '▾' : '▸'}</span>${esc(r.name)}</button>` +
       (r.country ? ` <abbr class="cc" title="${esc(countryName(r.country))}">${esc(r.country)}</abbr>` : '') +
+      instTypeBadge(r.type) +
       `</span>${open ? comparisonAction(r) : ''}</div></td>` +
       `<td class="num score">${fmt2.format(r.score)}</td>` +
       `<td class="num opt">${fmt1.format(r.adjTotal)}</td>` +
@@ -1201,7 +1226,8 @@ function exportCsv() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `ecerankings-${app.result.sel.region}-${app.result.sel.from}-${app.result.sel.to}.csv`;
+  const typePart = (app.result.sel.type && app.result.sel.type !== 'all') ? `-${app.result.sel.type}` : '';
+  a.download = `ecerankings-${app.result.sel.region}${typePart}-${app.result.sel.from}-${app.result.sel.to}.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

@@ -77,6 +77,32 @@ test('no areas selected yields no rows', () => {
   assert.deepEqual(R.computeRankings(sel({ areas: [] }), data, inst), []);
 });
 
+test('institution sector filtering isolates universities vs research labs', () => {
+  const instTypes = {
+    A: { name: 'Alpha University', country: 'US', type: 'education' },
+    B: { name: 'Beta Observatory', country: 'DE', type: 'facility' },
+    C: { name: 'Gamma Survey', country: 'US', type: 'government' },
+    D: { name: 'Delta Institute', country: '', type: 'nonprofit' },
+  };
+  const all = R.computeRankings(sel(), data, instTypes);
+  assert.equal(all.length, 4);
+
+  const edu = R.computeRankings(sel({ type: 'education' }), data, instTypes);
+  assert.deepEqual(edu.map((r) => r.id), ['A']);
+
+  const research = R.computeRankings(sel({ type: 'research' }), data, instTypes);
+  assert.deepEqual(research.map((r) => r.id).sort(), ['B', 'C', 'D']);
+
+  const fac = R.computeRankings(sel({ type: 'facility' }), data, instTypes);
+  assert.deepEqual(fac.map((r) => r.id), ['B']);
+
+  const gov = R.computeRankings(sel({ type: 'government' }), data, instTypes);
+  assert.deepEqual(gov.map((r) => r.id), ['C']);
+
+  const npo = R.computeRankings(sel({ type: 'nonprofit' }), data, instTypes);
+  assert.deepEqual(npo.map((r) => r.id), ['D']);
+});
+
 test('URL state round-trips and omits defaults', () => {
   const defaults = { from: 2016, to: 2025, region: 'US', areas: ['x', 'y'], disabledVenues: [] };
   const known = ['x', 'y', 'z'];
@@ -91,6 +117,14 @@ test('URL state round-trips and omits defaults', () => {
   // garbage is ignored, reversed years are swapped
   const g = R.decodeState('#from=2030&to=2001&region=<x>&areas=bogus&disabled_venues=invalid,x:ok', defaults, known);
   assert.deepEqual(g, { from: 2001, to: 2030, region: 'US', areas: ['x', 'y'], disabledVenues: ['x:ok'] });
+
+  // type parameter round-trips when specified
+  const defWithType = { ...defaults, type: 'all' };
+  const stType = { ...defaults, type: 'research' };
+  const hType = R.encodeState(stType, defWithType);
+  assert.equal(hType, '#type=research');
+  assert.equal(R.decodeState(hType, defWithType, known).type, 'research');
+  assert.equal(R.encodeState({ ...defaults, type: 'all' }, defWithType), '');
 });
 
 test('CSV quotes fields and lists every ranked row', () => {

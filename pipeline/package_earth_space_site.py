@@ -236,6 +236,17 @@ def package_site(target_dir):
         <label for="region">Region</label>
         <select id="region" disabled></select>
       </div>
+      <div class="field field-type">
+        <label for="inst-type">Sector</label>
+        <select id="inst-type" disabled>
+          <option value="all">All sectors</option>
+          <option value="education">Universities</option>
+          <option value="research">Research labs &amp; centers</option>
+          <option value="facility">Observatories &amp; facilities</option>
+          <option value="government">Government agencies</option>
+          <option value="nonprofit">Non-profit institutes</option>
+        </select>
+      </div>
       <div class="field">
         <label for="year-from">From</label>
         <select id="year-from" disabled></select>
