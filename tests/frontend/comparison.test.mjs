@@ -76,8 +76,12 @@ test('empty and one-school views show only the institution pickers', () => {
 
 function appContext(keepHashWriter = false) {
   const context = vm.createContext({ console, setTimeout, clearTimeout, document: { readyState: 'loading', addEventListener() {} } });
-  const main = readFileSync(new URL('../../site/main.js', import.meta.url), 'utf8');
-  vm.runInContext(main.replace(/^import [\s\S]*? from '[^']+';$/gm, ''), context);
+  const main = readFileSync(new URL('../../site/core/engine.js', import.meta.url), 'utf8');
+  const script = main
+    .replace(/^import [\s\S]*? from '[^']+';$/gm, '')
+    .replace(/^export (async function|function|const|let|var)\s+/gm, '$1 ')
+    .replace(/^export \{[\s\S]*?\};?\s*$/gm, '');
+  vm.runInContext(script, context);
   vm.runInContext('renderTable = () => {}; updateComparison = () => {};', context);
   if (!keepHashWriter) vm.runInContext('writeHash = () => {};', context);
   const state = vm.runInContext('app', context);

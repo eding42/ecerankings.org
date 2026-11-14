@@ -166,20 +166,17 @@ def package_site(target_dir):
     with open(os.path.join(site_data_dir, "manifest.json"), "w") as f:
         json.dump(manifest, f, indent=2)
 
-    # 6. Copy static assets from site/
-    static_files = [
-        "styles.css", "main.js", "rank.js", "rank-history.js", "rank-history.css",
-        "comparison.js", "comparison.css", "year-strip.js", "year-strip.css",
-        "coverage.js", "favicon.svg"
-    ]
-    for sf in static_files:
+    # 6. Copy favicon if missing
+    for sf in ["favicon.svg"]:
         src = os.path.join(REPO_ROOT, "site", sf)
-        if os.path.exists(src):
-            shutil.copy2(src, os.path.join(target_dir, sf))
+        dst = os.path.join(target_dir, sf)
+        if os.path.exists(src) and not os.path.exists(dst):
+            shutil.copy2(src, dst)
 
     # 7. Write index.html with appropriate title and sister site navigation
     is_integrated = (target_dir == SITE_INTEGRATED)
     parent_prefix = "../" if is_integrated else "./"
+    core_prefix = f"{parent_prefix}core/"
     bio_prefix = "../biology/" if is_integrated else "https://bio.ecerankings.org/"
     ece_prefix = "../" if is_integrated else "https://ecerankings.org/"
 
@@ -199,10 +196,10 @@ def package_site(target_dir):
   <meta property="og:title" content="EarthSpaceRankings: Astronomy, Planetary Science, Geosciences &amp; Climate">
   <meta property="og:description" content="Institutions ranked by peer-reviewed research papers in Astronomy &amp; Astrophysics, Planetary Science, Geosciences, and Cryosphere &amp; Climate Dynamics.">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="styles.css?v=geo1">
-  <link rel="stylesheet" href="rank-history.css?v=geo1">
-  <link rel="stylesheet" href="comparison.css?v=geo1">
-  <link rel="stylesheet" href="year-strip.css?v=geo1">
+  <link rel="stylesheet" href="styles.css?v=geo2">
+  <link rel="stylesheet" href="{core_prefix}rank-history.css?v=geo1">
+  <link rel="stylesheet" href="{core_prefix}comparison.css?v=geo1">
+  <link rel="stylesheet" href="{core_prefix}year-strip.css?v=geo1">
   <script type="module" src="main.js?v=geo1"></script>
 </head>
 <body>

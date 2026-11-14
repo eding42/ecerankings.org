@@ -5,7 +5,7 @@ import vm from 'node:vm';
 import * as history from '../site/rank-history.js';
 import * as ranking from '../site/rank.js';
 
-const mainSource = readFileSync(new URL('../site/main.js', import.meta.url), 'utf8');
+const mainSource = readFileSync(new URL('../site/core/engine.js', import.meta.url), 'utf8');
 const rows = {
   circuits: [
     { i: 'a', y: 2020, a: 4 }, { i: 'b', y: 2020, a: 1 }, { i: 'c', y: 2020, a: 9 },
@@ -25,7 +25,11 @@ function currentApp() {
     ...history, ...ranking, console, setTimeout, clearTimeout,
     document: { readyState: 'loading', addEventListener() {} }
   });
-  vm.runInContext(mainSource.replace(/^import [\s\S]*? from '[^']+';$/gm, ''), context);
+  const script = mainSource
+    .replace(/^import [\s\S]*? from '[^']+';$/gm, '')
+    .replace(/^export (async function|function|const|let|var)\s+/gm, '$1 ')
+    .replace(/^export \{[\s\S]*?\};?\s*$/gm, '');
+  vm.runInContext(script, context);
   const state = vm.runInContext('app', context);
   Object.assign(state, {
     data: new Map(Object.entries(rows)),

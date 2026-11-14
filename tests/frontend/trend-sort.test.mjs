@@ -89,12 +89,16 @@ test('score mode leaves the default ranking order alone', () => {
 });
 
 test('the table engine filters and sorts through the shared trend helpers', () => {
-  const mainSource = readFileSync(path.join(siteDir, 'main.js'), 'utf8');
+  const mainSource = readFileSync(path.join(siteDir, 'core', 'engine.js'), 'utf8');
   const context = vm.createContext({
     ...history, ...R, console, setTimeout, clearTimeout,
     document: { readyState: 'loading', addEventListener() {} },
   });
-  vm.runInContext(mainSource.replace(/^import [\s\S]*? from '[^']+';$/gm, ''), context);
+  const script = mainSource
+    .replace(/^import [\s\S]*? from '[^']+';$/gm, '')
+    .replace(/^export (async function|function|const|let|var)\s+/gm, '$1 ')
+    .replace(/^export \{[\s\S]*?\};?\s*$/gm, '');
+  vm.runInContext(script, context);
   const app = vm.runInContext('app', context);
 
   const data = new Map([['x', [
@@ -129,11 +133,13 @@ test('engine and every sister site expose the Trend sort control', () => {
     assert.match(html, /class="[^"]*trend-cell[^"]*"\s+aria-sort="none"/, rel);
     assert.match(html, /<button[^>]+data-sort="trend"/, rel);
   }
+  const engineJs = readFileSync(path.join(siteDir, 'core', 'engine.js'), 'utf8');
+  assert.match(engineJs, /sortRowsByTrend/, 'engine.js uses the shared trend sort');
+  assert.match(engineJs, /nextTrendSort/, 'engine.js cycles the trend sort');
+  assert.match(engineJs, /aria-sort/, 'engine.js reports the sort state');
   for (const rel of ['main.js', 'biology/main.js', 'earth-space/main.js']) {
     const js = readFileSync(path.join(siteDir, rel), 'utf8');
-    assert.match(js, /sortRowsByTrend/, `${rel} uses the shared trend sort`);
-    assert.match(js, /nextTrendSort/, `${rel} cycles the trend sort`);
-    assert.match(js, /aria-sort/, `${rel} reports the sort state`);
+    assert.match(js, /initRankingsApp/, `${rel} boots the shared engine`);
   }
   // A future Earth & Space package keeps the control in its generated header.
   const packager = readFileSync(path.join(root, 'pipeline', 'package_earth_space_site.py'), 'utf8');
