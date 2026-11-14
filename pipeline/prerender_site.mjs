@@ -245,15 +245,15 @@ export async function build(siteDir = path.join(ROOT, 'site')) {
     <dl class="inst-stats">
       <div class="lead"><dt>US rank</dt><dd>#${r.rank}<small> of ${fmtInt.format(ranked.length)}</small></dd></div>
       <div><dt><a href="/methodology">Score</a></dt><dd>${fmt2.format(r.score)}</dd></div>
-      <div><dt>Adjusted count</dt><dd>${fmt1.format(r.adjTotal)}</dd></div>
-      <div><dt>Papers</dt><dd>${fmtInt.format(r.pubTotal)}</dd></div>
+      <div><dt><abbr data-metric="adj-count" tabindex="0" title="Each paper is worth 1, split evenly among its authors and their institutions.">Adjusted count</abbr></dt><dd>${fmt1.format(r.adjTotal)}</dd></div>
+      <div><dt><abbr data-metric="papers" tabindex="0" title="Distinct papers with at least one author at this institution.">Papers</abbr></dt><dd>${fmtInt.format(r.pubTotal)}</dd></div>
     </dl>
 
     <div class="inst-grid">
       <section>
         <h2>By research area</h2>
         <table class="inst-areas">
-          <thead><tr><th scope="col">Area</th><th scope="col" class="num">US rank</th><th scope="col" colspan="2" class="num">Adj. count</th><th scope="col" class="num">Papers</th></tr></thead>
+          <thead><tr><th scope="col">Area</th><th scope="col" class="num">US rank</th><th scope="col" colspan="2" class="num"><abbr data-metric="adj-count" tabindex="0" title="Each paper is worth 1, split evenly among its authors and their institutions.">Adj. count</abbr></th><th scope="col" class="num"><abbr data-metric="papers" tabindex="0" title="Distinct papers with at least one author at this institution.">Papers</abbr></th></tr></thead>
           <tbody>
 ${areaRows}
           </tbody>

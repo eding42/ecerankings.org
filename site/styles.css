@@ -77,6 +77,60 @@ a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible
 
 abbr[title] { text-decoration: none; cursor: help; }
 
+.ranking thead th abbr,
+.breakdown thead th abbr,
+.inst-areas thead th abbr,
+.inst-stats dt abbr {
+  text-decoration: underline dotted var(--rule-strong);
+  text-underline-offset: 3px;
+  cursor: help;
+}
+
+.header-tooltip {
+  position: fixed;
+  z-index: 1000;
+  max-width: 290px;
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  pointer-events: auto;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  transform: translateY(-4px);
+  text-align: left;
+}
+.header-tooltip.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.header-tooltip-title {
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.header-tooltip-desc {
+  margin: 0;
+  color: var(--text-2);
+}
+.header-tooltip-link {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--link);
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.header-tooltip-link:hover {
+  text-decoration: underline;
+}
+
 .wrap {
   max-width: 1180px; margin: 0 auto;
   padding-left: max(20px, env(safe-area-inset-left));

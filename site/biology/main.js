@@ -409,8 +409,157 @@ function toggleVenue(areaId, venueKey, isChecked) {
   update();
 }
 
+// ---- Header tooltips -------------------------------------------------------
+
+const METRIC_TIPS = {
+  score: {
+    title: 'Score',
+    desc: 'Geometric mean of (1 + adjusted count) across the selected areas, minus 1.',
+    link: '../methodology.html',
+    linkText: 'Methodology →',
+  },
+  'adj-count': {
+    title: 'Adjusted count',
+    desc: 'Each paper is worth 1, split evenly among its authors and their institutions.',
+    link: '../methodology.html',
+    linkText: 'Methodology →',
+  },
+  papers: {
+    title: 'Papers',
+    desc: 'Distinct papers with at least one author at this institution.',
+  },
+  trend: {
+    title: 'Trend',
+    desc: 'Annual rank and places moved over the selected years.',
+  },
+};
+
+function bindHeaderTooltips(methodologyHref = '../methodology.html') {
+  let tip = $('header-tooltip');
+  if (!tip) {
+    tip = document.createElement('div');
+    tip.id = 'header-tooltip';
+    tip.className = 'header-tooltip';
+    tip.setAttribute('role', 'tooltip');
+    tip.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(tip);
+  }
+
+  let currentTarget = null;
+  let showTimer = null;
+  let hideTimer = null;
+
+  function show(target) {
+    clearTimeout(hideTimer);
+    if (currentTarget === target && tip.classList.contains('visible')) return;
+    currentTarget = target;
+
+    const metric = target.dataset.metric;
+    const info = METRIC_TIPS[metric];
+    if (!info) return;
+
+    if (target.hasAttribute('title')) {
+      target.dataset.originalTitle = target.getAttribute('title');
+      target.removeAttribute('title');
+    }
+
+    const linkHtml = info.link && methodologyHref
+      ? `<a href="${methodologyHref}" class="header-tooltip-link">${esc(info.linkText || 'Read methodology →')}</a>`
+      : '';
+    tip.innerHTML =
+      `<div class="header-tooltip-title">${esc(info.title)}</div>` +
+      `<p class="header-tooltip-desc">${esc(info.desc)}</p>` +
+      linkHtml;
+
+    tip.style.left = '-9999px';
+    tip.style.top = '-9999px';
+    tip.classList.add('visible');
+    tip.setAttribute('aria-hidden', 'false');
+
+    const rect = target.getBoundingClientRect();
+    const tipWidth = tip.offsetWidth;
+    const tipHeight = tip.offsetHeight;
+
+    let left = rect.left + rect.width / 2 - tipWidth / 2;
+    left = Math.max(12, Math.min(left, window.innerWidth - tipWidth - 12));
+
+    const gap = 6;
+    let top = rect.bottom + gap;
+    if (top + tipHeight > window.innerHeight - 8 && rect.top - tipHeight - gap > 8) {
+      top = rect.top - tipHeight - gap;
+    }
+
+    tip.style.left = `${Math.round(left)}px`;
+    tip.style.top = `${Math.round(top)}px`;
+  }
+
+  function hide() {
+    clearTimeout(showTimer);
+    hideTimer = setTimeout(() => {
+      tip.classList.remove('visible');
+      tip.setAttribute('aria-hidden', 'true');
+      if (currentTarget && currentTarget.dataset.originalTitle) {
+        currentTarget.setAttribute('title', currentTarget.dataset.originalTitle);
+      }
+      currentTarget = null;
+    }, 150);
+  }
+
+  tip.addEventListener('mouseenter', () => clearTimeout(hideTimer));
+  tip.addEventListener('mouseleave', hide);
+
+  document.addEventListener('mouseover', (e) => {
+    const target = e.target.closest('abbr[data-metric]');
+    if (target) {
+      clearTimeout(hideTimer);
+      clearTimeout(showTimer);
+      showTimer = setTimeout(() => show(target), 60);
+    }
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    const target = e.target.closest('abbr[data-metric]');
+    if (target && target === currentTarget) hide();
+  });
+
+  document.addEventListener('focusin', (e) => {
+    const target = e.target.closest('abbr[data-metric]');
+    if (target) show(target);
+  });
+
+  document.addEventListener('focusout', (e) => {
+    const target = e.target.closest('abbr[data-metric]');
+    if (target && target === currentTarget) hide();
+  });
+
+  document.addEventListener('click', (e) => {
+    const target = e.target.closest('abbr[data-metric]');
+    if (target) {
+      e.preventDefault();
+      if (currentTarget === target && tip.classList.contains('visible')) {
+        hide();
+      } else {
+        show(target);
+      }
+      return;
+    }
+    if (!e.target.closest('#header-tooltip')) {
+      hide();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') hide();
+  });
+
+  window.addEventListener('scroll', () => {
+    if (tip.classList.contains('visible')) hide();
+  }, { passive: true });
+}
+
 function bindStaticEvents() {
   bindComparisonEvents();
+  bindHeaderTooltips('../methodology.html');
   $('filters').addEventListener('submit', (e) => {
     e.preventDefault();
     // Dismiss a phone's search keyboard so the matching institutions are visible.
@@ -873,10 +1022,10 @@ function detailRow(r, did) {
   return `<tr class="detail" id="${did}"><td colspan="${columns}">` +
     `${trend}` +
     `<dl class="institution-totals" aria-label="Institution totals">` +
-    `<div><dt>Adjusted count</dt><dd>${fmt1.format(r.adjTotal)}</dd></div>` +
-    `<div><dt>Papers</dt><dd>${fmtInt.format(r.pubTotal)}</dd></div></dl>` +
+    `<div><dt><abbr data-metric="adj-count" tabindex="0" title="Each paper is worth 1, split evenly among its authors and their institutions.">Adjusted count</abbr></dt><dd>${fmt1.format(r.adjTotal)}</dd></div>` +
+    `<div><dt><abbr data-metric="papers" tabindex="0" title="Distinct papers with at least one author at this institution.">Papers</abbr></dt><dd>${fmtInt.format(r.pubTotal)}</dd></div></dl>` +
     `<table class="breakdown"><caption>Credit by research area</caption>` +
-    `<thead><tr><th scope="col">Area</th><th scope="col" class="num">Rank</th><th scope="col" class="num">Adj. count</th><th scope="col" class="num">Papers</th></tr></thead>` +
+    `<thead><tr><th scope="col">Area</th><th scope="col" class="num">Rank</th><th scope="col" class="num"><abbr data-metric="adj-count" tabindex="0" title="Each paper is worth 1, split evenly among its authors and their institutions.">Adj. count</abbr></th><th scope="col" class="num"><abbr data-metric="papers" tabindex="0" title="Distinct papers with at least one author at this institution.">Papers</abbr></th></tr></thead>` +
     `<tbody>${body}</tbody></table></td></tr>`;
 }
 
