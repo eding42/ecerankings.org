@@ -33,6 +33,15 @@ class TestAggregateFieldCLI(unittest.TestCase):
         self.assertNotEqual(res_earth.returncode, 0)
         self.assertIn("Scoped runs require --out pointing outside site/earth-space/data", res_earth.stderr)
 
+        # Biology default output protection
+        res_bio = subprocess.run(
+            [sys.executable, str(ROOT / "pipeline/aggregate.py"), "--field", "biology", "--venue", "cell"],
+            capture_output=True,
+            text=True,
+        )
+        self.assertNotEqual(res_bio.returncode, 0)
+        self.assertIn("Scoped runs require --out pointing outside data/biosciences_aggregates", res_bio.stderr)
+
     def test_aggregate_field_defaults_resolution(self):
         # Verify that get_field matches expected configs for each discipline
         ece = get_field("ece")

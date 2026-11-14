@@ -171,7 +171,7 @@ def main():
         if source_hashes[path] != inventory[key]['sha256']:
             parser.error(f'Candidate cache hash differs from inventory: {key}')
     initial_hashes = {path: digest(ROOT / path) for path in [
-        'data/areas.json', 'data/affiliation-map.csv', 'data/institution-aliases.csv',
+        'data/fields.json', 'data/areas.json', 'data/affiliation-map.csv', 'data/institution-aliases.csv',
         'data/excluded-works.csv', 'data/institution-metadata-overrides.json',
         'data/institutions.json', 'data/refresh/institution-records-2026-10-28.json']
         if (ROOT / path).exists()}

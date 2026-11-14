@@ -76,3 +76,41 @@ test('discipline stylesheets deduplicate and import core/styles.css', () => {
     );
   }
 });
+
+test('all script src and link href tags in site/**/*.html resolve to existing files', () => {
+  const htmlFiles = [
+    'index.html',
+    'coverage.html',
+    'methodology.html',
+    '404.html',
+    'biology/index.html',
+    'biology/coverage.html',
+    'biology/methodology.html',
+    'earth-space/index.html',
+    'earth-space/coverage.html',
+    'earth-space/methodology.html',
+  ];
+
+  for (const rel of htmlFiles) {
+    const fullPath = path.join(siteDir, rel);
+    if (!existsSync(fullPath)) continue;
+    const content = readFileSync(fullPath, 'utf8');
+    const dir = path.dirname(fullPath);
+
+    // Matches src="..." and href="..." for local assets (not http/https or # or mailto)
+    const matches = content.matchAll(/(?:src|href)=["']([^"':#]+)["']/g);
+    for (const match of matches) {
+      let asset = match[1].split('?')[0]; // Strip query params like ?v=...
+      if (!asset || asset.endsWith('.html') || asset.endsWith('/') || asset === './' || asset === '../' || asset === '/') {
+        continue;
+      }
+      const assetPath = asset.startsWith('/')
+        ? path.resolve(siteDir, '.' + asset)
+        : path.resolve(dir, asset);
+      assert.ok(
+        existsSync(assetPath),
+        `Asset '${asset}' referenced in ${rel} does not exist at ${assetPath}`
+      );
+    }
+  }
+});

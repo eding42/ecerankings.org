@@ -518,19 +518,29 @@ def main():
     CREDIT_TYPES.clear()
     CREDIT_TYPES.update(parsed_types)
 
+    default_bio_out = os.path.join(REPO_ROOT, "data", "biosciences_aggregates")
+    if field_cfg.id == "biology" or field_cfg.has_capability("has_all_insts_mode"):
+        target_out = args.out or default_bio_out
+        output_dir = os.path.realpath(target_out)
+        if (args.venue or args.year is not None) and (
+                args.out is None or output_dir == os.path.realpath(default_bio_out)
+                or output_dir == os.path.realpath(field_cfg.site_data_path)):
+            parser.error(f"Scoped runs require --out pointing outside {os.path.relpath(default_bio_out, REPO_ROOT)}")
+        import aggregate_biosciences
+        venue_filter = args.venue if args.venue else None
+        year_filter = {int(args.year)} if args.year is not None else None
+        print(f"Aggregating {field_cfg.name} via Biosciences aggregation runtime...")
+        aggregate_biosciences.run_aggregation(cache_dir, areas_json, target_out, include_non_education=False,
+                                             venues=venue_filter, years=year_filter)
+        aggregate_biosciences.run_aggregation(cache_dir, areas_json, target_out, include_non_education=True,
+                                             venues=venue_filter, years=year_filter)
+        return
+
     default_out_dir = field_cfg.site_data_path
     output_dir = os.path.realpath(args.out or default_out_dir)
     if (args.venue or args.year is not None) and (
             args.out is None or output_dir == os.path.realpath(default_out_dir)):
         parser.error(f"Scoped runs require --out pointing outside {os.path.relpath(default_out_dir, REPO_ROOT)}")
-
-    if field_cfg.id == "biology" or field_cfg.has_capability("has_all_insts_mode"):
-        import aggregate_biosciences
-        target_out = args.out or os.path.join(REPO_ROOT, "data", "biosciences_aggregates")
-        print(f"Aggregating {field_cfg.name} via Biosciences aggregation runtime...")
-        aggregate_biosciences.run_aggregation(cache_dir, areas_json, target_out, include_non_education=False)
-        aggregate_biosciences.run_aggregation(cache_dir, areas_json, target_out, include_non_education=True)
-        return
 
     from aggregation_runtime import aggregate_venues, select_executor, store_tables
     if not args.sequential:

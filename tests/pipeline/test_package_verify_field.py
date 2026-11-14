@@ -3,6 +3,7 @@
 import pathlib
 import subprocess
 import sys
+import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -23,6 +24,21 @@ class TestPackageAndVerifyFieldCLI(unittest.TestCase):
         import re
         normalized = re.sub(r"-\s+", "-", re.sub(r"\s+", " ", res.stdout))
         self.assertIn("choices: biology, earth-space, ece", normalized)
+
+    def test_package_site_field_honors_out(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            out_path = pathlib.Path(tmpdir) / "dist-earth"
+            res = subprocess.run(
+                [sys.executable, str(ROOT / "pipeline/package_site.py"), "--field", "earth-space", "--out", str(out_path)],
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(res.returncode, 0, res.stderr)
+            self.assertTrue(out_path.exists())
+            self.assertTrue((out_path / ".ecerankings-package").is_file())
+            self.assertTrue((out_path / "version.json").is_file())
+            self.assertTrue((out_path / "core/rank.js").is_file())
+            self.assertTrue((out_path / "index.html").is_file())
 
     def test_verify_help_mentions_field_options(self):
         res = subprocess.run(

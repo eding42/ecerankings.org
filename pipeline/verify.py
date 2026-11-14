@@ -33,6 +33,7 @@ KNOWN_JSON = os.path.join(REPO_ROOT, "data", "known-strong.json")
 INST_JSON = os.path.join(REPO_ROOT, "data", "institutions.json")
 REPORTS_DIR = os.path.join(REPO_ROOT, "data", "reports")
 COVERAGE_SNAPSHOT = os.path.join(SITE_DATA, ".coverage-snapshot.json")
+CREDIT_TYPES = {"education"}
 
 # Severity thresholds for the coverage/purity/lineage scorecard. Every
 # venue-year is flagged on absolute thresholds EVERY run (no suppression
@@ -104,11 +105,13 @@ def load_affiliation_map_dict():
     return mapping
 
 
-def raw_affiliations_resolve_to_education(raw_affils, affil_map):
-    """True if ANY raw affiliation string resolves to a mapped education institution."""
+def raw_affiliations_resolve_to_education(raw_affils, affil_map, valid_types=None):
+    """True if ANY raw affiliation string resolves to a mapped institution with valid credit type."""
+    if valid_types is None:
+        valid_types = CREDIT_TYPES
     for raw in raw_affils:
         row = affil_map.get(raw)
-        if row and row.get("status") in ("auto", "manual") and row.get("institution_type") == "education":
+        if row and row.get("status") in ("auto", "manual") and row.get("institution_type") in valid_types:
             return True
     return False
 
@@ -393,7 +396,7 @@ def phase1_harvest(areas, args, vy_stats, global_stats, prev_snapshot):
                     except json.JSONDecodeError:
                         continue
                     aus = w.get("authorships") or []
-                    if not any(i.get("type") == "education"
+                    if not any(i.get("type") in CREDIT_TYPES
                                for a in aus for i in (a.get("institutions") or [])):
                         continue
                     # Measure the share that SURVIVES exclusion -- otherwise the
@@ -528,11 +531,13 @@ def phase2_normalization(areas, args, vy_stats, global_stats, nested_institution
             type_counts["(empty)"] += 1
 
     resolved = status_counts.get("auto", 0) + status_counts.get("manual", 0)
+    credited_count = sum(type_counts.get(t, 0) for t in CREDIT_TYPES)
     edu = type_counts.get("education", 0)
     company = type_counts.get("company", 0)
 
     print(f"  Total distinct affiliations: {total}")
     print(f"  Resolved (auto+manual):      {resolved} ({resolved/total*100:.1f}%)")
+    print(f"  Credited types:              {credited_count} ({credited_count/total*100:.1f}%)")
     print(f"  Education:                   {edu} ({edu/total*100:.1f}%)")
     print(f"  Company:                     {company} ({company/total*100:.1f}%)")
     print(f"  Unmatched:                   {status_counts.get('unmatched', 0)} ({status_counts['unmatched']/total*100:.1f}%)")
@@ -540,8 +545,8 @@ def phase2_normalization(areas, args, vy_stats, global_stats, nested_institution
 
     if resolved / total < 0.65:
         flags["high"].append(f"Resolution rate below 65%: {resolved/total*100:.1f}%")
-    if edu / total < 0.50:
-        flags["high"].append(f"Education rate below 50%: {edu/total*100:.1f}%")
+    if credited_count / total < 0.50:
+        flags["high"].append(f"Credited rate below 50%: {credited_count/total*100:.1f}%")
 
     # 2a. Country code consistency check
     inst_countries = defaultdict(set)
@@ -1227,7 +1232,7 @@ def write_report(all_flags, args, global_stats=None):
 
 
 def main():
-    global CACHE_DIR, SITE_DATA, COVERAGE_SNAPSHOT, AREAS_JSON
+    global CACHE_DIR, SITE_DATA, COVERAGE_SNAPSHOT, AREAS_JSON, CREDIT_TYPES
     parser = argparse.ArgumentParser(description="Verify ECE rankings pipeline data quality.")
     add_field_argument(parser, default="ece")
     parser.add_argument("--phase", type=int, choices=[1, 2, 3, 4, 5], default=None,
@@ -1248,6 +1253,7 @@ def main():
     SITE_DATA = os.path.realpath(args.data_dir or field_cfg.site_data_path)
     AREAS_JSON = os.path.realpath(args.areas_json or field_cfg.areas_path)
     COVERAGE_SNAPSHOT = os.path.join(SITE_DATA, '.coverage-snapshot.json')
+    CREDIT_TYPES = set(field_cfg.default_credit_types)
 
     if not args.all and not args.phase:
         parser.print_help()

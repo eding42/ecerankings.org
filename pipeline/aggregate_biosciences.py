@@ -145,7 +145,7 @@ def is_research_article(w, vkey):
 
     return True
 
-def run_aggregation(cache_dir, areas_path, out_dir, include_non_education=False):
+def run_aggregation(cache_dir, areas_path, out_dir, include_non_education=False, venues=None, years=None):
     os.makedirs(out_dir, exist_ok=True)
     registry = load_registry(areas_path)
 
@@ -170,8 +170,12 @@ def run_aggregation(cache_dir, areas_path, out_dir, include_non_education=False)
     total_authorships = 0
     credited_authorships = 0
 
-    venues = sorted(os.listdir(cache_dir))
-    for v in venues:
+    if venues:
+        target_venues = [v for v in venues if os.path.isdir(os.path.join(cache_dir, v))]
+    else:
+        target_venues = sorted(os.listdir(cache_dir))
+    year_filter = {int(y) for y in years} if years is not None else None
+    for v in target_venues:
         vdir = os.path.join(cache_dir, v)
         if not os.path.isdir(vdir):
             continue
@@ -182,7 +186,12 @@ def run_aggregation(cache_dir, areas_path, out_dir, include_non_education=False)
             wfile = os.path.join(ydir, "works.jsonl")
             if not os.path.isfile(wfile):
                 continue
-            year = int(ystr)
+            try:
+                year = int(ystr)
+            except ValueError:
+                continue
+            if year_filter is not None and year not in year_filter:
+                continue
 
             with open(wfile, "r", encoding="utf-8") as f:
                 for line in f:
