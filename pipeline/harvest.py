@@ -194,15 +194,20 @@ def harvest_year(venue_key, year, source_ids, year_filter, api_key, cache_dir=No
         filter_match = state.get("filter") is None or state.get("filter") == filter_str
         if state.get("source_key") == source_key and filter_match:
             if state.get("done"):
-                print(f"  [{venue_key}/{year}] already complete ({state.get('count', '?')} works). Skipping.")
-                return
-            cursor = state.get("cursor", "*")
-            page = state.get("page", 1) + 1 if "page" in state else 1
-            mode = "a"
-            # Appending to works.jsonl, so the checkpoint count must stay
-            # cumulative rather than restarting at this run's first page.
-            total = state.get("count", 0)
-            print(f"  [{venue_key}/{year}] resuming from checkpoint ({total} works already written).")
+                if os.path.exists(out_path) and os.path.getsize(out_path) > 0:
+                    print(f"  [{venue_key}/{year}] already complete ({state.get('count', '?')} works). Skipping.")
+                    return
+                print(f"  [{venue_key}/{year}] checkpoint marked done but {out_path} missing or empty. Re-harvesting.")
+            elif os.path.exists(out_path):
+                cursor = state.get("cursor", "*")
+                page = state.get("page", 1) + 1 if "page" in state else 1
+                mode = "a"
+                # Appending to works.jsonl, so the checkpoint count must stay
+                # cumulative rather than restarting at this run's first page.
+                total = state.get("count", 0)
+                print(f"  [{venue_key}/{year}] resuming from checkpoint ({total} works already written).")
+            else:
+                print(f"  [{venue_key}/{year}] checkpoint present but {out_path} missing. Restarting harvest.")
 
     has_more = True
     with open(out_path, mode) as out:

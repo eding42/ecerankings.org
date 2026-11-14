@@ -141,7 +141,7 @@ def main():
     parser.add_argument('--workers', type=int, default=None,
                         help='Aggregation workers (default: available CPU allocation)')
     parser.add_argument('--executor', choices=('auto', 'processes', 'threads'), default='auto')
-    parser.add_argument('--sequential', action='store_true', help='Diagnostic single-worker execution')
+    parser.add_argument('--sequential', action='store_true', help='Run single-threaded')
     parser.add_argument('--aggregation-cache-dir', type=pathlib.Path,
                         default=ROOT / '.tmp/aggregation-cache')
     parser.add_argument('--no-aggregation-cache', action='store_true')

@@ -285,14 +285,17 @@ def harvest_year(venue_key, venue_display, year, entry, dry_run=False, venue_kin
             state = json.load(f)
         if state.get("source_key") == source_key:
             if state.get("done"):
-                print(f"  [{venue_key}/{year}] already complete ({state.get('count','?')} works). Skipping.")
-                return
-            # Resume the same Crossref cursor instead of restarting at "*".
-            # Old checkpoints have no cursor; fall back to a full re-fetch,
-            # with the DOI dedupe below keeping the appended file duplicate-free.
-            cursor = state.get("cursor") or "*"
-            resuming = True
-            print(f"  [{venue_key}/{year}] resuming from checkpoint.")
+                if os.path.exists(out_path) and os.path.getsize(out_path) > 0:
+                    print(f"  [{venue_key}/{year}] already complete ({state.get('count','?')} works). Skipping.")
+                    return
+                print(f"  [{venue_key}/{year}] checkpoint marked done but {out_path} missing or empty. Re-harvesting.")
+            else:
+                # Resume the same Crossref cursor instead of restarting at "*".
+                # Old checkpoints have no cursor; fall back to a full re-fetch,
+                # with the DOI dedupe below keeping the appended file duplicate-free.
+                cursor = state.get("cursor") or "*"
+                resuming = True
+                print(f"  [{venue_key}/{year}] resuming from checkpoint.")
 
     if resuming:
         # The count must describe works.jsonl, not just this run's pages.

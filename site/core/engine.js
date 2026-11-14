@@ -198,7 +198,7 @@ async function init(config = {}) {
     app.institutions = inst || {};
     applyManifest(manifest);
   } catch (err) {
-    showFatal(`Could not load site data (${err.message}).`);
+    showFatal('Could not load site data.');
     return;
   }
 
@@ -335,8 +335,8 @@ function renderAreaGroups() {
 
       if (venues.length > 0) {
         html += `<button type="button" class="area-venues-toggle" data-area-toggle="${esc(a.id)}" ` +
-          `aria-expanded="${isOpen}" aria-controls="${vListId}" title="Toggle journals & conferences for ${esc(a.name)}" ` +
-          `aria-label="Toggle journals & conferences for ${esc(a.name)}">${isOpen ? '▾' : '▸'}</button>`;
+          `aria-expanded="${isOpen}" aria-controls="${vListId}" ` +
+          `aria-label="${esc(a.name)} venues">${isOpen ? '▾' : '▸'}</button>`;
       }
       html += `</div>`;
 
@@ -479,7 +479,7 @@ function getMetricTips(methodologyHref) {
   },
   trend: {
     title: 'Trend',
-    desc: 'Annual rank and places moved over the selected years. Click the header to sort by most or least improved.',
+    desc: 'Annual rank and places moved over the selected years.',
   },
   };
 }
@@ -729,7 +729,7 @@ function bindStaticEvents() {
     const id = b.dataset.id;
     if (app.expanded.has(id)) app.expanded.delete(id); else app.expanded.add(id);
     renderTable();
-    writeHash(app.result ? app.result.sel : app.sel);
+    writeHash(app.sel);
     const again = $('ranking-body').querySelector(`button.inst[data-id="${CSS.escape(id)}"]`);
     if (again) again.focus();
   });
@@ -940,8 +940,11 @@ function clearTable() {
 function hideError() { $('error').hidden = true; $('error').innerHTML = ''; }
 
 function showAreaError(failed) {
-  const names = failed.map((f) => `${esc(app.areaById.get(f.id)?.name || f.id)} <span class="muted">(${esc(f.r.reason?.message || 'unknown error')})</span>`);
-  setStatus('Rankings unavailable.');
+  const names = failed.map((f) => {
+    const reason = f.r.reason?.message;
+    return reason ? `${esc(app.areaById.get(f.id)?.name || f.id)} <span class="muted">(${esc(reason)})</span>` : esc(app.areaById.get(f.id)?.name || f.id);
+  });
+  setStatus('');
   $('error').innerHTML =
     `<p><strong>Could not load data for ${failed.length === 1 ? 'one selected area' : `${failed.length} selected areas`}:</strong></p>` +
     `<ul>${names.map((n) => `<li>${n}</li>`).join('')}</ul>` +
@@ -954,7 +957,7 @@ function showFatal(message) {
   setStatus('');
   $('error').innerHTML = `<p><strong>${esc(message)}</strong></p><p><button type="button" onclick="location.reload()">Reload</button></p>`;
   $('error').hidden = false;
-  $('area-groups').innerHTML = '<p class="muted">Areas unavailable.</p>';
+  $('area-groups').innerHTML = '';
 }
 
 // ---- Table -----------------------------------------------------------------

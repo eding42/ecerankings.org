@@ -4,7 +4,7 @@ Run after harvest, normalization, or aggregation to catch pipeline bugs,
 data corruption, and affiliation mismatches before they reach the rankings.
 
 Usage:
-    python3 pipeline/verify.py --all                 # All four phases
+    python3 pipeline/verify.py --all                 # Every phase
     python3 pipeline/verify.py --phase 4             # Global audit only (verify_global.py)
     python3 pipeline/verify.py --phase 5             # Author integrity only (verify_authors.py)
     python3 pipeline/verify.py --phase 1             # Harvest integrity only
@@ -1233,11 +1233,11 @@ def write_report(all_flags, args, global_stats=None):
 
 def main():
     global CACHE_DIR, SITE_DATA, COVERAGE_SNAPSHOT, AREAS_JSON, CREDIT_TYPES
-    parser = argparse.ArgumentParser(description="Verify ECE rankings pipeline data quality.")
+    parser = argparse.ArgumentParser(description="Verify pipeline data quality for a field.")
     add_field_argument(parser, default="ece")
     parser.add_argument("--phase", type=int, choices=[1, 2, 3, 4, 5], default=None,
-                        help="Run a specific phase only (1=harvest, 2=normalize, 3=aggregate, 4=global audit)")
-    parser.add_argument("--all", action="store_true", help="Run all four phases")
+                        help="1=harvest, 2=normalize, 3=aggregate, 4=global audit, 5=author bylines")
+    parser.add_argument("--all", action="store_true", help="Run every phase")
     parser.add_argument("--area", type=str, default=None,
                         help="Filter to a single area key (e.g. 'architecture') or 'all'")
     parser.add_argument("--report", action="store_true", help="Write report to data/reports/")
@@ -1245,7 +1245,7 @@ def main():
     parser.add_argument("--data-dir", default=None, help="Candidate aggregate directory to audit (default: field-specific site data)")
     parser.add_argument("--areas-json", default=None, help="Path to areas registry (default: field-specific areas.json)")
     parser.add_argument("--update-snapshots", action="store_true",
-                        help="Explicitly accept clean validation snapshots; default checks are read-only")
+                        help="Write this run's snapshots as the new baseline")
     args = parser.parse_args()
 
     field_cfg = get_field(args.field) if args.field else get_field("ece")

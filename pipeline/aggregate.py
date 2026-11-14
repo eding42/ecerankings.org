@@ -14,9 +14,8 @@ Use --sequential to disable and run single-threaded.
 Reads cache/<venue_key>/<year>/works.jsonl (produced by harvest.py or
 harvest_crossref.py), maps each venue to its area via data/areas.json, and
 computes CSRankings-style adjusted counts: each paper is worth 1.0, split
-evenly across its credited authors. Only authorship-institution pairs with
-type == "education" are credited (drops industry/government/nonprofit/
-facility affiliations).
+evenly across its credited authors. Credits the institution types set by the
+field or `--credit-types`.
 
 Builds complete CSV outputs from the requested scope, never an incremental
 merge. Scoped --venue/--year runs require --out so they cannot overwrite the
@@ -24,8 +23,7 @@ public full-corpus outputs. --cache-dir supports isolated refresh staging.
 
 Institution identity: an author's institution is credited AS OpenAlex
 reports it directly (its own id/display_name), with NO lineage rollup to a
-parent institution. This is a deliberate, documented limitation, not an
-oversight -- see "Known limitation: lineage rollup" below.
+parent institution. See "Known limitation: lineage rollup" below.
 
 Known limitation: lineage rollup
 ---------------------------------
@@ -492,15 +490,15 @@ def main():
     parser.add_argument("--venue", action="append", default=[], help="Venue key to include (repeatable)")
     parser.add_argument("--all-cached", action="store_true", help="Include every venue with cached works.jsonl")
     parser.add_argument("--year", type=int, default=None, help="Only read this year's cache per venue (default: all cached years)")
-    parser.add_argument("--sequential", action="store_true", help="Disable parallel processing (single-threaded)")
+    parser.add_argument("--sequential", action="store_true", help="Run single-threaded")
     parser.add_argument("--workers", type=int, default=None, help="Number of parallel workers (default: CPU count)")
     parser.add_argument("--executor", choices=('auto', 'processes', 'threads'), default='auto',
                         help="auto: threads with the GIL disabled, otherwise spawned processes")
     parser.add_argument("--aggregation-cache-dir", default=os.path.join(REPO_ROOT, '.tmp', 'aggregation-cache'),
-                        help="Content-addressed venue aggregates (independent of the raw --cache-dir)")
+                        help="Directory for cached per-venue aggregates")
     parser.add_argument("--no-aggregation-cache", action='store_true', help="Recompute every venue")
     parser.add_argument("--stats", help="Write execution and cache measurements to a separate JSON log")
-    parser.add_argument("--cache-dir", default=None, help="Read an isolated cache tree (default: field-specific cache dir)")
+    parser.add_argument("--cache-dir", default=None, help="Raw cache tree to read (default: the field's cache)")
     parser.add_argument("--areas-json", default=None, help="Path to areas registry (default: field-specific areas.json)")
     parser.add_argument("--credit-types", default=None,
                         help="Comma-separated institution types to credit (default: field-specific credit types)")
