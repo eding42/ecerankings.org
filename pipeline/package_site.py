@@ -9,8 +9,11 @@ import shutil
 import tempfile
 import datetime
 import subprocess
+import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'pipeline'))
+from fields import add_field_argument, get_field  # noqa: E402
 MAX_ASSET = 25 * 1024 * 1024
 PACKAGE_MARKER = '.ecerankings-package'
 # Sister sites linked from the header. Their manifests carry no artifact hashes,
@@ -124,13 +127,33 @@ def package(site, output):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--site', type=pathlib.Path, default=ROOT / 'site')
+    add_field_argument(parser, default="ece")
+    parser.add_argument('--site', type=pathlib.Path, default=None)
     parser.add_argument('--out', type=pathlib.Path, default=ROOT / 'dist')
     args = parser.parse_args()
-    site, output = args.site.resolve(), args.out.resolve()
-    if output == site or output in site.parents or site in output.parents:
+
+    field_cfg = get_field(args.field) if args.field else get_field("ece")
+    site_path = args.site.resolve() if args.site else pathlib.Path(field_cfg.site_path).resolve()
+    output = args.out.resolve()
+
+    if output == site_path or output in site_path.parents or site_path in output.parents:
         parser.error('Output must be separate from the source site')
-    files, size = package(site, output)
+
+    if field_cfg.id == "earth-space":
+        import package_earth_space_site
+        print(f"Packaging {field_cfg.name} static site ({site_path})...")
+        package_earth_space_site.package_site(str(site_path))
+        print("Packaging complete!")
+        return
+
+    if field_cfg.id == "biology":
+        import package_biosciences_site
+        print(f"Packaging {field_cfg.name} static site ({site_path})...")
+        package_biosciences_site.package_site()
+        print("Packaging complete!")
+        return
+
+    files, size = package(site_path, output)
     print(f'Packaged {files} validated public files ({size / 1024 / 1024:.1f} MiB) into {output}')
 
 

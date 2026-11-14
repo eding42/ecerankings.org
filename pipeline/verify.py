@@ -22,6 +22,7 @@ from datetime import date
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from workkey import work_key  # noqa: E402  (shared work-identity helper)
+from fields import add_field_argument, get_field  # noqa: E402
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AREAS_JSON = os.path.join(REPO_ROOT, "data", "areas.json")
@@ -1228,21 +1229,24 @@ def write_report(all_flags, args, global_stats=None):
 def main():
     global CACHE_DIR, SITE_DATA, COVERAGE_SNAPSHOT, AREAS_JSON
     parser = argparse.ArgumentParser(description="Verify ECE rankings pipeline data quality.")
+    add_field_argument(parser, default="ece")
     parser.add_argument("--phase", type=int, choices=[1, 2, 3, 4, 5], default=None,
                         help="Run a specific phase only (1=harvest, 2=normalize, 3=aggregate, 4=global audit)")
     parser.add_argument("--all", action="store_true", help="Run all four phases")
     parser.add_argument("--area", type=str, default=None,
                         help="Filter to a single area key (e.g. 'architecture') or 'all'")
     parser.add_argument("--report", action="store_true", help="Write report to data/reports/")
-    parser.add_argument("--cache-dir", default=CACHE_DIR, help="Raw source tree to audit")
-    parser.add_argument("--data-dir", default=SITE_DATA, help="Candidate aggregate directory to audit")
-    parser.add_argument("--areas-json", default=AREAS_JSON, help="Path to areas registry (default: data/areas.json)")
+    parser.add_argument("--cache-dir", default=None, help="Raw source tree to audit (default: field-specific cache dir)")
+    parser.add_argument("--data-dir", default=None, help="Candidate aggregate directory to audit (default: field-specific site data)")
+    parser.add_argument("--areas-json", default=None, help="Path to areas registry (default: field-specific areas.json)")
     parser.add_argument("--update-snapshots", action="store_true",
                         help="Explicitly accept clean validation snapshots; default checks are read-only")
     args = parser.parse_args()
-    CACHE_DIR = os.path.realpath(args.cache_dir)
-    SITE_DATA = os.path.realpath(args.data_dir)
-    AREAS_JSON = os.path.realpath(args.areas_json)
+
+    field_cfg = get_field(args.field) if args.field else get_field("ece")
+    CACHE_DIR = os.path.realpath(args.cache_dir or field_cfg.cache_path)
+    SITE_DATA = os.path.realpath(args.data_dir or field_cfg.site_data_path)
+    AREAS_JSON = os.path.realpath(args.areas_json or field_cfg.areas_path)
     COVERAGE_SNAPSHOT = os.path.join(SITE_DATA, '.coverage-snapshot.json')
 
     if not args.all and not args.phase:
