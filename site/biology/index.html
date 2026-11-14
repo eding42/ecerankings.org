@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>BioRankings: Elite Biosciences &amp; Biomedical Rankings</title>
-  <meta name="description" content="Institutions ranked by peer-reviewed research papers in elite biosciences journals: Cell, Nature, Science, and PNAS.">
+  <title>BiologyRankings: Biosciences &amp; Biomedical Rankings</title>
+  <meta name="description" content="Institutions ranked by peer-reviewed research papers in biosciences journals: Cell, Nature, Science, and PNAS.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#141619" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="BioRankings">
-  <meta property="og:title" content="BioRankings: Elite Biosciences &amp; Biomedical Rankings">
-  <meta property="og:description" content="Institutions ranked by peer-reviewed research papers in elite biosciences journals: Cell, Nature, Science, and PNAS.">
+  <meta property="og:site_name" content="BiologyRankings">
+  <meta property="og:title" content="BiologyRankings: Biosciences &amp; Biomedical Rankings">
+  <meta property="og:description" content="Institutions ranked by peer-reviewed research papers in biosciences journals: Cell, Nature, Science, and PNAS.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="styles.css?v=bio2">
   <link rel="stylesheet" href="../core/rank-history.css?v=bio1">
@@ -44,8 +44,8 @@
 
   <main class="wrap">
     <h1>Biosciences &amp; Biomedical Rankings</h1>
-    <p class="lede">Institutions ranked by peer-reviewed research in elite flagships (<strong>Cell</strong>, <strong>Nature</strong>, <strong>Science</strong>, <strong>PNAS</strong>) and 32 field-defining disciplinary journals across 12 life sciences subfields.</p>
-    <p class="stamp" id="data-stamp">Data harvested directly from OpenAlex with fractional author credit.</p>
+    <p class="lede">Institutions ranked by papers in Cell, Nature, Science, PNAS and 32 disciplinary journals.</p>
+    <p class="stamp" id="data-stamp"></p>
 
     <form class="filters" id="filters" aria-label="Ranking filters">
       <div class="field field-region">
@@ -62,7 +62,7 @@
       </div>
       <div class="field field-grow">
         <label for="search">Find institution</label>
-        <input id="search" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search" placeholder="Name contains…">
+        <input id="search" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search" placeholder="Name or abbreviation…">
       </div>
       <div class="field field-actions">
         <button type="button" id="export" disabled>Download CSV</button>
@@ -107,7 +107,7 @@
                 <th scope="col" class="num"><abbr data-metric="score" tabindex="0" title="Geometric mean of (1 + adjusted count) across the selected areas, minus 1.">Score</abbr></th>
                 <th scope="col" class="num opt"><abbr data-metric="adj-count" tabindex="0" title="Each paper is worth 1, split evenly among its authors and their institutions.">Adj. count</abbr></th>
                 <th scope="col" class="num opt"><abbr data-metric="papers" tabindex="0" title="Distinct papers with at least one author at this institution.">Papers</abbr></th>
-                <th scope="col" class="num opt trend-cell" aria-sort="none"><button type="button" class="sort-header" data-sort="trend" data-metric="trend" title="Annual rank and places moved over the selected years. Sort by improvement.">Trend <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                <th scope="col" class="num opt trend-cell" aria-sort="none"><button type="button" class="sort-header" data-sort="trend" data-metric="trend" title="Annual rank and places moved over the selected years.">Trend <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
               </tr>
             </thead>
             <tbody id="ranking-body"></tbody>

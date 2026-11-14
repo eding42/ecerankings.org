@@ -1490,7 +1490,7 @@ def main(argv=None):
     parser.add_argument("--max-search-calls", type=int, default=400,
                         help="Cap OpenAlex title-search calls this run (10 credits = $0.001 each)")
     parser.add_argument("--s2-match", action="store_true",
-                        help="Also try S2 per-title match (impractical without S2_API_KEY in .env)")
+                        help="Also try S2 per-title match (needs S2_API_KEY in .env)")
     parser.add_argument("--max-match-calls", type=int, default=None, help="Cap S2 title-match calls this run")
     parser.add_argument("--restart-stage", choices=STAGES, default=None,
                         help="Discard this stage's outputs (and invalidate later stages) before running")

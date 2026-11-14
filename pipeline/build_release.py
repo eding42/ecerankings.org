@@ -141,7 +141,7 @@ def main():
     parser.add_argument('--workers', type=int, default=None,
                         help='Aggregation workers (default: available CPU allocation)')
     parser.add_argument('--executor', choices=('auto', 'processes', 'threads'), default='auto')
-    parser.add_argument('--sequential', action='store_true', help='Diagnostic single-worker execution')
+    parser.add_argument('--sequential', action='store_true', help='Run single-threaded')
     parser.add_argument('--aggregation-cache-dir', type=pathlib.Path,
                         default=ROOT / '.tmp/aggregation-cache')
     parser.add_argument('--no-aggregation-cache', action='store_true')
@@ -171,7 +171,7 @@ def main():
         if source_hashes[path] != inventory[key]['sha256']:
             parser.error(f'Candidate cache hash differs from inventory: {key}')
     initial_hashes = {path: digest(ROOT / path) for path in [
-        'data/areas.json', 'data/affiliation-map.csv', 'data/institution-aliases.csv',
+        'data/fields.json', 'data/areas.json', 'data/affiliation-map.csv', 'data/institution-aliases.csv',
         'data/excluded-works.csv', 'data/institution-metadata-overrides.json',
         'data/institutions.json', 'data/refresh/institution-records-2026-10-28.json']
         if (ROOT / path).exists()}

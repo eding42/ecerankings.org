@@ -46,11 +46,10 @@ def main():
     if not ok:
         sys.exit(1)
 
-    # Step 2: Packaging
+    # Step 2: Compile site data
     ok = run_cmd([
-        PYTHON, "pipeline/package_site.py",
-        "--field", "earth-space"
-    ], "Packaging static site (site/earth-space)")
+        PYTHON, "pipeline/package_earth_space_site.py",
+    ], "Compiling static site data (site/earth-space/data)")
     if not ok:
         sys.exit(1)
 
