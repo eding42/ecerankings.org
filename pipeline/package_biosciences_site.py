@@ -2,8 +2,7 @@
 """Build and package the static Biosciences ranking website data.
 
 Takes aggregated institutional counts from pipeline/aggregate_biosciences.py
-and produces the JSON payloads consumed by the static web frontend in site/biology/
-and site_biosciences/.
+and produces the JSON payloads consumed by the static web frontend in site/biology/.
 """
 
 import csv
@@ -18,7 +17,6 @@ AREAS_BIOSCIENCES = os.path.join(REPO_ROOT, "data", "areas_biosciences.json")
 AGGREGATES_DIR = os.path.join(REPO_ROOT, "data", "biosciences_aggregates")
 SITE_OUTPUT_DIRS = [
     os.path.join(REPO_ROOT, "site", "biology", "data"),
-    os.path.join(REPO_ROOT, "site_biosciences", "data"),
 ]
 
 def load_areas():
