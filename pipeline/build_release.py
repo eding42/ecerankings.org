@@ -17,9 +17,9 @@ import sys
 from aggregation_runtime import digest_files, select_executor
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-CODE_FILES = ['pipeline/aggregate.py', 'pipeline/aggregation_runtime.py', 'pipeline/workkey.py',
-              'pipeline/split.py', 'pipeline/build_release.py', 'pipeline/verify.py',
-              'pipeline/promote_release.py']
+CODE_FILES = ['pipeline/aggregate.py', 'pipeline/aggregation_runtime.py', 'pipeline/fields.py',
+              'pipeline/workkey.py', 'pipeline/split.py', 'pipeline/build_release.py',
+              'pipeline/verify.py', 'pipeline/promote_release.py']
 
 
 def digest(path):

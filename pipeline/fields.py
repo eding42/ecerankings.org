@@ -58,18 +58,90 @@ class FieldConfig:
         return bool(self.capabilities.get(key, default))
 
 
+DEFAULT_FIELDS_DATA = {
+    "ece": {
+        "id": "ece",
+        "name": "Electrical & Computer Engineering",
+        "short_name": "ECERankings",
+        "description": "Institutions ranked by peer-reviewed research papers in selective Electrical and Computer Engineering conferences and journals.",
+        "site_dir": "site",
+        "site_data_dir": "site/data",
+        "areas_file": "data/areas.json",
+        "cache_dir": "cache",
+        "default_credit_types": ["education"],
+        "earliest_year": 2016,
+        "default_start_year": 2016,
+        "default_end_year": 2025,
+        "capabilities": {
+            "has_hospital_rollup": False,
+            "has_sector_filter": True,
+            "has_all_insts_mode": False,
+            "strict_manifest_checksums": True,
+            "prerender_institutions": True,
+        },
+        "aliases": ["ece", "engineering"],
+    },
+    "biology": {
+        "id": "biology",
+        "name": "Biological & Biomedical Sciences",
+        "short_name": "BioRankings",
+        "description": "Institutions ranked by peer-reviewed research papers in selective life sciences and biomedical journals.",
+        "site_dir": "site/biology",
+        "site_data_dir": "site/biology/data",
+        "areas_file": "data/areas_biosciences.json",
+        "cache_dir": "cache_biosciences",
+        "default_credit_types": ["education"],
+        "earliest_year": 2016,
+        "default_start_year": 2016,
+        "default_end_year": 2025,
+        "capabilities": {
+            "has_hospital_rollup": True,
+            "has_sector_filter": False,
+            "has_all_insts_mode": True,
+            "strict_manifest_checksums": False,
+            "prerender_institutions": False,
+        },
+        "aliases": ["bio", "biology", "biosciences"],
+    },
+    "earth-space": {
+        "id": "earth-space",
+        "name": "Earth, Planetary & Space Sciences",
+        "short_name": "EarthSpaceRankings",
+        "description": "Institutions ranked by peer-reviewed research papers in Astronomy & Astrophysics, Planetary Science, Geosciences, and Cryosphere & Climate Dynamics.",
+        "site_dir": "site/earth-space",
+        "site_data_dir": "site/earth-space/data",
+        "areas_file": "data/areas_earth_space.json",
+        "cache_dir": "cache",
+        "default_credit_types": ["education", "facility", "government", "nonprofit"],
+        "earliest_year": 2005,
+        "default_start_year": 2016,
+        "default_end_year": 2025,
+        "capabilities": {
+            "has_hospital_rollup": False,
+            "has_sector_filter": True,
+            "has_all_insts_mode": False,
+            "strict_manifest_checksums": False,
+            "prerender_institutions": False,
+        },
+        "aliases": ["earth-space", "earth_space", "geo", "space"],
+    },
+}
+
+
 def load_fields(
     config_path: Optional[str] = None,
     repo_root: Optional[str] = None
 ) -> Dict[str, FieldConfig]:
-    """Load all configured fields from data/fields.json."""
+    """Load all configured fields from data/fields.json or default fallback."""
     root = repo_root or REPO_ROOT
     path = config_path or os.path.join(root, "data", "fields.json")
 
-    with open(path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
-    raw_fields = data.get("fields", {})
+    if os.path.isfile(path):
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        raw_fields = data.get("fields", {})
+    else:
+        raw_fields = DEFAULT_FIELDS_DATA
     fields: Dict[str, FieldConfig] = {}
 
     for fid, cfg in raw_fields.items():

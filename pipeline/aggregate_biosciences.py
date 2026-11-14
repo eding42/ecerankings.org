@@ -22,6 +22,8 @@ import sys
 from collections import defaultdict
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fields import add_field_argument, get_field  # noqa: E402
 CACHE_DIR = os.path.join(REPO_ROOT, "cache_biosciences")
 AREAS_JSON = os.path.join(REPO_ROOT, "data", "areas_biosciences.json")
 OUT_DIR = os.path.join(REPO_ROOT, "data", "biosciences_aggregates")
@@ -317,14 +319,20 @@ def run_aggregation(cache_dir, areas_path, out_dir, include_non_education=False)
 
 def main():
     parser = argparse.ArgumentParser(description="Aggregate Biosciences works.")
-    parser.add_argument("--cache-dir", default=CACHE_DIR)
-    parser.add_argument("--areas-json", default=AREAS_JSON)
-    parser.add_argument("--out-dir", default=OUT_DIR)
+    add_field_argument(parser, default="biology")
+    parser.add_argument("--cache-dir", default=None)
+    parser.add_argument("--areas-json", default=None)
+    parser.add_argument("--out-dir", default=None)
     args = parser.parse_args()
 
+    field_cfg = get_field(args.field) if args.field else get_field("biology")
+    cache_dir = args.cache_dir or field_cfg.cache_path
+    areas_json = args.areas_json or field_cfg.areas_path
+    out_dir = args.out_dir or OUT_DIR
+
     print("Running aggregation in both modes (Universities Only and All Research Institutions)...")
-    run_aggregation(args.cache_dir, args.areas_json, args.out_dir, include_non_education=False)
-    run_aggregation(args.cache_dir, args.areas_json, args.out_dir, include_non_education=True)
+    run_aggregation(cache_dir, areas_json, out_dir, include_non_education=False)
+    run_aggregation(cache_dir, areas_json, out_dir, include_non_education=True)
 
 if __name__ == "__main__":
     main()

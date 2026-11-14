@@ -69,6 +69,7 @@ from functools import lru_cache
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from workkey import work_key, record_key  # noqa: E402
+from fields import add_field_argument, get_field  # noqa: E402
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AREAS_JSON = os.path.join(REPO_ROOT, "data", "areas.json")
@@ -487,6 +488,7 @@ def sorted_credit_rows(table, author=False):
 
 def main():
     parser = argparse.ArgumentParser(description="Aggregate cached works into adjusted counts.")
+    add_field_argument(parser, default="ece")
     parser.add_argument("--venue", action="append", default=[], help="Venue key to include (repeatable)")
     parser.add_argument("--all-cached", action="store_true", help="Include every venue with cached works.jsonl")
     parser.add_argument("--year", type=int, default=None, help="Only read this year's cache per venue (default: all cached years)")
@@ -498,19 +500,37 @@ def main():
                         help="Content-addressed venue aggregates (independent of the raw --cache-dir)")
     parser.add_argument("--no-aggregation-cache", action='store_true', help="Recompute every venue")
     parser.add_argument("--stats", help="Write execution and cache measurements to a separate JSON log")
-    parser.add_argument("--cache-dir", default=CACHE_DIR, help="Read an isolated cache tree")
-    parser.add_argument("--areas-json", default=AREAS_JSON, help="Path to areas registry (default: data/areas.json)")
-    parser.add_argument("--credit-types", default="education",
-                        help="Comma-separated institution types to credit (default: education)")
+    parser.add_argument("--cache-dir", default=None, help="Read an isolated cache tree (default: field-specific cache dir)")
+    parser.add_argument("--areas-json", default=None, help="Path to areas registry (default: field-specific areas.json)")
+    parser.add_argument("--credit-types", default=None,
+                        help="Comma-separated institution types to credit (default: field-specific credit types)")
     parser.add_argument("--out", default=None, help="Output directory (required for scoped runs)")
     args = parser.parse_args()
     if args.workers is not None and args.workers < 1:
         parser.error('--workers must be positive')
 
-    if args.credit_types:
-        parsed_types = set(t.strip() for t in args.credit_types.split(",") if t.strip())
-        CREDIT_TYPES.clear()
-        CREDIT_TYPES.update(parsed_types)
+    field_cfg = get_field(args.field) if args.field else get_field("ece")
+    cache_dir = args.cache_dir or field_cfg.cache_path
+    areas_json = args.areas_json or field_cfg.areas_path
+    credit_types_arg = args.credit_types or ",".join(field_cfg.default_credit_types)
+
+    parsed_types = set(t.strip() for t in credit_types_arg.split(",") if t.strip())
+    CREDIT_TYPES.clear()
+    CREDIT_TYPES.update(parsed_types)
+
+    default_out_dir = field_cfg.site_data_path
+    output_dir = os.path.realpath(args.out or default_out_dir)
+    if (args.venue or args.year is not None) and (
+            args.out is None or output_dir == os.path.realpath(default_out_dir)):
+        parser.error(f"Scoped runs require --out pointing outside {os.path.relpath(default_out_dir, REPO_ROOT)}")
+
+    if field_cfg.id == "biology" or field_cfg.has_capability("has_all_insts_mode"):
+        import aggregate_biosciences
+        target_out = args.out or os.path.join(REPO_ROOT, "data", "biosciences_aggregates")
+        print(f"Aggregating {field_cfg.name} via Biosciences aggregation runtime...")
+        aggregate_biosciences.run_aggregation(cache_dir, areas_json, target_out, include_non_education=False)
+        aggregate_biosciences.run_aggregation(cache_dir, areas_json, target_out, include_non_education=True)
+        return
 
     from aggregation_runtime import aggregate_venues, select_executor, store_tables
     if not args.sequential:
@@ -518,23 +538,19 @@ def main():
             select_executor(args.executor)
         except ValueError as error:
             parser.error(str(error))
-    output_dir = os.path.realpath(args.out or SITE_DATA_DIR)
-    if (args.venue or args.year is not None) and (
-            args.out is None or output_dir == os.path.realpath(SITE_DATA_DIR)):
-        parser.error("Scoped runs require --out pointing outside site/data")
 
-    registry = load_registry(args.areas_json)
+    registry = load_registry(areas_json)
     v2a = venue_to_area(registry)
 
-    venue_keys = sorted(set(args.venue if args.venue else (find_cached_venues(args.cache_dir) if args.all_cached else [])))
+    venue_keys = sorted(set(args.venue if args.venue else (find_cached_venues(cache_dir) if args.all_cached else [])))
     if not venue_keys:
         print("Specify --venue <key> (repeatable) or --all-cached", file=sys.stderr)
         sys.exit(1)
 
     # Fail before opening output files when a checkout contains LFS pointers.
     for venue in venue_keys:
-        for year in find_cached_years(venue, args.cache_dir):
-            path = os.path.join(args.cache_dir, venue, str(year), "works.jsonl")
+        for year in find_cached_years(venue, cache_dir):
+            path = os.path.join(cache_dir, venue, str(year), "works.jsonl")
             with open(path, "rb") as f:
                 if f.read(48).startswith(b"version https://git-lfs.github.com/spec/v1"):
                     parser.error(f"Unmaterialized Git LFS pointer: {path}")
@@ -554,7 +570,7 @@ def main():
               f"({os.path.relpath(EXCLUDED_CSV, REPO_ROOT)})")
     report = {}
     results = aggregate_venues(venue_keys, v2a, args.year, affil_map, excluded, aliases,
-                              args.cache_dir, venue_exclusions, credit_types=CREDIT_TYPES, workers=args.workers,
+                              cache_dir, venue_exclusions, credit_types=CREDIT_TYPES, workers=args.workers,
                               executor=args.executor, sequential=args.sequential,
                               aggregation_cache_dir=None if args.no_aggregation_cache else args.aggregation_cache_dir,
                               report=report, output=output_dir)
