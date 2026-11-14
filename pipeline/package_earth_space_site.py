@@ -2,7 +2,7 @@
 """Build and package the static Earth, Planetary, and Space Sciences ranking website.
 
 Takes aggregated institutional counts from pipeline/aggregate.py and produces
-the static site payloads for site_earth_space/ and site/earth-space/.
+the static site payloads for site/earth-space/.
 
 Usage:
     python3 pipeline/package_earth_space_site.py
@@ -19,7 +19,6 @@ sys.path.insert(0, REPO_ROOT)
 
 AREAS_EARTH_SPACE = os.path.join(REPO_ROOT, "data", "areas_earth_space.json")
 AGGREGATES_DIR = os.path.join(REPO_ROOT, ".tmp", "earth_space_aggregates")
-SITE_STANDALONE = os.path.join(REPO_ROOT, "site_earth_space")
 SITE_INTEGRATED = os.path.join(REPO_ROOT, "site", "earth-space")
 
 
@@ -332,8 +331,7 @@ def package_site(target_dir):
 
 
 def main():
-    print("Packaging Earth & Space static sites...")
-    package_site(SITE_STANDALONE)
+    print("Packaging Earth & Space static site...")
     package_site(SITE_INTEGRATED)
     print("Packaging complete!")
 

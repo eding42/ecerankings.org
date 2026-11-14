@@ -50,7 +50,7 @@ def main():
     # Step 2: Packaging
     ok = run_cmd([
         PYTHON, "pipeline/package_earth_space_site.py"
-    ], "Packaging static sites (site/earth-space and site_earth_space)")
+    ], "Packaging static site (site/earth-space)")
     if not ok:
         sys.exit(1)
 
