@@ -38,9 +38,8 @@ def main():
     # Step 1: Aggregation
     ok = run_cmd([
         PYTHON, "pipeline/aggregate.py",
+        "--field", "earth-space",
         "--all-cached",
-        "--areas-json", "data/areas_earth_space.json",
-        "--credit-types", "education,facility,government,nonprofit",
         "--out", ".tmp/earth_space_aggregates",
         "--sequential"
     ], "Aggregating Earth, Planetary & Space Sciences corpus")
