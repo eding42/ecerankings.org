@@ -310,6 +310,17 @@ table.ranking.stale tbody { opacity: 0.45; }
 .ranking .rank { width: 3.5em; color: var(--muted); }
 .ranking .score { font-weight: 600; }
 .ranking .trend-cell { width: 124px; }
+.ranking .sort-header {
+  display: inline-flex; align-items: center; justify-content: flex-end; gap: 5px;
+  width: 100%; padding: 0; border: 0; background: none;
+  font: inherit; font-size: 13px; font-weight: 600; color: inherit;
+  white-space: nowrap; cursor: pointer;
+}
+.ranking .sort-header:hover:not(:disabled) { background: none; color: var(--link); }
+.ranking .sort-header:disabled { color: var(--faint); cursor: default; }
+.ranking .sort-indicator { min-width: 1em; font-size: 10px; color: var(--muted); text-align: center; }
+.ranking .sort-header[data-state="improved"] .sort-indicator { color: var(--up); }
+.ranking .sort-header[data-state="declined"] .sort-indicator { color: var(--down); }
 .trend { display: inline-flex; align-items: center; justify-content: flex-end; gap: 6px; vertical-align: middle; cursor: default; }
 .trend svg { display: block; overflow: visible; }
 .trend path { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }

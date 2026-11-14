@@ -293,6 +293,62 @@ export function yearExtent(dataByArea) {
   return Number.isFinite(min) ? { min, max } : null;
 }
 
+// ---- Sorting --------------------------------------------------------------
+// Rows arrive in score order. The trend column can re-sort them by movement
+// without changing the rank numbers themselves.
+
+// Cycle for the Trend header: default score order, most improved, least improved.
+export function nextTrendSort(mode) {
+  if (mode === 'score') return 'improved';
+  if (mode === 'improved') return 'declined';
+  return 'score';
+}
+
+/**
+ * Net places moved between the first and last year of a rank history.
+ * Positive means the institution improved (its rank number got smaller).
+ * Returns null when either endpoint is unranked, because no delta is shown.
+ *
+ * @param {Array<{year:number, rank:number|null}>} history
+ * @returns {number|null}
+ */
+export function netRankMovement(history) {
+  if (!Array.isArray(history) || history.length < 2) return null;
+  const first = history[0];
+  const last = history[history.length - 1];
+  if (!Number.isFinite(first?.rank) || !Number.isFinite(last?.rank)) return null;
+  return first.rank - last.rank;
+}
+
+/**
+ * Sort rows by net rank movement. 'improved' puts the largest gain first
+ * (+15 before +2), 'declined' the largest drop first (-20 before -1).
+ * Rows without a movement are kept last in score order, and equal movements
+ * fall back to score rank so the result is deterministic.
+ *
+ * @param {Array<{id:string, rank:number}>} rows
+ * @param {'score'|'improved'|'declined'} mode
+ * @param {(row: object) => number|null} movementOf
+ */
+export function sortRowsByTrend(rows, mode, movementOf) {
+  if (mode !== 'improved' && mode !== 'declined') return rows;
+  const movements = new Map(rows.map((row) => [row.id, movementOf(row)]));
+  const direction = mode === 'improved' ? -1 : 1;
+  const byRank = (a, b) =>
+    (a.rank ?? Infinity) - (b.rank ?? Infinity) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+  return [...rows].sort((a, b) => {
+    const ma = movements.get(a.id);
+    const mb = movements.get(b.id);
+    const missingA = !Number.isFinite(ma);
+    const missingB = !Number.isFinite(mb);
+    if (missingA || missingB) {
+      if (missingA && missingB) return byRank(a, b);
+      return missingA ? 1 : -1;
+    }
+    return direction * (ma - mb) || byRank(a, b);
+  });
+}
+
 // ---- URL state -----------------------------------------------------------
 // Hash form: #from=2016&to=2025&region=europe&areas=circuits,eda&disabled_venues=circuits:isscc
 // Keys equal to their defaults are omitted to keep shared links short.
