@@ -48,7 +48,8 @@ def main():
 
     # Step 2: Packaging
     ok = run_cmd([
-        PYTHON, "pipeline/package_earth_space_site.py"
+        PYTHON, "pipeline/package_site.py",
+        "--field", "earth-space"
     ], "Packaging static site (site/earth-space)")
     if not ok:
         sys.exit(1)
@@ -70,8 +71,8 @@ def main():
         # Phase 3 aggregate verification
         run_cmd([
             PYTHON, "pipeline/verify.py",
+            "--field", "earth-space",
             "--phase", "3",
-            "--areas-json", "data/areas_earth_space.json",
             "--data-dir", ".tmp/earth_space_aggregates"
         ], "Verifying aggregate integrity across 29 venues", allow_warning=True)
 
