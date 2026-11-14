@@ -1,7 +1,7 @@
 Run the ranking and history checks without dependencies:
 
 ```sh
-node --test tests/frontend/rank.test.mjs tests/frontend/prerender.test.mjs tests/test_rank_history.mjs
+node --test tests/frontend/rank.test.mjs tests/frontend/trend-sort.test.mjs tests/frontend/prerender.test.mjs tests/test_rank_history.mjs
 ```
 
 The optional responsive browser suite loads the real site and checked-in data

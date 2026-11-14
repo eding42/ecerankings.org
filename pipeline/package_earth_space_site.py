@@ -298,10 +298,10 @@ def package_site(target_dir):
               <tr>
                 <th scope="col" class="num rank">#</th>
                 <th scope="col">Institution</th>
-                <th scope="col" class="num"><abbr title="Geometric mean of (1 + adjusted count) across the selected areas, minus one">Score</abbr></th>
-                <th scope="col" class="num opt"><abbr title="Adjusted count: each paper worth 1, split evenly among its authors">Adj. count</abbr></th>
-                <th scope="col" class="num opt"><abbr title="Distinct papers with at least one author at this institution">Papers</abbr></th>
-                <th scope="col" class="num opt trend-cell"><abbr title="Rank in each year of the selected range, and places moved from the first year to the last">Trend</abbr></th>
+                <th scope="col" class="num"><abbr data-metric="score" tabindex="0" title="Geometric mean of (1 + adjusted count) across the selected areas, minus one">Score</abbr></th>
+                <th scope="col" class="num opt"><abbr data-metric="adj-count" tabindex="0" title="Adjusted count: each paper worth 1, split evenly among its authors">Adj. count</abbr></th>
+                <th scope="col" class="num opt"><abbr data-metric="papers" tabindex="0" title="Distinct papers with at least one author at this institution">Papers</abbr></th>
+                <th scope="col" class="num opt trend-cell" aria-sort="none"><button type="button" class="sort-header" data-sort="trend" data-metric="trend" title="Rank in each year of the selected range, and places moved from the first year to the last. Sort by improvement.">Trend <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
               </tr>
             </thead>
             <tbody id="ranking-body"></tbody>

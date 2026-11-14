@@ -4,6 +4,7 @@
 import {
   REGIONS, listAreas, defaultAreaIds, computeRankings, yearExtent, regionMatches,
   encodeState, decodeState, rankingsToCsv, shortVenueName, areaRanks, searchRows,
+  nextTrendSort, netRankMovement, sortRowsByTrend,
 } from './rank.js?v=compare5';
 import { computeAnnualRanks, institutionHistory, renderRankHistory } from './rank-history.js';
 import { renderComparison, compareSchools, ALL_AREAS } from './comparison.js?v=compare5';
@@ -48,6 +49,7 @@ const app = {
   result: null,       // {sel, rows} for the last completed run
   shown: PAGE_SIZE,
   query: '',
+  sort: 'score',        // 'score' | 'improved' | 'declined' (Trend header)
   expanded: new Set(),
   openVenues: new Set(), // set of area ids with open venue dropdown
   lastHash: null,
@@ -450,7 +452,7 @@ const METRIC_TIPS = {
   },
   trend: {
     title: 'Trend',
-    desc: 'Annual rank and places moved over the selected years.',
+    desc: 'Annual rank and places moved over the selected years. Click the header to sort by most or least improved.',
   },
 };
 
@@ -529,7 +531,7 @@ function bindHeaderTooltips(methodologyHref = 'methodology.html') {
   tip.addEventListener('mouseleave', hide);
 
   document.addEventListener('mouseover', (e) => {
-    const target = e.target.closest('abbr[data-metric]');
+    const target = e.target.closest('[data-metric]');
     if (target) {
       clearTimeout(hideTimer);
       clearTimeout(showTimer);
@@ -538,23 +540,29 @@ function bindHeaderTooltips(methodologyHref = 'methodology.html') {
   });
 
   document.addEventListener('mouseout', (e) => {
-    const target = e.target.closest('abbr[data-metric]');
+    const target = e.target.closest('[data-metric]');
     if (target && target === currentTarget) hide();
   });
 
   document.addEventListener('focusin', (e) => {
-    const target = e.target.closest('abbr[data-metric]');
+    const target = e.target.closest('[data-metric]');
     if (target) show(target);
   });
 
   document.addEventListener('focusout', (e) => {
-    const target = e.target.closest('abbr[data-metric]');
+    const target = e.target.closest('[data-metric]');
     if (target && target === currentTarget) hide();
   });
 
   document.addEventListener('click', (e) => {
-    const target = e.target.closest('abbr[data-metric]');
+    const target = e.target.closest('[data-metric]');
     if (target) {
+      // Sort headers are buttons; their click reorders the table instead of
+      // pinning a tooltip. Hover and focus still explain the column.
+      if (target.closest('button[data-sort]')) {
+        hide();
+        return;
+      }
       e.preventDefault();
       if (currentTarget === target && tip.classList.contains('visible')) {
         hide();
@@ -580,6 +588,9 @@ function bindHeaderTooltips(methodologyHref = 'methodology.html') {
 function bindStaticEvents() {
   bindComparisonEvents();
   bindHeaderTooltips();
+  $('ranking-table').addEventListener('click', (e) => {
+    if (e.target.closest('button[data-sort="trend"]')) cycleTrendSort();
+  });
   $('filters').addEventListener('submit', (e) => {
     e.preventDefault();
     // Dismiss a phone's search keyboard so the matching institutions are visible.
@@ -780,6 +791,9 @@ async function update() {
     const rows = computeRankings(sel, activeData, app.institutions);
     app.result = { sel, rows, data: activeData, annualRanks: null };
     app.shown = PAGE_SIZE;
+    // A single year has no movement to sort by; fall back to score order.
+    if (sel.from === sel.to) app.sort = 'score';
+    if (app.sort !== 'score') ensureAnnualRanks(app.result);
     renderYearStrip(sel, activeData);
     revealOpenRows();
     renderTable();
@@ -917,14 +931,15 @@ function showFatal(message) {
 
 function filteredRows() {
   if (!app.result) return [];
-  const q = app.query;
-  return searchRows(app.result.rows, q);
+  const rows = searchRows(app.result.rows, app.query);
+  return sortRowsByTrend(rows, app.sort, (r) => trendMovement(r, app.result));
 }
 
 function renderTable() {
   if (!app.result) return;
   const { sel, rows: all } = app.result;
-  if (sel.from !== sel.to) scheduleTrends(app.result);
+  if (app.sort !== 'score') ensureAnnualRanks(app.result);
+  else if (sel.from !== sel.to) scheduleTrends(app.result);
   const rows = filteredRows();
   const visible = rows.slice(0, app.shown);
   let status;
@@ -952,6 +967,7 @@ function renderTable() {
   }
   $('ranking-body').innerHTML = html;
   $('export').disabled = !all.length;
+  syncTrendSort();
 
   const left = rows.length - visible.length;
   $('pager').hidden = left <= 0;
@@ -984,11 +1000,23 @@ function scheduleTrends(result) {
   }, 0);
 }
 
+// Non-partial yearly ranks. Unfinished years are left out: their ranks move as
+// papers are indexed, and a partial year would make every delta look temporary.
+function trendHistory(r, result) {
+  if (!result.annualRanks) return [];
+  return institutionHistory(result.annualRanks, r.id).filter((h) => !isPartialYear(h.year));
+}
+
+// Places moved from the first to the last ranked year, matching the number
+// shown beside the sparkline. null means there is no delta to sort by.
+function trendMovement(r, result) {
+  return netRankMovement(trendHistory(r, result));
+}
+
 // Sparkline of yearly rank (up is better) and places moved, first year to last.
-// Unfinished years are left out: their ranks move as papers are indexed.
 function trendCell(r, result) {
   if (!result.annualRanks) return '';
-  const history = institutionHistory(result.annualRanks, r.id).filter((h) => !isPartialYear(h.year));
+  const history = trendHistory(r, result);
   const points = history.filter((h) => h.rank !== null);
   if (history.length < 2 || points.length < 2) return '';
   const ranks = points.map((h) => h.rank);
@@ -1004,11 +1032,10 @@ function trendCell(r, result) {
     d += `${pen ? 'L' : 'M'}${x(h.year).toFixed(1)},${y(h.rank).toFixed(1)}`;
     pen = true;
   }
-  const first = history[0], last = history[history.length - 1];
   const end = points[points.length - 1];
+  const moved = netRankMovement(history);
   let delta = '';
-  if (first.rank !== null && last.rank !== null) {
-    const moved = first.rank - last.rank;
+  if (moved !== null) {
     delta = moved === 0
       ? '<span class="trend-delta">–</span>'
       : `<span class="trend-delta ${moved > 0 ? 'up' : 'down'}">${moved > 0 ? '▲' : '▼'}${fmtInt.format(Math.abs(moved))}</span>`;
@@ -1016,6 +1043,34 @@ function trendCell(r, result) {
   const label = `Rank by year: ${history.map((h) => `${h.year} ${h.rank === null ? 'unranked' : `#${h.rank}`}`).join(', ')}`;
   return `<span class="trend" title="${esc(label)}"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">` +
     `<path d="${d}"/><circle cx="${x(end.year).toFixed(1)}" cy="${y(end.rank).toFixed(1)}" r="2.5"/></svg>${delta}</span>`;
+}
+
+// The Trend header is a real button: click (or Enter/Space) cycles score order,
+// most improved first, then least improved first. aria-sort reports the state.
+function syncTrendSort() {
+  const th = document.querySelector('#ranking-table thead th.trend-cell');
+  const button = th?.querySelector('button[data-sort="trend"]');
+  if (!th || !button) return;
+  const mode = app.sort;
+  th.setAttribute('aria-sort', mode === 'improved' ? 'descending' : mode === 'declined' ? 'ascending' : 'none');
+  button.dataset.state = mode;
+  button.disabled = !app.result || app.result.sel.from === app.result.sel.to || app.result.rows.length < 2;
+  const label = mode === 'improved'
+    ? 'Trend: most improved first. Sort by least improved.'
+    : mode === 'declined'
+      ? 'Trend: least improved first. Restore score order.'
+      : 'Sort by trend movement, most improved first.';
+  button.setAttribute('aria-label', label);
+  const indicator = button.querySelector('.sort-indicator');
+  if (indicator) indicator.textContent = mode === 'improved' ? '▲' : mode === 'declined' ? '▼' : '↕';
+}
+
+function cycleTrendSort() {
+  if (!app.result || app.result.sel.from === app.result.sel.to) return;
+  app.sort = nextTrendSort(app.sort);
+  if (app.sort !== 'score') ensureAnnualRanks(app.result);
+  app.shown = PAGE_SIZE;
+  renderTable();
 }
 
 function comparisonAction(row) {
