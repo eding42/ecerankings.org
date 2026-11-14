@@ -76,11 +76,11 @@ a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible
 }
 
 abbr[title] { text-decoration: none; cursor: help; }
- 
-+.ranking thead th abbr,
-+.breakdown thead th abbr,
-+.inst-areas thead th abbr,
-+.inst-stats dt abbr {
+
+.ranking thead th abbr,
+.breakdown thead th abbr,
+.inst-areas thead th abbr,
+.inst-stats dt abbr {
   text-decoration: underline dotted var(--rule-strong);
   text-underline-offset: 3px;
   cursor: help;
