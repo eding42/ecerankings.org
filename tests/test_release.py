@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'pipeline'))
-from package_site import package, PACKAGE_MARKER
+from package_site import package, PACKAGE_MARKER, CORE_FILES
 from prepare_refresh import preserve_paper_evidence, collection_evidence
 import promote_release as promotion
 import aggregate
@@ -28,6 +28,10 @@ class ReleaseTests(unittest.TestCase):
             (site / name / 'data').mkdir(parents=True)
             (site / name / 'index.html').write_text('fixture')
             (site / name / 'data/manifest.json').write_text('{}')
+        for name in CORE_FILES:
+            target = site / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text('fixture')
         (site / 'institution/example').mkdir(parents=True)
         (site / 'institution/index.html').write_text('fixture')
         (site / 'institution/example/index.html').write_text('fixture')

@@ -39,6 +39,13 @@ def sister_files(site):
     return found
 
 
+CORE_FILES = [
+    'core/engine.js', 'core/rank.js', 'core/rank-history.js', 'core/rank-history.css',
+    'core/comparison.js', 'core/comparison.css', 'core/year-strip.js', 'core/year-strip.css',
+    'core/coverage.js', 'core/styles.css',
+]
+
+
 def package(site, output):
     if output.is_symlink() or (output.exists() and (
             not output.is_dir() or (any(output.iterdir()) and not (output / PACKAGE_MARKER).is_file()))):
@@ -46,6 +53,7 @@ def package(site, output):
     registry = json.loads((site / 'data/areas.json').read_text())
     public = ['index.html', '404.html', 'methodology.html', 'coverage.html', 'styles.css', 'main.js',
               'rank.js', 'rank-history.js', 'rank-history.css', 'comparison.js', 'comparison.css', 'year-strip.js', 'year-strip.css', 'coverage.js', 'favicon.svg', 'apple-touch-icon.png', 'og.png', '_headers', 'robots.txt', 'sitemap.xml']
+    public += CORE_FILES
     public += ['data/areas.json', 'data/institutions.json', 'data/manifest.json']
     public += [f'data/{area}.json' for area in registry['areas']]
     for area, a_data in registry['areas'].items():
