@@ -68,17 +68,33 @@ Before starting specialized tasks, consult the corresponding skill. Each skill d
 
 ---
 
+## Multi-Discipline Architecture & Field Registry
+
+The repository maintains ranking engines across multiple academic disciplines unified by a shared frontend core and parameterized pipeline:
+* **`ece`** (Electrical & Computer Engineering) — Flagship discipline at `site/` (`site/data/`), registry `data/areas.json`, cache `cache/`.
+* **`biology`** (Biological & Biomedical Sciences) — Sister discipline at `site/biology/` (`site/biology/data/`), registry `data/areas_biosciences.json`, cache `cache_biosciences/`.
+* **`earth-space`** (Earth, Planetary & Space Sciences) — Sister discipline at `site/earth-space/` (`site/earth-space/data/`), registry `data/areas_earth_space.json`, cache `cache/`.
+
+### Field Scoping Rules for Agents
+* **Always specify `--field <ece|biology|earth-space>`** when running operational pipeline tools (`pipeline/aggregate.py`, `pipeline/split.py`, `pipeline/verify.py`, `pipeline/package_site.py`).
+* **Shared frontend core:** Common ranking, history, comparison, year-strip, coverage, and table engine logic lives exclusively in `site/core/`. **Never re-duplicate core files into sister sites.** Each discipline directory (`site/biology/`, `site/earth-space/`) holds only thin wrapper entrypoints (`main.js`, `index.html`) and palette overrides.
+* **Never mix caches across disciplines:** ECE and Earth & Space read `cache/`, while Biosciences reads `cache_biosciences/`. Never cross-contaminate venue registries or aggregate outputs.
+
+---
+
 ## Key Files
 
 * `PLAN.md` — Architecture, methodology, phases. Do not change methodology decisions (adjusted counts, venue-inclusion policy, area list) without explicit user approval.
-* `data/areas.json` — The venue registry, the project's most important curated file. Every ranked venue lives here with OpenAlex source IDs and a `status` field (`todo` → `candidate` → `verified`).
+* `data/fields.json` & `pipeline/fields.py` — Central field registry defining paths, credit types, capabilities, and aliases across disciplines.
+* `data/areas.json` (ECE), `data/areas_biosciences.json` (Biology), `data/areas_earth_space.json` (Earth & Space) — The venue registries. Every ranked venue lives here with OpenAlex source IDs and a `status` field (`todo` → `candidate` → `verified`).
 * `data/known-strong.json` — Verification tripwire: per-area lists of institution IDs that must have non-zero scores. If any score zero, it is a data pipeline bug.
 * `data/excluded-works.csv` — Curated list of non-research items `aggregate.py` skips (editorials, columns, tributes). Keyed by `work_key` (`doi:<normalized>` or `vt:<venue>|<year>|<title>`).
 * `data/institution-aliases.csv` — Duplicate OpenAlex institution IDs folded onto canonical IDs. **Merges require matching name AND country.**
 * `data/affiliation-map.csv` — Maps raw Crossref author affiliation strings to OpenAlex institution IDs.
 * `data/adjudication-traps.csv` — Regression traps for the map: strings whose resolution was once wrong. `adjudication.py check` fails if one regresses, or if the file is missing.
-* `cache/` — Raw OpenAlex/Crossref responses. Managed via Git LFS.
-* `site/` — Static frontend assets (HTML, CSS, plain ES modules). Zero runtime dependencies.
+* `cache/` & `cache_biosciences/` — Raw OpenAlex/Crossref responses. Managed via Git LFS.
+* `site/core/` — Unified static frontend core (engine, ranking math, comparison, history, strip, coverage).
+* `site/` — ECE frontend; `site/biology/` — Biology frontend; `site/earth-space/` — Earth & Space frontend. Zero runtime dependencies.
 
 ---
 
@@ -116,20 +132,23 @@ normalize_semantic.py                →  data/affiliation-map.csv
 detect_editorials.py                 →  data/editorial-candidates.csv
     Proposes non-research candidates for manual promotion to data/excluded-works.csv.
 
-aggregate.py --all-cached            →  site/data/inst-area-year.csv
+aggregate.py --field <id> --all-cached            →  <site_data>/inst-area-year.csv
     Filters non-research types and excluded works, folds aliases, and calculates
-    adjusted fractional counts per institution, area, and year.
+    adjusted fractional counts per institution, area, and year. Resolves field
+    defaults (cache, areas registry, credit types, output dir).
 
-split.py                             →  site/data/<area>.json
+split.py --field <id>                             →  <site_data>/<area>.json
     Splits aggregate CSV into minified per-area JSON files for lazy frontend loading.
 
-build_institutions.py                →  site/data/institutions.json
+build_institutions.py                             →  site/data/institutions.json
     Generates id → {name, country} metadata used for country/regional filtering.
 
-verify.py --all                      →  Console and data/reports/ validation report.
-    Phase 4 (verify_global.py) is the short list: corpus-wide findings ranked by
-    the credit they move, including dropped credit by reason (dropped_credit.py).
-    Phase 5 (verify_authors.py) checks bylines. Read both first.
+package_site.py --field <id>                      →  dist/
+    Validates and packages static distribution bundles per discipline.
+
+verify.py --field <id> --phase <1-5>              →  Console and data/reports/ report.
+    Field-aware quality checks across harvest, normalization, aggregation,
+    global audit, and author bylines.
 
 audit_map_sample.py / audit_bylines.py / check_stale_affiliations.py
     Seeded random audits that measure the map's and the cache's error rates.
